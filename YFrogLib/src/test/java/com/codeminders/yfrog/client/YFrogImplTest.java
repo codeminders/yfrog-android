@@ -1,19 +1,19 @@
 /**
  * 
  */
-package com.codeminders.yfrog.conn;
+package com.codeminders.yfrog.client;
 
 import java.io.File;
 
 import org.junit.Test;
 
-import com.codeminders.yfrog.conn.YFrog;
-import com.codeminders.yfrog.conn.impl.YFrogImpl;
-import com.codeminders.yfrog.conn.request.FileUploadRequest;
-import com.codeminders.yfrog.conn.request.InputStreamUploadRequest;
-import com.codeminders.yfrog.conn.request.UploadRequest;
-import com.codeminders.yfrog.conn.request.UrlUploadRequest;
-import com.codeminders.yfrog.conn.response.UploadResponse;
+import com.codeminders.yfrog.client.YFrog;
+import com.codeminders.yfrog.client.impl.YFrogImpl;
+import com.codeminders.yfrog.client.request.FileUploadRequest;
+import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
+import com.codeminders.yfrog.client.request.UploadRequest;
+import com.codeminders.yfrog.client.request.UrlUploadRequest;
+import com.codeminders.yfrog.client.response.UploadResponse;
 
 import junit.framework.TestCase;
 

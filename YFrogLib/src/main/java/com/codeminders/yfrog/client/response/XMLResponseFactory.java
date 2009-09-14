@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.conn.response;
+package com.codeminders.yfrog.client.response;
 
 import java.io.IOException;
 import java.io.InputStream;

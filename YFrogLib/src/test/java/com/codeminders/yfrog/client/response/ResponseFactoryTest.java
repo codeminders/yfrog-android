@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.conn.response;
+package com.codeminders.yfrog.client.response;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,8 +12,8 @@ import java.io.OutputStreamWriter;
 
 import org.junit.Test;
 
-import com.codeminders.yfrog.conn.response.ResponseFactory;
-import com.codeminders.yfrog.conn.response.UploadResponse;
+import com.codeminders.yfrog.client.response.ResponseFactory;
+import com.codeminders.yfrog.client.response.UploadResponse;
 
 import junit.framework.TestCase;
 

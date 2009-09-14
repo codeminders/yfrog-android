@@ -1,17 +1,17 @@
 /**
  * 
  */
-package com.codeminders.yfrog.conn;
+package com.codeminders.yfrog.client;
 
 import java.io.IOException;
 import java.util.Properties;
 
-import com.codeminders.yfrog.conn.request.FileUploadRequest;
-import com.codeminders.yfrog.conn.request.InputStreamUploadRequest;
-import com.codeminders.yfrog.conn.request.UploadRequest;
-import com.codeminders.yfrog.conn.request.UrlUploadRequest;
-import com.codeminders.yfrog.conn.response.UploadResponse;
-import com.codeminders.yfrog.conn.response.UploadResponseFormatException;
+import com.codeminders.yfrog.client.request.FileUploadRequest;
+import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
+import com.codeminders.yfrog.client.request.UploadRequest;
+import com.codeminders.yfrog.client.request.UrlUploadRequest;
+import com.codeminders.yfrog.client.response.UploadResponse;
+import com.codeminders.yfrog.client.response.UploadResponseFormatException;
 
 /**
  * @author idemydenko

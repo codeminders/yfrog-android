@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.conn.request;
+package com.codeminders.yfrog.client.request;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ public class FileUploadRequest extends UploadRequest {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.codeminders.yfrog.conn.conn.conn.request.UploadRequest#toString()
+	 * @see com.codeminders.yfrog.client.conn.conn.request.UploadRequest#toString()
 	 */
 	@Override
 	public String toString() {

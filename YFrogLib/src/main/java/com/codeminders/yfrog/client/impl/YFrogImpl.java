@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.conn.impl;
+package com.codeminders.yfrog.client.impl;
 
 import java.io.IOException;
 
@@ -14,14 +14,14 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.codeminders.yfrog.conn.YFrog;
-import com.codeminders.yfrog.conn.request.FileUploadRequest;
-import com.codeminders.yfrog.conn.request.InputStreamUploadRequest;
-import com.codeminders.yfrog.conn.request.UploadRequest;
-import com.codeminders.yfrog.conn.request.UrlUploadRequest;
-import com.codeminders.yfrog.conn.response.ResponseFactory;
-import com.codeminders.yfrog.conn.response.UploadResponse;
-import com.codeminders.yfrog.conn.response.UploadResponseFormatException;
+import com.codeminders.yfrog.client.YFrog;
+import com.codeminders.yfrog.client.request.FileUploadRequest;
+import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
+import com.codeminders.yfrog.client.request.UploadRequest;
+import com.codeminders.yfrog.client.request.UrlUploadRequest;
+import com.codeminders.yfrog.client.response.ResponseFactory;
+import com.codeminders.yfrog.client.response.UploadResponse;
+import com.codeminders.yfrog.client.response.UploadResponseFormatException;
 
 /**
  * @author idemydenko
@@ -30,7 +30,7 @@ import com.codeminders.yfrog.conn.response.UploadResponseFormatException;
 public class YFrogImpl extends YFrog {
 
 	/* (non-Javadoc)
-	 * @see com.codeminders.yfrog.conn.conn.conn.YFrog#upload(com.codeminders.yfrog.conn.conn.conn.request.UploadRequest)
+	 * @see com.codeminders.yfrog.client.conn.conn.YFrog#upload(com.codeminders.yfrog.client.conn.conn.request.UploadRequest)
 	 */
 	@Override
 	public UploadResponse upload(UploadRequest request) throws IOException, UploadResponseFormatException {	
@@ -38,7 +38,7 @@ public class YFrogImpl extends YFrog {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.codeminders.yfrog.conn.conn.conn.YFrog#uploadAndPost(com.codeminders.yfrog.conn.conn.conn.request.UploadRequest)
+	 * @see com.codeminders.yfrog.client.conn.conn.YFrog#uploadAndPost(com.codeminders.yfrog.client.conn.conn.request.UploadRequest)
 	 */
 	@Override
 	public UploadResponse uploadAndPost(UploadRequest request) throws IOException, UploadResponseFormatException {

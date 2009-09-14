@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.controller.service;
+package com.codeminders.yfrog.android.controller.service;
 
 import java.util.HashMap;
 

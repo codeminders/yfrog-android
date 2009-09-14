@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.model;
+package com.codeminders.yfrog.android.model;
 
 /**
  * @author idemydenko

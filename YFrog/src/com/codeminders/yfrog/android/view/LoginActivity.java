@@ -1,10 +1,10 @@
 /**
  * 
  */
-package com.codeminders.yfrog.view;
+package com.codeminders.yfrog.android.view;
 
-import com.codeminders.yfrog.controller.service.AccountService;
-import com.codeminders.yfrog.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.controller.service.AccountService;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 
 import android.app.Activity;
 import android.os.Bundle;

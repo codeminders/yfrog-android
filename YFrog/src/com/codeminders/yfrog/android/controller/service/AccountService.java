@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.controller.service;
+package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-import com.codeminders.yfrog.model.Account;
+import com.codeminders.yfrog.android.model.Account;
 
 /**
  * @author idemydenko

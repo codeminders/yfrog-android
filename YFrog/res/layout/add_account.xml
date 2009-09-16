@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:stretchColumns="1"
+  android:padding="10dip"
+  >
+  <TableRow android:paddingBottom="5dip">
+    <TextView
+      android:text="@string/nickname"
+      android:paddingRight="10dip"
+      android:gravity="right"
+      android:textStyle="bold"
+    />
+    <EditText
+      android:id="@+id/nickname"
+      android:singleLine="true"/>
+  </TableRow>
+  <TableRow android:paddingBottom="5dip">
+      <TextView
+      android:text="@string/password"
+      android:paddingRight="10dip"
+      android:gravity="right"
+      android:textStyle="bold"
+    />
+    <EditText
+      android:id="@+id/password"
+      android:singleLine="true"/>
+  </TableRow>
+  <TableRow android:paddingBottom="5dip">
+    <TextView
+      android:text="@string/email"
+      android:paddingRight="10dip"
+      android:gravity="right"
+      android:textStyle="bold"
+    />
+    <EditText
+      android:id="@+id/email"
+      android:singleLine="true"/>
+  </TableRow>
+  <TableRow android:paddingBottom="5dip">
+    <TextView
+      android:text="@string/oauth_key"
+      android:paddingRight="10dip"
+      android:gravity="right"
+      android:textStyle="bold"
+    />
+    <EditText
+      android:id="@+id/oauth_key"
+      android:singleLine="true"/>
+  </TableRow>
+  <TableRow>
+    <Button
+      android:id="@+id/create_button"
+      android:text="@string/create"
+      android:textStyle="bold"
+      android:layout_span="2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+    />
+  </TableRow>
+</TableLayout>

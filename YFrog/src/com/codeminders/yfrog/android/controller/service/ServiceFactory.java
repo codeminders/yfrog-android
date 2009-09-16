@@ -5,8 +5,6 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.HashMap;
 
-import android.content.Context;
-
 
 /**
  * @author idemydenko
@@ -20,10 +18,11 @@ public class ServiceFactory {
 	private ServiceFactory() {
 	}
 	
-	public static AccountService getAccountService(Context context) {
+	public static AccountService getAccountService() {
 		if (!cache.containsKey(LOGIN_SERVICE_NAME)) {
-			Object service = new AccountService(context);
+			Object service = new AccountService();
 			cache.put(LOGIN_SERVICE_NAME, service);
+			return (AccountService) service;
 		} 
 		return (AccountService) cache.get(LOGIN_SERVICE_NAME);
 	}

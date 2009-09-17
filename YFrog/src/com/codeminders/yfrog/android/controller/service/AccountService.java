@@ -30,4 +30,16 @@ public final class AccountService {
 	public void addAccount(Account account) {
 		accountDAO.addAccount(account);
 	}
+	
+	public void deleteAccount(Account account) {
+		accountDAO.deleteAccount(account.getId());
+	}
+	
+	public void updateAccount(Account account) {
+		accountDAO.updateAccount(account);
+	}
+	
+	public boolean isAccountUnique(Account account) {
+		return accountDAO.isAccountUnique(account);
+	}
 }

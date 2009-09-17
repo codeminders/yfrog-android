@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">yfrog</string>
+    <!-- Account list -->
+    <string name="add_account">Add account</string>
+    <string name="login">Login</string>
+    <string name="ctx_menu_delete">Delete</string>
+    <string name="ctx_menu_edit">Edit</string>
+    <string name="account_delete_dialog_title">Warning</string>
+    <string name="account_delete_dialog_message">Do you want to delete this account?</string>
+    <string name="account_delete_dialog_btn_yes">Yes</string>
+    <string name="account_delete_dialog_btn_no">No</string>
+    <string name="account_delete_message">Account has been deleted</string>
+    
+	<!-- Add account -->
+    <string name="account_edit_nickname">Nickname</string>
+    <string name="account_edit_password">Password</string>
+    <string name="account_edit_email">E-mail</string>
+    <string name="account_edit_oauth_key">OAuth Key</string>
+    
+    <string name="account_edit_save">Save</string>
+    
+    <string name="account_edit_created">Account has been created</string>
+    <string name="account_edit_updated">Account has been updated</string>
+    
+    <string name="account_edit_dialog_title">Error</string>
+    <string name="account_edit_dialog_message_nickname">Required field "Nickname" are empty</string>
+    <string name="account_edit_dialog_message_passwd">Required field "Password" are empty</string>
+    <string name="account_edit_dialog_message_email">Required field "Email" are empty or have wrong format</string>
+    <string name="account_edit_dialog_message_not_unique">Account with even nickname or email already exists</string>
+    <string name="account_edit_dialog_button">Ok</string>
+</resources>

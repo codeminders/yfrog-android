@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">yfrog</string>
+    <!-- Account list -->
+    <string name="add_account">Добавить учётную запись</string>
+    <string name="login">Войти</string>
+    <string name="ctx_menu_delete">Удалить</string>
+    <string name="ctx_menu_edit">Редактировать</string>
+    <string name="account_delete_dialog_title">Предупреждение</string>
+    <string name="account_delete_dialog_message">Вы действительно хотите удалить эту учётную запись?</string>
+    <string name="account_delete_dialog_btn_yes">Да</string>
+    <string name="account_delete_dialog_btn_no">Нет</string>
+    <string name="account_delete_message">Учётная запись была удалена</string>
+    
+	<!-- Add account -->
+    <string name="account_edit_nickname">Имя учётной записи</string>
+    <string name="account_edit_password">Пароль</string>
+    <string name="account_edit_email">E-mail</string>
+    <string name="account_edit_oauth_key">Ключь OAuth</string>
+    
+    <string name="account_edit_save">Сохранить</string>
+    
+    <string name="account_edit_created">Учётная запись была успешно создана</string>
+    <string name="account_edit_updated">Учётная запись была успешно обновлена</string>
+    
+    <string name="account_edit_dialog_title">Ошибка</string>
+    <string name="account_edit_dialog_message_nickname">Обязательное поле "Имя учётной записи" пустое</string>
+    <string name="account_edit_dialog_message_passwd">Обязательное поле "Пароль" пустое</string>
+    <string name="account_edit_dialog_message_email">Обязательное поле "Email" пустое или имеет некорректный формат</string>
+    <string name="account_edit_dialog_message_not_unique">Учётная запись с указаными именем или email уже существуют</string>
+    <string name="account_edit_dialog_button">ОК</string>
+</resources>

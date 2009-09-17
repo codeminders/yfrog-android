@@ -27,8 +27,17 @@ public class AccountDAO extends AbstractDAO {
 	private static final String EMAIL = "email";
 	private static final String OAUTH_KEY = "oauth_key";
 	
+	private static final String COUNT = "count";
+	
 	private static final String ALL_ACCOUNTS_QUERY = "select * from " + TABLE_NAME;
-	private static final String GET_BY_NICKNAME = "select * from " + TABLE_NAME + " where " + ID + " = ?";
+	private static final String GET_BY_ID = "select * from " + TABLE_NAME + " where " + ID + " = ?";
+	private static final String IS_UNIQUE = "select count(*) as " + COUNT + " from " + TABLE_NAME + " where " 
+													+ "(" + NICKNAME + " = ? or " + EMAIL + " = ?)" 
+													+ " and " + ID + " != ?";
+
+	private static final String ID_EQUAL_WHERE = ID + " = ?";
+
+	
 	
 	public ArrayList<Account> getAllAccounts() {
 		SQLiteDatabase db = getDatabaseHelper().getReadableDatabase();
@@ -73,7 +82,7 @@ public class AccountDAO extends AbstractDAO {
 		Account account = null;
 		
 		try {
-			cursor = db.rawQuery(GET_BY_NICKNAME, new String[] { id + "" });
+			cursor = db.rawQuery(GET_BY_ID, new String[] { id + "" });
 			
 			if (cursor.getCount() == 1) {
 				int idxId = cursor.getColumnIndex(ID);
@@ -116,5 +125,51 @@ public class AccountDAO extends AbstractDAO {
 		}
 		
 		return id;
+	}
+	
+	public void deleteAccount(int id) {
+		SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
+		
+		try {
+			db.delete(TABLE_NAME, ID_EQUAL_WHERE, new String[] {id + ""});
+		} finally {
+			db.close();
+		}
+	}
+	
+	public void updateAccount(Account account) {
+		SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
+		
+		try {
+			ContentValues values = new ContentValues();
+			values.put(NICKNAME, account.getNickname());
+			values.put(PASSWORD, account.getPassword());
+			values.put(EMAIL, account.getEmail());
+			values.put(OAUTH_KEY, account.getOauthKey());
+			db.update(TABLE_NAME, values, ID_EQUAL_WHERE, new String[] {account.getId() + ""});
+		} finally {
+			db.close();
+		}
+	}
+
+	// TODO Bad solution for design, but better for performance 
+	public boolean isAccountUnique(Account account) {
+		SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
+		Cursor cursor = null;
+		int count = 0;
+		
+		try {
+			cursor = db.rawQuery(IS_UNIQUE, new String[] {account.getNickname(), account.getEmail(), account.getId() + ""});
+			
+			int idx = cursor.getColumnIndex(COUNT);
+			cursor.moveToNext();
+			count = cursor.getInt(idx);
+		} finally {
+			db.close();
+			if (cursor !=null) {
+				cursor.close();
+			}
+		}
+		return count == 0;
 	}
 }

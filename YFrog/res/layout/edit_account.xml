@@ -7,7 +7,7 @@
   >
   <TableRow android:paddingBottom="5dip">
     <TextView
-      android:text="@string/nickname"
+      android:text="@string/account_edit_nickname"
       android:paddingRight="10dip"
       android:gravity="right"
       android:textStyle="bold"
@@ -18,18 +18,18 @@
   </TableRow>
   <TableRow android:paddingBottom="5dip">
       <TextView
-      android:text="@string/password"
+      android:text="@string/account_edit_password"
       android:paddingRight="10dip"
       android:gravity="right"
       android:textStyle="bold"
     />
     <EditText
       android:id="@+id/password"
-      android:singleLine="true"/>
+      android:singleLine="true" android:password="true" android:saveEnabled="false"/>
   </TableRow>
   <TableRow android:paddingBottom="5dip">
     <TextView
-      android:text="@string/email"
+      android:text="@string/account_edit_email"
       android:paddingRight="10dip"
       android:gravity="right"
       android:textStyle="bold"
@@ -40,7 +40,7 @@
   </TableRow>
   <TableRow android:paddingBottom="5dip">
     <TextView
-      android:text="@string/oauth_key"
+      android:text="@string/account_edit_oauth_key"
       android:paddingRight="10dip"
       android:gravity="right"
       android:textStyle="bold"
@@ -51,8 +51,8 @@
   </TableRow>
   <TableRow>
     <Button
-      android:id="@+id/create_button"
-      android:text="@string/create"
+      android:id="@+id/save_button"
+      android:text="@string/account_edit_save"
       android:textStyle="bold"
       android:layout_span="2"
       android:layout_width="wrap_content"

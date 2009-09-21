@@ -1,16 +1,18 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view;
+package com.codeminders.yfrog.android.view.account;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.view.main.MainTabActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -59,7 +62,6 @@ public class ListAccountsActivity extends ListActivity {
 	}
 	
 	private void createAccountsList() {
-		System.out.println("---------------------Accounts List -----------------");
 		accounts = accountService.getAllAccounts();
 		
 		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getAccountsNames(accounts)));
@@ -105,6 +107,13 @@ public class ListAccountsActivity extends ListActivity {
 			startActivity(intent);
 			return true;
 		case R.id.login:
+			Account account = getSelectedAccount(getSelectedItemPosition());
+			try {
+				accountService.login(account);
+			} catch (YFrogTwitterException e) {
+				
+			}
+			startActivity(new Intent(this, MainTabActivity.class));
 			return true;			
 		}
 		return false;
@@ -159,5 +168,22 @@ public class ListAccountsActivity extends ListActivity {
 			}
 		})
 		.create();
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Account account = getSelectedAccount(position);
+		try {
+		accountService.login(account);
+		} catch (YFrogTwitterException e) {
+		}
+		startActivity(new Intent(this, MainTabActivity.class));
+	}
+	
+	private Account getSelectedAccount(int position) {
+		if (position > -1) {
+			return accounts.get(position);
+		}
+		return null;
 	}
 }

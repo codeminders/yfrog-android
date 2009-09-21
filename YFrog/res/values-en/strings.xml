@@ -29,4 +29,18 @@
     <string name="account_edit_dialog_message_email">Required field "Email" are empty or have wrong format</string>
     <string name="account_edit_dialog_message_not_unique">Account with even nickname or email already exists</string>
     <string name="account_edit_dialog_button">Ok</string>
+    
+    <!-- Tabs -->
+    <string name="tab_home_caption">Home</string>
+    <string name="tab_mentions_caption">Mentions</string>
+    <string name="tab_messages_caption">Messages</string>
+    <string name="tab_unsent_caption">Unsent</string>
+    <string name="tab_more_caption">More</string>
+    
+    <string-array name="tab_more_items">
+    	<item>Followers</item>
+    	<item>Following</item>
+    	<item>Settings</item>
+    	<item>About</item>
+    </string-array>
 </resources>

@@ -29,4 +29,11 @@
     <string name="account_edit_dialog_message_email">Обязательное поле "Email" пустое или имеет некорректный формат</string>
     <string name="account_edit_dialog_message_not_unique">Учётная запись с указаными именем или email уже существуют</string>
     <string name="account_edit_dialog_button">ОК</string>
+    
+        <!-- Main tab -->
+    <string name="tab_home_caption">Домашняя</string>
+    <string name="tab_mentions_caption">Упоминания</string>
+    <string name="tab_messages_caption">Сообщения</string>
+    <string name="tab_unsent_caption">Неотосланные</string>
+    <string name="tab_more_caption">Остальное</string>
 </resources>

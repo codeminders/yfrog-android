@@ -11,7 +11,8 @@ import java.util.HashMap;
  *
  */
 public class ServiceFactory {
-	private static final String LOGIN_SERVICE_NAME = "loginService";
+	private static final String ACCOUNT_SERVICE_NAME = "loginService";
+	private static final String TWITTER_SERVICE_NAME = "twitterService";
 	
 	private static final HashMap<String, Object> cache = new HashMap<String, Object>();
 	
@@ -19,11 +20,20 @@ public class ServiceFactory {
 	}
 	
 	public static AccountService getAccountService() {
-		if (!cache.containsKey(LOGIN_SERVICE_NAME)) {
+		if (!cache.containsKey(ACCOUNT_SERVICE_NAME)) {
 			Object service = new AccountService();
-			cache.put(LOGIN_SERVICE_NAME, service);
+			cache.put(ACCOUNT_SERVICE_NAME, service);
 			return (AccountService) service;
 		} 
-		return (AccountService) cache.get(LOGIN_SERVICE_NAME);
+		return (AccountService) cache.get(ACCOUNT_SERVICE_NAME);
+	}
+	
+	public static TwitterService getTwitterService() {
+		if (!cache.containsKey(TWITTER_SERVICE_NAME)) {
+			Object service = new TwitterService();
+			cache.put(TWITTER_SERVICE_NAME, service);
+			return (TwitterService) service;
+		} 
+		return (TwitterService) cache.get(TWITTER_SERVICE_NAME);
 	}
 }

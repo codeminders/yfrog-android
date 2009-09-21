@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view;
+package com.codeminders.yfrog.android.view.account;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.StringUtils;

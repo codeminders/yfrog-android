@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.view.main.adapter.TwitterStatusAdapter;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class MentionsActivity extends ListActivity {
 		}
 		
 		
-//		setListAdapter(new ArrayAdapter<TwitterStatus>(this, android.R.layout.simple_list_item_1, statuses));
+		setListAdapter(new TwitterStatusAdapter<TwitterStatus>(this, statuses));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
 	}

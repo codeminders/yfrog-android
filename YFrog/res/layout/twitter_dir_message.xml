@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content" android:padding="10px">
+  	<ImageView 
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" 
+		android:maxHeight="48px" 
+		android:maxWidth="48px" 
+		android:minHeight="48px"
+		android:minWidth="48px" 
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true" 
+		android:src="@drawable/twitter_icon"
+		android:id="@+id/tdm_user_icon">
+	</ImageView>
+
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01"
+		android:layout_width="wrap_content" 
+		android:layout_toRightOf="@+id/tdm_user_icon"
+		android:id="@+id/tdm_user_id" 
+		android:layout_alignWithParentIfMissing="true"
+		android:layout_marginLeft="10px">
+	</TextView>
+
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01"
+		android:layout_below="@+id/tdm_user_id" 
+		android:layout_width="wrap_content"
+		android:layout_toRightOf="@+id/tdm_user_icon" 
+		android:id="@+id/tdm_text"
+		android:layout_marginLeft="10px" 
+		android:layout_marginTop="15px">
+	</TextView>
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01"
+		android:layout_width="wrap_content" 
+		android:id="@+id/tdm_created_at"
+		android:layout_alignParentTop="true" 
+		android:layout_alignParentRight="true">
+	</TextView>
+</RelativeLayout>

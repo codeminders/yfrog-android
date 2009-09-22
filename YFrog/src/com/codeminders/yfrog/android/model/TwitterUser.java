@@ -13,6 +13,7 @@ public class TwitterUser {
 	private int id;
 	private String name;
 	private URL profileImageURL;
+	private String username;
 	/**
 	 * @return the id
 	 */
@@ -49,5 +50,17 @@ public class TwitterUser {
 	public void setProfileImageURL(URL profileImageURL) {
 		this.profileImageURL = profileImageURL;
 	}
-	
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 }

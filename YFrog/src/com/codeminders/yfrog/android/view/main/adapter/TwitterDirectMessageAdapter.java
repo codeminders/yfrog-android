@@ -40,7 +40,7 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 		TextView textView = (TextView) view.findViewById(R.id.tdm_created_at);
 		textView.setText(DateFormat.format("MMM dd, yyyy hh:mm", ts.getCreatedAt()));
 		
-		textView = (TextView) view.findViewById(R.id.tdm_user_id);
+		textView = (TextView) view.findViewById(R.id.tdm_username);
 		textView.setText(ts.getSender().getUsername());
 		
 		textView = (TextView) view.findViewById(R.id.tdm_text);

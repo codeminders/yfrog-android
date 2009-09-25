@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent">
+	<include 
+		android:id="@+id/empty" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		layout="@layout/twitter_user">
+	</include>
+
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01" 
+		android:layout_marginTop="20px" 
+		android:layout_width="fill_parent" 
+		android:id="@+id/tud_location">
+	</TextView>
+
+	<Button 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:id="@+id/tud_recent_tweets" 
+		android:text="@string/tud_btn_recent_tweets" 
+		android:layout_gravity="center" 
+		android:layout_marginTop="15px">
+	</Button>
+
+	<Button 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:id="@+id/tud_send_pub_replay" 
+		android:text="@string/tud_btn_send_pub_replay" 
+		android:layout_gravity="center">
+	</Button>
+
+	<Button 
+		android:id="@+id/tud_send_dir_message" 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:text="@string/tud_btn_send_dir_message" 
+		android:layout_gravity="center">
+	</Button>
+</LinearLayout>

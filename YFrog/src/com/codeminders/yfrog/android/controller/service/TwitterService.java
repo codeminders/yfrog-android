@@ -6,6 +6,7 @@ package com.codeminders.yfrog.android.controller.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.codeminders.yfrog.android.YFrogTwitterAuthException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
 import com.codeminders.yfrog.android.model.TwitterStatus;
@@ -31,7 +32,7 @@ public class TwitterService {
 		twitter = new Twitter(nickname, password);
 		
 		if (!isLogged()) {
-			throw new YFrogTwitterException();
+			throw new YFrogTwitterAuthException();
 		}
 	}
 	
@@ -40,8 +41,11 @@ public class TwitterService {
 		boolean result = false;
 		
 		try {
-			result = twitter.test();
+			result = (twitter.verifyCredentials() != null);
 		} catch (TwitterException e) {
+			result = false;
+		} catch (NullPointerException e) {
+			// TODO: bug in Twitter4J (Response<init>, initialize is from error stream)
 			result = false;
 		}
 		return result;
@@ -143,9 +147,11 @@ final class Twitter4jHelper {
 		TwitterUser u = new TwitterUser();
 		
 		u.setId(user.getId());
-		u.setName(user.getName());
+		u.setFullname(user.getName());
 		u.setProfileImageURL(user.getProfileImageURL());
 		u.setUsername(user.getScreenName());
+		u.setLocation(user.getLocation());
+		u.setDescription(user.getDescription());
 		
 		return u;
 	}

@@ -4,6 +4,8 @@
 package com.codeminders.yfrog.android.view.main.more;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.view.user.FollowersActivity;
+import com.codeminders.yfrog.android.view.user.FollowingActivity;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -17,8 +19,8 @@ import android.widget.ListView;
  *
  */
 public class MoreActivity extends ListActivity {
-	private static final int ITEM_FOLLOWERS = 0;
-	private static final int ITEM_FOLLOWING = 1;
+	private static final int ITEM_FOLLOWERS = 1;
+	private static final int ITEM_FOLLOWING = 2;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

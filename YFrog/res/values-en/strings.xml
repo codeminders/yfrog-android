@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">yfrog</string>
+    
+    <!-- Common -->
+    <string name="connection_not_found_title">Connection error</string>
+    <string name="connection_not_found_msg">Connection not found. Please check your Internet connection and try again</string>
+    <string name="connection_not_found_btn">OK</string>
+    
     <!-- Account list -->
     <string name="add_account">Add account</string>
     <string name="login">Login</string>
@@ -11,6 +17,9 @@
     <string name="account_delete_dialog_btn_yes">Yes</string>
     <string name="account_delete_dialog_btn_no">No</string>
     <string name="account_delete_message">Account has been deleted</string>
+    <string name="account_login_failed_title">Authentication failed</string>
+    <string name="account_login_failed_msg">Please check that your login and password are correct</string>
+    <string name="account_login_failed_btn">OK</string>
     
 	<!-- Add account -->
     <string name="account_edit_nickname">Nickname</string>
@@ -37,10 +46,32 @@
     <string name="tab_unsent_caption">Unsent</string>
     <string name="tab_more_caption">More</string>
     
+    <!-- Home tab -->
+    <string name="home_add_tweet">Add tweet</string>
+    
+    <!-- More Tab -->
     <string-array name="tab_more_items">
+    	<item>My Tweets</item>
     	<item>Followers</item>
     	<item>Following</item>
+    	<item>Search</item>
     	<item>Settings</item>
     	<item>About</item>
     </string-array>
+    <!-- End tabs -->
+    
+    <!-- Twitter user details -->
+    <string name="tud_btn_send_dir_message">Send Direct Message</string>
+    <string name="tud_btn_send_pub_replay">Send Public Replay</string>
+    <string name="tud_btn_recent_tweets">Recent Tweets</string>
+    
+    <!-- Twitter message details -->
+    <string name="tm_btn_replay">Replay</string>
+    <string name="tm_btn_forward">Forward</string>
+    <string name="tm_btn_favorite">Favorite</string>
+    <string name="tm_btn_delete">Delete</string>
+    
+    <!-- Writable -->
+    <string name="wr_btn_send">Send</string>
+    <string name="wr_btn_photo">Photo</string>
 </resources>

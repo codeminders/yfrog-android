@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterAuthException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -39,6 +40,10 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class ListAccountsActivity extends ListActivity {
 	private static final int MENU_DELETE = 0;
 	private static final int MENU_EDIT = 1;
+	
+	private static final int ALERT_DELETE = 0;
+	private static final int ALERT_NO_CONNECT = 1;
+	private static final int ALERT_AUTH_FAILED = 2;
 	
 	private AccountService accountService;
 	
@@ -107,13 +112,7 @@ public class ListAccountsActivity extends ListActivity {
 			startActivity(intent);
 			return true;
 		case R.id.login:
-			Account account = getSelectedAccount(getSelectedItemPosition());
-			try {
-				accountService.login(account);
-			} catch (YFrogTwitterException e) {
-				
-			}
-			startActivity(new Intent(this, MainTabActivity.class));
+			login(getSelectedItemPosition());
 			return true;			
 		}
 		return false;
@@ -135,7 +134,7 @@ public class ListAccountsActivity extends ListActivity {
 		switch (item.getItemId()) {
 			case MENU_DELETE :
 				toDelete = account;
-				showDialog(0);
+				showDialog(ALERT_DELETE);
 				return true;
 			case MENU_EDIT :
 				Intent intent = new Intent(this, EditAccountActivity.class);
@@ -149,35 +148,59 @@ public class ListAccountsActivity extends ListActivity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		return new AlertDialog.Builder(ListAccountsActivity.this)
-		.setTitle(R.string.account_delete_dialog_title)
-		.setMessage(R.string.account_delete_dialog_message)
-		.setPositiveButton(R.string.account_delete_dialog_btn_yes, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				accountService.deleteAccount(toDelete);
-				toDelete = null;
-				createAccountsList();
-				Toast.makeText(ListAccountsActivity.this, R.string.account_delete_message, Toast.LENGTH_SHORT).show();
-			}
-		})
-		.setNegativeButton(R.string.account_delete_dialog_btn_no, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		})
-		.create();
+		switch (id) {
+		case ALERT_DELETE:
+			return new AlertDialog.Builder(ListAccountsActivity.this)
+			.setTitle(R.string.account_delete_dialog_title)
+			.setMessage(R.string.account_delete_dialog_message)
+			.setPositiveButton(R.string.account_delete_dialog_btn_yes, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					accountService.deleteAccount(toDelete);
+					toDelete = null;
+					createAccountsList();
+					Toast.makeText(ListAccountsActivity.this, R.string.account_delete_message, Toast.LENGTH_SHORT).show();
+				}
+			})
+			.setNegativeButton(R.string.account_delete_dialog_btn_no, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			})
+			.create();
+
+		case ALERT_NO_CONNECT:
+			return new AlertDialog.Builder(ListAccountsActivity.this)
+			.setTitle(R.string.connection_not_found_title)
+			.setMessage(R.string.connection_not_found_msg)
+			.setNeutralButton(R.string.connection_not_found_btn, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			})
+			.create();
+		
+		case ALERT_AUTH_FAILED:
+			return new AlertDialog.Builder(ListAccountsActivity.this)
+			.setTitle(R.string.account_login_failed_title)
+			.setMessage(R.string.account_login_failed_msg)
+			.setNeutralButton(R.string.account_login_failed_btn, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			})
+			.create();
+
+		}
+		return null;
 	}
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Account account = getSelectedAccount(position);
-		try {
-		accountService.login(account);
-		} catch (YFrogTwitterException e) {
-		}
-		startActivity(new Intent(this, MainTabActivity.class));
+		login(position);
 	}
 	
 	private Account getSelectedAccount(int position) {
@@ -185,5 +208,24 @@ public class ListAccountsActivity extends ListActivity {
 			return accounts.get(position);
 		}
 		return null;
+	}
+	
+	private void login(int itemPos) {
+		Account account = getSelectedAccount(itemPos);
+		
+		if (account == null) {
+			return;
+		}
+		
+		try {
+			accountService.login(account);
+		} catch (YFrogTwitterAuthException e) {
+			showDialog(ALERT_AUTH_FAILED);
+			return;
+		} catch (YFrogTwitterException e) {
+			showDialog(ALERT_NO_CONNECT);
+			return;
+		}
+		startActivity(new Intent(this, MainTabActivity.class));		
 	}
 }

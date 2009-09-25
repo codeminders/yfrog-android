@@ -67,7 +67,7 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name=".view.main.more.FollowersActivity">
+		<activity android:name=".view.user.FollowersActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
 				<action android:name="android.intent.action.VIEW"/>
@@ -75,7 +75,7 @@
 			</intent-filter>
 		</activity>
 	
-		<activity android:name=".view.main.more.FollowingActivity">
+		<activity android:name=".view.user.FollowingActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
 				<action android:name="android.intent.action.VIEW"/>
@@ -92,6 +92,30 @@
 		</activity>
 	
 		<activity android:name=".view.main.more.AboutActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.user.UserDetailsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.MessageDetailsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.WriteActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
 				<action android:name="android.intent.action.VIEW"/>

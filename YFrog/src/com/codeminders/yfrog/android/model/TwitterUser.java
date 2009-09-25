@@ -11,9 +11,11 @@ import java.net.URL;
  */
 public class TwitterUser {
 	private int id;
-	private String name;
+	private String fullname;
 	private URL profileImageURL;
 	private String username;
+	private String location;
+	private String description;
 	/**
 	 * @return the id
 	 */
@@ -27,16 +29,16 @@ public class TwitterUser {
 		this.id = id;
 	}
 	/**
-	 * @return the name
+	 * @return the fullname
 	 */
-	public String getName() {
-		return name;
+	public String getFullname() {
+		return fullname;
 	}
 	/**
-	 * @param name the name to set
+	 * @param fullname the fullname to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setFullname(String name) {
+		this.fullname = name;
 	}
 	/**
 	 * @return the profileImageURL
@@ -62,5 +64,28 @@ public class TwitterUser {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

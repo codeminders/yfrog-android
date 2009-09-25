@@ -33,7 +33,7 @@
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01"
-		android:layout_below="@+id/ts_user_id" 
+		android:layout_below="@+id/ts_username" 
 		android:layout_width="wrap_content"
 		android:layout_toRightOf="@+id/ts_user_icon" 
 		android:id="@+id/ts_text"

@@ -12,7 +12,8 @@
 		android:minWidth="48px" 
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true" 
-		android:src="@drawable/twitter_icon" android:id="@+id/tu_user_icon">
+		android:src="@drawable/twitter_icon" 
+		android:id="@+id/tu_user_icon">
 	</ImageView>
 
 	<TextView 
@@ -20,7 +21,7 @@
 		android:text="@+id/TextView01"
 		android:layout_width="wrap_content" 
 		android:layout_toRightOf="@+id/tu_user_icon"
-		android:id="@+id/tu_user_id" 
+		android:id="@+id/tu_username" 
 		android:layout_alignWithParentIfMissing="true"
 		android:layout_marginLeft="10px">
 	</TextView>
@@ -28,10 +29,10 @@
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01"
-		android:layout_below="@+id/tu_user_id" 
+		android:layout_below="@+id/tu_username" 
 		android:layout_width="wrap_content"
 		android:layout_toRightOf="@+id/tu_user_icon" 
-		android:id="@+id/tu_name"
+		android:id="@+id/tu_fullname"
 		android:layout_marginLeft="10px" 
 		android:layout_marginTop="15px">
 	</TextView>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content" android:padding="10px">
+  
+<EditText android:text="@+id/EditText01" android:id="@+id/wr_text" android:layout_height="wrap_content" android:layout_width="fill_parent" android:maxHeight="180px" android:minHeight="180px"></EditText>
+<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/Button01" android:layout_below="@+id/wr_text" android:layout_alignParentRight="true" android:text="@string/wr_btn_send"></Button>
+<Button android:layout_toLeftOf="@+id/Button01" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/wr_text" android:id="@+id/wr_photo" android:text="@string/wr_btn_photo"></Button>
+</RelativeLayout>

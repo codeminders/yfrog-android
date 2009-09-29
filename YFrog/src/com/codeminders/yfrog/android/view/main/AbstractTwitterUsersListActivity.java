@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view.user;
+package com.codeminders.yfrog.android.view.main;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.view.main.adapter.TwitterUserAdapter;
+import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -58,11 +59,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 				Intent intent = new Intent(this, UserDetailsActivity.class);
 				TwitterUser user = getSelected(position);
 				
-				intent.putExtra(UserDetailsActivity.KEY_USERNAME, user.getUsername());
-				intent.putExtra(UserDetailsActivity.KEY_FULLNAME, user.getFullname());
-				intent.putExtra(UserDetailsActivity.KEY_PROFILE_IMAGE_URL, user.getProfileImageURL());
-				intent.putExtra(UserDetailsActivity.KEY_LOCATION, user.getLocation());
-				intent.putExtra(UserDetailsActivity.KEY_DESCRIPTION, user.getDescription());
+				intent.putExtra(UserDetailsActivity.KEY_USER, user);
 				
 				startActivity(intent);
 			}

@@ -67,6 +67,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 				oauthKey.setText(editable.getOauthKey());
 			}
 		}
+		
+		setTitle(isEdit ? R.string.edit_account_activity : R.string.edit_account_activity);
 	}
 	
 	@Override

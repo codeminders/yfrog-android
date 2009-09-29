@@ -6,12 +6,15 @@
     <string name="connection_not_found_title">Connection error</string>
     <string name="connection_not_found_msg">Connection not found. Please check your Internet connection and try again</string>
     <string name="connection_not_found_btn">OK</string>
-    
-    <!-- Account list -->
-    <string name="add_account">Добавить учётную запись</string>
-    <string name="login">Войти</string>
+    <string name="list_reload">Reload</string>
     <string name="ctx_menu_delete">Удалить</string>
     <string name="ctx_menu_edit">Редактировать</string>
+    
+    
+    <!-- Account list -->
+    <string name="account_list_activity">Accounts</string>
+    <string name="add_account">Добавить учётную запись</string>
+    <string name="login">Войти</string>
     <string name="account_delete_dialog_title">Предупреждение</string>
     <string name="account_delete_dialog_message">Вы действительно хотите удалить эту учётную запись?</string>
     <string name="account_delete_dialog_btn_yes">Да</string>
@@ -21,8 +24,9 @@
     <string name="account_login_failed_msg">Please check that your login and password are correct</string>
     <string name="account_login_failed_btn">OK</string>
     
-    
 	<!-- Add account -->
+	<string name="add_account_activity">Add account</string>
+	<string name="edit_account_activity">Edit account</string>
     <string name="account_edit_nickname">Имя учётной записи</string>
     <string name="account_edit_password">Пароль</string>
     <string name="account_edit_email">E-mail</string>
@@ -46,7 +50,16 @@
     <string name="tab_messages_caption">Сообщения</string>
     <string name="tab_unsent_caption">Неотосланные</string>
     <string name="tab_more_caption">Остальное</string>
-    
+
+    <!-- Home tab -->
+    <string name="home_add_tweet">Add tweet</string>
+
+	<!-- Mentions tab -->
+	
+	<!-- Messages tab -->
+	
+	<!-- Unsent tab -->
+   
     <!-- More Tab -->
     <string-array name="tab_more_items">
     	<item>My Tweets</item>
@@ -62,11 +75,19 @@
     <string name="tud_btn_send_dir_message">Send Direct Message</string>
     <string name="tud_btn_send_pub_replay">Send Public Replay</string>
     <string name="tud_btn_recent_tweets">Recent Tweets</string>
+    <string name="tud_btn_followers">Followers</string>
+    <string name="tud_btn_follow">Follow</string>
+    <string name="tud_btn_unfollow">Unfollow</string>
     
-    <!-- Twitter message details -->
+    <!-- Twitter status details -->
     <string name="tm_btn_replay">Replay</string>
     <string name="tm_btn_forvard">Forward</string>
     <string name="tm_btn_favorite">Favorite</string>
+    <string name="tm_btn_unfavorite">Unfavorite</string>
     <string name="tm_btn_delete">Delete</string>
+    
+    <!-- Writable -->
+    <string name="wr_btn_send">Send</string>
+    <string name="wr_btn_photo">Photo</string>
     
 </resources>

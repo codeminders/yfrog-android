@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view.user;
+package com.codeminders.yfrog.android.view.main.more;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.view.main.AbstractTwitterUsersListActivity;
 import com.codeminders.yfrog.android.view.main.adapter.TwitterUserAdapter;
 
 import android.app.ListActivity;

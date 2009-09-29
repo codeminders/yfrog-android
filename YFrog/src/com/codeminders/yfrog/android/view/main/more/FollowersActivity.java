@@ -1,13 +1,14 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view.user;
+package com.codeminders.yfrog.android.view.main.more;
 
 
 import java.util.ArrayList;
 
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.view.main.AbstractTwitterUsersListActivity;
 
 
 /**

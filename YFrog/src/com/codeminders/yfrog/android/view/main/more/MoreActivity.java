@@ -4,8 +4,6 @@
 package com.codeminders.yfrog.android.view.main.more;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.view.user.FollowersActivity;
-import com.codeminders.yfrog.android.view.user.FollowingActivity;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -19,6 +17,7 @@ import android.widget.ListView;
  *
  */
 public class MoreActivity extends ListActivity {
+	private static final int ITEM_MY_TWEETS = 0;
 	private static final int ITEM_FOLLOWERS = 1;
 	private static final int ITEM_FOLLOWING = 2;
 	
@@ -34,6 +33,11 @@ public class MoreActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = null;
 		switch (position) {
+		case ITEM_MY_TWEETS:
+			intent = new Intent(this, MyTweetsActivity.class);
+			startActivity(intent);
+			break;
+
 		case ITEM_FOLLOWERS:
 			intent = new Intent(this, FollowersActivity.class);
 			startActivity(intent);

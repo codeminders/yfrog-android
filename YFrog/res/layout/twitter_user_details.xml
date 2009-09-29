@@ -34,11 +34,13 @@
 		android:layout_gravity="center">
 	</Button>
 
-	<Button 
+	<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:id="@+id/tud_followers" android:text="@string/tud_btn_followers"></Button><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tud_follow" android:layout_gravity="center" android:text="@string/tud_btn_follow"></Button><Button 
 		android:id="@+id/tud_send_dir_message" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:text="@string/tud_btn_send_dir_message" 
 		android:layout_gravity="center">
 	</Button>
+
+
 </LinearLayout>

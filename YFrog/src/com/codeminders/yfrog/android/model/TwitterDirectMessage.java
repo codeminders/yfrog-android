@@ -10,9 +10,23 @@ import java.util.Date;
  *
  */
 public class TwitterDirectMessage {
+	private int id;
 	private TwitterUser sender;
 	private String text;
 	private Date createdAt;
+	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * @return the sender
 	 */

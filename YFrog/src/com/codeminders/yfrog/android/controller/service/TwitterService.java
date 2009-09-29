@@ -24,6 +24,7 @@ import twitter4j.User;
  */
 public class TwitterService {
 	private Twitter twitter = null;
+	TwitterUser loggedUser = null;
 	
 	TwitterService() {
 	}
@@ -38,17 +39,15 @@ public class TwitterService {
 	
 	public boolean isLogged() {
 		
-		boolean result = false;
-		
 		try {
-			result = (twitter.verifyCredentials() != null);
+			loggedUser = Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {
-			result = false;
+			return false;
 		} catch (NullPointerException e) {
 			// TODO: bug in Twitter4J (Response<init>, initialize is from error stream)
-			result = false;
+			return false;
 		}
-		return result;
+		return loggedUser != null;
 	}
 	
 	public ArrayList<TwitterStatus> getMentions() throws YFrogTwitterException {
@@ -83,7 +82,7 @@ public class TwitterService {
 		try {
 			return Twitter4jHelper.getUsers(twitter.getFollowersStatuses());
 		} catch (TwitterException e) {
-			throw new YFrogTwitterException();
+			throw new YFrogTwitterException(e);
 		}
 	}
 
@@ -92,16 +91,93 @@ public class TwitterService {
 		try {
 			return Twitter4jHelper.getUsers(twitter.getFriendsStatuses());
 		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e);
+		}
+	}
+
+	public ArrayList<TwitterStatus> getMyTweets() throws YFrogTwitterException {
+		checkCreated();
+		try {
+			return Twitter4jHelper.getStatuses(twitter.getUserTimeline());
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e);
+		}		
+	}
+
+	public ArrayList<TwitterStatus> getUserTweets(String username) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			return Twitter4jHelper.getStatuses(twitter.getUserTimeline(username));
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e);
+		}		
+	}
+
+	public void logout() {
+		loggedUser = null;
+		twitter = null;
+	}
+	
+	public void updateStatus(String text) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.updateStatus(text);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException();
+		}		
+	}
+
+	public void replay(String text, long replayToId) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.updateStatus(text, replayToId);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException();
+		}		
+	}
+
+	public void favorite(long id) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.createFavorite(id);
+		} catch (TwitterException e) {
 			throw new YFrogTwitterException();
 		}
 	}
 
-	public void logout() {
-		twitter = null;
+	public void unfavorite(long id) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.destroyFavorite(id);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException();
+		}
+	}
+
+	public TwitterUser getLoggedUser() {
+		return loggedUser;
+	}
+	
+	public void deleteStatus(long id) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.destroyStatus(id);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException();
+		}
+	}
+	
+	public void deleteDirectMessage(int id) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.destroyDirectMessage(id);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException();
+		}		
 	}
 	
 	private void checkCreated() {
-		if (twitter == null) {
+		if (twitter == null || loggedUser == null) {
 			throw new IllegalStateException();
 		}
 	}
@@ -128,6 +204,8 @@ final class Twitter4jHelper {
 		st.setUser(getUser(status.getUser()));
 		st.setText(status.getText());
 		st.setCreatedAt(status.getCreatedAt());
+		st.setId(status.getId());
+		st.setFavorited(status.isFavorited());
 		
 		return st;
 	}
@@ -172,6 +250,7 @@ final class Twitter4jHelper {
 		m.setSender(getUser(dm.getSender()));
 		m.setText(dm.getText());
 		m.setCreatedAt(dm.getCreatedAt());
+		m.setId(dm.getId());
 		
 		return m;
 	}

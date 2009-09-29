@@ -6,12 +6,15 @@
     <string name="connection_not_found_title">Connection error</string>
     <string name="connection_not_found_msg">Connection not found. Please check your Internet connection and try again</string>
     <string name="connection_not_found_btn">OK</string>
-    
-    <!-- Account list -->
-    <string name="add_account">Add account</string>
-    <string name="login">Login</string>
+    <string name="list_reload">Reload</string>
     <string name="ctx_menu_delete">Delete</string>
     <string name="ctx_menu_edit">Edit</string>
+    
+    
+    <!-- Account list -->
+    <string name="account_list_activity">Accounts</string>
+    <string name="add_account">Add account</string>
+    <string name="login">Login</string>
     <string name="account_delete_dialog_title">Warning</string>
     <string name="account_delete_dialog_message">Do you want to delete this account?</string>
     <string name="account_delete_dialog_btn_yes">Yes</string>
@@ -22,6 +25,8 @@
     <string name="account_login_failed_btn">OK</string>
     
 	<!-- Add account -->
+	<string name="add_account_activity">Add account</string>
+	<string name="edit_account_activity">Edit account</string>
     <string name="account_edit_nickname">Nickname</string>
     <string name="account_edit_password">Password</string>
     <string name="account_edit_email">E-mail</string>
@@ -49,6 +54,12 @@
     <!-- Home tab -->
     <string name="home_add_tweet">Add tweet</string>
     
+	<!-- Mentions tab -->
+	
+	<!-- Messages tab -->
+	
+	<!-- Unsent tab -->
+   
     <!-- More Tab -->
     <string-array name="tab_more_items">
     	<item>My Tweets</item>
@@ -64,11 +75,16 @@
     <string name="tud_btn_send_dir_message">Send Direct Message</string>
     <string name="tud_btn_send_pub_replay">Send Public Replay</string>
     <string name="tud_btn_recent_tweets">Recent Tweets</string>
+    <string name="tud_btn_followers">Followers</string>
+    <string name="tud_btn_follow">Follow</string>
+    <string name="tud_btn_unfollow">Unfollow</string>
     
-    <!-- Twitter message details -->
+    
+    <!-- Twitter status details -->
     <string name="tm_btn_replay">Replay</string>
     <string name="tm_btn_forward">Forward</string>
     <string name="tm_btn_favorite">Favorite</string>
+    <string name="tm_btn_unfavorite">Unfavorite</string>
     <string name="tm_btn_delete">Delete</string>
     
     <!-- Writable -->

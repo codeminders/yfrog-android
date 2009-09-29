@@ -3,16 +3,37 @@
  */
 package com.codeminders.yfrog.android.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author idemydenko
  *
  */
-public class TwitterStatus {
+public class TwitterStatus implements Serializable {
+	private static final long serialVersionUID = 2L;
+
+	private long id;
 	private String text;
 	private Date createdAt;
 	private TwitterUser user;
+	private boolean favorited;
+	
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
 	/**
 	 * @return the text
 	 */
@@ -50,5 +71,32 @@ public class TwitterStatus {
 		this.user = user;
 	}
 	
+	/**
+	 * @return the favorited
+	 */
+	public boolean isFavorited() {
+		return favorited;
+	}
+	/**
+	 * @param favorited the favorited to set
+	 */
+	public void setFavorited(boolean favorited) {
+		this.favorited = favorited;
+	}
 	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeLong(id);
+		out.writeUTF(text);
+		out.writeObject(user);
+		out.writeObject(createdAt);
+		out.writeBoolean(favorited);
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		id = in.readLong();
+		text = in.readUTF();
+		user = (TwitterUser) in.readObject();
+		createdAt = (Date) in.readObject();
+		favorited = in.readBoolean();
+	}
 }

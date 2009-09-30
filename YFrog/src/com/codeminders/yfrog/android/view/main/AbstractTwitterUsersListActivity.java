@@ -10,9 +10,11 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.main.adapter.TwitterUserAdapter;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 
 	protected TwitterService twitterService;
 	protected ArrayList<TwitterUser> users;
+	protected YFrogTwitterException toHandle;
 
 	/**
 	 * 
@@ -43,7 +46,10 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		
 		try {
 			users = getUsers();
-		} catch (Exception e) {
+		} catch (YFrogTwitterException e) {
+			users = new ArrayList<TwitterUser>(0);
+			toHandle = e;
+			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
 		}
 		
 		
@@ -73,4 +79,18 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	}
 
 	protected abstract ArrayList<TwitterUser> getUsers() throws YFrogTwitterException; 
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case AlertUtils.ALERT_TWITTER_ERROR:
+			dialiog = AlertUtils.createTwitterErrorAlert(this, toHandle);
+			toHandle = null;
+			
+			break;
+
+		}
+		return dialiog;
+	}
 }

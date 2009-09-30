@@ -13,20 +13,13 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
  * @author idemydenko
  *
  */
-public class WriteReplayActivity extends WritableActivity {
-	public static final String KEY_MESSAGE_ID = "id";
-	
+public class WritePublicReplayActivity extends WritableActivity {
 	private static final String START_REPLAY_PREFIX = "@";
 	private static final String START_REPLAY_SUFFIX = " ";
-	
-	private long id;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		id = getIntent().getExtras().getLong(KEY_MESSAGE_ID);
-		
 		
 		EditText editText = (EditText) findViewById(R.id.wr_text);
 		editText.setText(getReplayStart());
@@ -36,7 +29,7 @@ public class WriteReplayActivity extends WritableActivity {
 	protected void send(String text) {
 		
 		try {
-			twitterService.replay(text, id);
+			twitterService.publicReplay(text);
 		} catch (YFrogTwitterException e) {
 			// TODO: handle exception
 		}
@@ -46,5 +39,4 @@ public class WriteReplayActivity extends WritableActivity {
 		String writerNickname = getIntent().getExtras().getString(KEY_WRITER_USERNAME);
 		
 		return START_REPLAY_PREFIX + writerNickname + START_REPLAY_SUFFIX;
-	}
-}
+	}}

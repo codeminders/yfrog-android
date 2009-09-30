@@ -21,6 +21,9 @@ public class TwitterUser implements Serializable {
 	private String username;
 	private String location;
 	private String description;
+	private boolean follower;
+	private boolean following;
+	
 	/**
 	 * @return the id
 	 */
@@ -93,6 +96,30 @@ public class TwitterUser implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	/**
+	 * @return the follower
+	 */
+	public boolean isFollower() {
+		return follower;
+	}
+	/**
+	 * @param follower the follower to set
+	 */
+	public void setFollower(boolean follower) {
+		this.follower = follower;
+	}
+	/**
+	 * @return the following
+	 */
+	public boolean isFollowing() {
+		return following;
+	}
+	/**
+	 * @param following the following to set
+	 */
+	public void setFollowing(boolean following) {
+		this.following = following;
+	}
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
@@ -101,6 +128,8 @@ public class TwitterUser implements Serializable {
 		out.writeUTF(location);
 		out.writeUTF(description);
 		out.writeObject(profileImageURL);
+		out.writeBoolean(follower);
+		out.writeBoolean(following);
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -110,6 +139,8 @@ public class TwitterUser implements Serializable {
 		location = in.readUTF();
 		description = in.readUTF();
 		profileImageURL = (URL) in.readObject();
+		follower = in.readBoolean();
+		following = in.readBoolean();
 	}
 	
 	@Override

@@ -25,6 +25,8 @@ import android.widget.ViewSwitcher.ViewFactory;
  *
  */
 public abstract class WritableActivity extends Activity implements OnClickListener, TextWatcher, ViewFactory {
+	public static final String KEY_WRITER_USERNAME = "username";
+	
 	private static final int MAX_COUNT = 140;
 	private static final int OVERRIDED_TEXT_COLOR = 0xFF0000;
 	

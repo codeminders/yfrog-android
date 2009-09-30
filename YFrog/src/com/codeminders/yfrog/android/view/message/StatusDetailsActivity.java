@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 // TODO may be need StatusChangeListener
 public class StatusDetailsActivity extends Activity implements OnClickListener {
-	public static final String KEY_WRITER_USERNAME = "username";
-	public static final String KEY_MESSAGE_ID = "id";
 	public static final String KEY_STATUS = "status";
 	
 	private TwitterService twitterService;
@@ -81,8 +79,8 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.tm_replay:
 			Intent intent = new Intent(this, WriteReplayActivity.class);
-			intent.putExtra(KEY_MESSAGE_ID, status.getId());
-			intent.putExtra(KEY_WRITER_USERNAME, status.getUser().getUsername());
+			intent.putExtra(WriteReplayActivity.KEY_MESSAGE_ID, status.getId());
+			intent.putExtra(WritableActivity.KEY_WRITER_USERNAME, status.getUser().getUsername());
 			startActivity(intent);
 			break;
 		case R.id.tm_favorite:

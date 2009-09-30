@@ -82,6 +82,14 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
+
+		<activity android:name=".view.main.more.SearchActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
 	
 		<activity android:name=".view.main.more.SettingsActivity">
 			<intent-filter>
@@ -130,6 +138,22 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
+
+		<activity android:name=".view.message.WritePublicReplayActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.WriteDirectMessageActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
 		
 		<activity android:name=".view.main.more.MyTweetsActivity">
 			<intent-filter>
@@ -139,7 +163,15 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name=".view.main.more.UserTweetsActivity">
+		<activity android:name=".view.user.UserTweetsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>		
+
+		<activity android:name=".view.user.UserFollowersActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
 				<action android:name="android.intent.action.VIEW"/>

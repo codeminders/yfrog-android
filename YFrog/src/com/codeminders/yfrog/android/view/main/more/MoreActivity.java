@@ -20,6 +20,7 @@ public class MoreActivity extends ListActivity {
 	private static final int ITEM_MY_TWEETS = 0;
 	private static final int ITEM_FOLLOWERS = 1;
 	private static final int ITEM_FOLLOWING = 2;
+	private static final int ITEM_SEARCH =3;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,6 +48,12 @@ public class MoreActivity extends ListActivity {
 			intent = new Intent(this, FollowingActivity.class);
 			startActivity(intent);			
 			break;
+		
+		case ITEM_SEARCH:
+			intent = new Intent(this, SearchActivity.class);
+			startActivity(intent);			
+			break;
+
 		}
 	}
 }

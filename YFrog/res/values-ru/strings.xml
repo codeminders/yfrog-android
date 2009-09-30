@@ -3,9 +3,9 @@
     <string name="app_name">yfrog</string>
 
     <!-- Common -->
-    <string name="connection_not_found_title">Connection error</string>
-    <string name="connection_not_found_msg">Connection not found. Please check your Internet connection and try again</string>
-    <string name="connection_not_found_btn">OK</string>
+    <string name="twitter_error_title">Twitter error</string>
+    <string name="twitter_error_msg">Error code -</string>
+    <string name="twitter_error_btn">OK</string>
     <string name="list_reload">Reload</string>
     <string name="ctx_menu_delete">Удалить</string>
     <string name="ctx_menu_edit">Редактировать</string>

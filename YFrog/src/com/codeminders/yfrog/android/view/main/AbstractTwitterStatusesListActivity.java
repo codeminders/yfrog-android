@@ -1,18 +1,19 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view.main.more;
+package com.codeminders.yfrog.android.view.main;
 
 import java.util.ArrayList;
 
+import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.main.adapter.TwitterStatusAdapter;
 import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
-import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,52 +22,80 @@ import android.widget.ListView;
 
 /**
  * @author idemydenko
- *
+ * 
  */
-public class UserTweetsActivity extends ListActivity {
-	private TwitterService twitterService;
-	private ArrayList<TwitterStatus> statuses;
-	private TwitterUser user;
-	
+public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
+
+	protected TwitterService twitterService;
+	protected ArrayList<TwitterStatus> statuses;
+	private YFrogTwitterException toHandle;
+
+	/**
+	 * 
+	 */
+	public AbstractTwitterStatusesListActivity() {
+		super();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		twitterService = ServiceFactory.getTwitterService();
-		
+
 		createStatusesList();
 	}
-	
-	private void createStatusesList() {
-		Bundle extras = getIntent().getExtras();
-		
-		user = (TwitterUser) extras.getSerializable(UserDetailsActivity.KEY_USER);
 
+	@Override
+	protected void onRestart() {
+		super.onResume();
+		createStatusesList();
+
+	}
+
+	private void createStatusesList() {
 		try {
-			statuses = twitterService.getUserTweets(user.getUsername());
-		} catch (Exception e) {
-			// TODO: handle exception
+			statuses = getStatuses();
+		} catch (YFrogTwitterException e) {
+			statuses = new ArrayList<TwitterStatus>(0);
+			toHandle = e;
+			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
 		}
-		
+
 		setListAdapter(new TwitterStatusAdapter<TwitterStatus>(this, statuses));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
 	}
 
+	protected abstract ArrayList<TwitterStatus> getStatuses() throws YFrogTwitterException;
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = new Intent(this, StatusDetailsActivity.class);
-		TwitterStatus status = getSelected(position); 
-		
+		TwitterStatus status = getSelected(position);
+
 		intent.putExtra(StatusDetailsActivity.KEY_STATUS, status);
-		
+
 		startActivity(intent);
 	}
-	
-	private TwitterStatus getSelected(int position) {
+
+	protected TwitterStatus getSelected(int position) {
 		if (position > -1) {
 			return statuses.get(position);
 		}
 		return null;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case AlertUtils.ALERT_TWITTER_ERROR:
+			dialiog = AlertUtils.createTwitterErrorAlert(this, toHandle);
+			toHandle = null;
+			
+			break;
+
+		}
+		return dialiog;
 	}
 }

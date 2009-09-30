@@ -13,6 +13,7 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.main.MainTabActivity;
 
 import android.app.AlertDialog;
@@ -42,7 +43,6 @@ public class ListAccountsActivity extends ListActivity {
 	private static final int MENU_EDIT = 1;
 	
 	private static final int ALERT_DELETE = 0;
-	private static final int ALERT_NO_CONNECT = 1;
 	private static final int ALERT_AUTH_FAILED = 2;
 	
 	private AccountService accountService;
@@ -50,6 +50,8 @@ public class ListAccountsActivity extends ListActivity {
 	private ArrayList<Account> accounts;
 	
 	private Account toDelete = null;
+	
+	private YFrogTwitterException toHandle = null; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,9 +150,10 @@ public class ListAccountsActivity extends ListActivity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
 		switch (id) {
 		case ALERT_DELETE:
-			return new AlertDialog.Builder(ListAccountsActivity.this)
+			dialiog = new AlertDialog.Builder(ListAccountsActivity.this)
 			.setTitle(R.string.account_delete_dialog_title)
 			.setMessage(R.string.account_delete_dialog_message)
 			.setPositiveButton(R.string.account_delete_dialog_btn_yes, new DialogInterface.OnClickListener() {
@@ -169,21 +172,15 @@ public class ListAccountsActivity extends ListActivity {
 				}
 			})
 			.create();
-
-		case ALERT_NO_CONNECT:
-			return new AlertDialog.Builder(ListAccountsActivity.this)
-			.setTitle(R.string.connection_not_found_title)
-			.setMessage(R.string.connection_not_found_msg)
-			.setNeutralButton(R.string.connection_not_found_btn, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-				}
-			})
-			.create();
-		
+			break;
+			
+		case AlertUtils.ALERT_TWITTER_ERROR:
+			dialiog = AlertUtils.createTwitterErrorAlert(this, toHandle);
+			toHandle = null;
+			break;
+			
 		case ALERT_AUTH_FAILED:
-			return new AlertDialog.Builder(ListAccountsActivity.this)
+			dialiog = new AlertDialog.Builder(ListAccountsActivity.this)
 			.setTitle(R.string.account_login_failed_title)
 			.setMessage(R.string.account_login_failed_msg)
 			.setNeutralButton(R.string.account_login_failed_btn, new DialogInterface.OnClickListener() {
@@ -193,9 +190,9 @@ public class ListAccountsActivity extends ListActivity {
 				}
 			})
 			.create();
-
+			break;
 		}
-		return null;
+		return dialiog;
 	}
 	
 	@Override
@@ -223,7 +220,8 @@ public class ListAccountsActivity extends ListActivity {
 			showDialog(ALERT_AUTH_FAILED);
 			return;
 		} catch (YFrogTwitterException e) {
-			showDialog(ALERT_NO_CONNECT);
+			toHandle = e;
+			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
 			return;
 		}
 		startActivity(new Intent(this, MainTabActivity.class));		

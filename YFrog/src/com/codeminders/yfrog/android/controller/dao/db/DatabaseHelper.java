@@ -4,6 +4,8 @@
 package com.codeminders.yfrog.android.controller.dao.db;
 
 import com.codeminders.yfrog.android.controller.dao.AbstractDAO;
+import com.codeminders.yfrog.android.controller.dao.AccountDAO;
+import com.codeminders.yfrog.android.controller.dao.UnsentMessageDAO;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(AbstractDAO.DDL);		
+		AbstractDAO.onCreateDatabase(db);
 	}
 	
 	@Override

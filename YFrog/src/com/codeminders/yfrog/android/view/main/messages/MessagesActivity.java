@@ -78,7 +78,7 @@ public class MessagesActivity extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.add(0, MENU_DELETE, 0, R.string.ctx_menu_delete);
+		menu.add(0, MENU_DELETE, 0, R.string.delete);
 	}
 
 	@Override

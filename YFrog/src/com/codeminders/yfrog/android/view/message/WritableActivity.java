@@ -4,8 +4,13 @@
 package com.codeminders.yfrog.android.view.message;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.StringUtils;
+import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.controller.service.UnsentMessageService;
+import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -31,14 +36,19 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	private static final int OVERRIDED_TEXT_COLOR = 0xFF0000;
 	
 	protected TwitterService twitterService;
+	protected AccountService accountService;
+	protected UnsentMessageService unsentMessageService;
 	
 	private TextSwitcher switcher;
 	private int count;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
+		accountService = ServiceFactory.getAccountService();
+		unsentMessageService = ServiceFactory.getUnsentMessageService();
+		
 		setContentView(R.layout.twitter_writable);
 
 		EditText editText = (EditText) findViewById(R.id.wr_text);
@@ -53,6 +63,8 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		button.setOnClickListener(this);
 		button = (Button) findViewById(R.id.wr_photo);
 		button.setOnClickListener(this);
+		button = (Button) findViewById(R.id.wr_queue);
+		button.setOnClickListener(this);
 		
 		updateCounter();
 	}
@@ -65,19 +77,43 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 				return;
 			}
 			
-			EditText textInput = (EditText) findViewById(R.id.wr_text);
-			String text = textInput.getText().toString();
+			String text = getText();
 			
-			send(text);
-			finish();
+			if (!StringUtils.isEmpty(text)) {
+				send(text);
+				finish();
+			}
 			break;
 		case R.id.wr_photo:
+			
+			break;
+		case R.id.wr_queue:
+			text = getText();
+			
+			if (!StringUtils.isEmpty(text)) {
+				saveToQueue(text);
+				finish();
+			}
 			
 			break;
 		}
 	}
 	
+	protected void saveToQueue(String text) {
+		UnsentMessage toSave = createUnsentMessage();
+		toSave.setText(text);
+		toSave.setAccountId(accountService.getLogged().getId());
+		unsentMessageService.addUnsentMessage(toSave);
+	}
+	
 	protected abstract void send(String text);
+	
+	protected abstract UnsentMessage createUnsentMessage();
+	
+	private String getText() {
+		EditText textInput = (EditText) findViewById(R.id.wr_text);
+		return textInput.getText().toString();
+	}
 	
 	@Override
 	public View makeView() {

@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**
  * @author idemydenko
@@ -40,6 +41,14 @@ public class WriteReplayActivity extends WritableActivity {
 		} catch (YFrogTwitterException e) {
 			// TODO: handle exception
 		}
+	}
+
+	@Override
+	protected UnsentMessage createUnsentMessage() {
+		UnsentMessage message = new UnsentMessage();
+		message.setType(UnsentMessage.TYPE_REPLAY);
+		message.setTo(String.valueOf(id));
+		return message;
 	}
 
 	private String getReplayStart() {

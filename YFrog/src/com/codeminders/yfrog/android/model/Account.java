@@ -3,29 +3,46 @@
  */
 package com.codeminders.yfrog.android.model;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * @author idemydenko
  *
  */
-public class Account {
-	private Integer id;
+public class Account implements Serializable {
+	public static final int METHOD_COMMON = 0;
+	public static final int METHOD_OAUTH = 1;
+	
+	public static final int OAUTH_STATUS_NOT_AUTHORIZED = 0;
+	public static final int OAUTH_STATUS_WAIT_VERIFICATION = 1;
+	public static final int OAUTH_STATUS_VERIFIED = 2;
+	
+	private long id;
+	private String name;
 	private String email;
 	private String nickname;
 	private String password;
-	private String oauthKey;
+	private String oauthToken;
+	private String oauthTokenSecret;
+	private int authMethod = METHOD_COMMON;
+	private int oauthStatus = OAUTH_STATUS_NOT_AUTHORIZED;
 	
-	
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
+
+	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * @return the email
@@ -33,48 +50,88 @@ public class Account {
 	public String getEmail() {
 		return email;
 	}
-	/**
-	 * @param email the email to set
-	 */
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	/**
-	 * @return the nickname
-	 */
+
 	public String getNickname() {
 		return nickname;
 	}
-	/**
-	 * @param nickname the nickname to set
-	 */
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	/**
-	 * @return the password
-	 */
+
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/**
-	 * @return the oauthKey
-	 */
-	public String getOauthKey() {
-		return oauthKey;
+
+	public String getOauthToken() {
+		return oauthToken;
 	}
-	/**
-	 * @param oauthKey the oauthKey to set
-	 */
-	public void setOauthKey(String oauthKey) {
-		this.oauthKey = oauthKey;
+
+	public void setOauthToken(String oauthKey) {
+		this.oauthToken = oauthKey;
+	}
+
+	public String getOauthTokenSecret() {
+		return oauthTokenSecret;
+	}
+
+	public void setOauthTokenSecret(String tolkenSecret) {
+		this.oauthTokenSecret = tolkenSecret;
+	}
+
+	public int getAuthMethod() {
+		return authMethod;
+	}
+
+	public void setAuthMethod(int authMethod) {
+		this.authMethod = authMethod;
+	}
+
+	public int getOauthStatus() {
+		return oauthStatus;
+	}
+
+	public void setOauthStatus(int oauthStatus) {
+		this.oauthStatus = oauthStatus;
 	}
 	
+	public boolean isOAuthVerified() {
+		return oauthStatus == OAUTH_STATUS_VERIFIED;
+	}
 	
+	public boolean isNeedOAuthAuthorization() {
+		return authMethod == METHOD_OAUTH && oauthStatus != OAUTH_STATUS_VERIFIED;
+	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeLong(id);
+		out.writeUTF(name == null ? "" : name);
+		out.writeUTF(nickname == null ? "" : nickname);
+		out.writeUTF(password == null ? "" : password);
+		out.writeUTF(email == null ? "" : email);
+		out.writeUTF(oauthToken == null ? "" : oauthToken);
+		out.writeUTF(oauthTokenSecret == null ? "" : oauthTokenSecret);
+		out.writeInt(authMethod);
+		out.writeInt(oauthStatus);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		id = in.readLong();
+		name = in.readUTF();
+		nickname = in.readUTF();
+		password = in.readUTF();
+		email = in.readUTF();
+		oauthToken = in.readUTF();
+		oauthTokenSecret = in.readUTF();
+		authMethod = in.readInt();
+		oauthStatus = in.readInt();
+	}
 }

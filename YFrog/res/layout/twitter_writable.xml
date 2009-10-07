@@ -27,7 +27,7 @@
 		android:layout_width="wrap_content" 
 		android:layout_below="@+id/wr_text" 
 		android:layout_alignParentRight="true" 
-		android:text="@string/wr_btn_send" android:id="@+id/wr_send">
+		android:text="@string/send" android:id="@+id/wr_send">
 	</Button>
 	
 	<Button 
@@ -36,7 +36,8 @@
 		android:layout_width="wrap_content" 
 		android:layout_below="@+id/wr_text" 
 		android:id="@+id/wr_photo" 
-		android:text="@string/wr_btn_photo">
-	</Button>
+		android:text="@string/wr_btn_photo" android:layout_alignParentRight="false">
+	</Button><Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/wr_queue" android:text="@string/wr_btn_queue" android:layout_below="@+id/wr_text" android:layout_toLeftOf="@+id/wr_photo"></Button>
+
 
 </RelativeLayout>

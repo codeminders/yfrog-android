@@ -3,6 +3,8 @@
  */
 package com.codeminders.yfrog.android.controller.dao;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import com.codeminders.yfrog.android.controller.dao.db.DatabaseHelper;
 
 /**
@@ -10,7 +12,7 @@ import com.codeminders.yfrog.android.controller.dao.db.DatabaseHelper;
  *
  */
 public abstract class AbstractDAO {
-	public static final String DDL = AccountDAO.ACCOUNT_DDL;
+//	public static final String DDL = AccountDAO.ACCOUNT_DDL + UnsentMessageDAO.UNSENT_MESSAGE_DDL;
 	public static final String DB_NAME = "yfrog_db";
 	private static DatabaseHelper dbHelper;
 	
@@ -19,6 +21,11 @@ public abstract class AbstractDAO {
 			dbHelper = DatabaseHelper.getInstance();
 		}
 		return dbHelper;
+	}
+
+	public static void onCreateDatabase(SQLiteDatabase db) {
+		db.execSQL(AccountDAO.ACCOUNT_DDL);
+		db.execSQL(UnsentMessageDAO.UNSENT_MESSAGE_DDL);
 	}
 }
 

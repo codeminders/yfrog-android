@@ -8,7 +8,7 @@
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
+			</intent-filter>			
 		</activity>
 		
 		<activity android:name=".view.account.EditAccountActivity">
@@ -17,8 +17,15 @@
 				<action android:name="android.intent.action.VIEW"/>
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
+			
+			<intent-filter>
+    			<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+				<data android:scheme="yfrog" android:host="android"/>
+			</intent-filter>
 		</activity>
-		
+
 		<activity android:name=".view.main.MainTabActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
@@ -90,6 +97,15 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
+		
+		<activity android:name=".view.main.more.SearchResultsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
 	
 		<activity android:name=".view.main.more.SettingsActivity">
 			<intent-filter>
@@ -123,7 +139,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".view.message.WriteTweetActivity">
+		<activity android:name=".view.message.WriteStatusActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
 				<action android:name="android.intent.action.VIEW"/>
@@ -148,6 +164,14 @@
 		</activity>
 
 		<activity android:name=".view.message.WriteDirectMessageActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.EditUnsentMessageActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.EDIT"/>
 				<action android:name="android.intent.action.VIEW"/>

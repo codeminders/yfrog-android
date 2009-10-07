@@ -13,7 +13,7 @@
 		android:minWidth="48px" 
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true" 
-		android:src="@drawable/twitter_icon" android:id="@+id/ts_user_icon">
+		android:src="@drawable/twitter_icon" android:id="@+id/tsr_user_icon">
 	</ImageView>
 	
 
@@ -24,8 +24,8 @@
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01"
 		android:layout_width="wrap_content" 
-		android:layout_toRightOf="@+id/ts_user_icon"
-		android:id="@+id/ts_username" 
+		android:layout_toRightOf="@+id/tsr_user_icon"
+		android:id="@+id/tsr_username" 
 		android:layout_alignWithParentIfMissing="true"
 		android:layout_marginLeft="10px">
 	</TextView>
@@ -33,10 +33,10 @@
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01"
-		android:layout_below="@+id/ts_username" 
+		android:layout_below="@+id/tsr_username" 
 		android:layout_width="wrap_content"
-		android:layout_toRightOf="@+id/ts_user_icon" 
-		android:id="@+id/ts_text"
+		android:layout_toRightOf="@+id/tsr_user_icon" 
+		android:id="@+id/tsr_text"
 		android:layout_marginLeft="10px" 
 		android:layout_marginTop="15px">
 	</TextView>
@@ -44,7 +44,7 @@
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01"
 		android:layout_width="wrap_content" 
-		android:id="@+id/ts_created_at"
+		android:id="@+id/tsr_created_at"
 		android:layout_alignParentTop="true" 
 		android:layout_alignParentRight="true">
 	</TextView>

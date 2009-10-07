@@ -5,6 +5,8 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
 
+import android.net.Uri;
+
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.dao.AccountDAO;
 import com.codeminders.yfrog.android.controller.dao.DAOFactory;
@@ -30,12 +32,14 @@ public final class AccountService {
 		return accountDAO.getAllAccounts();
 	}
 	
-	public Account getAccount(Integer id) {
+	public Account getAccount(long id) {
 		return accountDAO.getAccount(id);
 	}
 	
-	public void addAccount(Account account) {
-		accountDAO.addAccount(account);
+	public Account addAccount(Account account) {
+		long id = accountDAO.addAccount(account);
+		
+		return accountDAO.getAccount(id);
 	}
 	
 	public void deleteAccount(Account account) {
@@ -50,12 +54,50 @@ public final class AccountService {
 		return accountDAO.isAccountUnique(account);
 	}
 	
+	public String getOAuthAuthorizationURL(Account account) throws YFrogTwitterException {
+		String url = twitterService.getOAuthWebAuthorizationURL(account);
+		account.setOauthStatus(Account.OAUTH_STATUS_WAIT_VERIFICATION);
+		updateAccount(account);
+
+		return url;
+	}
+	
+	public void verifyOAuthAuthorization(Account account, String pin) throws YFrogTwitterException {
+		twitterService.verifyOAuthAuthorization(account, pin);
+		account.setOauthStatus(Account.OAUTH_STATUS_VERIFIED);
+		updateAccount(account);
+	}
+	
+	public Account getWatingForOAuthVerificationAccount() {
+		return accountDAO.getWatingForOAuthVerificationAccount();
+	}
+	
+	public boolean isOAuthCallback(Uri uri) {
+		if (uri == null) {
+			return false;
+		}
+		
+		return uri.toString().startsWith(TwitterService.CALL_BACK_URL);
+	}
+	
+	public String getToken(Uri uri) {
+		return uri.getQueryParameter(TwitterService.PARAM_TOKEN);
+	}
+
+	public String getVerifier(Uri uri) {
+		return uri.getQueryParameter(TwitterService.PARAM_VERIFIER);
+	}
+
 	public void login(Account account) throws YFrogTwitterException {
 		if (account == null) {
 			throw new IllegalArgumentException("Account can't be null");
 		}
 		
-		twitterService.login(account.getNickname(), account.getPassword());
+		if (account.getAuthMethod() == Account.METHOD_COMMON) {
+			twitterService.login(account.getNickname(), account.getPassword());
+		} else {
+			twitterService.loginOAuth(account.getOauthToken(), account.getOauthTokenSecret());
+		}
 		logged = account;
 	}
 	

@@ -7,8 +7,11 @@
     <string name="twitter_error_msg">Error code -</string>
     <string name="twitter_error_btn">OK</string>
     <string name="list_reload">Reload</string>
-    <string name="ctx_menu_delete">Удалить</string>
-    <string name="ctx_menu_edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Cancel</string>
+    <string name="send">Send</string>
     
     
     <!-- Account list -->
@@ -27,22 +30,31 @@
 	<!-- Add account -->
 	<string name="add_account_activity">Add account</string>
 	<string name="edit_account_activity">Edit account</string>
-    <string name="account_edit_nickname">Имя учётной записи</string>
-    <string name="account_edit_password">Пароль</string>
-    <string name="account_edit_email">E-mail</string>
-    <string name="account_edit_oauth_key">Ключь OAuth</string>
+	<string name="ae_name">Имя учётной записи</string>
+    <string name="ae_nickname">Имя twitter записи</string>
+    <string name="ae_password">Пароль</string>
+    <string name="ae_email">E-mail</string>
+    <string name="ae_oauth_key">Ключь OAuth</string>
     
-    <string name="account_edit_save">Сохранить</string>
+    <string name="ae_auth_methods">Методы аутентикации</string>
+    <string name="ae_common_method">Логин/Проль</string>
+    <string name="ae_oauth_method">Ключь OAuth</string>
     
-    <string name="account_edit_created">Учётная запись была успешно создана</string>
-    <string name="account_edit_updated">Учётная запись была успешно обновлена</string>
+    <string name="ae_btn_oauth_auth">Авторизировать</string>
+    <string name="ae_btn_oauth_reset">Сбросить</string>
+    <string name="ae_oauth_status">OAuth Status:</string>
+    <string name="ae_oauth_status_authorized">Authorized</string>
+    <string name="ae_oauth_status_need_authorize">Need authorization</string>
     
-    <string name="account_edit_dialog_title">Ошибка</string>
-    <string name="account_edit_dialog_message_nickname">Обязательное поле "Имя учётной записи" пустое</string>
-    <string name="account_edit_dialog_message_passwd">Обязательное поле "Пароль" пустое</string>
-    <string name="account_edit_dialog_message_email">Обязательное поле "Email" пустое или имеет некорректный формат</string>
-    <string name="account_edit_dialog_message_not_unique">Учётная запись с указаными именем или email уже существуют</string>
-    <string name="account_edit_dialog_button">ОК</string>
+    <string name="ae_created">Учётная запись была успешно создана</string>
+    <string name="ae_updated">Учётная запись была успешно обновлена</string>
+    
+    <string name="ae_dialog_title">Ошибка</string>
+    <string name="ae_dialog_message_nickname">Обязательное поле "Имя учётной записи" пустое</string>
+    <string name="ae_dialog_message_passwd">Обязательное поле "Пароль" пустое</string>
+    <string name="ae_dialog_message_name">Обязательное поле "Имя" пустое</string>
+    <string name="ae_dialog_message_not_unique">Учётная запись с указаными именем или именем учетной записи уже существуют</string>
+    <string name="ae_dialog_button">ОК</string>
     
     <!-- Tabs -->
     <string name="tab_home_caption">Домашняя</string>
@@ -59,6 +71,8 @@
 	<!-- Messages tab -->
 	
 	<!-- Unsent tab -->
+	<string name="umt_send_all">Send all</string>
+	<string name="umt_to">To:</string>
    
     <!-- More Tab -->
     <string-array name="tab_more_items">
@@ -87,7 +101,11 @@
     <string name="tm_btn_delete">Delete</string>
     
     <!-- Writable -->
-    <string name="wr_btn_send">Send</string>
     <string name="wr_btn_photo">Photo</string>
+    <string name="wr_btn_queue">Queue</string>
     
+    <!-- Twitter search -->
+    <string name="s_add_search">Add search</string>
+    <string name="s_btn_search">Search</string>
+    <string name="s_add_search_query">Query</string>
 </resources>

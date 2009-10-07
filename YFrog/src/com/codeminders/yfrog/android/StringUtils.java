@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
  *
  */
 public final class StringUtils {
+	public static final String EMPTY_STRING = "";
+	
 	private static final String EMAIL_PATTERN = "[\\p{Alnum}\\.\\-_\\+]{1,}@[\\p{Alnum}\\.\\-_]{1,}\\.[\\p{Alpha}]{1,5}";
 	
 	private static Pattern emailPattern = null;

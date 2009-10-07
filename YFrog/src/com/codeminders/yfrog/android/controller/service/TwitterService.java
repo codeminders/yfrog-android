@@ -4,35 +4,59 @@
 package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import com.codeminders.yfrog.android.YFrogTwitterAuthException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
+import com.codeminders.yfrog.android.model.TwitterQueryResult;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
+import com.codeminders.yfrog.android.model.TwitterSearchResult;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.SavedSearch;
 import twitter4j.Status;
+import twitter4j.Tweet;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
+import twitter4j.http.AccessToken;
+import twitter4j.http.RequestToken;
 
 /**
  * @author idemydenko
  *
  */
 public class TwitterService {
+	/*
+	 * Desktop application tokens
+	 * 
+	 *	private static final String CONSUMER_KEY = "Ai9SAL3FqA64k5uiY8ezA";
+	 *	private static final String CONSUMER_SECRET = "Piy2dJzdFVUMdUqrRLBUfkW2VcTnWnr2tnO6vHrZ2k"; 
+	 */
+	
+	private static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
+	private static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
+	
+	public static final String CALL_BACK_URL = "yfrog://android";
+	
+	public static final String PARAM_TOKEN = "oauth_token";
+	public static final String PARAM_VERIFIER = "oauth_verifier";
+	
 	private Twitter twitter = null;
-	TwitterUser loggedUser = null;
+	private TwitterUser loggedUser = null;
+	private UnsentMessageService unsentMessageService;
 	
 	TwitterService() {
+		unsentMessageService = ServiceFactory.getUnsentMessageService();
 	}
 	
 	public void login(String nickname, String password) throws YFrogTwitterException {
@@ -42,7 +66,68 @@ public class TwitterService {
 			throw new YFrogTwitterAuthException();
 		}
 	}
-	
+
+	public String getOAuthWebAuthorizationURL(Account account) throws YFrogTwitterException {
+		Twitter twitter = new Twitter();
+	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	    RequestToken requestToken;
+	    
+	    try {
+	    	requestToken = twitter.getOAuthRequestToken(CALL_BACK_URL);
+	    } catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+	    
+	    account.setOauthToken(requestToken.getToken());
+	    account.setOauthTokenSecret(requestToken.getTokenSecret());
+	    
+	    return requestToken.getAuthorizationURL();
+	}
+
+	public String getOAuthDesktopAuthorizationURL(Account account) throws YFrogTwitterException {
+		Twitter twitter = new Twitter();
+	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	    RequestToken requestToken;
+	    
+	    try {
+	    	requestToken = twitter.getOAuthRequestToken();
+	    } catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+	    
+	    account.setOauthToken(requestToken.getToken());
+	    account.setOauthTokenSecret(requestToken.getTokenSecret());
+	    
+	    ServiceFactory.getAccountService().updateAccount(account);
+	    
+	    return requestToken.getAuthorizationURL();
+	}
+
+	public void verifyOAuthAuthorization(Account account, String pin) throws YFrogTwitterException {
+		Twitter twitter = new Twitter();
+	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	    
+	    try {
+	    	AccessToken accessToken = twitter.getOAuthAccessToken(account.getOauthToken(), account.getOauthTokenSecret(), pin);
+	    	account.setOauthToken(accessToken.getToken());
+	    	account.setOauthTokenSecret(accessToken.getTokenSecret());
+	    } catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+	}
+
+	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
+		twitter = new Twitter();
+		
+		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
+		
+		if (!isLogged()) {
+			throw new YFrogTwitterAuthException();
+		}
+	}
+
+	// TODO Can we move logged user to other method
 	public boolean isLogged() {
 		
 		try {
@@ -132,7 +217,36 @@ public class TwitterService {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		
 	}
+	
+	public void sendUnsentMessage(UnsentMessage message) throws YFrogTwitterException {
+		String text = message.getText();
+		switch (message.getType()) {
+		case UnsentMessage.TYPE_DIRECT_MESSAGE:
+			sendDirectMessage(message.getTo(), text);
+			break;
+		case UnsentMessage.TYPE_PUBLIC_REPLAY:
+			publicReplay(text);
+			break;
+		case UnsentMessage.TYPE_REPLAY:
+			replay(text, Long.valueOf(message.getTo()));
+			break;
+		case UnsentMessage.TYPE_STATUS:
+			updateStatus(text);
+			break;
+		}
+		unsentMessageService.deleteUnsentMessage(message.getId());
+	}
 
+	public void sendAllUnsentMessages() throws YFrogTwitterException {
+		Account logged = ServiceFactory.getAccountService().getLogged();
+		ArrayList<UnsentMessage> toSent = unsentMessageService.getUnsentMessagesForAccount(logged.getId());
+		
+		int size = toSent.size();
+		for (int i = 0; i < size; i++) {
+			sendUnsentMessage(toSent.get(i));
+		}
+	}
+	
 	public void logout() {
 		loggedUser = null;
 		twitter = null;
@@ -241,6 +355,43 @@ public class TwitterService {
 		}				
 	}
 	
+	public void addSavedSearch(String query) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.createSavedSearch(query);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}				
+	}
+	
+	public void deleteSavedSearch(int id) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			twitter.destroySavedSearch(id);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}				
+	}
+	
+	public TwitterQueryResult search(String query) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			Query q = new Query(query);
+			return Twitter4jHelper.getQueryResult(twitter.search(q));
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}				
+	}
+	
+	public TwitterStatus getStatus(long id) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			return Twitter4jHelper.getStatus(twitter.showStatus(id));
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}				
+	}
+	
 	private void checkCreated() {
 		if (twitter == null || loggedUser == null) {
 			throw new IllegalStateException();
@@ -340,7 +491,7 @@ final class Twitter4jHelper {
 	static ArrayList<TwitterSavedSearch> getSavedSearches(List<SavedSearch> s) {
 		ArrayList<TwitterSavedSearch> result = new ArrayList<TwitterSavedSearch>();
 		
-		int size = result.size();
+		int size = s.size();
 		
 		for (int i = 0; i < size; i++) {
 			result.add(getSavedSearch(s.get(i)));
@@ -355,6 +506,37 @@ final class Twitter4jHelper {
 		result.setId(ss.getId());
 		result.setName(ss.getName());
 		result.setQuery(ss.getQuery());
+		return result;
+	}
+	
+	static TwitterQueryResult getQueryResult(QueryResult qr) {
+		TwitterQueryResult result = new TwitterQueryResult();
+		result.setQuery(qr.getQuery());
+		result.setResults(getSearchResults(qr.getTweets()));
+		
+		return result;
+	}
+	
+	static ArrayList<TwitterSearchResult> getSearchResults(List<Tweet> tweets) {
+		ArrayList<TwitterSearchResult> result = new ArrayList<TwitterSearchResult>();
+		
+		int size = tweets.size();
+		
+		for (int i = 0; i < size; i++) {
+			result.add(getSearchResult(tweets.get(i)));
+		}
+		
+		return result;
+	}
+	
+	static TwitterSearchResult getSearchResult(Tweet tweet) {
+		TwitterSearchResult result = new TwitterSearchResult();
+		result.setId(tweet.getId());
+		result.setFromUser(tweet.getFromUser());
+		result.setProfileImageUrl(tweet.getProfileImageUrl());
+		result.setText(tweet.getText());
+		result.setCreatedAt(tweet.getCreatedAt());
+		
 		return result;
 	}
 	

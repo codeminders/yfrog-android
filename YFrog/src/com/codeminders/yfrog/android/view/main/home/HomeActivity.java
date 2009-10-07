@@ -10,7 +10,7 @@ import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
-import com.codeminders.yfrog.android.view.message.WriteTweetActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -38,7 +38,7 @@ public class HomeActivity extends AbstractTwitterStatusesListActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(this, WriteTweetActivity.class);
+		Intent intent = new Intent(this, WriteStatusActivity.class);
 		startActivity(intent);
 		return true;
 	}

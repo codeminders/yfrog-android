@@ -7,9 +7,11 @@
     <string name="twitter_error_msg">Error code -</string>
     <string name="twitter_error_btn">OK</string>
     <string name="list_reload">Reload</string>
-    <string name="ctx_menu_delete">Delete</string>
-    <string name="ctx_menu_edit">Edit</string>
-    
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="send">Send</string>
     
     <!-- Account list -->
     <string name="account_list_activity">Accounts</string>
@@ -27,22 +29,31 @@
 	<!-- Add account -->
 	<string name="add_account_activity">Add account</string>
 	<string name="edit_account_activity">Edit account</string>
-    <string name="account_edit_nickname">Nickname</string>
-    <string name="account_edit_password">Password</string>
-    <string name="account_edit_email">E-mail</string>
-    <string name="account_edit_oauth_key">OAuth Key</string>
+	<string name="ae_name">Account name</string>
+    <string name="ae_nickname">Nickname</string>
+    <string name="ae_password">Password</string>
+    <string name="ae_email">E-mail</string>
+    <string name="ae_oauth_key">OAuth Key</string>
     
-    <string name="account_edit_save">Save</string>
+    <string name="ae_auth_methods">Authentication methods</string>
+    <string name="ae_common_method">Login/Password</string>
+    <string name="ae_oauth_method">OAuth</string>
     
-    <string name="account_edit_created">Account has been created</string>
-    <string name="account_edit_updated">Account has been updated</string>
+    <string name="ae_btn_oauth_auth">Authorize</string>
+    <string name="ae_btn_oauth_reset">Reset</string>
+    <string name="ae_oauth_status">OAuth Status:</string>
+    <string name="ae_oauth_status_authorized">Authorized</string>
+    <string name="ae_oauth_status_need_authorize">Need authorization</string>
     
-    <string name="account_edit_dialog_title">Error</string>
-    <string name="account_edit_dialog_message_nickname">Required field "Nickname" are empty</string>
-    <string name="account_edit_dialog_message_passwd">Required field "Password" are empty</string>
-    <string name="account_edit_dialog_message_email">Required field "Email" are empty or have wrong format</string>
-    <string name="account_edit_dialog_message_not_unique">Account with even nickname or email already exists</string>
-    <string name="account_edit_dialog_button">Ok</string>
+    <string name="ae_created">Account has been created</string>
+    <string name="ae_updated">Account has been updated</string>
+    
+    <string name="ae_dialog_title">Error</string>
+    <string name="ae_dialog_message_nickname">Required field "Nickname" are empty</string>
+    <string name="ae_dialog_message_passwd">Required field "Password" are empty</string>
+    <string name="ae_dialog_message_name">Required field "Name" are empty</string>
+    <string name="ae_dialog_message_not_unique">Account with even nickname or name already exists</string>
+    <string name="ae_dialog_button">Ok</string>
     
     <!-- Tabs -->
     <string name="tab_home_caption">Home</string>
@@ -59,6 +70,8 @@
 	<!-- Messages tab -->
 	
 	<!-- Unsent tab -->
+	<string name="umt_send_all">Send all</string>
+	<string name="umt_to">To:</string>
    
     <!-- More Tab -->
     <string-array name="tab_more_items">
@@ -88,6 +101,11 @@
     <string name="tm_btn_delete">Delete</string>
     
     <!-- Writable -->
-    <string name="wr_btn_send">Send</string>
     <string name="wr_btn_photo">Photo</string>
+    <string name="wr_btn_queue">Queue</string>
+    
+    <!-- Twitter search -->
+    <string name="s_add_search">Add search</string>
+    <string name="s_btn_search">Search</string>
+    <string name="s_add_search_query">Query</string>
 </resources>

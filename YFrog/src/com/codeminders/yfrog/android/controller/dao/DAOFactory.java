@@ -10,7 +10,8 @@ import java.util.HashMap;
  *
  */
 public class DAOFactory {
-	private static final String LOGIN_DAO_NAME = "accountDao";
+	private static final String ACCOUNT_DAO_NAME = "accountDao";
+	private static final String UNSENT_MESSAGE_DAO_NAME = "unsentMessageDao";
 	
 	private static final HashMap<String, Object> cache = new HashMap<String, Object>();
 	
@@ -18,12 +19,21 @@ public class DAOFactory {
 	}
 	
 	public static AccountDAO getAccountDAO() {
-		if (!cache.containsKey(LOGIN_DAO_NAME)) {
+		if (!cache.containsKey(ACCOUNT_DAO_NAME)) {
 			Object dao = new AccountDAO();
-			cache.put(LOGIN_DAO_NAME, dao);
+			cache.put(ACCOUNT_DAO_NAME, dao);
 			return (AccountDAO) dao;
 		} 
-		return (AccountDAO) cache.get(LOGIN_DAO_NAME);
+		return (AccountDAO) cache.get(ACCOUNT_DAO_NAME);
+	}
+
+	public static UnsentMessageDAO getUnsentMessageDAO() {
+		if (!cache.containsKey(UNSENT_MESSAGE_DAO_NAME)) {
+			Object dao = new UnsentMessageDAO();
+			cache.put(UNSENT_MESSAGE_DAO_NAME, dao);
+			return (UnsentMessageDAO) dao;
+		} 
+		return (UnsentMessageDAO) cache.get(UNSENT_MESSAGE_DAO_NAME);
 	}
 
 }

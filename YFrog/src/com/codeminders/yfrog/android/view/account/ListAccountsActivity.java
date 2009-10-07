@@ -4,8 +4,6 @@
 package com.codeminders.yfrog.android.view.account;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterAuthException;
@@ -30,7 +28,6 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -80,24 +77,12 @@ public class ListAccountsActivity extends ListActivity {
 		int size = accounts.size();
 		String[] result = new String[size];
 		for (int i = 0; i < size; i++) {
-			result[i] = accounts.get(i).getNickname();
+			result[i] = accounts.get(i).getName();
 		}
 		
 		return result;
 	}
 
-	private Account getAccountByNickname(String nickname) {
-		Account acc = new Account();
-		acc.setNickname(nickname);
-		int pos = Collections.binarySearch(accounts, acc, new Comparator<Account> () {
-			public int compare(Account object1, Account object2) {
-				return object1.getNickname().equals(object2.getNickname()) ? 0 : 1;
-			}
-		});
-		
-		return accounts.get(pos);
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -123,16 +108,16 @@ public class ListAccountsActivity extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.add(0, MENU_DELETE, 0, R.string.ctx_menu_delete);
-		menu.add(0, MENU_EDIT, 0, R.string.ctx_menu_edit);
+		menu.add(0, MENU_DELETE, 0, R.string.delete);
+		menu.add(0, MENU_EDIT, 0, R.string.edit);
 	}
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		
-		String title = ((TextView) info.targetView).getText().toString();
-		Account account = getAccountByNickname(title);
+		Account account = accounts.get(info.position);
+
 		switch (item.getItemId()) {
 			case MENU_DELETE :
 				toDelete = account;
@@ -141,7 +126,7 @@ public class ListAccountsActivity extends ListActivity {
 			case MENU_EDIT :
 				Intent intent = new Intent(this, EditAccountActivity.class);
 				intent.putExtra(EditAccountActivity.KEY_EDIT, true);
-				intent.putExtra(EditAccountActivity.KEY_EDITABLE_ID, account.getId());
+				intent.putExtra(EditAccountActivity.KEY_EDITABLE, account);
 				startActivity(intent);
 				return true;
 		}		
@@ -224,6 +209,6 @@ public class ListAccountsActivity extends ListActivity {
 			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
 			return;
 		}
-		startActivity(new Intent(this, MainTabActivity.class));		
-	}
+		startActivity(new Intent(this, MainTabActivity.class));
+	}	
 }

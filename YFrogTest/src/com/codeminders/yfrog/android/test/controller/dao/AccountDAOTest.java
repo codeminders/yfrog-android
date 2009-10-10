@@ -41,7 +41,7 @@ public class AccountDAOTest extends AndroidTestCase {
 		account.setNickname("Nickname");
 		account.setPassword("password");
 		account.setEmail("mail");
-		account.setOauthKey("key");
+		account.setOauthToken("key");
 		
 		long id = accountDAO.addAccount(account);
 		
@@ -69,7 +69,7 @@ public class AccountDAOTest extends AndroidTestCase {
 		account.setNickname(nickname);
 		account.setPassword(password);
 		account.setEmail(email);
-		account.setOauthKey(oauthKey);
+		account.setOauthToken(oauthKey);
 		
 		accountDAO.updateAccount(account);
 		
@@ -78,7 +78,7 @@ public class AccountDAOTest extends AndroidTestCase {
 		assertEquals(account2.getNickname(), nickname);
 		assertEquals(account2.getPassword(), password);
 		assertEquals(account2.getEmail(), email);
-		assertEquals(account2.getOauthKey(), oauthKey);
+		assertEquals(account2.getOauthToken(), oauthKey);
 	}
 	
 	public void testIsAccountUnique() throws Exception {
@@ -86,7 +86,7 @@ public class AccountDAOTest extends AndroidTestCase {
 		account.setNickname("Nickname");
 		account.setPassword("password");
 		account.setEmail("mail");
-		account.setOauthKey("key");
+		account.setOauthToken("key");
 		
 		boolean b = accountDAO.isAccountUnique(account);
 		

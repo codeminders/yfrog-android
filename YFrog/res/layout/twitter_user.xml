@@ -12,8 +12,7 @@
 		android:minWidth="48px" 
 		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true" 
-		android:src="@drawable/twitter_icon" 
-		android:id="@+id/tu_user_icon">
+		android:id="@+id/tu_user_icon" android:src="@drawable/default_profile_image">
 	</ImageView>
 
 	<TextView 

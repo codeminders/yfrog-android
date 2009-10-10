@@ -8,6 +8,7 @@ import java.util.List;
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -45,6 +47,9 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 		
 		textView = (TextView) view.findViewById(R.id.tdm_text);
 		textView.setText(ts.getText());
+		
+		ImageView imageView = (ImageView) view.findViewById(R.id.tdm_user_icon);
+		ImageCache.getInstance().putImage(ts.getSender().getProfileImageURL(), imageView);
 		
 		return view;
 	}

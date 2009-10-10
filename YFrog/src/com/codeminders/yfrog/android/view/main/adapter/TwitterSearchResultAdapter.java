@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.TwitterSearchResult;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 /**
  * @author idemydenko
@@ -46,6 +48,9 @@ public class TwitterSearchResultAdapter<T extends TwitterSearchResult> extends A
 		textView = (TextView) view.findViewById(R.id.tsr_text);
 		textView.setText(ts.getText());
 		
+		ImageView imageView = (ImageView) view.findViewById(R.id.tsr_user_icon);
+		ImageCache.getInstance().putImage(ts.getProfileImageUrl(), imageView);
+
 		return view;
 	}
 }

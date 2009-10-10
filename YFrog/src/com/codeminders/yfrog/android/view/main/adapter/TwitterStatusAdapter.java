@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -44,6 +46,9 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		
 		textView = (TextView) view.findViewById(R.id.ts_text);
 		textView.setText(ts.getText());
+		
+		ImageView imageView = (ImageView) view.findViewById(R.id.ts_user_icon);
+		ImageCache.getInstance().putImage(ts.getUser().getProfileImageURL(), imageView);
 		
 		return view;
 	}

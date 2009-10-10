@@ -47,6 +47,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		
 		view = (TextView) findViewById(R.id.tu_fullname);
 		view.setText(status.getUser().getFullname());
+	
 		
 		view = (TextView) findViewById(R.id.tm_text);
 		view.setText(status.getText());

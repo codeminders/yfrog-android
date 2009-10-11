@@ -10,7 +10,7 @@ import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.view.main.adapter.TwitterStatusAdapter;
+import com.codeminders.yfrog.android.view.adapter.TwitterStatusAdapter;
 import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
 
 import android.app.Dialog;
@@ -42,17 +42,17 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
 
-		createStatusesList();
+		createStatusesList(false);
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onResume();
-		createStatusesList();
+		createStatusesList(false);
 
 	}
 
-	private void createStatusesList() {
+	private void createStatusesList(boolean twitterUpdate) {
 		try {
 			statuses = getStatuses();
 		} catch (YFrogTwitterException e) {

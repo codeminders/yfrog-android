@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URL;
 
-import com.codeminders.yfrog.android.StringUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko

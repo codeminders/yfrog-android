@@ -75,7 +75,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		}
 		
 		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
-		listView.setAdapter(new TwitterSearchResultAdapter<TwitterSearchResult>(this, queryResult.getResults()));
+		listView.setAdapter(new TwitterSearchResultAdapter<TwitterSearchResult>(this, queryResult.getResults(), query));
 		listView.setOnItemClickListener(mOnClickListener);
 	}
 	

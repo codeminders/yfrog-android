@@ -8,6 +8,7 @@ import java.util.List;
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 import android.content.Context;
@@ -40,10 +41,10 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 		view = inflater.inflate(R.layout.twitter_dir_message, parent, false);
 		
 		TextView textView = (TextView) view.findViewById(R.id.tdm_created_at);
-		textView.setText(DateFormat.format("MMM dd, yyyy hh:mm", ts.getCreatedAt()));
+		textView.setText(StringUtils.formatDate(view.getResources(), ts.getCreatedAt()));
 		
 		textView = (TextView) view.findViewById(R.id.tdm_username);
-		textView.setText(ts.getSender().getUsername());
+		textView.setText(ts.getSender().getScreenUsername());
 		
 		textView = (TextView) view.findViewById(R.id.tdm_text);
 		textView.setText(ts.getText());

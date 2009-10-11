@@ -12,7 +12,13 @@
     <string name="save">Сохранить</string>
     <string name="cancel">Cancel</string>
     <string name="send">Send</string>
-    
+    <string name="date_less_20s">less than 20 seconds ago</string>
+    <string name="date_less_50s">half a minute ago</string>
+    <string name="date_less_60s">less than a minute ago</string>
+    <string name="date_less_48m">about %d minutes ago</string>
+    <string name="date_less_90m">about a hour ago</string>
+    <string name="date_less_23h">%d hours ago</string>
+    <string name="date_less_30d">%d days ago</string>
     
     <!-- Account list -->
     <string name="account_list_activity">Accounts</string>
@@ -87,14 +93,14 @@
     
     <!-- Twitter user details -->
     <string name="tud_btn_send_dir_message">Send Direct Message</string>
-    <string name="tud_btn_send_pub_replay">Send Public Replay</string>
+    <string name="tud_btn_send_pub_reply">Send Public Reply</string>
     <string name="tud_btn_recent_tweets">Recent Tweets</string>
     <string name="tud_btn_followers">Followers</string>
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
     
     <!-- Twitter status details -->
-    <string name="tm_btn_replay">Replay</string>
+    <string name="tm_btn_reply">Reply</string>
     <string name="tm_btn_forvard">Forward</string>
     <string name="tm_btn_favorite">Favorite</string>
     <string name="tm_btn_unfavorite">Unfavorite</string>

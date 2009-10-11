@@ -4,13 +4,13 @@
 package com.codeminders.yfrog.android.view.message;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.StringUtils;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.controller.service.UnsentMessageService;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.model.UnsentMessage;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,7 +33,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	public static final String KEY_WRITER_USERNAME = "username";
 	
 	private static final int MAX_COUNT = 140;
-	private static final int OVERRIDED_TEXT_COLOR = 0xFF0000;
+	private static final int OVERRIDED_TEXT_COLOR = 0x77FF0000;
 	
 	protected TwitterService twitterService;
 	protected AccountService accountService;
@@ -88,6 +88,10 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			break;
 		case R.id.wr_queue:
+			if (isOverrideMaxCount()) {
+				return;
+			}
+
 			text = getText();
 			
 			if (!StringUtils.isEmpty(text)) {
@@ -142,7 +146,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	}
 	
 	private void updateCounter() {
-		switcher.setText(String.valueOf(count));
+		switcher.setText(String.valueOf(MAX_COUNT - count));
 	}
 	
 	private boolean isOverrideMaxCount() {

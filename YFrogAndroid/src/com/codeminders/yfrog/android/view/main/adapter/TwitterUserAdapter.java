@@ -39,7 +39,7 @@ public class TwitterUserAdapter<T extends TwitterUser> extends ArrayAdapter<Twit
 		view = inflater.inflate(R.layout.twitter_user, parent, false);
 		
 		TextView textView = (TextView) view.findViewById(R.id.tu_username);
-		textView.setText(u.getUsername());
+		textView.setText(u.getScreenUsername());
 		
 		textView = (TextView) view.findViewById(R.id.tu_fullname);
 		textView.setText(u.getFullname());

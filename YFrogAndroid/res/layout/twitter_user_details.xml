@@ -30,7 +30,7 @@
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:id="@+id/tud_send_pub_replay" 
-		android:text="@string/tud_btn_send_pub_replay" 
+		android:text="@string/tud_btn_send_pub_reply" 
 		android:layout_gravity="center">
 	</Button>
 

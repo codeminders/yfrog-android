@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.StringUtils;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
 import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

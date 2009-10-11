@@ -4,11 +4,11 @@
 package com.codeminders.yfrog.android.view.account;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.StringUtils;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -9,19 +9,18 @@
 		layout="@layout/twitter_user">
 	</include>
 	
-	<TextView 
+	<TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20px" android:id="@+id/tm_created_at" android:textSize="12sp" android:textStyle="italic"></TextView><TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
-		android:layout_marginTop="20px" 
 		android:layout_width="fill_parent" 
-		android:id="@+id/tm_text">
+		android:id="@+id/tm_text" android:layout_marginTop="5px">
 	</TextView>
 	
 	<Button 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:id="@+id/tm_replay" 
-		android:text="@string/tm_btn_replay" 
+		android:text="@string/tm_btn_reply" 
 		android:layout_gravity="center" 
 		android:layout_marginTop="15px">
 	</Button>
@@ -50,4 +49,5 @@
 		android:layout_gravity="center">
 	</Button>
 	
+
 </LinearLayout>

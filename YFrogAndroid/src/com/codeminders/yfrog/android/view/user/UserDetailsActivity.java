@@ -8,6 +8,7 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 import com.codeminders.yfrog.android.view.message.WriteDirectMessageActivity;
 import com.codeminders.yfrog.android.view.message.WritePublicReplayActivity;
 
@@ -18,6 +19,7 @@ import android.text.Layout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,10 +45,13 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		user = (TwitterUser) extras.getSerializable(KEY_USER);
 		
+		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
+		ImageCache.getInstance().putImage(user.getProfileImageURL(), imageView);
+		
 		TextView view = (TextView) findViewById(R.id.tu_fullname);
 		view.setText(user.getFullname());
 		view = (TextView) findViewById(R.id.tu_username);
-		view.setText(user.getUsername());
+		view.setText(user.getScreenUsername());
 		view = (TextView) findViewById(R.id.tud_location);
 		
 		StringBuilder buffer = new StringBuilder();

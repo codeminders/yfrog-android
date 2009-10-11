@@ -72,6 +72,10 @@ public class TwitterUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public String getScreenUsername() {
+		return "@" + username;
+	}
 	/**
 	 * @return the location
 	 */

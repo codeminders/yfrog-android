@@ -3,18 +3,30 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
+import java.net.URL;
+
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -42,15 +54,41 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		favorited = status.isFavorited();
 		my = twitterService.getLoggedUser().equals(status.getUser());
 		
+		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
+		ImageCache.getInstance().putImage(status.getUser().getProfileImageURL(), imageView);
+		
 		TextView view = (TextView) findViewById(R.id.tu_username);
 		view.setText(status.getUser().getUsername());
 		
 		view = (TextView) findViewById(R.id.tu_fullname);
 		view.setText(status.getUser().getFullname());
 	
-		
+		view = (TextView) findViewById(R.id.tm_created_at);
+		view.setText(StringUtils.formatDate(getResources(), status.getCreatedAt()));
+
 		view = (TextView) findViewById(R.id.tm_text);
 		view.setText(status.getText());
+		
+//		view.setMovementMethod(LinkMovementMethod.getInstance());
+//		Spanned text = Html.fromHtml(StringUtils.toHtml(status.getText()), new Html.ImageGetter() {
+//			@Override
+//			public Drawable getDrawable(String source) {
+//				
+//				BitmapDrawable drawable = null;
+//				
+//				try {
+//					drawable = new BitmapDrawable(new URL(source).openStream());
+//				} catch (Exception e) {
+//					
+//				}
+//				
+//				drawable.setBounds(0, 0, 48, 48);
+//				System.out.println(drawable);
+//				return drawable;
+//			}
+//		}, null);
+//		
+//		view.setText(text);
 		
 		Button button = (Button) findViewById(R.id.tm_replay);
 		if (my) {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.codeminders.yfrog.android.view.main.adapter;
+package com.codeminders.yfrog.android.view.adapter;
 
 import java.util.List;
 

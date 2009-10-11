@@ -41,7 +41,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  */
 public class SearchActivity extends Activity implements OnClickListener {
 	private static final int MENU_DELETE = 0;
-	
 	private static final int DIALOG_ADD = 0;
 	
 	private TwitterService twitterService;
@@ -53,26 +52,27 @@ public class SearchActivity extends Activity implements OnClickListener {
 		
 		twitterService = ServiceFactory.getTwitterService();
 		
-		createSearchesList();
+		createList(true);
 	}
 	
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		createSearchesList();
+		createList(true);
 	}
 	
-	private void createSearchesList() {
-		try {
-			searches = twitterService.getSavedSearches();
-		} catch (YFrogTwitterException e) {
-			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
+	private void createList(boolean twitterUpdate) {
+		if (twitterUpdate) {
+			try {
+				searches = twitterService.getSavedSearches();
+			} catch (YFrogTwitterException e) {
+				showDialog(AlertUtils.ALERT_TWITTER_ERROR);
+			}
 		}
 		
 		setContentView(R.layout.twitter_saved_searches);
 		
 		ListView listView = (ListView) findViewById(R.id.s_searches_list);
-		
 		listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getStrings()));
 		listView.setOnItemClickListener(mOnClickListener);
 		registerForContextMenu(listView);
@@ -88,7 +88,8 @@ public class SearchActivity extends Activity implements OnClickListener {
 		for (TwitterSavedSearch tss : searches) {
 			list.add(tss.getName());
 		}
-		
+
+		System.out.println(list.size());
 		return list;
 	}
 	private void showSearchResults(String query, boolean isSaved, int savedId) {
@@ -148,10 +149,12 @@ public class SearchActivity extends Activity implements OnClickListener {
 			
 			try {
 				twitterService.deleteSavedSearch(toDelete.getId());
+				searches.remove(info.position);
 			} catch (YFrogTwitterException e) {
 				// TODO
 			}
-			createSearchesList();
+			createList(false);
+			
 			return true;
 		}
 		return false;
@@ -178,13 +181,18 @@ public class SearchActivity extends Activity implements OnClickListener {
 						text.setText(StringUtils.EMPTY_STRING);
 						
 						if (!StringUtils.isEmpty(query)) {
+							TwitterSavedSearch created = null;
 							try {
-								twitterService.addSavedSearch(query);
+								created = twitterService.addSavedSearch(query);
 							} catch (YFrogTwitterException e) {
 								// TODO: handle exception
 							}
 							
-							createSearchesList();
+							if (created != null) {
+								searches.add(created);
+								createList(false);
+							}
+							
 						}
 					}
 			});

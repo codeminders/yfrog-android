@@ -355,10 +355,10 @@ public class TwitterService {
 		}				
 	}
 	
-	public void addSavedSearch(String query) throws YFrogTwitterException {
+	public TwitterSavedSearch addSavedSearch(String query) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			twitter.createSavedSearch(query);
+			return Twitter4jHelper.getSavedSearch(twitter.createSavedSearch(query));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}				

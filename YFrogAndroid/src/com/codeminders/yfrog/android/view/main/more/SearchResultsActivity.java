@@ -11,7 +11,7 @@ import com.codeminders.yfrog.android.model.TwitterQueryResult;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
 import com.codeminders.yfrog.android.model.TwitterSearchResult;
 import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.view.main.adapter.TwitterSearchResultAdapter;
+import com.codeminders.yfrog.android.view.adapter.TwitterSearchResultAdapter;
 import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
 
 import android.app.Activity;

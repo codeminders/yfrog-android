@@ -10,7 +10,7 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
-import com.codeminders.yfrog.android.view.main.adapter.TwitterDirectMessageAdapter;
+import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -34,29 +34,29 @@ public class MessagesActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		twitterService = ServiceFactory.getTwitterService();
 
-		createMessagesList();
+		createList(true);
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		createMessagesList();
+		createList(true);
 	}
 	
-	private void createMessagesList() {
-		try {
-			messages = twitterService.getDirectMessages();
-		} catch (Exception e) {
+	private void createList(boolean twitterUpdate) {
+		
+		if (twitterUpdate) {
+			try {
+				messages = twitterService.getDirectMessages();
+			} catch (YFrogTwitterException e) {
+			}			
 		}
-
-		setListAdapter(new TwitterDirectMessageAdapter<TwitterDirectMessage>(
-				this, messages));
-		getListView().setTextFilterEnabled(true);
+		
+		// TODO Do we need to update messages in other thread?
+		setListAdapter(new TwitterDirectMessageAdapter<TwitterDirectMessage>(this, messages));
 		registerForContextMenu(getListView());
-
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class MessagesActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.reload_messages:
-			createMessagesList();
+			createList(true);
 			return true;
 		}
 		return false;
@@ -91,10 +91,11 @@ public class MessagesActivity extends ListActivity {
 			
 			try {
 				twitterService.deleteDirectMessage(toDelete.getId());
+				messages.remove(info.position);
 			} catch (YFrogTwitterException e) {
 				// TODO: handle exception
 			}
-			createMessagesList();
+			createList(false); // View Adapter don't support add/remove operations from list
 			
 			return true;
 		}

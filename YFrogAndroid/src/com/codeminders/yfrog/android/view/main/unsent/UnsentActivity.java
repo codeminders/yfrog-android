@@ -14,7 +14,7 @@ import com.codeminders.yfrog.android.controller.service.UnsentMessageService;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.model.UnsentMessage;
 import com.codeminders.yfrog.android.view.account.EditAccountActivity;
-import com.codeminders.yfrog.android.view.main.adapter.UnsentMessageAdapter;
+import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
 import com.codeminders.yfrog.android.view.message.EditUnsentMessageActivity;
 
 import android.app.ListActivity;

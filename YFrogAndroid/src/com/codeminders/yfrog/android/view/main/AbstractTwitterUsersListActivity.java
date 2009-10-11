@@ -11,7 +11,7 @@ import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.view.main.adapter.TwitterUserAdapter;
+import com.codeminders.yfrog.android.view.adapter.TwitterUserAdapter;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
 import android.app.Dialog;

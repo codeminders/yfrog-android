@@ -80,18 +80,20 @@ public final class StringUtils {
 		
 	}
 	
-	public static SpannableString highlightText(String text, String spanned) {
+	public static SpannableString highlightText(String text, String toSpan) {
+		String spannable = text.toLowerCase();
+		String spanned = toSpan.toLowerCase();
+		
 		SpannableString result = new SpannableString(text);
 		
-		int index = text.indexOf(spanned);
+		int index = spannable.indexOf(spanned);
 		int nextStart = 0;
 		int length = spanned.length();
 		
 		while (index > -1) {
 			nextStart = index + length;
 			result.setSpan(HIGHLIGHT_SPAN, index, nextStart, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			System.out.println(index + " : " + nextStart);
-			index = text.indexOf(spanned, nextStart);
+			index = spannable.indexOf(spanned, nextStart);
 		}
 		
 		return result;

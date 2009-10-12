@@ -30,6 +30,10 @@ import android.widget.ViewSwitcher.ViewFactory;
  *
  */
 public abstract class WritableActivity extends Activity implements OnClickListener, TextWatcher, ViewFactory {
+	public static final int RESULT_SEND = 100;
+	public static final int RESULT_QUEUE = 101;
+	
+	public static final String KET_SENT = "sent";
 	public static final String KEY_WRITER_USERNAME = "username";
 	
 	private static final int MAX_COUNT = 140;
@@ -81,6 +85,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			if (!StringUtils.isEmpty(text)) {
 				send(text);
+				callback();
 				finish();
 			}
 			break;
@@ -96,6 +101,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			if (!StringUtils.isEmpty(text)) {
 				saveToQueue(text);
+				callback();
 				finish();
 			}
 			
@@ -113,6 +119,10 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	protected abstract void send(String text);
 	
 	protected abstract UnsentMessage createUnsentMessage();
+
+	protected void callback() {
+		
+	}
 	
 	private String getText() {
 		EditText textInput = (EditText) findViewById(R.id.wr_text);

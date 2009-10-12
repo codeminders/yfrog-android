@@ -20,7 +20,7 @@ public class UserFollowersActivity extends AbstractTwitterUsersListActivity {
 	
 	@Override
 	protected ArrayList<TwitterUser> getUsers() throws YFrogTwitterException {
-		user = (TwitterUser) getIntent().getExtras().getSerializable(UserDetailsActivity.KEY_USER);
+		user = (TwitterUser) getIntent().getExtras().getSerializable(UserDetailsActivity.KEY_USER_POS);
 		return twitterService.getUserFollowers(user.getUsername());
 	}
 

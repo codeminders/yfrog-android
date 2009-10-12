@@ -26,6 +26,9 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * 
  */
 public class MessagesActivity extends ListActivity {
+	private static final int ATTEMPTS_TO_RELOAD = 3;
+	private int attempts = 0;
+
 	public static final int MENU_DELETE = 0;
 
 	private TwitterService twitterService;
@@ -46,8 +49,13 @@ public class MessagesActivity extends ListActivity {
 	}
 	
 	private void createList(boolean twitterUpdate) {
-		
 		if (twitterUpdate) {
+			attempts = 1;
+		}
+		
+		boolean needReload = twitterUpdate || isNeedReload();
+		
+		if (needReload) {
 			try {
 				messages = twitterService.getDirectMessages();
 			} catch (YFrogTwitterException e) {
@@ -59,8 +67,13 @@ public class MessagesActivity extends ListActivity {
 		registerForContextMenu(getListView());
 	}
 
+	private boolean isNeedReload() {
+		return (++attempts % ATTEMPTS_TO_RELOAD == 0);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
 		getMenuInflater().inflate(R.menu.messages_tab, menu);
 		return true;
 	}
@@ -68,7 +81,7 @@ public class MessagesActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.reload_messages:
+		case R.id.reload_list:
 			createList(true);
 			return true;
 		}

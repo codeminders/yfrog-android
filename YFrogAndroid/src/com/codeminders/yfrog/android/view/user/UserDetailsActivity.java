@@ -3,6 +3,8 @@
  */
 package com.codeminders.yfrog.android.view.user;
 
+import java.util.ArrayList;
+
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -16,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,9 +31,15 @@ import android.widget.TextView;
  *
  */
 public class UserDetailsActivity extends Activity implements OnClickListener {
-	public static final String KEY_USER = "user";
+	public static final String KEY_USER_POS = "user";
+	public static final String KEY_USERS = "users";
 	
+	public static final int RESULT_UNFOLLOW = 102;
+	
+	private ArrayList<TwitterUser> users;
 	private TwitterUser user;
+	private int position;
+	private int count;
 	private TwitterService twitterService;
 
 	@Override
@@ -43,8 +52,18 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		Bundle extras = getIntent().getExtras();
 		
-		user = (TwitterUser) extras.getSerializable(KEY_USER);
-		
+		users = (ArrayList<TwitterUser>) extras.getSerializable(KEY_USERS);
+		position = extras.getInt(KEY_USER_POS);
+		count = users.size();
+		setCurrentUser();
+		showUser();
+	}
+
+	private void setCurrentUser() {
+		user = users.get(position);
+	}
+	
+	private void showUser() {
 		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
 		ImageCache.getInstance().putImage(user.getProfileImageURL(), imageView);
 		
@@ -59,6 +78,10 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		buffer.append("\n");
 		buffer.append(user.getDescription());
 		view.setText(buffer.toString());
+		
+		view = (TextView) findViewById(R.id.tud_counter);
+		view.setText((position + 1) + "/" + count);
+		
 		
 		Button button = (Button) findViewById(R.id.tud_recent_tweets);
 		button.setOnClickListener(this);
@@ -86,12 +109,12 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.tud_recent_tweets:
 			intent = new Intent(this, UserTweetsActivity.class);
-			intent.putExtra(KEY_USER, user);
+			intent.putExtra(KEY_USER_POS, user);
 			startActivity(intent);
 			break;
 		case R.id.tud_followers:
 			intent = new Intent(this, UserFollowersActivity.class);
-			intent.putExtra(KEY_USER, user);
+			intent.putExtra(KEY_USER_POS, user);
 			startActivity(intent);
 			break;
 		case R.id.tud_follow:
@@ -126,4 +149,39 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (!user.isFollowing()) {
+				getIntent().putExtra(KEY_USER_POS, user);
+				setResult(RESULT_UNFOLLOW, getIntent());
+				finish();
+				return false;
+			}
+
+		}
+		
+		if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+			if (--position < 0) {
+				position = count - 1;
+			}
+			setCurrentUser();
+			showUser();
+			return true;
+		}
+		
+		if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+			if (++position >= count) {
+				position = 0;
+			}
+			setCurrentUser();
+			showUser();
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
 }

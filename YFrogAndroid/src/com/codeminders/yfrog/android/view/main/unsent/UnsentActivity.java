@@ -32,6 +32,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author idemydenko
  *
  */
+// TODO May be need refresh here, but not from DB
 public class UnsentActivity extends ListActivity {
 	private static final int MENU_SEND = 0;
 	private static final int MENU_EDIT = 1;
@@ -60,10 +61,14 @@ public class UnsentActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		createList();
 	}
-	
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		createList();
+	}
 	private void createList() {
 		messages = unsentMessageService.getUnsentMessagesForAccount(loggedAccount.getId());
 		

@@ -120,7 +120,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(SearchResultsActivity.this, StatusDetailsActivity.class);
 			TwitterStatus status = getSelected(position);
 
-			intent.putExtra(StatusDetailsActivity.KEY_STATUS, status);
+			intent.putExtra(StatusDetailsActivity.KEY_STATUS_POS, status);
 
 			startActivity(intent);
 

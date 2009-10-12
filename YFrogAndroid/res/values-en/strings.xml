@@ -19,6 +19,7 @@
     <string name="date_less_90m">about a hour ago</string>
     <string name="date_less_23h">%d hours ago</string>
     <string name="date_less_30d">%d days ago</string>
+    <string name="add_tweet">Add tweet</string>
     
     <!-- Account list -->
     <string name="account_list_activity">Accounts</string>
@@ -70,7 +71,6 @@
     <string name="tab_more_caption">More</string>
     
     <!-- Home tab -->
-    <string name="home_add_tweet">Add tweet</string>
     
 	<!-- Mentions tab -->
 	

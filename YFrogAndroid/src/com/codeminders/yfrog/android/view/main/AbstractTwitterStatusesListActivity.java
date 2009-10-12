@@ -120,6 +120,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
+		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
 		return super.onCreateOptionsMenu(menu);
 		
 	}
@@ -129,7 +130,12 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		case R.id.reload_list:
 			createList(true);
 			return true;
+		case R.id.add_tweet:
+			Intent intent = new Intent(this, WriteStatusActivity.class);
+			startActivity(intent);
+			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 	

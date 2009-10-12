@@ -16,6 +16,7 @@ import com.codeminders.yfrog.android.model.UnsentMessage;
 import com.codeminders.yfrog.android.view.account.EditAccountActivity;
 import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
 import com.codeminders.yfrog.android.view.message.EditUnsentMessageActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -117,6 +118,7 @@ public class UnsentActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.unsent_tab, menu);
+		inflater.inflate(R.menu.common_add_tweet, menu);
 		
 		return true;
 	}
@@ -131,7 +133,12 @@ public class UnsentActivity extends ListActivity {
 				// TODO: handle exception
 			}
 			createList();
-			return true;			
+			return true;
+		case R.id.add_tweet:
+			Intent intent = new Intent(this, WriteStatusActivity.class);
+			startActivity(intent);
+			return true;
+
 		}
 		return false;
 	}

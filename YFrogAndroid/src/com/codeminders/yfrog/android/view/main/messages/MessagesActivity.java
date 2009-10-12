@@ -26,7 +26,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * 
  */
 public class MessagesActivity extends ListActivity {
-	private static final int ATTEMPTS_TO_RELOAD = 3;
+	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
 	public static final int MENU_DELETE = 0;

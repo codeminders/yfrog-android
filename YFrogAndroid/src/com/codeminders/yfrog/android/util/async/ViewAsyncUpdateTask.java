@@ -6,7 +6,6 @@ package com.codeminders.yfrog.android.util.async;
 import java.util.ArrayList;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 ;
 

@@ -3,18 +3,17 @@
  */
 package com.codeminders.yfrog.android.view.main;
 
+import android.app.TabActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TabHost;
+
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.view.main.home.HomeActivity;
 import com.codeminders.yfrog.android.view.main.mentions.MentionsActivity;
 import com.codeminders.yfrog.android.view.main.messages.MessagesActivity;
 import com.codeminders.yfrog.android.view.main.more.MoreActivity;
 import com.codeminders.yfrog.android.view.main.unsent.UnsentActivity;
-
-import android.app.TabActivity;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.widget.TabHost;
 
 /**
  * @author idemydenko

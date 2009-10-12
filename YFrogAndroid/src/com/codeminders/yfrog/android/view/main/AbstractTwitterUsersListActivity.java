@@ -5,8 +5,14 @@ package com.codeminders.yfrog.android.view.main;
 
 import java.util.ArrayList;
 
+import android.app.Dialog;
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.*;
+import android.widget.ListView;
+
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterAuthException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
@@ -15,15 +21,6 @@ import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.adapter.TwitterUserAdapter;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
-
-import android.app.Dialog;
-import android.app.ListActivity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 
 /**
  * @author idemydenko

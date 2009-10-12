@@ -5,29 +5,20 @@ package com.codeminders.yfrog.android.view.user;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.*;
+import android.view.View.OnClickListener;
+import android.widget.*;
+
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
-import com.codeminders.yfrog.android.view.message.WriteDirectMessageActivity;
-import com.codeminders.yfrog.android.view.message.WritePublicReplayActivity;
-import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Layout;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import com.codeminders.yfrog.android.view.message.*;
 
 /**
  * @author idemydenko

@@ -3,13 +3,11 @@
  */
 package com.codeminders.yfrog.android.controller.dao.db;
 
-import com.codeminders.yfrog.android.controller.dao.AbstractDAO;
-import com.codeminders.yfrog.android.controller.dao.AccountDAO;
-import com.codeminders.yfrog.android.controller.dao.UnsentMessageDAO;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.codeminders.yfrog.android.controller.dao.AbstractDAO;
 
 /**
  * @author idemydenko

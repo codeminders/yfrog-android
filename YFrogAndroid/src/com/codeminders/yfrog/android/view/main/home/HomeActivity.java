@@ -4,7 +4,10 @@
 package com.codeminders.yfrog.android.view.main.home;
 
 import java.util.ArrayList;
-import java.util.Collections;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.*;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
@@ -12,13 +15,6 @@ import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
 import com.codeminders.yfrog.android.view.message.WritableActivity;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
 /**
  * @author idemydenko

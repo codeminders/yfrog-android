@@ -13,6 +13,7 @@ import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.adapter.TwitterUserAdapter;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
 import android.app.Dialog;
@@ -123,6 +124,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
+		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
 		return super.onCreateOptionsMenu(menu);
 		
 	}
@@ -131,6 +133,10 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		switch (item.getItemId()) {
 		case R.id.reload_list:
 			createList(true);
+			return true;
+		case R.id.add_tweet:
+			Intent intent = new Intent(this, WriteStatusActivity.class);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -11,8 +11,10 @@ import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
 import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -73,8 +75,9 @@ public class MessagesActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
 		getMenuInflater().inflate(R.menu.messages_tab, menu);
+		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
+		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
 		return true;
 	}
 
@@ -83,6 +86,10 @@ public class MessagesActivity extends ListActivity {
 		switch (item.getItemId()) {
 		case R.id.reload_list:
 			createList(true);
+			return true;
+		case R.id.add_tweet:
+			Intent intent = new Intent(this, WriteStatusActivity.class);
+			startActivity(intent);
 			return true;
 		}
 		return false;

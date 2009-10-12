@@ -13,10 +13,13 @@ import com.codeminders.yfrog.android.model.TwitterSearchResult;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.view.adapter.TwitterSearchResultAdapter;
 import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -114,6 +117,21 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		return null;
 	}
 	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add_tweet:
+			Intent intent = new Intent(this, WriteStatusActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
     private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView parent, View v, int position,
 				long id) {

@@ -13,12 +13,15 @@ import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 import com.codeminders.yfrog.android.view.message.WriteDirectMessageActivity;
 import com.codeminders.yfrog.android.view.message.WritePublicReplayActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -184,4 +187,20 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 
 		return super.onKeyDown(keyCode, event);
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add_tweet:
+			Intent intent = new Intent(this, WriteStatusActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 }

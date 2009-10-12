@@ -3,19 +3,11 @@
  */
 package com.codeminders.yfrog.client.response;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-
-import org.junit.Test;
-
-import com.codeminders.yfrog.client.response.ResponseFactory;
-import com.codeminders.yfrog.client.response.UploadResponse;
+import java.io.*;
 
 import junit.framework.TestCase;
+
+import org.junit.Test;
 
 /**
  * @author idemydenko

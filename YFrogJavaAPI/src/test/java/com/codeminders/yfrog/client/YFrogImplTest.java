@@ -5,17 +5,13 @@ package com.codeminders.yfrog.client;
 
 import java.io.File;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
-import com.codeminders.yfrog.client.YFrog;
 import com.codeminders.yfrog.client.impl.YFrogImpl;
-import com.codeminders.yfrog.client.request.FileUploadRequest;
-import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
-import com.codeminders.yfrog.client.request.UploadRequest;
-import com.codeminders.yfrog.client.request.UrlUploadRequest;
+import com.codeminders.yfrog.client.request.*;
 import com.codeminders.yfrog.client.response.UploadResponse;
-
-import junit.framework.TestCase;
 
 /**
  * @author idemydenko

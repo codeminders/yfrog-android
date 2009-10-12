@@ -41,7 +41,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class SearchActivity extends Activity implements OnClickListener {
-	private static final int ATTEMPTS_TO_RELOAD = 3;
+	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 	
 	private static final int MENU_DELETE = 0;

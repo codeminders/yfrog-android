@@ -6,7 +6,7 @@
     <string name="twitter_error_title">Twitter error</string>
     <string name="twitter_error_msg">Error code -</string>
     <string name="twitter_error_btn">OK</string>
-    <string name="list_reload">Reload</string>
+    <string name="list_reload">Refresh</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
     <string name="save">Сохранить</string>

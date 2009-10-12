@@ -4,6 +4,7 @@
 package com.codeminders.yfrog.android.view.message;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
@@ -23,6 +24,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,10 +38,14 @@ import android.widget.TextView;
 
 // TODO may be need StatusChangeListener
 public class StatusDetailsActivity extends Activity implements OnClickListener {
-	public static final String KEY_STATUS = "status";
+	public static final String KEY_STATUS_POS = "status_pos";
+	public static final String KEY_STATUSES = "statuses";
 	
 	private TwitterService twitterService;
+	private ArrayList<TwitterStatus> statuses;
 	private TwitterStatus status;
+	private int position;
+	private int count;
 	private boolean favorited;
 	private boolean my;
 	
@@ -50,7 +56,20 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.twitter_status_details);
 		
 		Bundle extras = getIntent().getExtras();
-		status = (TwitterStatus) extras.getSerializable(KEY_STATUS);
+		statuses = (ArrayList<TwitterStatus>) extras.getSerializable(KEY_STATUSES);
+		position = extras.getInt(KEY_STATUS_POS);
+		count = statuses.size();
+		setCurrentStatus();
+		
+
+		showStatus();
+	}
+	
+	private void setCurrentStatus() {
+		status = statuses.get(position);
+	}
+	
+	private void showStatus() {
 		favorited = status.isFavorited();
 		my = twitterService.getLoggedUser().equals(status.getUser());
 		
@@ -68,6 +87,8 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 
 		view = (TextView) findViewById(R.id.tm_text);
 		view.setText(status.getText());
+
+		
 		
 //		view.setMovementMethod(LinkMovementMethod.getInstance());
 //		Spanned text = Html.fromHtml(StringUtils.toHtml(status.getText()), new Html.ImageGetter() {
@@ -89,11 +110,13 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 //		}, null);
 //		
 //		view.setText(text);
-		
+
+		view = (TextView) findViewById(R.id.tm_counter);
+		view.setText((position + 1) + "/" + count);
+
 		Button button = (Button) findViewById(R.id.tm_replay);
-		if (my) {
-			button.setVisibility(View.INVISIBLE);
-		}
+		button.setVisibility(my ? View.GONE : View.VISIBLE);
+		
 		button.setOnClickListener(this);
 
 		
@@ -107,10 +130,9 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		button.setOnClickListener(this);
 		
 		button = (Button) findViewById(R.id.tm_delete);
-		if (!my) {
-			button.setVisibility(View.INVISIBLE);
-		}
+		button.setVisibility(my ? View.VISIBLE : View.GONE);
 		button.setOnClickListener(this);
+		
 	}
 	
 	@Override
@@ -154,4 +176,26 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		}		
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+			if (--position < 0) {
+				position = count - 1;
+			}
+			setCurrentStatus();
+			showStatus();
+			return true;
+		}
+		
+		if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+			if (++position >= count) {
+				position = 0;
+			}
+			setCurrentStatus();
+			showStatus();
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
 }

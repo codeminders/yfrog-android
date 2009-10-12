@@ -252,10 +252,10 @@ public class TwitterService {
 		twitter = null;
 	}
 	
-	public void updateStatus(String text) throws YFrogTwitterException {
+	public TwitterStatus updateStatus(String text) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			twitter.updateStatus(text);
+			return Twitter4jHelper.getStatus(twitter.updateStatus(text));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		

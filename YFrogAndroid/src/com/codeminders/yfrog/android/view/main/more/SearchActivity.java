@@ -14,6 +14,7 @@ import com.codeminders.yfrog.android.model.TwitterSavedSearch;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.StringUtils;
 
+import android.R.bool;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -40,11 +41,15 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class SearchActivity extends Activity implements OnClickListener {
+	private static final int ATTEMPTS_TO_RELOAD = 3;
+	private int attempts = 0;
+	
 	private static final int MENU_DELETE = 0;
 	private static final int DIALOG_ADD = 0;
 	
 	private TwitterService twitterService;
 	private ArrayList<TwitterSavedSearch> searches;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +63,17 @@ public class SearchActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		createList(true);
+		createList(false);
 	}
 	
-	private void createList(boolean twitterUpdate) {
+	private void createList(boolean twitterUpdate) {		
 		if (twitterUpdate) {
+			attempts = 1;
+		}
+		
+		boolean needReload = twitterUpdate || isNeedReload();
+		
+		if (needReload) {
 			try {
 				searches = twitterService.getSavedSearches();
 			} catch (YFrogTwitterException e) {
@@ -80,6 +91,10 @@ public class SearchActivity extends Activity implements OnClickListener {
 		Button button = (Button) findViewById(R.id.s_search_button);
 		button.setOnClickListener(this);
 
+	}
+	
+	private boolean isNeedReload() {
+		return (++attempts % ATTEMPTS_TO_RELOAD == 0);
 	}
 	
 	private List<String> getStrings() {
@@ -115,11 +130,11 @@ public class SearchActivity extends Activity implements OnClickListener {
 		}
 	}
 	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.search, menu);
+		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
 		return true;
 	}
 	
@@ -129,8 +144,11 @@ public class SearchActivity extends Activity implements OnClickListener {
 		case R.id.s_add_search:
 			showDialog(DIALOG_ADD);
 			return true;
+		case R.id.reload_list:
+			createList(true);
+			return true;
 		}
-		return false;
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

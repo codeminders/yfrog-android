@@ -2,6 +2,14 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="vertical">
+  	
+  	<TextView 
+  		android:text="@+id/TextView01" 
+  		android:id="@+id/tm_counter" 
+  		android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content">
+  	</TextView>
+	
 	<include 
 		android:id="@+id/empty" 
 		android:layout_width="wrap_content" 
@@ -9,7 +17,17 @@
 		layout="@layout/twitter_user">
 	</include>
 	
-	<TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20px" android:id="@+id/tm_created_at" android:textSize="12sp" android:textStyle="italic"></TextView><TextView 
+	<TextView 
+		android:text="@+id/TextView01" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:layout_marginTop="20px" 
+		android:id="@+id/tm_created_at" 
+		android:textSize="12sp" 
+		android:textStyle="italic">
+	</TextView>
+	
+	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
 		android:layout_width="fill_parent" 
@@ -22,7 +40,7 @@
 		android:id="@+id/tm_replay" 
 		android:text="@string/tm_btn_reply" 
 		android:layout_gravity="center" 
-		android:layout_marginTop="15px">
+		android:layout_marginTop="15px" android:focusable="false">
 	</Button>
 
 	<Button 
@@ -30,7 +48,7 @@
 		android:layout_width="wrap_content" 
 		android:id="@+id/tm_forward" 
 		android:text="@string/tm_btn_forward" 
-		android:layout_gravity="center">
+		android:layout_gravity="center" android:focusable="false">
 	</Button>
 
 	<Button 
@@ -38,7 +56,7 @@
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:text="@string/tm_btn_favorite" 
-		android:layout_gravity="center">
+		android:layout_gravity="center" android:focusable="false">
 	</Button>
 	
 	<Button 
@@ -46,8 +64,9 @@
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:text="@string/tm_btn_delete" 
-		android:layout_gravity="center">
+		android:layout_gravity="center" android:focusable="false">
 	</Button>
 	
+
 
 </LinearLayout>

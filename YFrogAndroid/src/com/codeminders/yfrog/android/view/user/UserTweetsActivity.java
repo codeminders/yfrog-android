@@ -22,7 +22,7 @@ public class UserTweetsActivity extends AbstractTwitterStatusesListActivity {
 	@Override
 	protected ArrayList<TwitterStatus> getStatuses()
 			throws YFrogTwitterException {
-		user = (TwitterUser) getIntent().getExtras().getSerializable(UserDetailsActivity.KEY_USER);
+		user = (TwitterUser) getIntent().getExtras().getSerializable(UserDetailsActivity.KEY_USER_POS);
 		return twitterService.getUserTweets(user.getUsername());
 	}
 }

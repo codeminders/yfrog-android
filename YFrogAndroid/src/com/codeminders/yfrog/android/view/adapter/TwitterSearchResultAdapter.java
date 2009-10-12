@@ -6,20 +6,11 @@ package com.codeminders.yfrog.android.view.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.format.DateFormat;
-import android.text.style.BackgroundColorSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.TwitterSearchResult;
-import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 

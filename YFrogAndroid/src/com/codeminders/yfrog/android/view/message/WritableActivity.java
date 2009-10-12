@@ -3,15 +3,6 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.controller.service.AccountService;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
-import com.codeminders.yfrog.android.controller.service.UnsentMessageService;
-import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.model.UnsentMessage;
-import com.codeminders.yfrog.android.util.StringUtils;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,11 +10,13 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextSwitcher;
-import android.widget.TextView;
+import android.widget.*;
 import android.widget.ViewSwitcher.ViewFactory;
+
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.model.UnsentMessage;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko

@@ -3,10 +3,9 @@
  */
 package com.codeminders.yfrog.android;
 
-import com.codeminders.yfrog.android.controller.dao.db.DatabaseHelper;
-
 import android.app.Application;
-import android.content.Context;
+
+import com.codeminders.yfrog.android.controller.dao.db.DatabaseHelper;
 
 /**
  * @author idemydenko

@@ -10,8 +10,6 @@ import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
 
-import android.app.Activity;
-
 /**
  * @author idemydenko
  *

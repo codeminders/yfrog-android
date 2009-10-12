@@ -6,6 +6,16 @@ package com.codeminders.yfrog.android.view.main.more;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.*;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.*;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
+import android.widget.*;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -14,28 +24,6 @@ import com.codeminders.yfrog.android.model.TwitterSavedSearch;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
-
-import android.R.bool;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
  * @author idemydenko

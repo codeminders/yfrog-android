@@ -20,6 +20,7 @@ import com.codeminders.yfrog.android.model.UnsentMessage;
 
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
+import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.SavedSearch;
@@ -141,19 +142,19 @@ public class TwitterService {
 		return loggedUser != null;
 	}
 	
-	public ArrayList<TwitterStatus> getMentions() throws YFrogTwitterException {
+	public ArrayList<TwitterStatus> getMentions(int page, int count) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			return Twitter4jHelper.getStatuses(twitter.getMentions());
+			return Twitter4jHelper.getStatuses(twitter.getMentions(Twitter4jHelper.createPaging(page, count)));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
 	}
 	
-	public ArrayList<TwitterStatus> getHomeStatuses() throws YFrogTwitterException {
+	public ArrayList<TwitterStatus> getHomeStatuses(int page, int count) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			return Twitter4jHelper.getStatuses(twitter.getFriendsTimeline());
+			return Twitter4jHelper.getStatuses(twitter.getFriendsTimeline(Twitter4jHelper.createPaging(page, count)));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
@@ -200,19 +201,19 @@ public class TwitterService {
 		}
 	}
 
-	public ArrayList<TwitterStatus> getMyTweets() throws YFrogTwitterException {
+	public ArrayList<TwitterStatus> getMyTweets(int page, int count) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			return Twitter4jHelper.getStatuses(twitter.getUserTimeline());
+			return Twitter4jHelper.getStatuses(twitter.getUserTimeline(Twitter4jHelper.createPaging(page, count)));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		
 	}
 
-	public ArrayList<TwitterStatus> getUserTweets(String username) throws YFrogTwitterException {
+	public ArrayList<TwitterStatus> getUserTweets(String username, int page, int count) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			return Twitter4jHelper.getStatuses(twitter.getUserTimeline(username));
+			return Twitter4jHelper.getStatuses(twitter.getUserTimeline(username, Twitter4jHelper.createPaging(page, count)));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		
@@ -402,6 +403,10 @@ public class TwitterService {
 final class Twitter4jHelper {
 	private Twitter4jHelper() {
 		
+	}
+	
+	static Paging createPaging(int page, int count) {
+		return new Paging(page, count);
 	}
 	
 	static ArrayList<TwitterStatus> getStatuses(List<Status> statuses) {

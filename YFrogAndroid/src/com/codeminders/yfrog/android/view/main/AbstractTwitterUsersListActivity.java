@@ -94,14 +94,6 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 				startActivityForResult(intent, 0);
 			}
 
-	private TwitterUser getSelected(int position) {
-		if (position > -1) {
-			return users.get(position);
-		}
-		
-		return null;
-	}
-
 	protected abstract ArrayList<TwitterUser> getUsers() throws YFrogTwitterException; 
 	
 	@Override

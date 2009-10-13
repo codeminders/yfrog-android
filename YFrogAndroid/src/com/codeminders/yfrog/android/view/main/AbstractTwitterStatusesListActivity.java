@@ -29,16 +29,18 @@ import android.widget.ListView;
  * 
  */
 public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
+	private static final int DEFAULT_PAGE_SIZE = 20;
+	private static final int MAX_COUNT = 3200;
+	
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
 	protected TwitterService twitterService;
 	protected ArrayList<TwitterStatus> statuses;
 	private YFrogTwitterException toHandle;
+	
+	private int page = 1;
 
-	/**
-	 * 
-	 */
 	public AbstractTwitterStatusesListActivity() {
 		super();
 	}
@@ -67,7 +69,11 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		
 		if (needReload) {
 			try {
-				statuses = getStatuses();
+				if (twitterUpdate) {
+					page = 1;
+				}
+				
+				statuses = getStatuses(page, DEFAULT_PAGE_SIZE);
 			} catch (YFrogTwitterException e) {
 				statuses = new ArrayList<TwitterStatus>(0);
 				toHandle = e;
@@ -80,11 +86,24 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		registerForContextMenu(getListView());
 	}
 
+	private void appendList() {
+		try {
+			ArrayList<TwitterStatus> appended;
+			appended = getStatuses(page, DEFAULT_PAGE_SIZE);
+			statuses.addAll(appended);
+		} catch (YFrogTwitterException e) {
+			toHandle = e;
+			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
+		}
+		
+		createList(false);
+	}
+
 	private boolean isNeedReload() {
 		return (++attempts % ATTEMPTS_TO_RELOAD == 0);
 	}
 
-	protected abstract ArrayList<TwitterStatus> getStatuses() throws YFrogTwitterException;
+	protected abstract ArrayList<TwitterStatus> getStatuses(int page, int count) throws YFrogTwitterException;
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -121,6 +140,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
 		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
+		getMenuInflater().inflate(R.menu.common_more_tweets, menu);
 		return super.onCreateOptionsMenu(menu);
 		
 	}
@@ -134,9 +154,25 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 			Intent intent = new Intent(this, WriteStatusActivity.class);
 			startActivity(intent);
 			return true;
+		case R.id.more_tweets:
+			if (!isNoMoreItems()) {
+				page++;
+				appendList();
+			}
+			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item = menu.findItem(R.id.more_tweets);
+		item.setEnabled(!isNoMoreItems());
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	private boolean isNoMoreItems() {
+		return statuses.size() < page * DEFAULT_PAGE_SIZE && page * DEFAULT_PAGE_SIZE > MAX_COUNT;
+	}
 }

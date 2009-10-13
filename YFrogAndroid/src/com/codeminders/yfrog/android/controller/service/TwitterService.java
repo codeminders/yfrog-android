@@ -374,10 +374,12 @@ public class TwitterService {
 		}				
 	}
 	
-	public TwitterQueryResult search(String query) throws YFrogTwitterException {
+	public TwitterQueryResult search(String query, int page, int count) throws YFrogTwitterException {
 		checkCreated();
 		try {
 			Query q = new Query(query);
+			q.setPage(page);
+			q.setRpp(count);
 			return Twitter4jHelper.getQueryResult(twitter.search(q));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());

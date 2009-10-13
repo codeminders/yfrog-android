@@ -115,4 +115,7 @@
     <string name="s_add_search">Add search</string>
     <string name="s_btn_search">Search</string>
     <string name="s_add_search_query">Query</string>
+    
+    <!-- Twitter search results-->
+    <string name="sr_more_searches">More searches</string>
 </resources>

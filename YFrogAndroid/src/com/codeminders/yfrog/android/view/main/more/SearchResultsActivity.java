@@ -6,15 +6,21 @@ package com.codeminders.yfrog.android.view.main.more;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.model.TwitterQueryResult;
+import com.codeminders.yfrog.android.model.TwitterSearchResult;
+import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.view.adapter.TwitterSearchResultAdapter;
 import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
@@ -24,6 +30,10 @@ import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
  *
  */
 public class SearchResultsActivity extends Activity implements OnClickListener {
+	private static final int DEFAULT_PAGE_SIZE = 20;
+	private static final int MAX_COUNT = 1500;
+
+	
 	public static final String KEY_QUERY = "query";
 	public static final String KEY_SAVED = "isSaved";
 	public static final String KEY_QUERY_ID = "queryId";
@@ -34,6 +44,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 	private String query;
 	private boolean isSaved;
 	private int queryId;
+	private int page = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +68,45 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		button.setText(isSaved ? R.string.delete : R.string.save);
 		button.setOnClickListener(this);
 		
-		createSearchResultList();
+		createList(true);
 		
 		
 	}
 	
-	private void createSearchResultList() {
+	private void createList(boolean twitterUpdate) {
 		
-		try {
-			queryResult = twitterService.search(query);
-		} catch (YFrogTwitterException e) {
-			// TODO: handle exception
+		if (twitterUpdate) {
+			page = 1;
+			try {
+				queryResult = twitterService.search(query, page, DEFAULT_PAGE_SIZE);
+			} catch (YFrogTwitterException e) {
+				// TODO: handle exception
+			}
+		}
+
+		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
+		
+		int selected = listView.getSelectedItemPosition();
+		listView.setAdapter(new TwitterSearchResultAdapter<TwitterSearchResult>(this, queryResult.getResults(), query));
+		
+		if (selected > -1) {
+			listView.setSelection(selected);
 		}
 		
-		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
-		listView.setAdapter(new TwitterSearchResultAdapter<TwitterSearchResult>(this, queryResult.getResults(), query));
 		listView.setOnItemClickListener(mOnClickListener);
 	}
-	
+
+	private void appendList() {
+		try {
+			TwitterQueryResult appended = twitterService.search(query, page, DEFAULT_PAGE_SIZE);
+			queryResult.getResults().addAll(appended.getResults());
+		} catch (YFrogTwitterException e) {
+			e.printStackTrace();
+		}
+		
+		createList(false);
+	}
+
 	@Override
 	public void onClick(View v) {
 		if (isSaved) {
@@ -111,6 +143,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.search_results, menu);
 		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -121,10 +154,30 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(this, WriteStatusActivity.class);
 			startActivity(intent);
 			return true;
+		case R.id.more_serarch_results:
+			if (!isNoMoreItems()) {
+				page++;
+				appendList();
+			}
+
+			return true;
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item = menu.findItem(R.id.more_serarch_results);
+		item.setEnabled(!isNoMoreItems());
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	private boolean isNoMoreItems() {
+		return queryResult.getResults().size() < page * DEFAULT_PAGE_SIZE && page * DEFAULT_PAGE_SIZE > MAX_COUNT;
+	}
+
+	
     private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView parent, View v, int position,
 				long id) {

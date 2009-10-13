@@ -80,16 +80,24 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 				showDialog(AlertUtils.ALERT_TWITTER_ERROR);
 			}
 		}
-
+		
+		int selected = -1;
+		
+		if (getListView() != null) {
+			selected = getSelectedItemPosition();
+		}
+		
 		setListAdapter(new TwitterStatusAdapter<TwitterStatus>(this, statuses));
-		getListView().setTextFilterEnabled(true);
+
+		if (selected > -1) {
+			setSelection(selected);
+		}
 		registerForContextMenu(getListView());
 	}
 
 	private void appendList() {
 		try {
-			ArrayList<TwitterStatus> appended;
-			appended = getStatuses(page, DEFAULT_PAGE_SIZE);
+			ArrayList<TwitterStatus> appended = getStatuses(page, DEFAULT_PAGE_SIZE);
 			statuses.addAll(appended);
 		} catch (YFrogTwitterException e) {
 			toHandle = e;

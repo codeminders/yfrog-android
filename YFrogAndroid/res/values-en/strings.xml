@@ -20,6 +20,7 @@
     <string name="date_less_23h">%d hours ago</string>
     <string name="date_less_30d">%d days ago</string>
     <string name="add_tweet">Add tweet</string>
+    <string name="more_tweets">More tweets</string>
     
     <!-- Account list -->
     <string name="account_list_activity">Accounts</string>

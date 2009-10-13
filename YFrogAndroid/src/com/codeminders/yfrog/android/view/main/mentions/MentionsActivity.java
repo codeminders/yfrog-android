@@ -17,8 +17,8 @@ import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivi
 public class MentionsActivity extends AbstractTwitterStatusesListActivity {
 	
 	@Override
-	protected ArrayList<TwitterStatus> getStatuses()
+	protected ArrayList<TwitterStatus> getStatuses(int page, int count)
 			throws YFrogTwitterException {
-		return twitterService.getMentions();
+		return twitterService.getMentions(page, count);
 	}
 }

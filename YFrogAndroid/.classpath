@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/twitter4j-2.0.9.jar" sourcepath="C:/Documents and Settings/Администратор/Рабочий стол/Twitter API/Twitter4j/twitter4j-2.0.9-sources.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="lib" path="lib/twitter4j-2.0.9.jar" sourcepath="C:/Documents and Settings/Администратор/Рабочий стол/Twitter API/Twitter4j/twitter4j-2.0.9-sources.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/YFrogLib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,20 +7,27 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:stretchColumns="1">
 		<TableRow>
-			<EditText
+			<AutoCompleteTextView
 				android:layout_column="1" 
 				android:id="@+id/s_search_input" 
 				android:text="" 
 				android:layout_height="wrap_content" 
 				android:layout_gravity="left" 
 				android:layout_width="fill_parent" 
-				android:width="200px" android:singleLine="true">
-			</EditText>
+				android:singleLine="true" android:inputType="text" android:width="180px">
+			</AutoCompleteTextView>
 			<Button 
 				android:id="@+id/s_search_button" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
-				android:text="@string/s_btn_search" android:layout_gravity="right">
+				android:text="@string/s_btn_search" android:layout_gravity="right" >
+			</Button>
+			
+			<Button 
+				android:id="@+id/s_save_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_gravity="right" android:text="@string/save">
 			</Button>		
 		</TableRow>
 	</TableLayout>

@@ -3,11 +3,15 @@
  */
 package com.codeminders.yfrog.android.model;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * @author idemydenko
  *
  */
-public class TwitterSavedSearch {
+public class TwitterSavedSearch implements Serializable {
 	private int id;
 	private String name;
 	private String query;
@@ -47,4 +51,49 @@ public class TwitterSavedSearch {
 	public void setQuery(String query) {
 		this.query = query;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		
+		if (!(o instanceof TwitterSavedSearch)) {
+			return false;
+		}
+		
+		TwitterSavedSearch castObj = (TwitterSavedSearch) o;
+		
+		if (id != castObj.id) {
+			return false;
+		}
+		
+		if (!query.equals(castObj.query)) {
+			return false;
+		}
+		return true;
+	}
+	
+	public int hashCode() {
+		final int prime = 37;
+		int result = 13;
+
+		result = result * prime + id;
+		result = result * prime + query.hashCode();
+		
+		return result;
+	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeInt(id);
+		out.writeUTF(name);
+		out.writeUTF(query);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		id = in.readInt();
+		name = in.readUTF();
+		query = in.readUTF();
+	}
+
 }

@@ -365,10 +365,10 @@ public class TwitterService {
 		}				
 	}
 	
-	public void deleteSavedSearch(int id) throws YFrogTwitterException {
+	public TwitterSavedSearch deleteSavedSearch(int id) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			twitter.destroySavedSearch(id);
+			return Twitter4jHelper.getSavedSearch(twitter.destroySavedSearch(id));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}				

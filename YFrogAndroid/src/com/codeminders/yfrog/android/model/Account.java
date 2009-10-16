@@ -20,9 +20,8 @@ public class Account implements Serializable {
 	public static final int OAUTH_STATUS_VERIFIED = 2;
 	
 	private long id;
-	private String name;
 	private String email;
-	private String nickname;
+	private String username;
 	private String password;
 	private String oauthToken;
 	private String oauthTokenSecret;
@@ -37,13 +36,6 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
 	/**
 	 * @return the email
 	 */
@@ -55,12 +47,12 @@ public class Account implements Serializable {
 		this.email = email;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setUsername(String nickname) {
+		this.username = nickname;
 	}
 
 	public String getPassword() {
@@ -113,8 +105,7 @@ public class Account implements Serializable {
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
-		out.writeUTF(name == null ? "" : name);
-		out.writeUTF(nickname == null ? "" : nickname);
+		out.writeUTF(username == null ? "" : username);
 		out.writeUTF(password == null ? "" : password);
 		out.writeUTF(email == null ? "" : email);
 		out.writeUTF(oauthToken == null ? "" : oauthToken);
@@ -125,8 +116,7 @@ public class Account implements Serializable {
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 		id = in.readLong();
-		name = in.readUTF();
-		nickname = in.readUTF();
+		username = in.readUTF();
 		password = in.readUTF();
 		email = in.readUTF();
 		oauthToken = in.readUTF();

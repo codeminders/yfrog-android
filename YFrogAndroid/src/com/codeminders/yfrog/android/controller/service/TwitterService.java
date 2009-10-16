@@ -52,6 +52,8 @@ public class TwitterService {
 	public static final String PARAM_TOKEN = "oauth_token";
 	public static final String PARAM_VERIFIER = "oauth_verifier";
 	
+//	private static final int 
+	
 	private Twitter twitter = null;
 	private TwitterUser loggedUser = null;
 	private UnsentMessageService unsentMessageService;
@@ -81,25 +83,6 @@ public class TwitterService {
 	    
 	    account.setOauthToken(requestToken.getToken());
 	    account.setOauthTokenSecret(requestToken.getTokenSecret());
-	    
-	    return requestToken.getAuthorizationURL();
-	}
-
-	public String getOAuthDesktopAuthorizationURL(Account account) throws YFrogTwitterException {
-		Twitter twitter = new Twitter();
-	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-	    RequestToken requestToken;
-	    
-	    try {
-	    	requestToken = twitter.getOAuthRequestToken();
-	    } catch (TwitterException e) {
-			throw new YFrogTwitterException(e, e.getStatusCode());
-		}
-	    
-	    account.setOauthToken(requestToken.getToken());
-	    account.setOauthTokenSecret(requestToken.getTokenSecret());
-	    
-	    ServiceFactory.getAccountService().updateAccount(account);
 	    
 	    return requestToken.getAuthorizationURL();
 	}
@@ -141,6 +124,23 @@ public class TwitterService {
 		}
 		return loggedUser != null;
 	}
+	
+	public TwitterUser getCredentials(Account account) throws YFrogTwitterException {
+		Twitter twitter = new Twitter();
+		
+		if (account.getAuthMethod() == Account.METHOD_COMMON) {
+			twitter.setUserId(account.getUsername());
+			twitter.setPassword(account.getPassword());
+		} else {
+			twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+			twitter.setOAuthAccessToken(account.getOauthToken(), account.getOauthTokenSecret());
+		}
+		try {
+			return Twitter4jHelper.getUser(twitter.verifyCredentials());
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+ 	}
 	
 	public ArrayList<TwitterStatus> getMentions(int page, int count) throws YFrogTwitterException {
 		checkCreated();

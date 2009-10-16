@@ -78,7 +78,7 @@ public class ListAccountsActivity extends ListActivity {
 		int size = accounts.size();
 		String[] result = new String[size];
 		for (int i = 0; i < size; i++) {
-			result[i] = accounts.get(i).getName();
+			result[i] = accounts.get(i).getUsername();
 		}
 
 		return result;

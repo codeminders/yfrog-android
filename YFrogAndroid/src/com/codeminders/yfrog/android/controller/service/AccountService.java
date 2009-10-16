@@ -7,10 +7,13 @@ import java.util.ArrayList;
 
 import android.net.Uri;
 
+import com.codeminders.yfrog.android.YFrogTwitterAuthException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.dao.AccountDAO;
 import com.codeminders.yfrog.android.controller.dao.DAOFactory;
 import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko
@@ -29,6 +32,7 @@ public final class AccountService {
 	}
 	
 	public ArrayList<Account> getAllAccounts() {
+		accountDAO.deleteEmptyAccounts();
 		return accountDAO.getAllAccounts();
 	}
 	
@@ -36,7 +40,11 @@ public final class AccountService {
 		return accountDAO.getAccount(id);
 	}
 	
-	public Account addAccount(Account account) {
+	public Account addAccount(Account account) throws YFrogTwitterException {
+		if (account.getAuthMethod() == Account.METHOD_COMMON) {
+			verifiyAccount(account);
+		}
+		
 		long id = accountDAO.addAccount(account);
 		
 		return accountDAO.getAccount(id);
@@ -46,8 +54,15 @@ public final class AccountService {
 		accountDAO.deleteAccount(account.getId());
 	}
 	
-	public void updateAccount(Account account) {
+	public void updateAccount(Account account)  throws YFrogTwitterException {
+		if (account.getAuthMethod() == Account.METHOD_COMMON) {
+			verifiyAccount(account);
+		}
 		accountDAO.updateAccount(account);
+	}
+	
+	private void verifiyAccount(Account account) throws YFrogTwitterException {
+		twitterService.getCredentials(account);
 	}
 	
 	public boolean isAccountUnique(Account account) {
@@ -55,9 +70,10 @@ public final class AccountService {
 	}
 	
 	public String getOAuthAuthorizationURL(Account account) throws YFrogTwitterException {
+		accountDAO.resetWatingForOAuthVerificationAccounts();
 		String url = twitterService.getOAuthWebAuthorizationURL(account);
 		account.setOauthStatus(Account.OAUTH_STATUS_WAIT_VERIFICATION);
-		updateAccount(account);
+		accountDAO.updateAccount(account);
 
 		return url;
 	}
@@ -65,7 +81,32 @@ public final class AccountService {
 	public void verifyOAuthAuthorization(Account account, String pin) throws YFrogTwitterException {
 		twitterService.verifyOAuthAuthorization(account, pin);
 		account.setOauthStatus(Account.OAUTH_STATUS_VERIFIED);
+		TwitterUser user = twitterService.getCredentials(account);
+		
+		String currentUsername = account.getUsername();
+		String receivedUsername = user.getUsername();
+		
+		if (StringUtils.isEmpty(currentUsername)) {
+			account.setUsername(receivedUsername);
+			
+			if (!isAccountUnique(account)) {
+				deleteAccount(account);
+				throw new YFrogTwitterAuthException();
+			}
+		} else if (!currentUsername.equalsIgnoreCase(receivedUsername)) { // TODO Twitter usernames aren't case sensitivity
+			resetOAuth(account);
+			throw new YFrogTwitterAuthException();
+		}
+		
 		updateAccount(account);
+	}
+	
+	private void resetOAuth(Account account) {
+		account.setOauthToken(StringUtils.EMPTY_STRING);
+		account.setOauthTokenSecret(StringUtils.EMPTY_STRING);
+		account.setOauthStatus(Account.OAUTH_STATUS_NOT_AUTHORIZED);
+		account.setAuthMethod(Account.METHOD_COMMON);
+		accountDAO.updateAccount(account);
 	}
 	
 	public Account getWatingForOAuthVerificationAccount() {
@@ -94,7 +135,7 @@ public final class AccountService {
 		}
 		
 		if (account.getAuthMethod() == Account.METHOD_COMMON) {
-			twitterService.login(account.getNickname(), account.getPassword());
+			twitterService.login(account.getUsername(), account.getPassword());
 		} else {
 			twitterService.loginOAuth(account.getOauthToken(), account.getOauthTokenSecret());
 		}
@@ -103,9 +144,5 @@ public final class AccountService {
 	
 	public Account getLogged() {
 		return logged;
-	}
-	
-	public void logout() {
-		
 	}
 }

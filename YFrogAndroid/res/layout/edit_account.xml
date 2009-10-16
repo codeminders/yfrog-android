@@ -11,16 +11,16 @@
 		  android:layout_width="fill_parent"
 		  android:stretchColumns="1"
 		  android:padding="10dip"
-		  android:layout_height="wrap_content">
+		  android:layout_height="wrap_content" 
+		  android:id="@+id/ae_account_name">
 			<TableRow android:paddingBottom="5dip">
 				<TextView
 		    		android:paddingRight="10dip"
 					android:gravity="right"
 					android:textStyle="bold"
 					android:text="@string/ae_name"/>
-				<EditText
-					android:id="@+id/ae_name"
-					android:singleLine="true"/>
+				<TextView
+					android:id="@+id/ae_name"/>
 			</TableRow>
 		</TableLayout>
 		<LinearLayout android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent" android:layout_marginTop="10px">
@@ -121,12 +121,19 @@
 							
 			</LinearLayout>
 
+			<TextView 
+				android:id="@+id/ae_oauth_desc" 
+				android:layout_height="wrap_content" 
+				android:layout_width="fill_parent" android:text="@string/ae_oauth_desc" android:autoLink="all" android:layout_marginTop="10px">
+			</TextView>
+			
 			<Button
 				android:id="@+id/ae_oauth_auth_button"
 				android:textStyle="bold"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/ae_btn_oauth_auth" android:layout_marginTop="5px"/>
+		
 		</LinearLayout>	  		  	
 		
 		<Button

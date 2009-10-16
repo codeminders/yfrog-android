@@ -60,9 +60,12 @@
     <string name="ae_dialog_title">Error</string>
     <string name="ae_dialog_message_nickname">Required field "Nickname" are empty</string>
     <string name="ae_dialog_message_passwd">Required field "Password" are empty</string>
-    <string name="ae_dialog_message_name">Required field "Name" are empty</string>
+    <string name="ae_oauth_message_not_unique">Authorization failed. Account with even nickname or name already exists</string>
     <string name="ae_dialog_message_not_unique">Account with even nickname or name already exists</string>
+    <string name="ae_dialog_message_wrong_username_or_passwd">Wrong username or password</string> 
     <string name="ae_dialog_button">Ok</string>
+    
+    <string name="ae_oauth_desc">OAuth is an authentication protocol that allows users to approve application to act on their behalf without sharing their password. More information can be found at http://apiwiki.twitter.com/OAuth-FAQ</string>
     
     <!-- Tabs -->
     <string name="tab_home_caption">Home</string>

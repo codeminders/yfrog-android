@@ -10,7 +10,7 @@ package com.codeminders.yfrog.android;
 public class YFrogTwitterException extends Exception {
 	private static final long serialVersionUID = 7648098640662542647L;
 
-	private int errorCode;
+	private int errCode;
 	
 	public YFrogTwitterException() {
 		super();
@@ -26,6 +26,7 @@ public class YFrogTwitterException extends Exception {
 	
 	public YFrogTwitterException(Throwable throwable, int errorCode) {
 		super(throwable);
+		errCode = errorCode;
 	}
 	
 	public YFrogTwitterException(String message, Throwable throwable) {
@@ -33,6 +34,6 @@ public class YFrogTwitterException extends Exception {
 	}
 	
 	public int getErrorCode() {
-		return errorCode;
+		return errCode;
 	}
 }

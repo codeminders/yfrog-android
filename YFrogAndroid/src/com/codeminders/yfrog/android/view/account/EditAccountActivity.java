@@ -4,6 +4,7 @@
 package com.codeminders.yfrog.android.view.account;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterAuthException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -18,12 +19,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +41,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 	private static final int ALERT_NICKNAME = 0;
 	private static final int ALERT_PASSWORD = 1;
 	private static final int ALERT_ACCOUNT_NOT_UNIQUE = 2;
-	private static final int ALERT_NAME = 3;
+	private static final int ALERT_ACCOUNT_WRONG_USERNAME_OR_PASSWORD = 3;
 
 	private AccountService accountService;
 	private Account editable = null;
@@ -56,21 +59,22 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		}
 		
 		if (isEdit) {
-			
 			editable = (Account) extras.getSerializable(KEY_EDITABLE);
+			TextView accountName = (TextView) findViewById(R.id.ae_name);
 			
-			EditText name = (EditText) findViewById(R.id.ae_name);
 			EditText nickname = (EditText) findViewById(R.id.ae_nickname);
 			EditText password = (EditText) findViewById(R.id.ae_password);
 			TextView oauthStatus = (TextView) findViewById(R.id.ae_oath_status);
 			
-			name.setText(editable.getName());
-			nickname.setText(editable.getNickname());
+			nickname.setText(editable.getUsername());
+			accountName.setText(editable.getUsername());
 			password.setText(editable.getPassword());
 			setAuthMethod(editable.getAuthMethod());
 			oauthStatus.setText(editable.isOAuthVerified() ? 
 					R.string.ae_oauth_status_authorized : R.string.ae_oauth_status_need_authorize);
 		} else {
+			TableLayout layout = (TableLayout) findViewById(R.id.ae_account_name);
+			layout.setVisibility(View.GONE);
 			editable = new Account();
 		}
 		
@@ -84,6 +88,9 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		
 		button = (Button) findViewById(R.id.ae_oauth_auth_button);
 		button.setVisibility(View.GONE);
+		
+		TextView textView = (TextView) findViewById(R.id.ae_oauth_desc);
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	private void setAuthMethodListener(RadioButton radioButton) {
@@ -136,13 +143,6 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		String name = ((EditText) findViewById(R.id.ae_name)).getText().toString();
-		
-		if (StringUtils.isEmpty(name)) {
-			showDialog(ALERT_NAME);
-			return;
-		}
-
 		int authMethod = getAuthMethod();
 		String nickname = ((EditText) findViewById(R.id.ae_nickname)).getText().toString();
 		String password = ((EditText) findViewById(R.id.ae_password)).getText().toString();
@@ -157,25 +157,29 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 				showDialog(ALERT_PASSWORD);
 				return;			
 			}
+			
+			editable.setUsername(nickname);
+			editable.setPassword(password);
+
+			if (!accountService.isAccountUnique(editable)) {
+				showDialog(ALERT_ACCOUNT_NOT_UNIQUE);
+				return;
+			}
 		} 
 
-		
-		editable.setNickname(nickname);
-		editable.setPassword(password);
-		editable.setName(name);
 		editable.setAuthMethod(authMethod);
 
-		if (!accountService.isAccountUnique(editable)) {
-			showDialog(ALERT_ACCOUNT_NOT_UNIQUE);
+		try {
+			if (isEdit) {
+				accountService.updateAccount(editable);
+			} else {
+				editable = accountService.addAccount(editable);
+			}
+		} catch (YFrogTwitterException e) {
+			showDialog(ALERT_ACCOUNT_WRONG_USERNAME_OR_PASSWORD);
 			return;
 		}
 
-		if (isEdit) {
-			accountService.updateAccount(editable);
-		} else {
-			editable = accountService.addAccount(editable);
-		}
-		
 		if (editable.isNeedOAuthAuthorization()) {
 			String url = null;
 			
@@ -218,8 +222,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		case ALERT_ACCOUNT_NOT_UNIQUE:
 			dialogBuilder.setMessage(R.string.ae_dialog_message_not_unique);
 			break;
-		case ALERT_NAME:
-			dialogBuilder.setMessage(R.string.ae_dialog_message_name);
+		case ALERT_ACCOUNT_WRONG_USERNAME_OR_PASSWORD:
+			dialogBuilder.setMessage(R.string.ae_dialog_message_wrong_username_or_passwd);
 			break;
 
 		}
@@ -233,13 +237,17 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		Uri uri = getIntent().getData();
 		
 		if (accountService.isOAuthCallback(uri)) {
+			Account toVerify = accountService.getWatingForOAuthVerificationAccount();
 			try {
-				Account toVerify = accountService.getWatingForOAuthVerificationAccount();
 				toVerify.setOauthToken(accountService.getToken(uri));
 				accountService.verifyOAuthAuthorization(toVerify, accountService.getVerifier(uri));
+			} catch (YFrogTwitterAuthException e) {
+				Toast.makeText(getApplicationContext(), R.string.ae_oauth_message_not_unique, Toast.LENGTH_LONG).show();
 			} catch (YFrogTwitterException e) {
-				return;
+				// TODO
 			}
+
+			
 			startActivity(new Intent(this, ListAccountsActivity.class));
 			finish();
 			

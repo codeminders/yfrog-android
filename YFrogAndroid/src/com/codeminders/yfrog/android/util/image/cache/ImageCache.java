@@ -5,18 +5,14 @@ package com.codeminders.yfrog.android.util.image.cache;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.util.HashMap;
 
-import com.codeminders.yfrog.android.util.async.ViewAsyncUpdatable;
-import com.codeminders.yfrog.android.util.async.ViewAsyncUpdateTask;
-import com.codeminders.yfrog.android.util.async.ViewAsyncUpdateTask.UpdateListener;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.*;
 import android.widget.ImageView;
+
+import com.codeminders.yfrog.android.util.async.*;
+import com.codeminders.yfrog.android.util.async.ViewAsyncUpdateTask.UpdateListener;
 
 /**
  * @author idemydenko
@@ -142,6 +138,10 @@ class UserImageViewable extends ViewAsyncUpdatable<ImageView, Bitmap> {
 	}
 	
 	private Bitmap resize(Bitmap bitmap) {
+		if (bitmap == null) {
+			return null;
+		}
+		
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		if (width <= WIDTH && height <= HEIGHT) {

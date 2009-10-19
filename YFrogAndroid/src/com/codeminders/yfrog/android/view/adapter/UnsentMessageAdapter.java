@@ -7,8 +7,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.*;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.UnsentMessage;

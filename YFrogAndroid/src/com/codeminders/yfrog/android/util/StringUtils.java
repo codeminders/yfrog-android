@@ -4,16 +4,14 @@
 package com.codeminders.yfrog.android.util;
 
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.codeminders.yfrog.android.R;
+import java.util.regex.*;
 
 import android.content.res.Resources;
-import android.text.SpannableString;
-import android.text.Spanned;
+import android.text.*;
 import android.text.format.DateFormat;
 import android.text.style.BackgroundColorSpan;
+
+import com.codeminders.yfrog.android.R;
 
 /**
  * @author idemydenko

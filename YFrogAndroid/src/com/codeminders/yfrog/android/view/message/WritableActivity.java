@@ -5,18 +5,17 @@ package com.codeminders.yfrog.android.view.message;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.View;
+import android.text.*;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.ViewSwitcher.ViewFactory;
 
-import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.UnsentMessage;
 import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 
 /**
  * @author idemydenko
@@ -74,12 +73,19 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 				return;
 			}
 			
-			String text = getText();
+			final String txt = getText();
 			
-			if (!StringUtils.isEmpty(text)) {
-				send(text);
-				callback();
-				finish();
+			if (!StringUtils.isEmpty(txt)) {
+				new AsyncTwitterUpdater(this) {
+					protected void doUpdate() throws YFrogTwitterException {
+						send(txt);						
+					}
+					
+					protected void doAfterUpdate() {
+						callback();
+						finish();
+					}
+				}.update();
 			}
 			break;
 		case R.id.wr_photo:
@@ -90,7 +96,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 				return;
 			}
 
-			text = getText();
+			String text = getText();
 			
 			if (!StringUtils.isEmpty(text)) {
 				saveToQueue(text);
@@ -109,7 +115,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		unsentMessageService.addUnsentMessage(toSave);
 	}
 	
-	protected abstract void send(String text);
+	protected abstract void send(String text) throws YFrogTwitterException;
 	
 	protected abstract UnsentMessage createUnsentMessage();
 

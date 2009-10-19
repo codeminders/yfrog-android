@@ -7,8 +7,7 @@ package com.codeminders.yfrog.android.view.user;
 import java.util.ArrayList;
 
 import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
 
 

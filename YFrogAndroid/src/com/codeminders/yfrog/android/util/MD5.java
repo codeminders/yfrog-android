@@ -3,8 +3,7 @@
  */
 package com.codeminders.yfrog.android.util;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 
 /**
  * @author idemydenko

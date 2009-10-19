@@ -5,7 +5,6 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.HashMap;
 
-
 /**
  * @author idemydenko
  *
@@ -21,29 +20,41 @@ public class ServiceFactory {
 	}
 	
 	public static AccountService getAccountService() {
-		if (!cache.containsKey(ACCOUNT_SERVICE_NAME)) {
+		if (!contains(ACCOUNT_SERVICE_NAME)) {
 			Object service = new AccountService();
-			cache.put(ACCOUNT_SERVICE_NAME, service);
+			put(ACCOUNT_SERVICE_NAME, service);
 			return (AccountService) service;
 		} 
-		return (AccountService) cache.get(ACCOUNT_SERVICE_NAME);
+		return (AccountService) get(ACCOUNT_SERVICE_NAME);
 	}
 	
 	public static TwitterService getTwitterService() {
-		if (!cache.containsKey(TWITTER_SERVICE_NAME)) {
-			Object service = new TwitterService();
-			cache.put(TWITTER_SERVICE_NAME, service);
+		if (!contains(TWITTER_SERVICE_NAME)) {
+			Object service = new Twitter4JService();
+			put(TWITTER_SERVICE_NAME, service);
 			return (TwitterService) service;
 		} 
-		return (TwitterService) cache.get(TWITTER_SERVICE_NAME);
+		return (TwitterService) get(TWITTER_SERVICE_NAME);
 	}
-	
+
 	public static UnsentMessageService getUnsentMessageService() {
-		if (!cache.containsKey(UNSENT_MESSAGE_SERVICE_NAME)) {
+		if (!contains(UNSENT_MESSAGE_SERVICE_NAME)) {
 			Object service = new UnsentMessageService();
-			cache.put(UNSENT_MESSAGE_SERVICE_NAME, service);
+			put(UNSENT_MESSAGE_SERVICE_NAME, service);
 			return (UnsentMessageService) service;
 		}
-		return (UnsentMessageService) cache.get(UNSENT_MESSAGE_SERVICE_NAME);
+		return (UnsentMessageService) get(UNSENT_MESSAGE_SERVICE_NAME);
+	}
+	
+	private static Object get(String name) {
+		return cache.get(name);
+	}
+	
+	private static void put(String name, Object service) {
+		cache.put(name, service);
+	}
+	
+	private static boolean contains(String name) {
+		return cache.containsKey(name);
 	}
 }

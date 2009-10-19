@@ -10,24 +10,20 @@ import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**
  * @author idemydenko
- *
+ * 
  */
 public class WriteDirectMessageActivity extends WritableActivity {
 	private String username;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		username = getIntent().getExtras().getString(KEY_WRITER_USERNAME);
 	}
 
 	@Override
-	protected void send(String text) {
-		try {
-			twitterService.sendDirectMessage(username, text);
-		} catch (YFrogTwitterException e) {
-			// TODO: handle exception
-		}
+	protected void send(String text) throws YFrogTwitterException {
+		twitterService.sendDirectMessage(username, text);
 	}
 
 	@Override

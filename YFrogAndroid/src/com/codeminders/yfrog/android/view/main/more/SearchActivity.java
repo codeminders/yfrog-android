@@ -4,15 +4,12 @@
 package com.codeminders.yfrog.android.view.main.more;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import android.app.*;
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
+import android.content.*;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.*;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
@@ -20,13 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
-import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 /**
@@ -40,7 +35,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 	private static final int MENU_DELETE = 0;
 
 	private TwitterService twitterService;
-	private ArrayList<TwitterSavedSearch> searches;
+	private ArrayList<TwitterSavedSearch> searches = new ArrayList<TwitterSavedSearch>(0);
 	private List<String> searchesQueries;
 	private Button saveButton;
 	private AutoCompleteTextView input;
@@ -57,7 +52,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		createList(true);
+		createList(false);
 	}
 
 	private void createList(boolean twitterUpdate) {
@@ -68,13 +63,21 @@ public class SearchActivity extends Activity implements OnClickListener {
 		boolean needReload = twitterUpdate || isNeedReload();
 
 		if (needReload) {
-			try {
-				searches = twitterService.getSavedSearches();
-			} catch (YFrogTwitterException e) {
-				showDialog(AlertUtils.ALERT_TWITTER_ERROR);
-			}
-		}
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					searches = twitterService.getSavedSearches();
+				}
 
+				protected void doAfterUpdate() {
+					show();
+				}
+			}.update();
+		} else {
+			show();
+		}
+	}
+
+	private void show() {
 		searchesQueries = getStrings();
 		setContentView(R.layout.twitter_saved_searches);
 
@@ -100,7 +103,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		// imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
 		// InputMethodManager.RESULT_UNCHANGED_SHOWN); TODO Forced show
 	}
-
+	
 	private boolean isNeedReload() {
 		return (++attempts % ATTEMPTS_TO_RELOAD == 0);
 	}
@@ -129,7 +132,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		String query = input.getText().toString().trim();
+		final String query = input.getText().toString().trim();
 
 		if (StringUtils.isEmpty(query)) {
 			return;
@@ -148,19 +151,24 @@ public class SearchActivity extends Activity implements OnClickListener {
 		case R.id.s_save_button:
 			input.setText(StringUtils.EMPTY_STRING);
 
-			TwitterSavedSearch search = null;
-			try {
-				if (isQuerySaved(query)) {
-					search = twitterService.deleteSavedSearch(findSearchByQuery(query).getId());
-					searches.remove(search);
-				} else {
-					search = twitterService.addSavedSearch(query);
-					searches.add(search);
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					TwitterSavedSearch search = null;
+					
+					if (isQuerySaved(query)) {
+						search = twitterService.deleteSavedSearch(findSearchByQuery(query).getId());
+						searches.remove(search);
+					} else {
+						search = twitterService.addSavedSearch(query);
+						searches.add(search);
+					}					
 				}
-			} catch (YFrogTwitterException e) {
-				e.printStackTrace();
-			}
-			createList(false);
+				
+				protected void doAfterUpdate() {
+					createList(false);
+				}
+			}.update();
+			
 			break;
 
 		}
@@ -198,19 +206,20 @@ public class SearchActivity extends Activity implements OnClickListener {
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_DELETE:
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+			final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 					.getMenuInfo();
-
-			TwitterSavedSearch toDelete = searches.get(info.position);
-
-			try {
-				twitterService.deleteSavedSearch(toDelete.getId());
-				searches.remove(info.position);
-			} catch (YFrogTwitterException e) {
-				// TODO
-			}
-			createList(false);
-
+			final TwitterSavedSearch toDelete = searches.get(info.position);
+			
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					twitterService.deleteSavedSearch(toDelete.getId());
+					searches.remove(info.position);
+				}
+				
+				protected void doAfterUpdate() {
+					createList(false);
+				}
+			}.update();
 			return true;
 		}
 		return false;

@@ -5,31 +5,20 @@ package com.codeminders.yfrog.android.view.account;
 
 import java.util.ArrayList;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterAuthException;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.AccountService;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.view.main.MainTabActivity;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.*;
+import android.content.*;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.view.main.MainTabActivity;
 
 /**
  * @author idemydenko
@@ -42,26 +31,38 @@ public class ListAccountsActivity extends ListActivity {
 	private static final int ALERT_DELETE = 0;
 	private static final int ALERT_AUTH_FAILED = 2;
 
+	private static final String PREFS_NAME = "yfrog_prefs";
+
+	private static final String KEY_LAST_LOGGED = "lastLogged";
+
 	private AccountService accountService;
 
 	private ArrayList<Account> accounts;
 
 	private Account toDelete = null;
 
-	private YFrogTwitterException toHandle = null;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		accountService = ServiceFactory.getAccountService();
 
+		if (getLastLogged() != null) {
+			login(getLastLogged());
+			return;
+		}
+		
 		createAccountsList();
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
+		createAccountsList();
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
 		createAccountsList();
 	}
 
@@ -72,6 +73,20 @@ public class ListAccountsActivity extends ListActivity {
 				android.R.layout.simple_list_item_1, getAccountsNames(accounts)));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
+	}
+
+	private Account getLastLogged() {
+		long lastLoggedId = 0;
+		lastLoggedId = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+				.getLong(KEY_LAST_LOGGED, 0);
+		return accountService.getAccount(lastLoggedId);
+	}
+
+	private void saveLastLogged(Account account) {
+		Editor editor = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+				.edit();
+		editor.putLong(KEY_LAST_LOGGED, account.getId());
+		editor.commit();
 	}
 
 	private String[] getAccountsNames(ArrayList<Account> accounts) {
@@ -169,9 +184,8 @@ public class ListAccountsActivity extends ListActivity {
 							}).create();
 			break;
 
-		case AlertUtils.ALERT_TWITTER_ERROR:
-			dialiog = AlertUtils.createTwitterErrorAlert(this, toHandle);
-			toHandle = null;
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
 			break;
 
 		case ALERT_AUTH_FAILED:
@@ -210,31 +224,37 @@ public class ListAccountsActivity extends ListActivity {
 			return;
 		}
 
+		login(account);
+	}
+
+	private void login(Account account) {
+
 		try {
 			accountService.login(account);
 		} catch (YFrogTwitterAuthException e) {
 			showDialog(ALERT_AUTH_FAILED);
 			return;
 		} catch (YFrogTwitterException e) {
-			toHandle = e;
-			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
+			showDialog(DialogUtils.ALERT_TWITTER_ERROR);
 			return;
 		}
+
+		saveLastLogged(account);
 		startActivity(new Intent(this, MainTabActivity.class));
 	}
 
 	private void deleteAccount(Account account) {
 		if (account == null) {
-			return;	
+			return;
 		}
-		
+
 		toDelete = account;
 		showDialog(ALERT_DELETE);
 	}
 
 	private void editAccount(Account account) {
 		if (account == null) {
-			return;	
+			return;
 		}
 
 		Intent intent = new Intent(this, EditAccountActivity.class);

@@ -4,7 +4,7 @@
     
     <!-- Common -->
     <string name="twitter_error_title">Twitter error</string>
-    <string name="twitter_error_msg">Error code -</string>
+    <string name="twitter_error_msg">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
     <string name="twitter_error_btn">OK</string>
     <string name="list_reload">Refresh</string>
     <string name="delete">Delete</string>
@@ -21,6 +21,7 @@
     <string name="date_less_30d">%d days ago</string>
     <string name="add_tweet">Add tweet</string>
     <string name="more_tweets">More tweets</string>
+    <string name="loading">Loading...</string>
     
     <!-- Account list -->
     <string name="account_list_activity">Accounts</string>

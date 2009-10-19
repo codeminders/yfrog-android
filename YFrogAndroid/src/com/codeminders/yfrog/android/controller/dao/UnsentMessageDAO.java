@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.*;
+
 import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**

@@ -3,14 +3,13 @@
  */
 package com.codeminders.yfrog.android.view.main.more;
 
-import com.codeminders.yfrog.android.R;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.*;
+
+import com.codeminders.yfrog.android.R;
 
 /**
  * @author idemydenko

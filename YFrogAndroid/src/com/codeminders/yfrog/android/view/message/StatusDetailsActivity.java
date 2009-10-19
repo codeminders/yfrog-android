@@ -12,12 +12,11 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 /**
@@ -31,7 +30,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	public static final String KEY_STATUSES = "statuses";
 	
 	private TwitterService twitterService;
-	private ArrayList<TwitterStatus> statuses;
+	private ArrayList<TwitterStatus> statuses = new ArrayList<TwitterStatus>(0);
 	private TwitterStatus status;
 	private int position;
 	private int count;
@@ -139,30 +138,38 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		case R.id.tm_forward:
 			break;
 		case R.id.tm_delete:
-			try {
-				twitterService.deleteStatus(status.getId());
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-			}
-			finish();
+			new AsyncTwitterUpdater(this) {
+				@Override
+				protected void doUpdate() throws YFrogTwitterException {
+					twitterService.deleteStatus(status.getId());
+				}
+				
+				protected void doAfterUpdate() {
+					finish();
+				}
+			}.update();
 			break;
 		}
 	}
 	
 	private void favorite() {
-		try {
-			if (!favorited) {
-				twitterService.favorite(status.getId());
-			} else {
-				twitterService.unfavorite(status.getId());
+		new AsyncTwitterUpdater(this) {
+			@Override
+			protected void doUpdate() throws YFrogTwitterException {
+				if (!favorited) {
+					twitterService.favorite(status.getId());
+				} else {
+					twitterService.unfavorite(status.getId());
+				}
+				favorited = !favorited;
 			}
-			favorited = !favorited;
 			
-			Button button = (Button) findViewById(R.id.tm_favorite);
-			button.setText(favorited ? R.string.tm_btn_unfavorite : R.string.tm_btn_favorite);
-		} catch (YFrogTwitterException e) {
-			// TODO: handle exception
-		}		
+			protected void doAfterUpdate() {
+				Button button = (Button) findViewById(R.id.tm_favorite);
+				button.setText(favorited ? R.string.tm_btn_unfavorite
+						: R.string.tm_btn_favorite);
+			}
+		}.update();
 	}
 	
 	@Override

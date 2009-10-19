@@ -12,14 +12,12 @@ import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.model.UnsentMessage;
+import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
-import com.codeminders.yfrog.android.view.message.EditUnsentMessageActivity;
-import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
+import com.codeminders.yfrog.android.view.message.*;
 
 /**
  * @author idemydenko
@@ -81,17 +79,21 @@ public class UnsentActivity extends ListActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		
-		UnsentMessage message = messages.get(info.position);
+		final UnsentMessage message = messages.get(info.position);
 		
 		switch(item.getItemId()) {
 		case MENU_SEND:
-			try {
-				twitterService.sendUnsentMessage(message);
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-				return false;
-			}
-			createList();
+			
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					twitterService.sendUnsentMessage(message);
+				}
+				
+				protected void doAfterUpdate() {
+					createList();
+				}
+			}.update();
+			
 			return true;
 		case MENU_DELETE:
 			unsentMessageService.deleteUnsentMessage(message.getId());
@@ -119,12 +121,16 @@ public class UnsentActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.umt_send_all:
-			try {
-				twitterService.sendAllUnsentMessages();
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-			}
-			createList();
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					twitterService.sendAllUnsentMessages();
+				}
+				
+				protected void doAfterUpdate() {
+					createList();
+				}
+			}.update();
+			
 			return true;
 		case R.id.add_tweet:
 			Intent intent = new Intent(this, WriteStatusActivity.class);

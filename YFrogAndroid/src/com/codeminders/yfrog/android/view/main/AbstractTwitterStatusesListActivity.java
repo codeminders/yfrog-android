@@ -5,24 +5,19 @@ package com.codeminders.yfrog.android.view.main;
 
 import java.util.ArrayList;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
-import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.view.adapter.TwitterStatusAdapter;
-import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
-import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
-
-import android.app.Dialog;
-import android.app.ListActivity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.ListView;
+
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.view.adapter.TwitterStatusAdapter;
+import com.codeminders.yfrog.android.view.message.*;
 
 /**
  * @author idemydenko
@@ -31,14 +26,13 @@ import android.widget.ListView;
 public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	private static final int DEFAULT_PAGE_SIZE = 20;
 	private static final int MAX_COUNT = 3200;
-	
+
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
 	protected TwitterService twitterService;
-	protected ArrayList<TwitterStatus> statuses;
-	private YFrogTwitterException toHandle;
-	
+	protected ArrayList<TwitterStatus> statuses = new ArrayList<TwitterStatus>(0);
+
 	private int page = 1;
 
 	public AbstractTwitterStatusesListActivity() {
@@ -50,43 +44,59 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
 
-		createList(true);
+		createList(true, false);
 	}
 
 	@Override
 	protected void onRestart() {
-		super.onResume();
-		createList(false);
+		super.onRestart();
+		createList(false, false);
 
 	}
 
-	private void createList(boolean twitterUpdate) {
+	@Override
+	protected void onResume() {
+		super.onResume();
+		createList(false, false);
+	}
+
+	private void createList(final boolean twitterUpdate, final boolean append) {
 		if (twitterUpdate) {
 			attempts = 1;
 		}
-		
+
 		boolean needReload = twitterUpdate || isNeedReload();
-		
+
 		if (needReload) {
-			try {
-				if (twitterUpdate) {
-					page = 1;
+			if (twitterUpdate && !append) {
+				page = 1;
+			}
+
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					if (append) {
+						statuses.addAll(getStatuses(page, DEFAULT_PAGE_SIZE));
+					} else {
+						statuses = getStatuses(1, DEFAULT_PAGE_SIZE * page);
+					}					
 				}
 				
-				statuses = getStatuses(page, DEFAULT_PAGE_SIZE);
-			} catch (YFrogTwitterException e) {
-				statuses = new ArrayList<TwitterStatus>(0);
-				toHandle = e;
-				showDialog(AlertUtils.ALERT_TWITTER_ERROR);
-			}
+				protected void doAfterUpdate() {
+					show();
+				}
+			}.update();
+		} else {
+			show();
 		}
-		
+	}
+
+	private void show() {
 		int selected = -1;
-		
+
 		if (getListView() != null) {
 			selected = getSelectedItemPosition();
 		}
-		
+
 		setListAdapter(new TwitterStatusAdapter<TwitterStatus>(this, statuses));
 
 		if (selected > -1) {
@@ -95,24 +105,13 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		registerForContextMenu(getListView());
 	}
 
-	private void appendList() {
-		try {
-			ArrayList<TwitterStatus> appended = getStatuses(page, DEFAULT_PAGE_SIZE);
-			statuses.addAll(appended);
-		} catch (YFrogTwitterException e) {
-			toHandle = e;
-			showDialog(AlertUtils.ALERT_TWITTER_ERROR);
-		}
-		
-		createList(false);
-	}
-
 	private boolean isNeedReload() {
 		return (++attempts % ATTEMPTS_TO_RELOAD == 0);
 	}
 
-	protected abstract ArrayList<TwitterStatus> getStatuses(int page, int count) throws YFrogTwitterException;
-	
+	protected abstract ArrayList<TwitterStatus> getStatuses(int page, int count)
+			throws YFrogTwitterException;
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent intent = new Intent(this, StatusDetailsActivity.class);
@@ -134,29 +133,26 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialiog = null;
 		switch (id) {
-		case AlertUtils.ALERT_TWITTER_ERROR:
-			dialiog = AlertUtils.createTwitterErrorAlert(this, toHandle);
-			toHandle = null;
-			
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
 			break;
-
 		}
 		return dialiog;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.common_refresh_list, menu);
 		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
 		getMenuInflater().inflate(R.menu.common_more_tweets, menu);
 		return super.onCreateOptionsMenu(menu);
-		
+
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.reload_list:
-			createList(true);
+			createList(true, false);
 			return true;
 		case R.id.add_tweet:
 			Intent intent = new Intent(this, WriteStatusActivity.class);
@@ -165,22 +161,23 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		case R.id.more_tweets:
 			if (!isNoMoreItems()) {
 				page++;
-				appendList();
+				createList(true, true);
 			}
 			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem item = menu.findItem(R.id.more_tweets);
 		item.setEnabled(!isNoMoreItems());
 		return super.onPrepareOptionsMenu(menu);
 	}
-	
+
 	private boolean isNoMoreItems() {
-		return statuses.size() < page * DEFAULT_PAGE_SIZE && page * DEFAULT_PAGE_SIZE > MAX_COUNT;
+		return statuses.size() < page * DEFAULT_PAGE_SIZE
+				&& page * DEFAULT_PAGE_SIZE > MAX_COUNT;
 	}
 }

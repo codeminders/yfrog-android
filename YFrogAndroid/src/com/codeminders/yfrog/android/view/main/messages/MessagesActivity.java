@@ -5,23 +5,19 @@ package com.codeminders.yfrog.android.view.main.messages;
 
 import java.util.ArrayList;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
-import com.codeminders.yfrog.android.model.TwitterDirectMessage;
-import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
-import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.model.TwitterDirectMessage;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 /**
  * @author idemydenko
@@ -34,7 +30,7 @@ public class MessagesActivity extends ListActivity {
 	public static final int MENU_DELETE = 0;
 
 	private TwitterService twitterService;
-	private ArrayList<TwitterDirectMessage> messages;
+	private ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>(0);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +54,25 @@ public class MessagesActivity extends ListActivity {
 		boolean needReload = twitterUpdate || isNeedReload();
 		
 		if (needReload) {
-			try {
-				messages = twitterService.getDirectMessages();
-			} catch (YFrogTwitterException e) {
-			}			
-		}
-		
-		// TODO Do we need to update messages in other thread?
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					messages = twitterService.getDirectMessages();					
+				}
+				
+				protected void doAfterUpdate() {
+					show();
+				}
+			}.update();
+		} else {
+			show();
+		}		
+	}
+
+	private void show() {
 		setListAdapter(new TwitterDirectMessageAdapter<TwitterDirectMessage>(this, messages));
 		registerForContextMenu(getListView());
 	}
-
+	
 	private boolean isNeedReload() {
 		return (++attempts % ATTEMPTS_TO_RELOAD == 0);
 	}
@@ -103,20 +107,23 @@ public class MessagesActivity extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		
 		switch (item.getItemId()) {
 		case MENU_DELETE:
-			TwitterDirectMessage toDelete = getSelected(info.position);
+			final TwitterDirectMessage toDelete = getSelected(info.position);
 			
-			try {
-				twitterService.deleteDirectMessage(toDelete.getId());
-				messages.remove(info.position);
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-			}
-			createList(false); // View Adapter don't support add/remove operations from list
-			
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					twitterService.deleteDirectMessage(toDelete.getId());
+					messages.remove(info.position);
+				}
+				
+				protected void doAfterUpdate() {
+					createList(false); // View Adapter don't support add/remove operations from list
+				}
+			}.update();
+
 			return true;
 		}
 		return false;

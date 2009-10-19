@@ -12,11 +12,10 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 import com.codeminders.yfrog.android.view.message.*;
 
@@ -112,19 +111,22 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.tud_follow:
-			try {
-				if (user.isFollowing()) {
-					twitterService.unfollow(user.getUsername());
-				} else {
-					twitterService.follow(user.getUsername());
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					if (user.isFollowing()) {
+						twitterService.unfollow(user.getUsername());
+					} else {
+						twitterService.follow(user.getUsername());
+					}
+					user.setFollowing(!user.isFollowing());					
 				}
-				user.setFollowing(!user.isFollowing());
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-			}
-			Button button = (Button) findViewById(R.id.tud_follow);
-			button.setText(user.isFollowing() ? R.string.tud_btn_unfollow : R.string.tud_btn_follow);
-			button.setOnClickListener(this);
+				
+				protected void doAfterUpdate() {
+					Button button = (Button) findViewById(R.id.tud_follow);
+					button.setText(user.isFollowing() ? R.string.tud_btn_unfollow : R.string.tud_btn_follow);
+					button.setOnClickListener(UserDetailsActivity.this);					
+				}
+			}.update();
 
 			break;
 		case R.id.tud_send_pub_replay:

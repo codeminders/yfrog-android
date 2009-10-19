@@ -5,19 +5,17 @@ package com.codeminders.yfrog.android.view.main;
 
 import java.util.ArrayList;
 
-import android.app.Dialog;
-import android.app.ListActivity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.ListView;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterUser;
-import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterUserAdapter;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
@@ -31,8 +29,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	private int attempts = 0;
 
 	protected TwitterService twitterService;
-	protected ArrayList<TwitterUser> users;
-	protected YFrogTwitterException toHandle;
+	protected ArrayList<TwitterUser> users = new ArrayList<TwitterUser>(0);
 
 	/**
 	 * 
@@ -64,19 +61,26 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		boolean needReload = twitterUpdate || isNeedReload();
 		
 		if (needReload) {
-			try {
-				users = getUsers();
-			} catch (YFrogTwitterException e) {
-				users = new ArrayList<TwitterUser>(0);
-				toHandle = e;
-				showDialog(AlertUtils.ALERT_TWITTER_ERROR);
-			}
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					users = getUsers();
+				}
+				
+				protected void doAfterUpdate() {
+					show();
+				}
+			}.update();
+		} else {
+			show();
 		}
 		
 		
+	}
+
+	private void show() {
 		setListAdapter(new TwitterUserAdapter<TwitterUser>(this, users));
 		getListView().setTextFilterEnabled(true);
-		registerForContextMenu(getListView());		
+		registerForContextMenu(getListView());				
 	}
 	
 	private boolean isNeedReload() {
@@ -100,10 +104,8 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialiog = null;
 		switch (id) {
-		case AlertUtils.ALERT_TWITTER_ERROR:
-			dialiog = AlertUtils.createTwitterErrorAlert(this, toHandle);
-			toHandle = null;
-			
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
 			break;
 
 		}

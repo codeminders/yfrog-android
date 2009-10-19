@@ -4,37 +4,23 @@
 package com.codeminders.yfrog.android.view.main.more;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.text.*;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.*;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.controller.service.TwitterService;
-import com.codeminders.yfrog.android.model.TwitterQueryResult;
-import com.codeminders.yfrog.android.model.TwitterSavedSearch;
-import com.codeminders.yfrog.android.model.TwitterSearchResult;
-import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterSearchResultAdapter;
-import com.codeminders.yfrog.android.view.message.StatusDetailsActivity;
-import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
+import com.codeminders.yfrog.android.view.message.*;
 
 /**
  * @author idemydenko
@@ -76,22 +62,39 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 
 		}
 
-		createList(true);
+		createList(true, false);
 
 	}
 
-	private void createList(boolean twitterUpdate) {
+	private void createList(boolean twitterUpdate, final boolean append) {
 
 		if (twitterUpdate) {
-			page = 1;
-			try {
-				queryResult = twitterService.search(query, page,
-						DEFAULT_PAGE_SIZE);
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
+			if (!append) {
+				page = 1;
 			}
+			
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					if (append) {
+						queryResult.getResults().addAll(twitterService.search(query, page,
+								DEFAULT_PAGE_SIZE).getResults());
+					} else {
+						queryResult = twitterService.search(query, page,
+								DEFAULT_PAGE_SIZE);
+					}					
+				}
+				
+				protected void doAfterUpdate() {
+					show();
+				}
+			}.update();
+		} else {
+			show();
 		}
 
+	}
+
+	private void show() {
 		setContentView(R.layout.twitter_search_results);
 
 		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
@@ -119,8 +122,9 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		input.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line, searchesQueries));
 		input.addTextChangedListener(inputTextWatcher);
+		
 	}
-
+	
 	private List<String> getStrings() {
 		List<String> list = new ArrayList<String>(searches.size());
 
@@ -137,18 +141,6 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		}
 
 		return searches.get(searchesQueries.indexOf(query.trim()));
-	}
-
-	private void appendList() {
-		try {
-			TwitterQueryResult appended = twitterService.search(query, page,
-					DEFAULT_PAGE_SIZE);
-			queryResult.getResults().addAll(appended.getResults());
-		} catch (YFrogTwitterException e) {
-			e.printStackTrace();
-		}
-
-		createList(false);
 	}
 
 	private String getQueryFromInput() {
@@ -172,39 +164,42 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.sr_search_button:
 
-			createList(true);
+			createList(true, false);
 			break;
 
 		case R.id.sr_save_button:
-
-			try {
-				if (isSaved) {
-					TwitterSavedSearch savedSearch = findSearchByQuery();
-					twitterService.deleteSavedSearch(savedSearch.getId());
-				} else {
-					twitterService.addSavedSearch(query);
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					if (isSaved) {
+						TwitterSavedSearch savedSearch = findSearchByQuery();
+						twitterService.deleteSavedSearch(savedSearch.getId());
+					} else {
+						twitterService.addSavedSearch(query);
+					}					
 				}
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-			}
-			finish();
-
+				
+				protected void doAfterUpdate() {
+					finish();
+				}
+			}.update();
 			break;
 		}
 	}
 
+	// TODO Bad solution, need to refactor
 	private TwitterStatus getSelected(int position) {
 		if (position > -1) {
-			TwitterSearchResult sr = queryResult.getResults().get(position);
-			TwitterStatus result = null;
-
-			try {
-				result = twitterService.getStatus(sr.getId());
-			} catch (YFrogTwitterException e) {
-				// TODO: handle exception
-			}
-
-			return result;
+			final TwitterSearchResult sr = queryResult.getResults().get(position);
+			final ArrayList<TwitterStatus> result = new ArrayList<TwitterStatus>(1);
+			
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					result.add(twitterService.getStatus(sr.getId()));
+				}
+			}.update();
+			
+			if (result.size() > 0)
+				return result.get(0);
 		}
 		return null;
 	}
@@ -224,7 +219,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		case R.id.more_serarch_results:
 			if (!isNoMoreItems()) {
 				page++;
-				appendList();
+				createList(true, true);
 			}
 
 			return true;

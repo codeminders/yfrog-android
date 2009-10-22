@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import android.app.*;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
+import android.os.*;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
@@ -30,28 +30,30 @@ public class ListAccountsActivity extends ListActivity {
 
 	private static final int ALERT_DELETE = 0;
 	private static final int ALERT_AUTH_FAILED = 2;
+	private static final int ALERT_CONN_PROGRESS = 3;
 
 	private static final String PREFS_NAME = "yfrog_prefs";
 
 	private static final String KEY_LAST_LOGGED = "lastLogged";
 
 	private AccountService accountService;
-
 	private ArrayList<Account> accounts;
-
 	private Account toDelete = null;
+	
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		accountService = ServiceFactory.getAccountService();
 
+		createAccountsList();
+		
 		if (getLastLogged() != null) {
 			login(getLastLogged());
 			return;
 		}
-		
-		createAccountsList();
 	}
 
 	@Override
@@ -201,6 +203,8 @@ public class ListAccountsActivity extends ListActivity {
 								}
 							}).create();
 			break;
+		case ALERT_CONN_PROGRESS:
+			return new ProgressDialog(this);
 		}
 		return dialiog;
 	}
@@ -228,21 +232,37 @@ public class ListAccountsActivity extends ListActivity {
 	}
 
 	private void login(Account account) {
-
+		showDialog(ALERT_CONN_PROGRESS);
 		try {
 			accountService.login(account);
 		} catch (YFrogTwitterAuthException e) {
+			dismissDialog(ALERT_CONN_PROGRESS);
 			showDialog(ALERT_AUTH_FAILED);
 			return;
 		} catch (YFrogTwitterException e) {
+			dismissDialog(ALERT_CONN_PROGRESS);
 			showDialog(DialogUtils.ALERT_TWITTER_ERROR);
 			return;
 		}
-
 		saveLastLogged(account);
+		dismissDialog(ALERT_CONN_PROGRESS);
+		
 		startActivity(new Intent(this, MainTabActivity.class));
 	}
 
+	private void progressDismiss() {
+		if (progressDialog != null) {
+			Handler handler = new Handler();
+			
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					progressDialog.dismiss();
+				}
+			});
+		}
+	}
+	
 	private void deleteAccount(Account account) {
 		if (account == null) {
 			return;

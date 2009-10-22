@@ -6,7 +6,7 @@ package com.codeminders.yfrog.android.view.main.more;
 import java.io.Serializable;
 import java.util.*;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.*;
@@ -17,7 +17,7 @@ import android.widget.*;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterSearchResultAdapter;
 import com.codeminders.yfrog.android.view.message.*;
@@ -186,24 +186,6 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	// TODO Bad solution, need to refactor
-	private TwitterStatus getSelected(int position) {
-		if (position > -1) {
-			final TwitterSearchResult sr = queryResult.getResults().get(position);
-			final ArrayList<TwitterStatus> result = new ArrayList<TwitterStatus>(1);
-			
-			new AsyncTwitterUpdater(this) {
-				protected void doUpdate() throws YFrogTwitterException {
-					result.add(twitterService.getStatus(sr.getId()));
-				}
-			}.update();
-			
-			if (result.size() > 0)
-				return result.get(0);
-		}
-		return null;
-	}
-
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.search_results, menu);
 		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
@@ -240,22 +222,44 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 				&& page * DEFAULT_PAGE_SIZE > MAX_COUNT;
 	}
 
+	private void showDetails(int position) {
+		if (position < 0) {
+			return;
+		}
+
+		final TwitterSearchResult sr = queryResult.getResults().get(position);
+
+		new AsyncTwitterUpdater(this) {
+			private TwitterStatus status;
+			protected void doUpdate() throws YFrogTwitterException {
+				status = twitterService.getStatus(sr.getId());
+			}
+			
+			protected void doAfterUpdate() {
+				if (status == null) {
+					return;
+				}
+				Intent intent = new Intent(SearchResultsActivity.this,
+						StatusDetailsActivity.class);
+				intent.putExtra(StatusDetailsActivity.KEY_STATUSES,
+						(Serializable) Arrays.asList(status));
+				intent.putExtra(StatusDetailsActivity.KEY_STATUS_POS, 0);
+
+				startActivity(intent);						
+			}
+		}.update();
+
+
+	}
+	
 	@SuppressWarnings("unchecked")
 	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView parent, View v, int position,
 				long id) {
-			Intent intent = new Intent(SearchResultsActivity.this,
-					StatusDetailsActivity.class);
-			TwitterStatus status = getSelected(position);
-			intent.putExtra(StatusDetailsActivity.KEY_STATUSES,
-					(Serializable) Arrays.asList(status));
-			intent.putExtra(StatusDetailsActivity.KEY_STATUS_POS, 0);
-
-			startActivity(intent);
-
+			showDetails(position);
 		}
 	};
-
+	
 	private TextWatcher inputTextWatcher = new TextWatcher() {
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
@@ -274,4 +278,15 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 
 		}
 	};
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
+	}
 }

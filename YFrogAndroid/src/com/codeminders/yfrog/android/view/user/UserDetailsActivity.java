@@ -5,7 +5,7 @@ package com.codeminders.yfrog.android.view.user;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -15,6 +15,7 @@ import android.widget.*;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.DialogUtils;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 import com.codeminders.yfrog.android.view.message.*;
@@ -194,6 +195,17 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
 	}
 
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:title="@string/save" android:id="@+id/iv_save"></item>
+<item android:title="@string/iv_zoom_in" android:id="@+id/iv_zoom_in"></item>
+<item android:title="@string/iv_zoom_out" android:id="@+id/iv_zoom_out"></item>
+</menu>

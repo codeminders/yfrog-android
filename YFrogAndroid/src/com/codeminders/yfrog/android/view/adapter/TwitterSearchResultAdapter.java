@@ -3,9 +3,10 @@
  */
 package com.codeminders.yfrog.android.view.adapter;
 
-import java.util.List;
+import java.util.*;
 
 import android.content.Context;
+import android.text.Spannable;
 import android.view.*;
 import android.widget.*;
 

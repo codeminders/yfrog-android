@@ -5,13 +5,13 @@ package com.codeminders.yfrog.android.util;
 
 import java.net.URL;
 
-import com.codeminders.yfrog.android.view.media.ImageViewActivity;
-
 import android.content.*;
 import android.graphics.*;
 import android.text.*;
 import android.text.style.*;
 import android.view.View;
+
+import com.codeminders.yfrog.android.view.media.ImageViewActivity;
 
 /**
  * @author idemydenko

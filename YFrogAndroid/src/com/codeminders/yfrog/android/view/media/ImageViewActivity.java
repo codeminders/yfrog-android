@@ -7,10 +7,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.util.DialogUtils;
-import com.codeminders.yfrog.android.util.async.*;
-
 import android.app.*;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -19,6 +15,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.*;
+
+import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.async.AsyncUpdater;
 
 /**
  * @author idemydenko

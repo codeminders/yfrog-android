@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 import android.app.*;
 import android.content.Intent;
-import android.os.*;
-import android.text.Spannable;
+import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -106,7 +105,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		if (YFrogUtils.hasYFrogContent(text)) {
 			textView.setText(StringUtils.EMPTY_STRING);
 			new AsyncUpdater(this) {
-				private Spannable spannable;
+				private CharSequence spannable;
 				protected void doUpdate() throws Exception {
 					spannable = StringUtils.parseURLs(text, StatusDetailsActivity.this);
 				}
@@ -134,6 +133,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 			favorite();
 			break;
 		case R.id.tm_forward:
+			forward();
 			break;
 		case R.id.tm_delete:
 			new AsyncTwitterUpdater(this) {
@@ -148,6 +148,15 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 			}.update();
 			break;
 		}
+	}
+	
+	private void forward() {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_TEXT, status.getText());
+		
+		startActivity(Intent.createChooser(intent, getResources().getString(R.string.tud_send_email)));
 	}
 	
 	private void favorite() {

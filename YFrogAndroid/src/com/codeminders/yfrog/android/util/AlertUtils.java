@@ -3,12 +3,10 @@
  */
 package com.codeminders.yfrog.android.util;
 
-import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.YFrogTwitterException;
-
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.*;
 import android.content.DialogInterface;
+
+import com.codeminders.yfrog.android.*;
 
 /**
  * @author idemydenko

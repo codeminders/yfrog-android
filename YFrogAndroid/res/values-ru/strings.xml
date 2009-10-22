@@ -107,6 +107,7 @@
     <string name="tud_btn_followers">Followers</string>
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
+    <string name="tud_send_email">Send email...</string>
     
     <!-- Twitter status details -->
     <string name="tm_btn_reply">Reply</string>

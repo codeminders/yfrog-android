@@ -6,7 +6,6 @@ package com.codeminders.yfrog.android.util.async;
 import android.app.*;
 import android.os.Handler;
 
-import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.util.DialogUtils;
 
 /**

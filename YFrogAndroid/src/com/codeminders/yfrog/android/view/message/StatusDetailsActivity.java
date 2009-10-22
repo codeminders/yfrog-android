@@ -5,9 +5,11 @@ package com.codeminders.yfrog.android.view.message;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.*;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -15,8 +17,8 @@ import android.widget.*;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.util.StringUtils;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.async.*;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 /**
@@ -73,32 +75,6 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		view = (TextView) findViewById(R.id.tm_created_at);
 		view.setText(StringUtils.formatDate(getResources(), status.getCreatedAt()));
 
-		view = (TextView) findViewById(R.id.tm_text);
-		view.setText(status.getText());
-
-		
-		
-//		view.setMovementMethod(LinkMovementMethod.getInstance());
-//		Spanned text = Html.fromHtml(StringUtils.toHtml(status.getText()), new Html.ImageGetter() {
-//			@Override
-//			public Drawable getDrawable(String source) {
-//				
-//				BitmapDrawable drawable = null;
-//				
-//				try {
-//					drawable = new BitmapDrawable(new URL(source).openStream());
-//				} catch (Exception e) {
-//					
-//				}
-//				
-//				drawable.setBounds(0, 0, 48, 48);
-//				System.out.println(drawable);
-//				return drawable;
-//			}
-//		}, null);
-//		
-//		view.setText(text);
-
 		view = (TextView) findViewById(R.id.tm_counter);
 		view.setText((position + 1) + "/" + count);
 
@@ -121,6 +97,28 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		button.setVisibility(my ? View.VISIBLE : View.GONE);
 		button.setOnClickListener(this);
 		
+		setText();
+	}
+	
+	private void setText() {
+		final TextView textView = (TextView) findViewById(R.id.tm_text);
+		final String text = status.getText();
+		if (YFrogUtils.hasYFrogContent(text)) {
+			textView.setText(StringUtils.EMPTY_STRING);
+			new AsyncUpdater(this) {
+				private Spannable spannable;
+				protected void doUpdate() throws Exception {
+					spannable = StringUtils.parseURLs(text, StatusDetailsActivity.this);
+				}
+				
+				protected void doAfterUpdate() {
+					textView.setText(spannable);					
+				}
+			}.update();			
+		} else {
+			textView.setText(StringUtils.parseURLs(text, StatusDetailsActivity.this));
+		}
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	@Override
@@ -208,5 +206,16 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
 	}
 }

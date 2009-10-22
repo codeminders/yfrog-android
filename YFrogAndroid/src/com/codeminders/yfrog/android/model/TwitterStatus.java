@@ -96,4 +96,25 @@ public class TwitterStatus implements Serializable {
 		createdAt = (Date) in.readObject();
 		favorited = in.readBoolean();
 	}
+
+	public int hashCode() {
+		final int prime = 31;
+		int result = 13;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof TwitterStatus))
+			return false;
+
+		TwitterStatus castObj = (TwitterStatus) obj;
+		if (id != castObj.id)
+			return false;
+		return true;
+	}
+	
+	
 }

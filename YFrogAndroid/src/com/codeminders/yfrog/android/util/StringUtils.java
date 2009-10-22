@@ -3,15 +3,22 @@
  */
 package com.codeminders.yfrog.android.util;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.regex.*;
 
+import android.content.*;
 import android.content.res.Resources;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import android.net.Uri;
 import android.text.*;
 import android.text.format.DateFormat;
-import android.text.style.BackgroundColorSpan;
+import android.text.style.*;
+import android.view.View;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.view.media.ImageViewActivity;
 
 /**
  * @author idemydenko
@@ -97,62 +104,20 @@ public final class StringUtils {
 		return result;
 	}
 	
-//	public static String highlightText(String text, String spanned) {
-//		
-//		int index = text.indexOf(spanned);
-//		int nextStart = 0;
-//		int length = spanned.length();
-//		
-//		while (index > -1) {
-//			nextStart = index + length;
-//			
-//			System.out.println(index + " : " + nextStart);
-//			
-//			index = text.indexOf(spanned, nextStart);
-//		}
-//		
-//		return text;
-//	}
-
-	
-	public static String toHtml(String source) {
+	public static Spannable parseURLs(String source, final Context context) {
+		SpannableString spannable = new SpannableString(source);
 		Matcher matcher = urlPattern.matcher(source);
 
-		StringBuilder result = new StringBuilder();
-		String[] splits = urlPattern.split(source);
-
-		int i = 0;
-		int size = splits.length;
-		if (size > 0) {
-			result.append(splits[i++]);
-		}
-		
 		while (matcher.find()) {
-			String url = matcher.group();
+			final String url = matcher.group();
 			
-			System.out.println(fromYFrog(url));
-			
-			result.append("<a href=\"");
-			result.append(url);
-			result.append("\">");
-			if (fromYFrog(url)) {
-				result.append("<img src=\"");
-				result.append(url);
-				result.append("\"/>");
+			if (YFrogUtils.hasYFrogContent(url)) {
+				YFrogUtils.buildYFrogURL(context, spannable, url, matcher.start(), matcher.end());
 			} else {
-				result.append(url);
-			}
-			result.append("</a>");
-			
-			if (i < size) {
-				result.append(splits[i++]);
+				spannable.setSpan(new URLSpan(url), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
 		
-		return result.toString();
-	}
-	
-	private static boolean fromYFrog(String url) {
-		return url.indexOf("yfrog.com") != -1;
+		return spannable;
 	}
 }

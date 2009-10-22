@@ -3,15 +3,17 @@
  */
 package com.codeminders.yfrog.android.view.adapter;
 
-import java.util.List;
+import java.util.*;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
 /**
@@ -19,6 +21,7 @@ import com.codeminders.yfrog.android.util.image.cache.ImageCache;
  *
  */
 public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<TwitterStatus> {
+	private HashMap<Long, Spannable> spannableCache = new HashMap<Long, Spannable>();
 	private LayoutInflater inflater = null;
 	
 	public TwitterStatusAdapter(Context context, List<TwitterStatus> objects) {
@@ -40,12 +43,59 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		textView = (TextView) view.findViewById(R.id.ts_username);
 		textView.setText(ts.getUser().getScreenUsername());
 		
-		textView = (TextView) view.findViewById(R.id.ts_text);
-		textView.setText(ts.getText());
+		setText(view, ts);
 		
 		ImageView imageView = (ImageView) view.findViewById(R.id.ts_user_icon);
 		ImageCache.getInstance().putImage(ts.getUser().getProfileImageURL(), imageView);
 		
 		return view;
+	}
+	
+	private void setText(final View view, final TwitterStatus status) {
+		final TextView textView = (TextView) view.findViewById(R.id.ts_text);
+		final String text = status.getText();
+		
+		if (YFrogUtils.hasYFrogContent(text)) {
+			if (isCached(status.getId())) {
+				textView.setText(get(status.getId()));
+			} else {
+				textView.setText(StringUtils.EMPTY_STRING);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						final Spannable spannableText = StringUtils.parseURLs(text, view.getContext());
+						
+						textView.post(new Runnable() {
+							public void run() {
+								textView.setText(spannableText);
+								put(status.getId(), spannableText);
+							}
+						});
+					}
+				}).start();
+
+			}
+		} else {
+			textView.setText(StringUtils.parseURLs(status.getText(), view.getContext()));
+		}
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	
+	private boolean isCached(Long statusId) {
+		synchronized (spannableCache) {
+			return spannableCache.containsKey(statusId);
+		}
+	}
+	
+	private Spannable get(Long statusId) {
+		synchronized (spannableCache) {
+			return spannableCache.get(statusId);
+		}		
+	}
+	
+	private void put(Long statusId, Spannable spannable) {
+		synchronized (spannableCache) {
+			spannableCache.put(statusId, spannable);
+		}		
 	}
 }

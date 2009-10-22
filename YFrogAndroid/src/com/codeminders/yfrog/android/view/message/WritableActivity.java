@@ -3,7 +3,7 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
-import android.app.Activity;
+import android.app.*;
 import android.os.Bundle;
 import android.text.*;
 import android.view.*;
@@ -14,7 +14,7 @@ import android.widget.ViewSwitcher.ViewFactory;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.UnsentMessage;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 
 /**
@@ -84,6 +84,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 					protected void doAfterUpdate() {
 						callback();
 						finish();
+						Toast.makeText(getApplicationContext(), R.string.msg_sent, Toast.LENGTH_SHORT).show();
 					}
 				}.update();
 			}
@@ -160,5 +161,16 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	
 	private boolean isOverrideMaxCount() {
 		return count > MAX_COUNT;
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
 	}
 }

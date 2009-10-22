@@ -3,7 +3,6 @@
  */
 package com.codeminders.yfrog.android.util.async;
 
-import twitter4j.examples.GetTimelines;
 import android.app.*;
 import android.os.Handler;
 
@@ -14,20 +13,18 @@ import com.codeminders.yfrog.android.util.DialogUtils;
  * @author idemydenko
  *
  */
-public abstract class AsyncTwitterUpdater {
+public abstract class AsyncUpdater {
 	Activity activity;
 	Handler handler;
 	ProgressDialog dialog;
-	Thread thread;
 	
-	public AsyncTwitterUpdater(Activity a) {
+	public AsyncUpdater(Activity a) {
 		activity = a;
 		handler = new Handler();
 		dialog = DialogUtils.showProgressAlert(activity);
-		thread = new Thread(new Updater());
 	}
 	
-	protected abstract void doUpdate() throws YFrogTwitterException;
+	protected abstract void doUpdate() throws Exception;
 	
 	protected void doAfterUpdate() {
 		
@@ -38,7 +35,7 @@ public abstract class AsyncTwitterUpdater {
 	}
 	
 	public final void update() {
-		thread.start();
+		new Thread(new Updater()).start();
 	}
 	
 	private class Updater implements Runnable {
@@ -47,13 +44,13 @@ public abstract class AsyncTwitterUpdater {
 			
 			try {
 				doUpdate();
-			} catch (YFrogTwitterException e) {
+			} catch (Exception e) {
 				error = true;
 				
 				handler.post(new Runnable() {
 					public void run() {
 						dialog.dismiss();
-						activity.showDialog(DialogUtils.ALERT_TWITTER_ERROR);
+						activity.showDialog(DialogUtils.ALERT_IO_ERROR);
 						doAfterError();
 					}
 				});
@@ -69,4 +66,5 @@ public abstract class AsyncTwitterUpdater {
 			}
 		}
 	}
+
 }

@@ -5,7 +5,7 @@ package com.codeminders.yfrog.android.view.main.messages;
 
 import java.util.ArrayList;
 
-import android.app.ListActivity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -15,6 +15,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterDirectMessage;
+import com.codeminders.yfrog.android.util.DialogUtils;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
@@ -134,5 +135,16 @@ public class MessagesActivity extends ListActivity {
 			return messages.get(position);
 		}
 		return null;
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
 	}
 }

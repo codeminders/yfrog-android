@@ -6,7 +6,7 @@ package com.codeminders.yfrog.android.view.main.more;
 import java.io.Serializable;
 import java.util.*;
 
-import android.app.Activity;
+import android.app.*;
 import android.content.*;
 import android.os.Bundle;
 import android.text.*;
@@ -20,7 +20,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
@@ -233,6 +233,17 @@ public class SearchActivity extends Activity implements OnClickListener {
 		}
 
 		return searches.get(searchesQueries.indexOf(query.trim()));
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
 	}
 
 	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {

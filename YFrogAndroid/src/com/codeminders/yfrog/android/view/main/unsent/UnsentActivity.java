@@ -5,16 +5,18 @@ package com.codeminders.yfrog.android.view.main.unsent;
 
 import java.util.ArrayList;
 
-import android.app.ListActivity;
+import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.util.DialogUtils;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
 import com.codeminders.yfrog.android.view.message.*;
@@ -91,6 +93,7 @@ public class UnsentActivity extends ListActivity {
 				
 				protected void doAfterUpdate() {
 					createList();
+					Toast.makeText(getApplicationContext(), R.string.msg_sent, Toast.LENGTH_SHORT).show();
 				}
 			}.update();
 			
@@ -128,6 +131,7 @@ public class UnsentActivity extends ListActivity {
 				
 				protected void doAfterUpdate() {
 					createList();
+					Toast.makeText(getApplicationContext(), R.string.msg_sent, Toast.LENGTH_SHORT).show();
 				}
 			}.update();
 			
@@ -141,4 +145,14 @@ public class UnsentActivity extends ListActivity {
 		return false;
 	}
 
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialiog = null;
+		switch (id) {
+		case DialogUtils.ALERT_TWITTER_ERROR:
+			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		}
+		return dialiog;
+	}
 }

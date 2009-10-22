@@ -6,13 +6,12 @@ package com.codeminders.yfrog.android.view.adapter;
 import java.util.*;
 
 import android.content.Context;
-import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.model.TwitterDirectMessage;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 
@@ -21,7 +20,7 @@ import com.codeminders.yfrog.android.util.image.cache.ImageCache;
  *
  */
 public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends ArrayAdapter<TwitterDirectMessage>{
-	private HashMap<Integer, Spannable> spannableCache = new HashMap<Integer, Spannable>();
+	private HashMap<Integer, CharSequence> spannableCache = new HashMap<Integer, CharSequence>();
 	private LayoutInflater inflater = null;
 	
 	public TwitterDirectMessageAdapter(Context context, List<TwitterDirectMessage> objects) {
@@ -63,7 +62,7 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						final Spannable spannableText = StringUtils.parseURLs(text, view.getContext());
+						final CharSequence spannableText = StringUtils.parseURLs(text, view.getContext());
 						
 						textView.post(new Runnable() {
 							public void run() {
@@ -87,13 +86,13 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 		}
 	}
 	
-	private Spannable get(Integer messageId) {
+	private CharSequence get(Integer messageId) {
 		synchronized (spannableCache) {
 			return spannableCache.get(messageId);
 		}		
 	}
 	
-	private void put(Integer messageId, Spannable spannable) {
+	private void put(Integer messageId, CharSequence spannable) {
 		synchronized (spannableCache) {
 			spannableCache.put(messageId, spannable);
 		}		

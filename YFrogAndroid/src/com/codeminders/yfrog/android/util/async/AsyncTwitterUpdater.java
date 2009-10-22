@@ -3,7 +3,6 @@
  */
 package com.codeminders.yfrog.android.util.async;
 
-import twitter4j.examples.GetTimelines;
 import android.app.*;
 import android.os.Handler;
 

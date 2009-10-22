@@ -6,8 +6,6 @@ package com.codeminders.yfrog.android.view.adapter;
 import java.util.*;
 
 import android.content.Context;
-import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.*;
 
@@ -21,7 +19,7 @@ import com.codeminders.yfrog.android.util.image.cache.ImageCache;
  *
  */
 public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<TwitterStatus> {
-	private HashMap<Long, Spannable> spannableCache = new HashMap<Long, Spannable>();
+	private HashMap<Long, CharSequence> spannableCache = new HashMap<Long, CharSequence>();
 	private LayoutInflater inflater = null;
 	
 	public TwitterStatusAdapter(Context context, List<TwitterStatus> objects) {
@@ -63,7 +61,7 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						final Spannable spannableText = StringUtils.parseURLs(text, view.getContext());
+						final CharSequence spannableText = StringUtils.parseURLs(text, view.getContext());
 						
 						textView.post(new Runnable() {
 							public void run() {
@@ -78,7 +76,7 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		} else {
 			textView.setText(StringUtils.parseURLs(status.getText(), view.getContext()));
 		}
-		textView.setMovementMethod(LinkMovementMethod.getInstance());
+//		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	private boolean isCached(Long statusId) {
@@ -87,13 +85,13 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		}
 	}
 	
-	private Spannable get(Long statusId) {
+	private CharSequence get(Long statusId) {
 		synchronized (spannableCache) {
 			return spannableCache.get(statusId);
 		}		
 	}
 	
-	private void put(Long statusId, Spannable spannable) {
+	private void put(Long statusId, CharSequence spannable) {
 		synchronized (spannableCache) {
 			spannableCache.put(statusId, spannable);
 		}		

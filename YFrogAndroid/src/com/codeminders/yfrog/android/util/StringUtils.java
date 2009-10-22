@@ -3,22 +3,16 @@
  */
 package com.codeminders.yfrog.android.util;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.regex.*;
 
-import android.content.*;
+import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.net.Uri;
 import android.text.*;
 import android.text.format.DateFormat;
 import android.text.style.*;
-import android.view.View;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.view.media.ImageViewActivity;
 
 /**
  * @author idemydenko
@@ -104,10 +98,15 @@ public final class StringUtils {
 		return result;
 	}
 	
-	public static Spannable parseURLs(String source, final Context context) {
-		SpannableString spannable = new SpannableString(source);
+	public static CharSequence parseURLs(String source, final Context context) {
 		Matcher matcher = urlPattern.matcher(source);
 
+		if (matcher.groupCount() == 0) {
+			return source;
+		}
+
+		SpannableString spannable = new SpannableString(source);
+		
 		while (matcher.find()) {
 			final String url = matcher.group();
 			

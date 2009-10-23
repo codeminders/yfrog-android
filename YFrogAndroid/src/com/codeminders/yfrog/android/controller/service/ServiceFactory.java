@@ -13,6 +13,7 @@ public class ServiceFactory {
 	private static final String ACCOUNT_SERVICE_NAME = "loginService";
 	private static final String TWITTER_SERVICE_NAME = "twitterService";
 	private static final String UNSENT_MESSAGE_SERVICE_NAME = "unsentMessageService";
+	private static final String YFROG_SERVICE_NAME = "yfrogService";
 	
 	private static final HashMap<String, Object> cache = new HashMap<String, Object>();
 	
@@ -21,31 +22,40 @@ public class ServiceFactory {
 	
 	public static AccountService getAccountService() {
 		if (!contains(ACCOUNT_SERVICE_NAME)) {
-			Object service = new AccountService();
+			AccountService service = new AccountService();
 			put(ACCOUNT_SERVICE_NAME, service);
-			return (AccountService) service;
+			return service;
 		} 
 		return (AccountService) get(ACCOUNT_SERVICE_NAME);
 	}
 	
 	public static TwitterService getTwitterService() {
 		if (!contains(TWITTER_SERVICE_NAME)) {
-			Object service = new Twitter4JService();
+			TwitterService service = new Twitter4JService();
 			put(TWITTER_SERVICE_NAME, service);
-			return (TwitterService) service;
+			return service;
 		} 
 		return (TwitterService) get(TWITTER_SERVICE_NAME);
 	}
 
 	public static UnsentMessageService getUnsentMessageService() {
 		if (!contains(UNSENT_MESSAGE_SERVICE_NAME)) {
-			Object service = new UnsentMessageService();
+			UnsentMessageService service = new UnsentMessageService();
 			put(UNSENT_MESSAGE_SERVICE_NAME, service);
-			return (UnsentMessageService) service;
+			return service;
 		}
 		return (UnsentMessageService) get(UNSENT_MESSAGE_SERVICE_NAME);
 	}
-	
+
+	public static YFrogService getYFrogService() {
+		if (!contains(YFROG_SERVICE_NAME)) {
+			YFrogService service = new YFrogService();
+			put(YFROG_SERVICE_NAME, service);
+			return service;
+		}
+		return (YFrogService) get(YFROG_SERVICE_NAME);
+	}
+
 	private static Object get(String name) {
 		return cache.get(name);
 	}

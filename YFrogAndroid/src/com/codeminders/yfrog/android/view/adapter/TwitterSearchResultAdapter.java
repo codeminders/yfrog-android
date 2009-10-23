@@ -40,7 +40,7 @@ public class TwitterSearchResultAdapter<T extends TwitterSearchResult> extends A
 		textView.setText(StringUtils.formatDate(view.getResources(), ts.getCreatedAt()));
 		
 		textView = (TextView) view.findViewById(R.id.tsr_username);
-		textView.setText(ts.getFromUser());
+		textView.setText(ts.getScreenFromUser());
 		
 		textView = (TextView) view.findViewById(R.id.tsr_text);
 		textView.setText(StringUtils.highlightText(ts.getText(), toHighlight));

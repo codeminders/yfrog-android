@@ -17,6 +17,7 @@ public class TwitterUser implements Serializable {
 	private String fullname;
 	private URL profileImageURL;
 	private String username;
+	private String password;
 	private String location;
 	private String description;
 	private boolean follower;
@@ -73,6 +74,18 @@ public class TwitterUser implements Serializable {
 	
 	public String getScreenUsername() {
 		return "@" + username;
+	}
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
 	}
 	/**
 	 * @return the location

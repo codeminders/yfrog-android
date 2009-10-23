@@ -117,8 +117,12 @@
     <string name="tm_btn_delete">Delete</string>
     
     <!-- Writable -->
-    <string name="wr_btn_photo">Photo</string>
     <string name="wr_btn_queue">Queue</string>
+    <string name="wr_src_storage">Attach from storage</string>
+    <string name="wr_src_camera">Attach from camera</string>
+    <string name="wr_att_image">Image</string>
+    <string name="wr_att_video">Video</string>
+    
     
     <!-- Twitter search -->
     <string name="s_add_search">Add search</string>
@@ -128,7 +132,10 @@
         <!-- Twitter search results-->
     <string name="sr_more_searches">More searches</string>
     
-        <!-- Image view -->
+    <!-- Image view -->
     <string name="iv_zoom_in">Zoom in</string>
     <string name="iv_zoom_out">Zoom out</string>
+    
+    <!-- Photo camera -->
+    <string name="pc_to_gallery">Go to gallery</string>
 </resources>

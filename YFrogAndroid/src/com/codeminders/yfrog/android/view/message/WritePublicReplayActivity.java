@@ -27,7 +27,11 @@ public class WritePublicReplayActivity extends WritableActivity {
 
 	@Override
 	protected void send(String text) throws YFrogTwitterException {
-		twitterService.publicReplay(text);
+		if (isHasAttachment) {
+			yfrogService.send(text, attachment);
+		} else {
+			twitterService.publicReplay(text);
+		}
 	}
 
 	@Override

@@ -58,6 +58,13 @@ public class TwitterSearchResult {
 		return fromUser;
 	}
 	/**
+	 * @return the fromUser
+	 */
+	public String getScreenFromUser() {
+		return "@" + fromUser;
+	}
+
+	/**
 	 * @param fromUser the fromUser to set
 	 */
 	public void setFromUser(String fromUser) {

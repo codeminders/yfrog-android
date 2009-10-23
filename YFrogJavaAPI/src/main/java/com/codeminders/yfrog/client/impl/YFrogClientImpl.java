@@ -8,26 +8,19 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.entity.mime.*;
+import org.apache.http.entity.mime.content.*;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.codeminders.yfrog.client.YFrog;
-import com.codeminders.yfrog.client.request.FileUploadRequest;
-import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
-import com.codeminders.yfrog.client.request.UploadRequest;
-import com.codeminders.yfrog.client.request.UrlUploadRequest;
-import com.codeminders.yfrog.client.response.ResponseFactory;
-import com.codeminders.yfrog.client.response.UploadResponse;
-import com.codeminders.yfrog.client.response.UploadResponseFormatException;
+import com.codeminders.yfrog.client.YFrogClient;
+import com.codeminders.yfrog.client.request.*;
+import com.codeminders.yfrog.client.response.*;
 
 /**
  * @author idemydenko
  *
  */
-public class YFrogImpl extends YFrog {
+public class YFrogClientImpl extends YFrogClient {
 
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.client.conn.conn.YFrog#upload(com.codeminders.yfrog.client.conn.conn.request.UploadRequest)
@@ -65,6 +58,10 @@ public class YFrogImpl extends YFrog {
 		multipart.addPart(UploadRequest.FIELD_KEY, new StringBody(request.getKey()));
 		multipart.addPart(UploadRequest.FIELD_TAGS, new StringBody(request.getTags()));
 		multipart.addPart(UploadRequest.FIELD_PUBLIC, new StringBody(request.getPublicAsString()));
+		
+		if (!isEmpty(request.getMessage())) {
+			multipart.addPart(UploadRequest.FIELD_MESSAGE, new StringBody(request.getMessage()));
+		}
 		
 		if(request instanceof UrlUploadRequest) {
 			multipart.addPart(UploadRequest.FIELD_URL, new StringBody(((UrlUploadRequest) request).getUrl()));

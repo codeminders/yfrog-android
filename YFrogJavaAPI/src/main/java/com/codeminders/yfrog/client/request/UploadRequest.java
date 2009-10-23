@@ -15,6 +15,7 @@ public abstract class UploadRequest {
 	public static final String FIELD_PUBLIC = "public";
 	public static final String FIELD_URL = "url";
 	public static final String FIELD_MEDIA = "media";
+	public static final String FIELD_MESSAGE = "message";
 	
 	private static final String PUBLIC_VALUE_YES = "yes";
 	private static final String PUBLIC_VALUE_NO = "no";
@@ -24,6 +25,7 @@ public abstract class UploadRequest {
 	private String tags;
 	private boolean isPublic;
 	private String key;
+	private String message;
 
 	/**
 	 * @return the username
@@ -89,7 +91,19 @@ public abstract class UploadRequest {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
+	}
+	/**
+	 * @param message the message to set
+	 */
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

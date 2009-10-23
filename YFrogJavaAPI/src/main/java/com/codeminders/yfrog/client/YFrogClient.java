@@ -6,18 +6,14 @@ package com.codeminders.yfrog.client;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.codeminders.yfrog.client.request.FileUploadRequest;
-import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
-import com.codeminders.yfrog.client.request.UploadRequest;
-import com.codeminders.yfrog.client.request.UrlUploadRequest;
-import com.codeminders.yfrog.client.response.UploadResponse;
-import com.codeminders.yfrog.client.response.UploadResponseFormatException;
+import com.codeminders.yfrog.client.request.*;
+import com.codeminders.yfrog.client.response.*;
 
 /**
  * @author idemydenko
  *
  */
-public abstract class YFrog {
+public abstract class YFrogClient {
 	public static final String BASE;
 	public static final String ACTION_UPLOAD;
 	public static final String ACTION_UPLOAD_AND_POST;
@@ -31,7 +27,7 @@ public abstract class YFrog {
 	static {
 		Properties props = new Properties();
 		try {
-			props.load(YFrog.class.getResourceAsStream(PROPS_FILE_NAME));
+			props.load(YFrogClient.class.getResourceAsStream(PROPS_FILE_NAME));
 		} catch (IOException e) {
 		}
 
@@ -74,7 +70,7 @@ public abstract class YFrog {
 		}
 	}
 	
-	private boolean isEmpty(String param) {
+	protected boolean isEmpty(String param) {
 		return param == null || param.trim().length() == 0;
 	}
 }

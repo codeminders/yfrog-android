@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.codeminders.yfrog.client.impl.YFrogImpl;
+import com.codeminders.yfrog.client.impl.YFrogClientImpl;
 import com.codeminders.yfrog.client.request.*;
 import com.codeminders.yfrog.client.response.UploadResponse;
 
@@ -27,7 +27,7 @@ public class YFrogImplTest extends TestCase {
 		request.setPublic(true);
 		request.setUrl("http://blogs.chron.com/soccer/archives/zidane.JPG");
 		
-		YFrog frog = new YFrogImpl();
+		YFrogClient frog = new YFrogClientImpl();
 		UploadResponse response = frog.upload(request);
 		
 		assertEquals(response.getStatus(), "ok");
@@ -41,7 +41,7 @@ public class YFrogImplTest extends TestCase {
 		request.setPublic(true);
 		request.setUrl("http://blogs.chron.com/soccer/archives/zidane.JPG");
 		
-		YFrog frog = new YFrogImpl();
+		YFrogClient frog = new YFrogClientImpl();
 		UploadResponse response = frog.uploadAndPost(request);
 		
 		assertEquals(response.getStatus(), "ok");
@@ -56,7 +56,7 @@ public class YFrogImplTest extends TestCase {
 		request.setPublic(true);
 		request.setFile(new File("src/test/resources/ulitko.jpg"));
 
-		YFrog frog = new YFrogImpl();
+		YFrogClient frog = new YFrogClientImpl();
 		UploadResponse response = frog.upload(request);
 		
 		assertEquals(response.getStatus(), "ok");
@@ -71,7 +71,7 @@ public class YFrogImplTest extends TestCase {
 		request.setInputStream(this.getClass().getResourceAsStream("/krivetko.jpg"));
 		request.setFilename("krivetko.jpg");
 
-		YFrog frog = new YFrogImpl();
+		YFrogClient frog = new YFrogClientImpl();
 		UploadResponse response = frog.upload(request);
 		
 		assertEquals(response.getStatus(), "ok");
@@ -86,7 +86,7 @@ public class YFrogImplTest extends TestCase {
 		request.setInputStream(this.getClass().getResourceAsStream("/krivetko.jpg"));
 		request.setFilename("krivetko.jpg");
 		
-		YFrog frog = new YFrogImpl();
+		YFrogClient frog = new YFrogClientImpl();
 		
 		try {
 			frog.upload(request);

@@ -3,8 +3,7 @@
  */
 package com.codeminders.yfrog.client.response;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * @author idemydenko

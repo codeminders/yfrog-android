@@ -3,6 +3,7 @@
  */
 package com.codeminders.yfrog.android.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.*;
 
@@ -38,6 +39,9 @@ public final class StringUtils {
 	
 	private static final int HIGHLIGHT_COLOR = 0x770000ff;
 	private static final BackgroundColorSpan HIGHLIGHT_SPAN = new BackgroundColorSpan(HIGHLIGHT_COLOR);
+	
+	private static final SimpleDateFormat FILENAME_FORMAT_TIMESTAMP = new SimpleDateFormat("yyyyMMddHHmmssSS");
+	private static final String FILENAME_PREFIX = "yfrog";
 	
 	private static Pattern emailPattern = null;
 	private static Pattern urlPattern = null;
@@ -118,5 +122,9 @@ public final class StringUtils {
 		}
 		
 		return spannable;
+	}
+	
+	public static String createFilename() {
+		return FILENAME_PREFIX + FILENAME_FORMAT_TIMESTAMP.format(new Date());
 	}
 }

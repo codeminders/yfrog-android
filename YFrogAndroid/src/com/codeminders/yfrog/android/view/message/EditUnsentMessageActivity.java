@@ -37,7 +37,11 @@ public class EditUnsentMessageActivity extends WritableActivity {
 	@Override
 	protected void send(String text) throws YFrogTwitterException {
 		message.setText(text);
-		twitterService.sendUnsentMessage(message);
+		if (isHasAttachment) {
+			twitterService.sendUnsentMessage(message, attachment);
+		} else {
+			twitterService.sendUnsentMessage(message);
+		}
 	}
 
 	protected void saveToQueue(String text) {

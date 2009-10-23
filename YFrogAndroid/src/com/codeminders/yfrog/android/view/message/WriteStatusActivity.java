@@ -14,7 +14,14 @@ public class WriteStatusActivity extends WritableActivity {
 	private TwitterStatus sent = null;
 
 	protected void send(String text) throws YFrogTwitterException {
-		sent = twitterService.updateStatus(text);
+		if (isHasAttachment) {
+			long statusId = yfrogService.send(text, attachment);
+			sent = twitterService.getStatus(statusId);
+		} else {
+			sent = twitterService.updateStatus(text);
+		}
+		
+		
 	}
 
 	@Override

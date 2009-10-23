@@ -23,7 +23,11 @@ public class WriteDirectMessageActivity extends WritableActivity {
 
 	@Override
 	protected void send(String text) throws YFrogTwitterException {
-		twitterService.sendDirectMessage(username, text);
+		if (isHasAttachment) {
+			String url = yfrogService.upload(attachment);
+			text += (" " + url); 
+		} 
+		twitterService.sendDirectMessage(username, text);		
 	}
 
 	@Override

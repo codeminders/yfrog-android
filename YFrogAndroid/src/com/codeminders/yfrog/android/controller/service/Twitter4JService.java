@@ -255,6 +255,21 @@ public class Twitter4JService implements TwitterService {
 		unsentMessageService.deleteUnsentMessage(message.getId());
 	}
 
+	public void sendUnsentMessage(UnsentMessage message, MessageAttachment attachment) throws YFrogTwitterException {
+		String text = message.getText();
+		YFrogService yfrogService = ServiceFactory.getYFrogService();
+		
+		if (message.getType() != UnsentMessage.TYPE_DIRECT_MESSAGE) {
+			yfrogService.send(text, attachment);
+			unsentMessageService.deleteUnsentMessage(message.getId());
+		} else {
+			String url = yfrogService.upload(attachment);
+			text += (" " + url); 
+			message.setText(text);
+			sendUnsentMessage(message);
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#sendAllUnsentMessages()
 	 */

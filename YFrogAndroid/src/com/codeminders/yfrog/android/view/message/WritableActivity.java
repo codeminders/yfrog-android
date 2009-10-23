@@ -4,7 +4,11 @@
 package com.codeminders.yfrog.android.view.message;
 
 import android.app.*;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.*;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -13,7 +17,7 @@ import android.widget.ViewSwitcher.ViewFactory;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.UnsentMessage;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 
@@ -22,6 +26,12 @@ import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
  *
  */
 public abstract class WritableActivity extends Activity implements OnClickListener, TextWatcher, ViewFactory {
+	private static final int REQUEST_PHOTO = 0;
+	private static final int REQUEST_VIDEO = 1;
+	private static final int REQUEST_STORED_PHOTO = 3;
+	private static final int REQUEST_STORED_VIDEO = 4;
+
+	
 	public static final int RESULT_SEND = 100;
 	public static final int RESULT_QUEUE = 101;
 	
@@ -34,9 +44,13 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	protected TwitterService twitterService;
 	protected AccountService accountService;
 	protected UnsentMessageService unsentMessageService;
+	protected YFrogService yfrogService;
 	
 	private TextSwitcher switcher;
 	private int count;
+	
+	protected boolean isHasAttachment = false;
+	protected MessageAttachment attachment = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +58,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		twitterService = ServiceFactory.getTwitterService();
 		accountService = ServiceFactory.getAccountService();
 		unsentMessageService = ServiceFactory.getUnsentMessageService();
+		yfrogService = ServiceFactory.getYFrogService();
 		
 		setContentView(R.layout.twitter_writable);
 
@@ -56,8 +71,6 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		count = editText.getText().length();
 		
 		Button button = (Button) findViewById(R.id.wr_send);
-		button.setOnClickListener(this);
-		button = (Button) findViewById(R.id.wr_photo);
 		button.setOnClickListener(this);
 		button = (Button) findViewById(R.id.wr_queue);
 		button.setOnClickListener(this);
@@ -75,7 +88,8 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			final String txt = getText();
 			
-			if (!StringUtils.isEmpty(txt)) {
+			if (!StringUtils.isEmpty(txt) || isHasAttachment) {
+				
 				new AsyncTwitterUpdater(this) {
 					protected void doUpdate() throws YFrogTwitterException {
 						send(txt);						
@@ -88,9 +102,6 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 					}
 				}.update();
 			}
-			break;
-		case R.id.wr_photo:
-			
 			break;
 		case R.id.wr_queue:
 			if (isOverrideMaxCount()) {
@@ -109,13 +120,66 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		}
 	}
 	
+	private void startAttachment(int request) {
+		Intent intent = new Intent();
+		
+		switch(request) {
+			case REQUEST_PHOTO:
+				intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+				break;
+			case REQUEST_VIDEO:
+				intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+				break;
+			case REQUEST_STORED_PHOTO:
+				intent.setAction(Intent.ACTION_PICK);
+				intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+				intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+				break;
+			case REQUEST_STORED_VIDEO:
+				intent.setAction(Intent.ACTION_PICK);
+				intent.setType(MediaStore.Video.Media.CONTENT_TYPE);
+				intent.setData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+
+				break;
+		}
+		startActivityForResult(intent, request);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			attach(requestCode, data);
+		}
+	}
+	
+	private void attach(int request, Intent data) {
+		if (request == REQUEST_PHOTO) {
+			Bundle extras = data.getExtras();
+			if (extras != null) {
+				Bitmap bitmap = (Bitmap) extras.getParcelable("data");
+				if (bitmap != null) {
+					attachment = new MessageAttachment(this, bitmap);
+					isHasAttachment = true;
+				}
+			}
+		} else {
+			Uri uri = data.getData();
+			if (uri != null) {
+				attachment = new MessageAttachment(this, uri);
+				isHasAttachment = true;
+			}
+		}
+		
+	}
+	
 	protected void saveToQueue(String text) {
 		UnsentMessage toSave = createUnsentMessage();
 		toSave.setText(text);
 		toSave.setAccountId(accountService.getLogged().getId());
 		unsentMessageService.addUnsentMessage(toSave);
 	}
-	
+		
 	protected abstract void send(String text) throws YFrogTwitterException;
 	
 	protected abstract UnsentMessage createUnsentMessage();
@@ -172,5 +236,38 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			break;
 		}
 		return dialiog;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.writable, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int requestCode = -1;
+		switch (item.getItemId()) {
+			case R.id.camera_image:
+				requestCode = REQUEST_PHOTO;
+				break;
+			case R.id.camera_video:
+				requestCode = REQUEST_VIDEO;
+				break;
+			case R.id.storage_image:
+				requestCode = REQUEST_STORED_PHOTO;
+				break;
+			case R.id.storage_video:
+				requestCode = REQUEST_STORED_VIDEO;
+				break;
+		}
+
+		if (requestCode == -1) {
+			return false;
+		}
+		
+		startAttachment(requestCode);
+		return true;
 	}
 }

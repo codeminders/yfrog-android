@@ -63,6 +63,9 @@ public interface TwitterService {
 	public abstract void sendUnsentMessage(UnsentMessage message)
 			throws YFrogTwitterException;
 
+	public void sendUnsentMessage(UnsentMessage message, MessageAttachment attachment) 
+			throws YFrogTwitterException;
+	
 	public abstract void sendAllUnsentMessages() throws YFrogTwitterException;
 
 	public abstract void logout();

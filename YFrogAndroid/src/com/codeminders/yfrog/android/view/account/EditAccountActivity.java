@@ -72,6 +72,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		setAuthMethodListener((RadioButton) findViewById(R.id.ae_oauth_method_rbutton));
 		
 		Button button = (Button) findViewById(R.id.ae_save_button);
+		button.setText(!editable.isOAuthVerified() && editable.getAuthMethod() == Account.METHOD_OAUTH ? R.string.next : R.string.save);
 		button.setOnClickListener(this);
 		
 		button = (Button) findViewById(R.id.ae_oauth_auth_button);
@@ -89,17 +90,23 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 	}
 	
 	private void setShowLayout(int radioId) {
+		Button button = (Button) findViewById(R.id.ae_save_button);
 		View common = (View) findViewById(R.id.ae_common_layout);
 		View oauth = (View) findViewById(R.id.ae_oauth_layout);
 		switch (radioId) {
 		case R.id.ae_common_method_rbutton:
 			common.setVisibility(View.VISIBLE);
 			oauth.setVisibility(View.GONE);
+			button.setText(R.string.save);
+
 			break;
 
 		case R.id.ae_oauth_method_rbutton:
 			common.setVisibility(View.GONE);
 			oauth.setVisibility(View.VISIBLE);
+			if (editable.getOauthStatus() != Account.OAUTH_STATUS_VERIFIED) { 
+				button.setText(R.string.next);
+			}
 
 			break;
 		}		

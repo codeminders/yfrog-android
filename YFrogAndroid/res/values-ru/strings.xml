@@ -13,6 +13,7 @@
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
     <string name="save">Сохранить</string>
+    <string name="next">Next</string>
     <string name="cancel">Cancel</string>
     <string name="send">Send</string>
     <string name="date_less_20s">less than 20 seconds ago</string>
@@ -108,6 +109,7 @@
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
     <string name="tud_send_email">Send email...</string>
+    <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
     
     <!-- Twitter status details -->
     <string name="tm_btn_reply">Reply</string>
@@ -137,4 +139,12 @@
     
         <!-- Photo camera -->
     <string name="pc_to_gallery">Go to gallery</string>
+    
+    <!--  About -->
+    <string name="ab_app_name">YFrog</string>
+    <string name="ab_app_version">ver. 2.0</string>
+    <string name="ab_app_copyright1">\u00A9 2009 ImageShack Corp.</string>
+    <string name="ab_app_copyright2">All rights reserved.</string>
+    <string name="ab_app_link">http://code.google.com/p/yfrog</string>
+    <string name="ab_app_used_libs">Includes Twitter4J by Yusuke Yamamoto</string>
 </resources>

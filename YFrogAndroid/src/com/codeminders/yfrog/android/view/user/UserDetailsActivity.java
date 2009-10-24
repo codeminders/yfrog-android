@@ -6,7 +6,7 @@ package com.codeminders.yfrog.android.view.user;
 import java.util.ArrayList;
 
 import android.app.*;
-import android.content.Intent;
+import android.content.*;
 import android.os.Bundle;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -27,6 +27,8 @@ import com.codeminders.yfrog.android.view.message.*;
 public class UserDetailsActivity extends Activity implements OnClickListener {
 	public static final String KEY_USER_POS = "user";
 	public static final String KEY_USERS = "users";
+	
+	private static final int ALERT_PROTECTED = 0;
 	
 	public static final int RESULT_UNFOLLOW = 102;
 	
@@ -79,6 +81,11 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		Button button = (Button) findViewById(R.id.tud_recent_tweets);
 		button.setOnClickListener(this);
+		
+		if (user.isProtected()) {
+			button.setVisibility(View.GONE);
+			showDialog(ALERT_PROTECTED);
+		}
 		
 		button = (Button) findViewById(R.id.tud_send_pub_replay);
 		button.setOnClickListener(this);
@@ -203,6 +210,18 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		switch (id) {
 		case DialogUtils.ALERT_TWITTER_ERROR:
 			dialiog = DialogUtils.createTwitterErrorAlert(this);
+			break;
+		case ALERT_PROTECTED:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(R.string.tud_protected_msg);
+			builder.setNegativeButton(R.string.twitter_error_btn, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface d, int which) {
+					d.dismiss();
+				}
+			});
+			
+			dialiog = builder.create();
 			break;
 		}
 		return dialiog;

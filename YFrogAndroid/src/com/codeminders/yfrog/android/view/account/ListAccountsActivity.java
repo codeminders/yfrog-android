@@ -40,8 +40,6 @@ public class ListAccountsActivity extends ListActivity {
 	private ArrayList<Account> accounts;
 	private Account toDelete = null;
 	
-	private ProgressDialog progressDialog;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,6 +51,10 @@ public class ListAccountsActivity extends ListActivity {
 		if (getLastLogged() != null) {
 			login(getLastLogged());
 			return;
+		}
+		
+		if (accounts.size() == 0) {
+			addAccount();
 		}
 	}
 
@@ -91,6 +93,13 @@ public class ListAccountsActivity extends ListActivity {
 		editor.commit();
 	}
 
+	private void deleteLastLogged(Account account) {
+		Editor editor = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+				.edit();
+		editor.remove(KEY_LAST_LOGGED);
+		editor.commit();
+	}
+
 	private String[] getAccountsNames(ArrayList<Account> accounts) {
 		int size = accounts.size();
 		String[] result = new String[size];
@@ -114,8 +123,7 @@ public class ListAccountsActivity extends ListActivity {
 
 		switch (item.getItemId()) {
 		case R.id.add_account:
-			Intent intent = new Intent(this, EditAccountActivity.class);
-			startActivity(intent);
+			addAccount();
 			return true;
 		case R.id.login_account:
 			login(getSelectedItemPosition());
@@ -169,6 +177,7 @@ public class ListAccountsActivity extends ListActivity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									accountService.deleteAccount(toDelete);
+									deleteLastLogged(toDelete);
 									toDelete = null;
 									createAccountsList();
 									Toast.makeText(ListAccountsActivity.this,
@@ -250,19 +259,6 @@ public class ListAccountsActivity extends ListActivity {
 		startActivity(new Intent(this, MainTabActivity.class));
 	}
 
-	private void progressDismiss() {
-		if (progressDialog != null) {
-			Handler handler = new Handler();
-			
-			handler.post(new Runnable() {
-				@Override
-				public void run() {
-					progressDialog.dismiss();
-				}
-			});
-		}
-	}
-	
 	private void deleteAccount(Account account) {
 		if (account == null) {
 			return;
@@ -283,4 +279,8 @@ public class ListAccountsActivity extends ListActivity {
 		startActivity(intent);
 	}
 
+	private void addAccount() {
+		Intent intent = new Intent(this, EditAccountActivity.class);
+		startActivity(intent);		
+	}
 }

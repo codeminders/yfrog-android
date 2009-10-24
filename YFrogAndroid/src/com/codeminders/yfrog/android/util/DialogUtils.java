@@ -13,7 +13,7 @@ import com.codeminders.yfrog.android.R;
  *
  */
 public final class DialogUtils {
-	public static final int ALERT_TWITTER_ERROR = 0x0000ff;
+	public static final int ALERT_TWITTER_ERROR = 0x00ffff;
 	public static final int ALERT_IO_ERROR = 0x000fff;
 	
 	

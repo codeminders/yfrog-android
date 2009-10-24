@@ -17,11 +17,11 @@ public class TwitterUser implements Serializable {
 	private String fullname;
 	private URL profileImageURL;
 	private String username;
-	private String password;
 	private String location;
 	private String description;
 	private boolean follower;
 	private boolean following;
+	private boolean isProtected;
 	
 	/**
 	 * @return the id
@@ -76,18 +76,6 @@ public class TwitterUser implements Serializable {
 		return "@" + username;
 	}
 	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-	/**
 	 * @return the location
 	 */
 	public String getLocation() {
@@ -135,6 +123,18 @@ public class TwitterUser implements Serializable {
 	public void setFollowing(boolean following) {
 		this.following = following;
 	}
+	/**
+	 * @return the isProtected
+	 */
+	public boolean isProtected() {
+		return isProtected;
+	}
+	/**
+	 * @param isProtected the isProtected to set
+	 */
+	public void setProtected(boolean isProtected) {
+		this.isProtected = isProtected;
+	}
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
@@ -145,6 +145,7 @@ public class TwitterUser implements Serializable {
 		out.writeObject(profileImageURL);
 		out.writeBoolean(follower);
 		out.writeBoolean(following);
+		out.writeBoolean(isProtected);
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -156,6 +157,7 @@ public class TwitterUser implements Serializable {
 		profileImageURL = (URL) in.readObject();
 		follower = in.readBoolean();
 		following = in.readBoolean();
+		isProtected = in.readBoolean();
 	}
 	
 	@Override

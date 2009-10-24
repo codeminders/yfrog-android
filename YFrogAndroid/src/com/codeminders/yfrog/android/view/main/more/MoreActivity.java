@@ -3,6 +3,8 @@
  */
 package com.codeminders.yfrog.android.view.main.more;
 
+import java.text.BreakIterator;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ public class MoreActivity extends ListActivity {
 	private static final int ITEM_FOLLOWERS = 1;
 	private static final int ITEM_FOLLOWING = 2;
 	private static final int ITEM_SEARCH =3;
+	private static final int ITEM_SETTINGS =4;
+	private static final int ITEM_ABOUT =5;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,7 +56,14 @@ public class MoreActivity extends ListActivity {
 			intent = new Intent(this, SearchActivity.class);
 			startActivity(intent);			
 			break;
-
+		case ITEM_SETTINGS:
+			intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			break;
+		case ITEM_ABOUT:
+			intent = new Intent(this, AboutActivity.class);
+			startActivity(intent);
+			break;
 		}
 	}
 }

@@ -556,6 +556,7 @@ final class Twitter4jHelper {
 		u.setDescription(user.getDescription());
 		u.setFollower(follower);
 		u.setFollowing(following);
+		u.setProtected(user.isProtected());
 		
 		return u;
 	}

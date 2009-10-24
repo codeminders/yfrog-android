@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="wrap_content" android:padding="10dp" android:layout_width="fill_parent" android:orientation="vertical">
+<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:text="@string/st_locations" android:id="@+id/st_locations"></CheckBox>
+<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:id="@+id/st_scale" android:text="@string/st_scale"></CheckBox>
+</LinearLayout>

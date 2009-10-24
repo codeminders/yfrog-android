@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent" android:gravity="center" android:layout_marginTop="20px" android:layout_marginBottom="20px">
+<TextView android:id="@+id/ab_app_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ab_app_name" android:paddingTop="20px" android:textSize="18dp"></TextView>
+<TextView android:text="@+string/ab_app_version" android:id="@+id/ab_app_version" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:textSize="18dp"></TextView>
+<TextView android:text="@+string/ab_app_copyright1" android:id="@+id/ab_app_copyright1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="18dp" android:layout_marginTop="15dp"></TextView>
+<TextView android:text="@+string/ab_app_copyright2" android:id="@+id/ab_app_copyright2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:textSize="18dp"></TextView>
+<TextView android:text="@+string/ab_app_link" android:id="@+id/ab_app_link" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:autoLink="web"></TextView>
+<ImageView android:id="@+id/ab_app_splash" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/yfrog_logo_about" android:layout_marginTop="10dp"></ImageView>
+<TextView android:text="@+string/ab_app_used_libs" android:id="@+id/ab_app_used_libs" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp"></TextView>
+
+
+</LinearLayout>

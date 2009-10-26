@@ -53,7 +53,7 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		final TextView textView = (TextView) view.findViewById(R.id.ts_text);
 		final String text = status.getText();
 		
-		if (YFrogUtils.hasYFrogContent(text)) {
+		if (YFrogUtils.hasYFrogImageContent(text)) {
 			if (isCached(status.getId())) {
 				textView.setText(get(status.getId()));
 			} else {

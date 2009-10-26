@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">yfrog</string>
-    
-    <!-- Common -->
-    <string name="twitter_error_title">Twitter error</string>
-    <string name="twitter_error_msg">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
-    <string name="twitter_error_btn">OK</string>
-    <string name="io_error_title">Connection error</string>
-    <string name="io_error_msg">Error during request to Internet. Please check your Internet connection and try again</string>
-    <string name="io_error_btn">OK</string>
-    <string name="list_reload">Refresh</string>
-    <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="next">Next</string>
-    <string name="send">Send</string>
-    <string name="date_less_20s">less than 20 seconds ago</string>
-    <string name="date_less_50s">half a minute ago</string>
-    <string name="date_less_60s">less than a minute ago</string>
-    <string name="date_less_48m">about %d minutes ago</string>
+	<string name="app_name">yfrog</string>
+
+	<!-- Common -->
+	<string name="twitter_error_title">Twitter error</string>
+	<string name="twitter_error_msg">Error during request to http://twitter.com.
+		Please check your Internet connection and try again</string>
+	<string name="twitter_error_btn">OK</string>
+	<string name="io_error_title">Connection error</string>
+	<string name="io_error_msg">Error during request to Internet. Please check
+		your Internet connection and try again</string>
+	<string name="io_error_btn">OK</string>
+	<string name="list_reload">Refresh</string>
+	<string name="delete">Delete</string>
+	<string name="edit">Edit</string>
+	<string name="save">Save</string>
+	<string name="cancel">Cancel</string>
+	<string name="next">Next</string>
+	<string name="send">Send</string>
+	<string name="date_less_20s">less than 20 seconds ago</string>
+	<string name="date_less_50s">half a minute ago</string>
+	<string name="date_less_60s">less than a minute ago</string>
+	<string name="date_less_48m">about %d minutes ago</string>
     <string name="date_less_90m">about a hour ago</string>
     <string name="date_less_23h">%d hours ago</string>
     <string name="date_less_30d">%d days ago</string>
@@ -108,7 +110,7 @@
     <string name="tud_btn_followers">Followers</string>
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
-    <string name="tud_send_email">Send email...</string>
+    <string name="tud_send">Send</string>
     <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
     
     <!-- Twitter status details -->
@@ -152,4 +154,7 @@
     <!-- Settings -->
     <string name="st_locations">Post locations</string>
     <string name="st_scale">Scale large images</string>
+    <string name="st_fwd_email">Forward by EMail</string>
+    <string name="st_fwd_sms">Forward by SMS</string>
+    <string name="st_fwd_title">Forward settings</string>
 </resources>

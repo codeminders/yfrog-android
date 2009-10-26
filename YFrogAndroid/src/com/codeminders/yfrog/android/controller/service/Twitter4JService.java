@@ -8,8 +8,11 @@ import java.util.*;
 import twitter4j.*;
 import twitter4j.http.*;
 
+import android.location.Location;
+
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko
@@ -28,10 +31,15 @@ public class Twitter4JService implements TwitterService {
 	
 	private Twitter twitter = null;
 	private TwitterUser loggedUser = null;
+	private Account loggedAccount = null;
 	private UnsentMessageService unsentMessageService;
 	
 	Twitter4JService() {
 		unsentMessageService = ServiceFactory.getUnsentMessageService();
+	}
+	
+	public void setLoggedAccount(Account acc) {
+		loggedAccount = acc;
 	}
 	
 	/* (non-Javadoc)
@@ -291,13 +299,34 @@ public class Twitter4JService implements TwitterService {
 		twitter = null;
 	}
 	
+	public void updateLocation(Location location) {
+		String address = ServiceFactory.getGeoLocationService().getLocationAddress();
+		if (!StringUtils.isEmpty(address)) {
+			try {
+				twitter.updateProfile(null, null, null, address, null);
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#updateStatus(java.lang.String)
 	 */
 	public TwitterStatus updateStatus(String text) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			return Twitter4jHelper.getStatus(twitter.updateStatus(text));
+			TwitterStatus status = null;
+			Location location = ServiceFactory.getGeoLocationService().getLocation();
+			
+			if (loggedAccount.isPostLocation() && location != null) {
+				status = Twitter4jHelper.getStatus(twitter.updateStatus(text, location.getLatitude(), location.getLongitude()));
+				updateLocation(location);
+			} else {
+				status = Twitter4jHelper.getStatus(twitter.updateStatus(text));
+			}
+			
+			return status;
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		
@@ -308,8 +337,16 @@ public class Twitter4JService implements TwitterService {
 	 */
 	public void replay(String text, long replayToId) throws YFrogTwitterException {
 		checkCreated();
+		
 		try {
-			twitter.updateStatus(text, replayToId);
+			Location location = ServiceFactory.getGeoLocationService().getLocation();
+
+			if (loggedAccount.isPostLocation() && location != null) {
+				Twitter4jHelper.getStatus(twitter.updateStatus(text, replayToId, location.getLatitude(), location.getLongitude()));
+				updateLocation(location);
+			} else {
+				Twitter4jHelper.getStatus(twitter.updateStatus(text, replayToId));
+			}
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		
@@ -319,12 +356,7 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#publicReplay(java.lang.String)
 	 */
 	public void publicReplay(String text) throws YFrogTwitterException {
-		checkCreated();
-		try {
-			twitter.updateStatus(text);
-		} catch (TwitterException e) {
-			throw new YFrogTwitterException(e, e.getStatusCode());
-		}		
+		updateStatus(text);
 	}
 
 	/* (non-Javadoc)

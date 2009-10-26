@@ -5,6 +5,8 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.HashMap;
 
+import android.content.Context;
+
 /**
  * @author idemydenko
  *
@@ -14,6 +16,7 @@ public class ServiceFactory {
 	private static final String TWITTER_SERVICE_NAME = "twitterService";
 	private static final String UNSENT_MESSAGE_SERVICE_NAME = "unsentMessageService";
 	private static final String YFROG_SERVICE_NAME = "yfrogService";
+	private static final String GEOLOCATION_SERVICE_NAME = "geolocationService";
 	
 	private static final HashMap<String, Object> cache = new HashMap<String, Object>();
 	
@@ -54,6 +57,19 @@ public class ServiceFactory {
 			return service;
 		}
 		return (YFrogService) get(YFROG_SERVICE_NAME);
+	}
+
+	public static GeoLocationService getGeoLocationService(Context context) {
+		if (!contains(GEOLOCATION_SERVICE_NAME)) {
+			GeoLocationService service = new GeoLocationService(context);
+			put(GEOLOCATION_SERVICE_NAME, service);
+			return service;
+		}
+		return (GeoLocationService) get(GEOLOCATION_SERVICE_NAME);
+	}
+
+	public static GeoLocationService getGeoLocationService() {
+		return (GeoLocationService) get(GEOLOCATION_SERVICE_NAME);
 	}
 
 	private static Object get(String name) {

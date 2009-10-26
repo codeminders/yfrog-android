@@ -15,7 +15,7 @@ import android.widget.*;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.*;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
@@ -102,7 +102,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	private void setText() {
 		final TextView textView = (TextView) findViewById(R.id.tm_text);
 		final String text = status.getText();
-		if (YFrogUtils.hasYFrogContent(text)) {
+		if (YFrogUtils.hasYFrogImageContent(text)) {
 			textView.setText(StringUtils.EMPTY_STRING);
 			new AsyncUpdater(this) {
 				private CharSequence spannable;
@@ -151,12 +151,19 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	private void forward() {
-		Intent intent = new Intent(Intent.ACTION_SEND);
+		Account account = ServiceFactory.getAccountService().getLogged();
 		
-		intent.setType("text/plain");
-		intent.putExtra(Intent.EXTRA_TEXT, status.getText());
-		
-		startActivity(Intent.createChooser(intent, getResources().getString(R.string.tud_send_email)));
+		if (account.getForwardType() == Account.FORWARD_BY_EMAIL) {
+			Intent intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("text/plain");
+			intent.putExtra(Intent.EXTRA_TEXT, status.getText());
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setType("vnd.android-dir/mms-sms");
+			intent.putExtra("sms_body", status.getText());
+			startActivity(intent);
+		}
 	}
 	
 	private void favorite() {

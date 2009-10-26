@@ -29,6 +29,15 @@ public class Zoom extends ImageView {
     
     private float lastMoveX;
     private float lastMoveY;
+    
+    private boolean isScale = false;
+
+    public Zoom(Context context, Bitmap bitmap, boolean scaleImage) {
+        super(context);
+        bitemap = bitmap;
+        isScale = scaleImage;
+        setImageBitmapResetBase(bitmap, isScale);
+    }
 
     @Override
     protected void onLayout(boolean changed, int left, int top,
@@ -42,7 +51,7 @@ public class Zoom extends ImageView {
             r.run();
             return;
         }
-        getProperBaseMatrix(bitemap, baseMatrix);
+        getProperBaseMatrix(bitemap, baseMatrix, isScale);
         setImageMatrix(getImageViewMatrix());
     }
 
@@ -59,24 +68,21 @@ public class Zoom extends ImageView {
 
 
     public void setImageBitmapResetBase(final Bitmap bitmap,
-            final boolean resetSupp) {
+            final boolean scale) {
         final int viewWidth = getWidth();
 
         if (viewWidth <= 0)  {
             onLayoutRunnable = new Runnable() {
                 public void run() {
-                    setImageBitmapResetBase(bitmap, resetSupp);
+                    setImageBitmapResetBase(bitmap, scale);
                 }
             };
             return;
         }
 
-        getProperBaseMatrix(bitmap, baseMatrix);
+        getProperBaseMatrix(bitmap, baseMatrix, scale);
         setImageBitmap(bitmap);
         
-        if (resetSupp) {
-            processMatrix.reset();
-        }
         setImageMatrix(getImageViewMatrix());
         maxZoom = maxZoom();
     }
@@ -121,12 +127,6 @@ public class Zoom extends ImageView {
         setImageMatrix(getImageViewMatrix());
     }
 
-    public Zoom(Context context, Bitmap bitmap) {
-        super(context);
-        bitemap = bitmap;
-        setImageBitmapResetBase(bitmap, true);
-    }
-
     private float getValue(Matrix matrix, int whichValue) {
         matrix.getValues(matrixValues);
         return matrixValues[whichValue];
@@ -141,23 +141,26 @@ public class Zoom extends ImageView {
         return getScale(processMatrix);
     }
 
-    private void getProperBaseMatrix(Bitmap bitmap, Matrix matrix) {
-        float viewWidth = getWidth();
-        float viewHeight = getHeight();
-
-        float w = bitmap.getWidth();
-        float h = bitmap.getHeight();
+    private void getProperBaseMatrix(Bitmap bitmap, Matrix matrix, boolean isScale) {
         matrix.reset();
+        
+        if (isScale) {
+            float viewWidth = getWidth();
+            float viewHeight = getHeight();
 
-        float widthScale = Math.min(viewWidth / w, 2.0f);
-        float heightScale = Math.min(viewHeight / h, 2.0f);
-        float scale = Math.min(widthScale, heightScale);
+            float w = bitmap.getWidth();
+            float h = bitmap.getHeight();
 
-        matrix.postScale(scale, scale);
-
-        matrix.postTranslate(
-                (viewWidth  - w * scale) / 2F,
-                (viewHeight - h * scale) / 2F);
+	        float widthScale = Math.min(viewWidth / w, 2.0f);
+	        float heightScale = Math.min(viewHeight / h, 2.0f);
+	        float scale = Math.min(widthScale, heightScale);
+	
+	        matrix.postScale(scale, scale);
+	
+	        matrix.postTranslate(
+	                (viewWidth  - w * scale) / 2F,
+	                (viewHeight - h * scale) / 2F);
+        }
     }
 
     private Matrix getImageViewMatrix() {
@@ -175,12 +178,10 @@ public class Zoom extends ImageView {
 
 
     public void zoomIn() {
-    	System.out.println("in");
         zoomIn(SCALE_RATE);
     }
 
     public void zoomOut() {
-    	System.out.println("out");
         zoomOut(SCALE_RATE);
     }
 

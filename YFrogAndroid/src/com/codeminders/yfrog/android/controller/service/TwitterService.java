@@ -18,6 +18,8 @@ public interface TwitterService {
 	public static final String PARAM_TOKEN = "oauth_token";
 	public static final String PARAM_VERIFIER = "oauth_verifier";
 
+	public void setLoggedAccount(Account acc);
+	
 	public abstract void login(String nickname, String password)
 			throws YFrogTwitterException;
 

@@ -69,6 +69,10 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 				protected void doAfterUpdate() {
 					show();
 				}
+				
+				protected void doAfterError() {
+					show();
+				}
 			}.update();
 		} else {
 			show();
@@ -78,6 +82,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	}
 
 	private void show() {
+		setContentView(R.layout.twitter_users_list);
 		setListAdapter(new TwitterUserAdapter<TwitterUser>(this, users));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
@@ -97,8 +102,22 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 				intent.putExtra(UserDetailsActivity.KEY_USER_POS, position);
 				
 				startActivityForResult(intent, 0);
-			}
+	}
 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Bundle extras = data.getExtras();
+			
+			if (extras != null) {
+				ArrayList<TwitterUser> usrs = (ArrayList<TwitterUser>) extras.getSerializable(UserDetailsActivity.KEY_USERS);
+				if (usrs != null) {
+					users = usrs;
+				}
+				
+			}
+		}
+	}
+	
 	protected abstract ArrayList<TwitterUser> getUsers() throws YFrogTwitterException; 
 	
 	@Override

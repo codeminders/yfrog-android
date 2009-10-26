@@ -64,7 +64,7 @@ public class UnsentActivity extends ListActivity {
 	}
 	private void createList() {
 		messages = unsentMessageService.getUnsentMessagesForAccount(loggedAccount.getId());
-		
+		setContentView(R.layout.unsent_messages_list);
 		setListAdapter(new UnsentMessageAdapter<UnsentMessage>(this, messages));
 		registerForContextMenu(getListView());
 	}

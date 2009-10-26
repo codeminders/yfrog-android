@@ -74,6 +74,12 @@ public class SearchActivity extends Activity implements OnClickListener {
 				protected void doAfterUpdate() {
 					show();
 				}
+				
+				@Override
+				protected void doAfterError() {
+					searches = new ArrayList<TwitterSavedSearch>(0);
+					show();
+				}
 			}.update();
 		} else {
 			show();
@@ -84,12 +90,16 @@ public class SearchActivity extends Activity implements OnClickListener {
 		searchesQueries = getStrings();
 		setContentView(R.layout.twitter_saved_searches);
 
-		ListView listView = (ListView) findViewById(R.id.s_searches_list);
-		listView.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getStrings()));
-		listView.setOnItemClickListener(mOnClickListener);
-		registerForContextMenu(listView);
-		
+		if (searches.size() == 0) {
+			View v = findViewById(R.id.s_searches_empty);
+			v.setVisibility(View.VISIBLE);
+		} else {
+			ListView listView = (ListView) findViewById(R.id.s_searches_list);
+			listView.setAdapter(new ArrayAdapter<String>(this,
+					android.R.layout.simple_list_item_1, getStrings()));
+			listView.setOnItemClickListener(mOnClickListener);
+			registerForContextMenu(listView);
+		}
 		Button button = (Button) findViewById(R.id.s_search_button);
 		button.setOnClickListener(this);
 

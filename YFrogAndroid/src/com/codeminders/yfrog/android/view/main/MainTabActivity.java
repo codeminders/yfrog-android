@@ -37,6 +37,7 @@ public class MainTabActivity extends TabActivity {
 		
 		tabHost.addTab(tabHost.newTabSpec(TAB_HOME_TAG)
 				.setIndicator(getResources().getString(R.string.tab_home_caption))
+//				.setIndicator(null, getResources().getDrawable(R.drawable.default_profile_image))
 				.setContent(new Intent(this, HomeActivity.class)));
 		
 		tabHost.addTab(tabHost.newTabSpec(TAB_MENTIONS_TAG)

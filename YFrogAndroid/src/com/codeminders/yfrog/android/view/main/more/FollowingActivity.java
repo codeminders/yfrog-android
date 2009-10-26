@@ -23,14 +23,30 @@ public class FollowingActivity extends AbstractTwitterUsersListActivity {
 		return twitterService.getFollowings();
 	}
 	
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == UserDetailsActivity.RESULT_UNFOLLOW) {
-			Bundle bundle = data.getExtras();
-			if (bundle != null) {
-				TwitterUser toRemove = (TwitterUser) bundle.getSerializable(UserDetailsActivity.KEY_USER_POS);
-				users.remove(toRemove);
-				createList(false);
+		if (resultCode == RESULT_OK) {
+			Bundle extras = data.getExtras();
+			
+			if (extras != null) {
+				ArrayList<TwitterUser> usrs = (ArrayList<TwitterUser>) extras.getSerializable(UserDetailsActivity.KEY_USERS);
+				if (usrs != null) {
+					removeUnfollow(usrs);
+					users = usrs;
+					
+				}
+				
+			}
+		}
+	}
+	
+	private void removeUnfollow(ArrayList<TwitterUser> users) {
+		int size = users.size();
+		
+		for (int i = 0; i < size; i++) {
+			TwitterUser user = users.get(i);
+			if (!user.isFollowing()) {
+				users.remove(i);
+				size--;
 			}
 		}
 	}

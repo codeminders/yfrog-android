@@ -40,6 +40,10 @@ public abstract class AsyncTwitterUpdater {
 		thread.start();
 	}
 	
+	public Thread getThread() {
+		return thread;
+	}
+	
 	private class Updater implements Runnable {
 		public void run() {
 			boolean error = false;

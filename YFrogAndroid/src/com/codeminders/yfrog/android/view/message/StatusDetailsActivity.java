@@ -62,7 +62,34 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	private void showStatus() {
 		favorited = status.isFavorited();
 		my = twitterService.getLoggedUser().equals(status.getUser());
+
+		Button button = (Button) findViewById(R.id.tm_replay);
+		if (my) {
+			button.setVisibility(View.GONE);
+		} else {
+			button.setVisibility(View.VISIBLE);
+		}
 		
+		button.setOnClickListener(this);
+
+		
+		button = (Button) findViewById(R.id.tm_favorite);
+		
+		if (favorited) {
+			button.setText(R.string.tm_btn_unfavorite);
+		} else {
+			button.setText(R.string.tm_btn_favorite);
+		}
+		
+		button.setOnClickListener(this);
+		
+		button = (Button) findViewById(R.id.tm_forward);
+		button.setOnClickListener(this);
+		
+		button = (Button) findViewById(R.id.tm_delete);
+		button.setVisibility(my ? View.VISIBLE : View.GONE);
+		button.setOnClickListener(this);
+
 		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
 		ImageCache.getInstance().putImage(status.getUser().getProfileImageURL(), imageView);
 		
@@ -77,25 +104,6 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 
 		view = (TextView) findViewById(R.id.tm_counter);
 		view.setText((position + 1) + "/" + count);
-
-		Button button = (Button) findViewById(R.id.tm_replay);
-		button.setVisibility(my ? View.GONE : View.VISIBLE);
-		
-		button.setOnClickListener(this);
-
-		
-		button = (Button) findViewById(R.id.tm_favorite);
-		if (favorited) {
-			button.setText(R.string.tm_btn_unfavorite);
-		}
-		button.setOnClickListener(this);
-		
-		button = (Button) findViewById(R.id.tm_forward);
-		button.setOnClickListener(this);
-		
-		button = (Button) findViewById(R.id.tm_delete);
-		button.setVisibility(my ? View.VISIBLE : View.GONE);
-		button.setOnClickListener(this);
 		
 		setText();
 	}
@@ -144,9 +152,12 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 				}
 				
 				protected void doAfterUpdate() {
+					statuses.remove(status);
+					prepareResult();
 					finish();
 				}
 			}.update();
+
 			break;
 		}
 	}
@@ -177,6 +188,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 					twitterService.unfavorite(status.getId());
 				}
 				favorited = !favorited;
+				status.setFavorited(favorited);
 			}
 			
 			protected void doAfterUpdate() {
@@ -207,7 +219,17 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 			return true;
 		}
 
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			prepareResult();
+		}
+		
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	private void prepareResult() {
+		Intent intent = new Intent();
+		intent.putExtra(KEY_STATUSES, statuses);
+		setResult(RESULT_OK, intent);		
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {

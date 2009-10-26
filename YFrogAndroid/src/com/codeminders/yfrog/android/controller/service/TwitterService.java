@@ -5,6 +5,8 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.*;
 
@@ -68,7 +70,7 @@ public interface TwitterService {
 	public void sendUnsentMessage(UnsentMessage message, MessageAttachment attachment) 
 			throws YFrogTwitterException;
 	
-	public abstract void sendAllUnsentMessages() throws YFrogTwitterException;
+	public abstract void sendAllUnsentMessages(Context context) throws YFrogTwitterException;
 
 	public abstract void logout();
 

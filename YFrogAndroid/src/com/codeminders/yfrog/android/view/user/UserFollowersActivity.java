@@ -5,7 +5,7 @@ package com.codeminders.yfrog.android.view.user;
 
 import java.util.ArrayList;
 
-import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterUsersListActivity;
 
@@ -24,4 +24,9 @@ public class UserFollowersActivity extends AbstractTwitterUsersListActivity {
 		return twitterService.getUserFollowers(user.getUsername());
 	}
 
+	@Override
+	protected String createTitle() {
+		StringBuilder builder = new StringBuilder(super.createTitle());
+		return builder.append(getResources().getString(R.string.ufrs_title) + " " + user.getUsername()).toString();
+	}
 }

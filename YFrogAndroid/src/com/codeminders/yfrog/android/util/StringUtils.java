@@ -145,4 +145,18 @@ public final class StringUtils {
 		}
 	}
 	
+	public static String formatTitle(String loggedUsername, String path) {
+		StringBuilder builder = new StringBuilder(loggedUsername);
+		builder.append("> ");
+		
+		if (!isEmpty(path)) {
+			builder.append(path);
+		}
+		return builder.toString();
+	}
+	
+	public static String formatTitle(String loggedUsername) {
+		return formatTitle(loggedUsername, null);
+	}
+
 }

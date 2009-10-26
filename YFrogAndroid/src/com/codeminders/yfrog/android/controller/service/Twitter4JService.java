@@ -7,7 +7,7 @@ import java.util.*;
 
 import twitter4j.*;
 import twitter4j.http.*;
-
+import android.content.Context;
 import android.location.Location;
 
 import com.codeminders.yfrog.android.*;
@@ -278,16 +278,18 @@ public class Twitter4JService implements TwitterService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#sendAllUnsentMessages()
-	 */
-	public void sendAllUnsentMessages() throws YFrogTwitterException {
+	public void sendAllUnsentMessages(Context context) throws YFrogTwitterException {
 		Account logged = ServiceFactory.getAccountService().getLogged();
 		ArrayList<UnsentMessage> toSent = unsentMessageService.getUnsentMessagesForAccount(logged.getId());
 		
 		int size = toSent.size();
 		for (int i = 0; i < size; i++) {
-			sendUnsentMessage(toSent.get(i));
+			UnsentMessage msg = toSent.get(i);
+			if (msg.isHasAttachment()) {
+				sendUnsentMessage(msg, new MessageAttachment(context, msg.getAttachmentUrl()));
+			} else {
+				sendUnsentMessage(msg);
+			}
 		}
 	}
 	

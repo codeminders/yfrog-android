@@ -66,7 +66,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			editable = new Account();
 		}
 		
-		setTitle(isEdit ? R.string.edit_account_activity : R.string.edit_account_activity);
+		setTitle(isEdit ? R.string.edit_account_activity_title : R.string.add_account_activity_title);
 
 		setAuthMethodListener((RadioButton) findViewById(R.id.ae_common_method_rbutton));
 		setAuthMethodListener((RadioButton) findViewById(R.id.ae_oauth_method_rbutton));

@@ -22,7 +22,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 	private static final String TEXT = "message_text";
 	private static final String TYPE = "type";
 	private static final String TO = "receiver";
-	private static final String ATTACHMENT = "receiver";
+	private static final String ATTACHMENT = "attach_uri";
 	
 	public static final String UNSENT_MESSAGE_DDL = 
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
@@ -30,9 +30,10 @@ public class UnsentMessageDAO extends AbstractDAO {
 		ACCOUNT_ID + " INTEGER NOT NULL, " +
 		TEXT + " TEXT NOT NULL, " +
 		TYPE + " INTEGER NOT NULL, " +
-		TO + " TEXT " +
+		TO + " TEXT, " +
 		ATTACHMENT + " TEXT " +
 		"); ";
+	
 	
 	private static final String COUNT = "count";
 	
@@ -59,6 +60,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 				int idxText = cursor.getColumnIndex(TEXT);
 				int idxType = cursor.getColumnIndex(TYPE);
 				int idxTo = cursor.getColumnIndex(TO);
+				int idxAttachment = cursor.getColumnIndex(ATTACHMENT);
 				
 				cursor.moveToNext();
 				
@@ -68,6 +70,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 				message.setText(cursor.getString(idxText));
 				message.setType(cursor.getInt(idxType));
 				message.setTo(cursor.getString(idxTo));
+				message.setAttachmentUrl(cursor.getString(idxAttachment));
 			}
 		} finally {
 			if (cursor != null) {
@@ -93,6 +96,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 			int idxText = cursor.getColumnIndex(TEXT);
 			int idxType = cursor.getColumnIndex(TYPE);
 			int idxTo = cursor.getColumnIndex(TO);
+			int idxAttachment = cursor.getColumnIndex(ATTACHMENT);
 			
 			while(cursor.moveToNext()) {
 				UnsentMessage message = new UnsentMessage();
@@ -102,6 +106,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 				message.setText(cursor.getString(idxText));
 				message.setType(cursor.getInt(idxType));
 				message.setTo(cursor.getString(idxTo));
+				message.setAttachmentUrl(cursor.getString(idxAttachment));
 				
 				result.add(message);
 			}
@@ -126,6 +131,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 			values.put(TEXT, message.getText());
 			values.put(TYPE, message.getType());
 			values.put(TO, message.getTo());
+			values.put(ATTACHMENT, message.getAttachmentUrl());
 			id = db.insert(TABLE_NAME, null, values);
 		} finally {
 			db.close();
@@ -144,6 +150,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 			values.put(TEXT, message.getText());
 			values.put(TYPE, message.getType());
 			values.put(TO, message.getTo());
+			values.put(ATTACHMENT, message.getAttachmentUrl());
 			db.update(TABLE_NAME, values, ID_EQUAL_WHERE, new String[] {message.getId() + ""});
 		} finally {
 			db.close();

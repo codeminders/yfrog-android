@@ -31,7 +31,7 @@
 	<string name="msg_sent">Send complete</string>
     
     <!-- Account list -->
-    <string name="account_list_activity">Accounts</string>
+    <string name="account_list_activity_title">Accounts</string>
     <string name="add_account">Add account</string>
     <string name="login">Login</string>
     <string name="account_delete_dialog_title">Warning</string>
@@ -44,8 +44,8 @@
     <string name="account_login_failed_btn">OK</string>
     
 	<!-- Add account -->
-	<string name="add_account_activity">Add account</string>
-	<string name="edit_account_activity">Edit account</string>
+	<string name="add_account_activity_title">Add account</string>
+	<string name="edit_account_activity_title">Edit account</string>
 	<string name="ae_name">Account name</string>
     <string name="ae_nickname">Nickname</string>
     <string name="ae_password">Password</string>
@@ -104,6 +104,7 @@
     <!-- End tabs -->
     
     <!-- Twitter user details -->
+    <string name="tud_title">Details for </string>
     <string name="tud_btn_send_dir_message">Send Direct Message</string>
     <string name="tud_btn_send_pub_reply">Send Public Reply</string>
     <string name="tud_btn_recent_tweets">Recent Tweets</string>
@@ -114,6 +115,7 @@
     <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
     
     <!-- Twitter status details -->
+    <string name="tm_title">Status details</string>
     <string name="tm_btn_reply">Reply</string>
     <string name="tm_btn_forward">Forward</string>
     <string name="tm_btn_favorite">Favorite</string>
@@ -121,29 +123,41 @@
     <string name="tm_btn_delete">Delete</string>
     
     <!-- Writable -->
+    <string name="wr_title">Write </string>
     <string name="wr_btn_queue">Queue</string>
     <string name="wr_src_storage">Attach from storage</string>
     <string name="wr_src_camera">Attach from camera</string>
     <string name="wr_att_image">Image</string>
     <string name="wr_att_video">Video</string>
-    
-    
+    <string name="wr_new_status_title">Add status</string>
+    <string name="wr_reply_title">Write reply to </string>
+    <string name="wr_pub_reply_title">Write public reply to </string>
+    <string name="wr_dir_msg_title">Write direct message to </string>
+    <string name="wr_edit_new_status_title">Edit status</string>
+    <string name="wr_edit_reply_title">Edit reply</string>
+    <string name="wr_edit_pub_reply_title">Edit public reply</string>
+    <string name="wr_edit_dir_msg_title">Edit direct message to </string>
+        
     <!-- Twitter search -->
+    <string name="s_title">Saved searches</string>
     <string name="s_add_search">Add search</string>
     <string name="s_btn_search">Search</string>
     <string name="s_add_search_query">Query</string>
     
-        <!-- Twitter search results-->
+    <!-- Twitter search results-->
+    <string name="sr_title">Search result for </string>
     <string name="sr_more_searches">More searches</string>
     
     <!-- Image view -->
+    <string name="iv_title">View image</string>
     <string name="iv_zoom_in">Zoom in</string>
     <string name="iv_zoom_out">Zoom out</string>
     
     <!-- Photo camera -->
     <string name="pc_to_gallery">Go to gallery</string>
     
-        <!--  About -->
+    <!--  About -->
+    <string name="ab_title">About</string>
     <string name="ab_app_name">YFrog</string>
     <string name="ab_app_version">ver. 2.0</string>
     <string name="ab_app_copyright1">\u00A9 2009 ImageShack Corp.</string>
@@ -152,9 +166,25 @@
     <string name="ab_app_used_libs">Includes Twitter4J by Yusuke Yamamoto</string>
     
     <!-- Settings -->
+    <string name="st_title">Settings</string>
     <string name="st_locations">Post locations</string>
     <string name="st_scale">Scale large images</string>
     <string name="st_fwd_email">Forward by EMail</string>
     <string name="st_fwd_sms">Forward by SMS</string>
     <string name="st_fwd_title">Forward settings</string>
+    
+    <!-- Followers -->
+    <string name="frs_title">Followers</string>
+    
+    <!-- Following -->
+    <string name="fng_title">Followings</string>
+    
+    <!-- User Followers -->
+    <string name="ufrs_title">Followers for </string>
+    
+    <!-- My tweets -->
+    <string name="mtw_title">My tweets</string>
+    
+    <!-- My tweets -->
+    <string name="utw_title">Tweets for </string>
 </resources>

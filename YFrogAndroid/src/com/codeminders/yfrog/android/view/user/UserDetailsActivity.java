@@ -15,7 +15,7 @@ import android.widget.*;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterUser;
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 import com.codeminders.yfrog.android.view.message.*;
@@ -52,6 +52,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		position = extras.getInt(KEY_USER_POS);
 		count = users.size();
 		setCurrentUser();
+		setTitle(createTitle());
 		showUser();
 	}
 
@@ -227,4 +228,10 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		return dialiog;
 	}
 
+	protected String createTitle() {
+		StringBuilder title = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
+		title.append(getResources().getString(R.string.tud_title));
+		title.append(" " + user.getUsername());
+		return title.toString();
+	}
 }

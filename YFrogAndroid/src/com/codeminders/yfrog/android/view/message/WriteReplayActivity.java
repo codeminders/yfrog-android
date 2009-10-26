@@ -20,13 +20,15 @@ public class WriteReplayActivity extends WritableActivity {
 	private static final String START_REPLAY_SUFFIX = " ";
 
 	private long id;
+	private String writerNickname;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
+		writerNickname = getIntent().getExtras().getString(
+				KEY_WRITER_USERNAME);
 		id = getIntent().getExtras().getLong(KEY_MESSAGE_ID);
 
+		super.onCreate(savedInstanceState);
 		EditText editText = (EditText) findViewById(R.id.wr_text);
 		editText.setText(getReplayStart());
 	}
@@ -49,9 +51,14 @@ public class WriteReplayActivity extends WritableActivity {
 	}
 
 	private String getReplayStart() {
-		String writerNickname = getIntent().getExtras().getString(
-				KEY_WRITER_USERNAME);
-
 		return START_REPLAY_PREFIX + writerNickname + START_REPLAY_SUFFIX;
 	}
+	
+	@Override
+	protected String createTitle() {
+		StringBuilder title = new StringBuilder(super.createTitle());
+		title.append(getResources().getString(R.string.wr_reply_title));
+		return title.append(" " + writerNickname).toString();
+	}
+
 }

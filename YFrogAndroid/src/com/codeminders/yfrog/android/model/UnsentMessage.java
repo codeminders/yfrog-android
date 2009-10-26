@@ -22,6 +22,7 @@ public class UnsentMessage implements Serializable {
 	private String text;
 	private int type = TYPE_STATUS;
 	private String to;
+	private String attachmentUrl;
 
 	public long getId() {
 		return id;
@@ -62,6 +63,18 @@ public class UnsentMessage implements Serializable {
 	public void setTo(String to) {
 		this.to = to;
 	}
+
+	public String getAttachmentUrl() {
+		return attachmentUrl;
+	}
+
+	public void setAttachmentUrl(String attachmentUrl) {
+		this.attachmentUrl = attachmentUrl;
+	}
+	
+	public boolean isHasAttachment() {
+		return !StringUtils.isEmpty(attachmentUrl);
+	}
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
@@ -69,6 +82,7 @@ public class UnsentMessage implements Serializable {
 		out.writeUTF(text == null ? StringUtils.EMPTY_STRING : text);
 		out.writeInt(type);
 		out.writeUTF(to == null ? StringUtils.EMPTY_STRING : to);
+		out.writeUTF(attachmentUrl == null ? StringUtils.EMPTY_STRING : attachmentUrl);
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -77,6 +91,7 @@ public class UnsentMessage implements Serializable {
 		text = in.readUTF();
 		type = in.readInt();
 		to = in.readUTF();
+		attachmentUrl = in.readUTF();
 	}
 
 }

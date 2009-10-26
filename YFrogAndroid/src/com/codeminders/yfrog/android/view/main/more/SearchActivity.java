@@ -46,6 +46,9 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		twitterService = ServiceFactory.getTwitterService();
 
+		setTitle(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername(), 
+				getResources().getString(R.string.s_title)));
+
 		createList(true);
 	}
 

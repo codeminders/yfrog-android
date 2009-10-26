@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterStatus;
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterStatusAdapter;
 import com.codeminders.yfrog.android.view.message.*;
@@ -45,6 +45,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		twitterService = ServiceFactory.getTwitterService();
 
 		createList(true, false);
+		
 	}
 
 	@Override
@@ -103,6 +104,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 			setSelection(selected);
 		}
 		registerForContextMenu(getListView());
+		setTitle(createTitle());
 	}
 
 	private boolean isNeedReload() {
@@ -179,5 +181,9 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	private boolean isNoMoreItems() {
 		return statuses.size() < page * DEFAULT_PAGE_SIZE
 				&& page * DEFAULT_PAGE_SIZE > MAX_COUNT;
+	}
+	
+	protected String createTitle() {
+		return StringUtils.formatTitle(twitterService.getLoggedUser().getUsername());
 	}
 }

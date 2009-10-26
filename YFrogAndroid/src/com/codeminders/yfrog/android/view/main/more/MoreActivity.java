@@ -3,8 +3,6 @@
  */
 package com.codeminders.yfrog.android.view.main.more;
 
-import java.text.BreakIterator;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;

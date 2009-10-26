@@ -61,7 +61,9 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 			isSaved = isQuerySaved(query);
 
 		}
-
+		setTitle(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername(), 
+				getResources().getString(R.string.sr_title)  + " " + query));
+		
 		createList(true, false);
 
 	}

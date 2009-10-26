@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import android.app.*;
 import android.content.*;
 import android.content.SharedPreferences.Editor;
-import android.os.*;
+import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
@@ -77,6 +77,7 @@ public class ListAccountsActivity extends ListActivity {
 				android.R.layout.simple_list_item_1, getAccountsNames(accounts)));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
+		setTitle(R.string.account_list_activity_title);
 	}
 
 	private Account getLastLogged() {

@@ -13,6 +13,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko
@@ -32,6 +33,8 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 		account = accountService.getLogged();
 		
 		setContentView(R.layout.settings);
+		setTitle(StringUtils.formatTitle(accountService.getLogged().getUsername(),
+				getResources().getString(R.string.st_title)));
 		
 		CheckBox checkBox = (CheckBox) findViewById(R.id.st_locations);
 		checkBox.setChecked(account.isPostLocation());

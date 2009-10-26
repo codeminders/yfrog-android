@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.widget.TabHost;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.view.main.home.HomeActivity;
 import com.codeminders.yfrog.android.view.main.mentions.MentionsActivity;
 import com.codeminders.yfrog.android.view.main.messages.MessagesActivity;
@@ -29,7 +31,8 @@ public class MainTabActivity extends TabActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setTitle(createTitle());
+				
 		TabHost tabHost = getTabHost();
 		
 		tabHost.addTab(tabHost.newTabSpec(TAB_HOME_TAG)
@@ -51,5 +54,9 @@ public class MainTabActivity extends TabActivity {
 		tabHost.addTab(tabHost.newTabSpec(TAB_MORE_TAG)
 				.setIndicator(getResources().getString(R.string.tab_more_caption))
 				.setContent(new Intent(this, MoreActivity.class)));
+	}
+	
+	protected String createTitle() {
+		return StringUtils.formatTitle(ServiceFactory.getTwitterService().getLoggedUser().getUsername());
 	}
 }

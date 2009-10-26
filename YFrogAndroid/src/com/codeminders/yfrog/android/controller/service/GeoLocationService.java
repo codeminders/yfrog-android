@@ -4,13 +4,13 @@
 package com.codeminders.yfrog.android.controller.service;
 
 import java.io.IOException;
-import java.util.*;
-
-import com.codeminders.yfrog.android.util.StringUtils;
+import java.util.List;
 
 import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
+
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko

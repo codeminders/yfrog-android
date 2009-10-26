@@ -17,10 +17,13 @@ public class WritePublicReplayActivity extends WritableActivity {
 	private static final String START_REPLAY_PREFIX = "@";
 	private static final String START_REPLAY_SUFFIX = " ";
 
+	private String writerNickname;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		writerNickname = getIntent().getExtras().getString(
+				KEY_WRITER_USERNAME);
 		super.onCreate(savedInstanceState);
-
 		EditText editText = (EditText) findViewById(R.id.wr_text);
 		editText.setText(getReplayStart());
 	}
@@ -42,9 +45,12 @@ public class WritePublicReplayActivity extends WritableActivity {
 	}
 
 	private String getReplayStart() {
-		String writerNickname = getIntent().getExtras().getString(
-				KEY_WRITER_USERNAME);
-
 		return START_REPLAY_PREFIX + writerNickname + START_REPLAY_SUFFIX;
+	}
+	
+	protected String createTitle() {
+		StringBuilder title = new StringBuilder(super.createTitle());
+		title.append(getResources().getString(R.string.wr_pub_reply_title));
+		return title.append(" " + writerNickname).toString();
 	}
 }

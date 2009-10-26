@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterUser;
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterUserAdapter;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
@@ -80,7 +80,8 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	private void show() {
 		setListAdapter(new TwitterUserAdapter<TwitterUser>(this, users));
 		getListView().setTextFilterEnabled(true);
-		registerForContextMenu(getListView());				
+		registerForContextMenu(getListView());
+		setTitle(createTitle());
 	}
 	
 	private boolean isNeedReload() {
@@ -133,4 +134,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	protected String createTitle() {
+		return StringUtils.formatTitle(twitterService.getLoggedUser().getUsername());
+	}
 }

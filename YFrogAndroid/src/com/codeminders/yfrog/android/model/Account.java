@@ -5,8 +5,6 @@ package com.codeminders.yfrog.android.model;
 
 import java.io.*;
 
-import android.R.bool;
-
 /**
  * @author idemydenko
  *

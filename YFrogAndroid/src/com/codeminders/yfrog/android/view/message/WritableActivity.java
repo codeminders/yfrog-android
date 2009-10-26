@@ -62,6 +62,8 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		
 		setContentView(R.layout.twitter_writable);
 
+		setTitle(createTitle());
+		
 		EditText editText = (EditText) findViewById(R.id.wr_text);
 		editText.addTextChangedListener(this);
 
@@ -177,6 +179,15 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		UnsentMessage toSave = createUnsentMessage();
 		toSave.setText(text);
 		toSave.setAccountId(accountService.getLogged().getId());
+		
+		if (isHasAttachment) {
+			String url = attachment.toUrl();
+			
+			if (!StringUtils.isEmpty(url)) {
+				toSave.setAttachmentUrl(url);
+			}
+		}
+		
 		unsentMessageService.addUnsentMessage(toSave);
 	}
 		
@@ -269,5 +280,9 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		
 		startAttachment(requestCode);
 		return true;
+	}
+	
+	protected String createTitle() {
+		return StringUtils.formatTitle(twitterService.getLoggedUser().getUsername());
 	}
 }

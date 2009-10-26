@@ -43,6 +43,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
 		setContentView(R.layout.twitter_status_details);
+		setTitle(createTitle());
 		
 		Bundle extras = getIntent().getExtras();
 		statuses = (ArrayList<TwitterStatus>) extras.getSerializable(KEY_STATUSES);
@@ -233,5 +234,11 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 			break;
 		}
 		return dialiog;
+	}
+	
+	protected String createTitle() {
+		StringBuilder status = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
+		status.append(getResources().getString(R.string.tm_title));
+		return status.toString();
 	}
 }

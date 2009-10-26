@@ -88,7 +88,11 @@ public class UnsentActivity extends ListActivity {
 			
 			new AsyncTwitterUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
-					twitterService.sendUnsentMessage(message);
+					if (message.isHasAttachment()) {
+						twitterService.sendUnsentMessage(message, new MessageAttachment(UnsentActivity.this, message.getAttachmentUrl()));
+					} else {
+						twitterService.sendUnsentMessage(message);
+					}
 				}
 				
 				protected void doAfterUpdate() {
@@ -126,7 +130,7 @@ public class UnsentActivity extends ListActivity {
 		case R.id.umt_send_all:
 			new AsyncTwitterUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
-					twitterService.sendAllUnsentMessages();
+					twitterService.sendAllUnsentMessages(UnsentActivity.this);
 				}
 				
 				protected void doAfterUpdate() {

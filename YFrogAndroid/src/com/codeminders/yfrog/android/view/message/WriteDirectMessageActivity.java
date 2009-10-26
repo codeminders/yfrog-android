@@ -5,7 +5,7 @@ package com.codeminders.yfrog.android.view.message;
 
 import android.os.Bundle;
 
-import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**
@@ -16,9 +16,8 @@ public class WriteDirectMessageActivity extends WritableActivity {
 	private String username;
 
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
 		username = getIntent().getExtras().getString(KEY_WRITER_USERNAME);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -37,4 +36,12 @@ public class WriteDirectMessageActivity extends WritableActivity {
 		message.setTo(username);
 		return message;
 	}
+	
+	protected String createTitle() {
+		StringBuilder title = new StringBuilder(super.createTitle());
+		title.append(getResources().getString(R.string.wr_dir_msg_title));
+		return title.append(" " + username).toString();
+	}
+
+	
 }

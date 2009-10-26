@@ -51,12 +51,18 @@ public final class AccountService {
 		accountDAO.deleteAccount(account.getId());
 	}
 	
-	public void updateAccount(Account account)  throws YFrogTwitterException {
-		if (account.getAuthMethod() == Account.METHOD_COMMON) {
+	public void updateAccount(Account account) throws YFrogTwitterException {
+		updateAccount(account, true);
+	}
+
+	public void updateAccount(Account account, boolean verifyCredentials) throws YFrogTwitterException {
+		
+		if (account.getAuthMethod() == Account.METHOD_COMMON && verifyCredentials) {
 			verifiyAccount(account);
 		}
 		accountDAO.updateAccount(account);
 	}
+
 	
 	private void verifiyAccount(Account account) throws YFrogTwitterException {
 		twitterService.getCredentials(account);
@@ -137,6 +143,7 @@ public final class AccountService {
 			twitterService.loginOAuth(account.getOauthToken(), account.getOauthTokenSecret());
 		}
 		logged = account;
+		twitterService.setLoggedAccount(logged);
 	}
 	
 	public Account getLogged() {

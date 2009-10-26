@@ -108,7 +108,7 @@
     <string name="tud_btn_followers">Followers</string>
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
-    <string name="tud_send_email">Send email...</string>
+    <string name="tud_send">Send</string>
     <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
     
     <!-- Twitter status details -->
@@ -147,4 +147,11 @@
     <string name="ab_app_copyright2">All rights reserved.</string>
     <string name="ab_app_link">http://code.google.com/p/yfrog</string>
     <string name="ab_app_used_libs">Includes Twitter4J by Yusuke Yamamoto</string>
+    
+    <!-- Settings -->
+    <string name="st_locations">Post locations</string>
+    <string name="st_scale">Scale large images</string>
+    <string name="st_fwd_email">Forward by EMail</string>
+    <string name="st_fwd_sms">Forward by SMS</string>
+    <string name="st_fwd_title">Forward settings</string>
 </resources>

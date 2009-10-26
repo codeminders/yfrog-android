@@ -26,6 +26,9 @@ public class AccountDAO extends AbstractDAO {
 	private static final String OAUTH_TOLKEN_SECRET = "oauth_token_secret";
 	private static final String AUTHORIZATION_METHOD = "auth_method";
 	private static final String OAUTH_STATUS = "oauth_status";
+	private static final String POST_LOCATION = "post_location";
+	private static final String SCALE_IMAGES = "scale_images";
+	private static final String FORWAD_TYPE = "forward_type";
 
 	public static final String ACCOUNT_DDL = 
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
@@ -36,7 +39,11 @@ public class AccountDAO extends AbstractDAO {
 		OAUTH_TOLKEN + " TEXT," +
 		OAUTH_TOLKEN_SECRET + " TEXT, " +
 		OAUTH_STATUS + " INTEGER NOT NULL, " +
-		AUTHORIZATION_METHOD + " INTEGER NOT NULL); ";
+		AUTHORIZATION_METHOD + " INTEGER NOT NULL, " +
+		POST_LOCATION + " INTEGER NOT NULL, " +
+		SCALE_IMAGES + " INTEGER NOT NULL, " +
+		FORWAD_TYPE + " INTEGER NOT NULL " +
+		"); ";
 	
 	private static final String COUNT = "count";
 	
@@ -73,6 +80,9 @@ public class AccountDAO extends AbstractDAO {
 			int idxOauthSecretTolken = cursor.getColumnIndex(OAUTH_TOLKEN_SECRET);
 			int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
 			int idxAuthMethod = cursor.getColumnIndex(AUTHORIZATION_METHOD);
+			int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
+			int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
+			int idxForwardType = cursor.getColumnIndex(FORWAD_TYPE);
 			
 			while(cursor.moveToNext()) {
 				Account account = new Account();
@@ -84,6 +94,9 @@ public class AccountDAO extends AbstractDAO {
 				account.setOauthTokenSecret(cursor.getString(idxOauthSecretTolken));
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
 				account.setAuthMethod(cursor.getInt(idxAuthMethod));
+				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
+				account.setScaleImage(cursor.getInt(idxScaleImages));
+				account.setForwardType(cursor.getInt(idxForwardType));
 				
 				result.add(account);
 			}
@@ -114,6 +127,9 @@ public class AccountDAO extends AbstractDAO {
 				int idxOauthSecretTolken = cursor.getColumnIndex(OAUTH_TOLKEN_SECRET);
 				int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
 				int idxAuthMethod = cursor.getColumnIndex(AUTHORIZATION_METHOD);
+				int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
+				int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
+				int idxForwardType = cursor.getColumnIndex(FORWAD_TYPE);
 				
 				cursor.moveToNext();
 				
@@ -126,6 +142,10 @@ public class AccountDAO extends AbstractDAO {
 				account.setOauthTokenSecret(cursor.getString(idxOauthSecretTolken));
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
 				account.setAuthMethod(cursor.getInt(idxAuthMethod));
+				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
+				account.setScaleImage(cursor.getInt(idxScaleImages));
+				account.setForwardType(cursor.getInt(idxForwardType));
+
 			}
 		} finally {
 			if (cursor != null) {
@@ -169,6 +189,11 @@ public class AccountDAO extends AbstractDAO {
 				int idxOauthSecretTolken = cursor.getColumnIndex(OAUTH_TOLKEN_SECRET);
 				int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
 				int idxAuthMethod = cursor.getColumnIndex(AUTHORIZATION_METHOD);
+				int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
+				int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
+				int idxForwardType = cursor.getColumnIndex(FORWAD_TYPE);
+				
+
 				
 				cursor.moveToNext();
 				
@@ -181,6 +206,10 @@ public class AccountDAO extends AbstractDAO {
 				account.setOauthTokenSecret(cursor.getString(idxOauthSecretTolken));
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
 				account.setAuthMethod(cursor.getInt(idxAuthMethod));
+				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
+				account.setScaleImage(cursor.getInt(idxScaleImages));
+				account.setForwardType(cursor.getInt(idxForwardType));
+
 			}
 		} finally {
 			if (cursor != null) {
@@ -204,6 +233,9 @@ public class AccountDAO extends AbstractDAO {
 			values.put(AUTHORIZATION_METHOD, account.getAuthMethod());
 			values.put(OAUTH_STATUS, account.getOauthStatus());
 			values.put(EMAIL, account.getEmail());
+			values.put(POST_LOCATION, account.getPostLocation());
+			values.put(SCALE_IMAGES, account.getScaleImage());
+			values.put(FORWAD_TYPE, account.getForwardType());
 			id = db.insert(TABLE_NAME, null, values);
 		} finally {
 			db.close();
@@ -244,6 +276,9 @@ public class AccountDAO extends AbstractDAO {
 			values.put(AUTHORIZATION_METHOD, account.getAuthMethod());
 			values.put(OAUTH_STATUS, account.getOauthStatus());
 			values.put(EMAIL, account.getEmail());
+			values.put(POST_LOCATION, account.getPostLocation());
+			values.put(SCALE_IMAGES, account.getScaleImage());
+			values.put(FORWAD_TYPE, account.getForwardType());
 			db.update(TABLE_NAME, values, ID_EQUAL_WHERE, new String[] {account.getId() + ""});
 		} finally {
 			db.close();

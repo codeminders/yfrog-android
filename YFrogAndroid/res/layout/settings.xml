@@ -2,6 +2,39 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_height="wrap_content" android:padding="10dp" android:layout_width="fill_parent" android:orientation="vertical">
-<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="30dp" android:text="@string/st_locations" android:id="@+id/st_locations"></CheckBox>
-<CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:id="@+id/st_scale" android:text="@string/st_scale"></CheckBox>
+
+<CheckBox 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content" 
+	android:layout_marginTop="30dp" 
+	android:text="@string/st_locations" 
+	android:id="@+id/st_locations">
+</CheckBox>
+
+<CheckBox 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content" 
+	android:layout_marginTop="10dp" 
+	android:id="@+id/st_scale" 
+	android:text="@string/st_scale">
+</CheckBox>
+
+<TextView 
+	android:layout_height="wrap_content" 
+	style="?android:attr/listSeparatorTextViewStyle" android:layout_width="fill_parent" android:text="@string/st_fwd_title">
+</TextView>
+
+<RadioGroup android:id="@+id/RadioGroup01" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	<RadioButton 
+		android:id="@+id/st_fwd_email" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" android:text="@string/st_fwd_email">
+	</RadioButton>
+	
+	<RadioButton 
+		android:id="@+id/st_fwd_sms" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" android:text="@string/st_fwd_sms">
+	</RadioButton>
+</RadioGroup>
 </LinearLayout>

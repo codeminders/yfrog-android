@@ -5,6 +5,8 @@ package com.codeminders.yfrog.android.model;
 
 import java.io.*;
 
+import android.R.bool;
+
 /**
  * @author idemydenko
  *
@@ -17,6 +19,11 @@ public class Account implements Serializable {
 	public static final int OAUTH_STATUS_WAIT_VERIFICATION = 1;
 	public static final int OAUTH_STATUS_VERIFIED = 2;
 	
+	public static final int FORWARD_BY_EMAIL = 0;
+	public static final int FORWARD_BY_SMS = 1;
+	
+	private static final int FALSE = 0;
+	
 	private long id;
 	private String email;
 	private String username;
@@ -25,6 +32,10 @@ public class Account implements Serializable {
 	private String oauthTokenSecret;
 	private int authMethod = METHOD_COMMON;
 	private int oauthStatus = OAUTH_STATUS_NOT_AUTHORIZED;
+	private int postLocation = FALSE;
+	private int scaleImage = FALSE;
+	private int forwardType = FORWARD_BY_EMAIL;
+	
 	
 	public long getId() {
 		return id;
@@ -100,6 +111,46 @@ public class Account implements Serializable {
 	public boolean isNeedOAuthAuthorization() {
 		return authMethod == METHOD_OAUTH && oauthStatus != OAUTH_STATUS_VERIFIED;
 	}
+
+	public void setPostLocationStatus(int postlocation) {
+		postLocation = postlocation;
+	}
+
+	public void setPostLocationStatus(boolean postlocation) {
+		postLocation = !postlocation ? FALSE : 1;
+	}
+	
+	public boolean isPostLocation() {
+		return postLocation != FALSE;
+	}
+	
+	public int getPostLocation() {
+		return postLocation;
+	}
+	
+	public void setScaleImage(int scale) {
+		this.scaleImage = scale;
+	}
+
+	public void setScaleImage(boolean scaleImage) {
+		this.scaleImage = !scaleImage ? FALSE : 1;
+	}
+	
+	public boolean isScaleImage() {
+		return scaleImage != FALSE;
+	}
+
+	public int getScaleImage() {
+		return scaleImage;
+	}
+	
+	public void setForwardType(int forwardType) {
+		this.forwardType = forwardType;
+	}
+	
+	public int getForwardType() {
+		return forwardType;
+	}
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
@@ -110,6 +161,9 @@ public class Account implements Serializable {
 		out.writeUTF(oauthTokenSecret == null ? "" : oauthTokenSecret);
 		out.writeInt(authMethod);
 		out.writeInt(oauthStatus);
+		out.writeInt(postLocation);
+		out.writeInt(scaleImage);
+		out.writeInt(forwardType);
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -121,5 +175,8 @@ public class Account implements Serializable {
 		oauthTokenSecret = in.readUTF();
 		authMethod = in.readInt();
 		oauthStatus = in.readInt();
+		postLocation = in.readInt();
+		scaleImage = in.readInt();
+		forwardType = in.readInt();
 	}
 }

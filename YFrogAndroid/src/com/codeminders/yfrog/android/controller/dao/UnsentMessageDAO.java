@@ -22,6 +22,7 @@ public class UnsentMessageDAO extends AbstractDAO {
 	private static final String TEXT = "message_text";
 	private static final String TYPE = "type";
 	private static final String TO = "receiver";
+	private static final String ATTACHMENT = "receiver";
 	
 	public static final String UNSENT_MESSAGE_DDL = 
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
@@ -29,7 +30,9 @@ public class UnsentMessageDAO extends AbstractDAO {
 		ACCOUNT_ID + " INTEGER NOT NULL, " +
 		TEXT + " TEXT NOT NULL, " +
 		TYPE + " INTEGER NOT NULL, " +
-		TO + " TEXT); ";
+		TO + " TEXT " +
+		ATTACHMENT + " TEXT " +
+		"); ";
 	
 	private static final String COUNT = "count";
 	

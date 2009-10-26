@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.*;
 
 import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncUpdater;
 
@@ -29,9 +30,12 @@ public class ImageViewActivity extends Activity {
 	private String bitmapUrl;
 	private Bitmap bitmap;
 	private boolean saved = false;
+	private AccountService accountService;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	
+		accountService = ServiceFactory.getAccountService();
 		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -51,7 +55,7 @@ public class ImageViewActivity extends Activity {
 			}
 			
 			protected void doAfterUpdate() {
-				imageView = new Zoom(ImageViewActivity.this, bitmap);
+				imageView = new Zoom(ImageViewActivity.this, bitmap, accountService.getLogged().isScaleImage());
 				setContentView(imageView);
 			}
 		}.update();

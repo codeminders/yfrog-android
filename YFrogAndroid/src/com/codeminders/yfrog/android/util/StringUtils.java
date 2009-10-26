@@ -9,6 +9,7 @@ import java.util.regex.*;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.location.Location;
 import android.text.*;
 import android.text.format.DateFormat;
 import android.text.style.*;
@@ -114,8 +115,10 @@ public final class StringUtils {
 		while (matcher.find()) {
 			final String url = matcher.group();
 			
-			if (YFrogUtils.hasYFrogContent(url)) {
-				YFrogUtils.buildYFrogURL(context, spannable, url, matcher.start(), matcher.end());
+			if (YFrogUtils.hasYFrogImageContent(url)) {
+				YFrogUtils.buildYFrogImageURL(context, spannable, url, matcher.start(), matcher.end());
+			} if (YFrogUtils.hasYFrogVideoContent(url)) {
+				YFrogUtils.buildYFrogVideoURL(context, spannable, url, matcher.start(), matcher.end());
 			} else {
 				spannable.setSpan(new URLSpan(url), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
@@ -127,4 +130,19 @@ public final class StringUtils {
 	public static String createFilename() {
 		return FILENAME_PREFIX + FILENAME_FORMAT_TIMESTAMP.format(new Date());
 	}
+	
+	public static String formatLocation(Location location) {
+		return "LAT: " + formatLocation(location.getLatitude()) + " LONG: " + formatLocation(location.getLongitude());
+	}
+	
+	private static String formatLocation(double value) {
+		String result = Location.convert(value, Location.FORMAT_MINUTES);
+		int idx = result.indexOf(".");
+		if (idx != -1) {
+			return result.substring(0, idx);
+		} else {
+			return result;
+		}
+	}
+	
 }

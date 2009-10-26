@@ -89,6 +89,11 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 				protected void doAfterUpdate() {
 					show();
 				}
+				
+				protected void doAfterError() {
+					queryResult.setResults(new ArrayList<TwitterSearchResult>(0));
+					show();
+				}
 			}.update();
 		} else {
 			show();
@@ -99,12 +104,17 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 	private void show() {
 		setContentView(R.layout.twitter_search_results);
 
+		
 		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
 
 		int selected = listView.getSelectedItemPosition();
-		listView
-				.setAdapter(new TwitterSearchResultAdapter<TwitterSearchResult>(
-						this, queryResult.getResults(), query));
+		if (queryResult.getResults().size() == 0) {
+			View v = findViewById(R.id.sr_searches_empty);
+			v.setVisibility(View.VISIBLE);
+		} else {
+			listView.setAdapter(new TwitterSearchResultAdapter<TwitterSearchResult>(
+							this, queryResult.getResults(), query));
+		}
 
 		if (selected > -1) {
 			listView.setSelection(selected);

@@ -39,4 +39,10 @@
 		android:layout_width="fill_parent"
 		android:layout_weight="1.0">
 	</ListView>
+	
+	<TextView 
+		android:id="@+id/sr_searches_empty" 
+		android:text="@string/sr_msg_search_empty" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal" android:layout_gravity="center_vertical" android:layout_marginTop="120dp">
+	</TextView>
+	
 </LinearLayout>

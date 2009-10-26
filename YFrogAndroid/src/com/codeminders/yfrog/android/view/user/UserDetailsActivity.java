@@ -30,8 +30,6 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	
 	private static final int ALERT_PROTECTED = 0;
 	
-	public static final int RESULT_UNFOLLOW = 102;
-	
 	private ArrayList<TwitterUser> users;
 	private TwitterUser user;
 	private int position;
@@ -158,17 +156,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
 	 */
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (!user.isFollowing()) {
-				getIntent().putExtra(KEY_USER_POS, user);
-				setResult(RESULT_UNFOLLOW, getIntent());
-				finish();
-				return false;
-			}
-
-		}
-		
+	public boolean onKeyDown(int keyCode, KeyEvent event) {		
 		if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
 			if (--position < 0) {
 				position = count - 1;
@@ -185,6 +173,12 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			setCurrentUser();
 			showUser();
 			return true;
+		}
+
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent();
+			intent.putExtra(KEY_USERS, users);
+			setResult(RESULT_OK, intent);
 		}
 
 		return super.onKeyDown(keyCode, event);

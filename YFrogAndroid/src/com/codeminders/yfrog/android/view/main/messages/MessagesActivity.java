@@ -70,6 +70,7 @@ public class MessagesActivity extends ListActivity {
 	}
 
 	private void show() {
+		setContentView(R.layout.twitter_dir_messages_list);
 		setListAdapter(new TwitterDirectMessageAdapter<TwitterDirectMessage>(this, messages));
 		registerForContextMenu(getListView());
 	}

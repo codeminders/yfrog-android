@@ -85,6 +85,11 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 				protected void doAfterUpdate() {
 					show();
 				}
+				
+				@Override
+				protected void doAfterError() {
+					show();
+				}
 			}.update();
 		} else {
 			show();
@@ -94,6 +99,8 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	private void show() {
 		int selected = -1;
 
+		setContentView(R.layout.twitter_statuses_list);
+		
 		if (getListView() != null) {
 			selected = getSelectedItemPosition();
 		}
@@ -121,9 +128,24 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		intent.putExtra(StatusDetailsActivity.KEY_STATUS_POS, position);
 		intent.putExtra(StatusDetailsActivity.KEY_STATUSES, statuses);
 
-		startActivity(intent);
+		startActivityForResult(intent, 0);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Bundle extras = data.getExtras();
+			
+			if (extras != null) {
+				ArrayList<TwitterStatus> sts = (ArrayList<TwitterStatus>) extras.getSerializable(StatusDetailsActivity.KEY_STATUSES);
+				if (sts != null) {
+					statuses = sts;
+				}
+				
+			}
+		}
+	}
+	
 	protected TwitterStatus getSelected(int position) {
 		if (position > -1) {
 			return statuses.get(position);

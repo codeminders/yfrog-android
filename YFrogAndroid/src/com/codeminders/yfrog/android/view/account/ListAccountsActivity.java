@@ -73,8 +73,10 @@ public class ListAccountsActivity extends ListActivity {
 	private void createAccountsList() {
 		accounts = accountService.getAllAccounts();
 
+		setContentView(R.layout.list_accounts);
+		
 		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getAccountsNames(accounts)));
+					android.R.layout.simple_list_item_1, getAccountsNames(accounts)));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
 		setTitle(R.string.account_list_activity_title);

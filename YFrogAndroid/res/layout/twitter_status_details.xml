@@ -40,7 +40,7 @@
 		android:id="@+id/tm_replay" 
 		android:text="@string/tm_btn_reply" 
 		android:layout_gravity="center" 
-		android:layout_marginTop="15px" android:focusable="false">
+		android:layout_marginTop="15px" android:focusable="false" android:visibility="gone">
 	</Button>
 
 	<Button 
@@ -48,7 +48,7 @@
 		android:layout_width="wrap_content" 
 		android:id="@+id/tm_forward" 
 		android:text="@string/tm_btn_forward" 
-		android:layout_gravity="center" android:focusable="false">
+		android:layout_gravity="center" android:focusable="false" android:visibility="gone">
 	</Button>
 
 	<Button 
@@ -64,7 +64,7 @@
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:text="@string/tm_btn_delete" 
-		android:layout_gravity="center" android:focusable="false">
+		android:layout_gravity="center" android:focusable="false" android:visibility="gone">
 	</Button>
 	
 

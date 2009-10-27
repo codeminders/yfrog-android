@@ -17,9 +17,6 @@ public class Account implements Serializable {
 	public static final int OAUTH_STATUS_WAIT_VERIFICATION = 1;
 	public static final int OAUTH_STATUS_VERIFIED = 2;
 	
-	public static final int FORWARD_BY_EMAIL = 0;
-	public static final int FORWARD_BY_SMS = 1;
-	
 	private static final int FALSE = 0;
 	
 	private long id;
@@ -32,7 +29,6 @@ public class Account implements Serializable {
 	private int oauthStatus = OAUTH_STATUS_NOT_AUTHORIZED;
 	private int postLocation = FALSE;
 	private int scaleImage = FALSE;
-	private int forwardType = FORWARD_BY_EMAIL;
 	
 	
 	public long getId() {
@@ -142,14 +138,6 @@ public class Account implements Serializable {
 		return scaleImage;
 	}
 	
-	public void setForwardType(int forwardType) {
-		this.forwardType = forwardType;
-	}
-	
-	public int getForwardType() {
-		return forwardType;
-	}
-	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
 		out.writeUTF(username == null ? "" : username);
@@ -161,7 +149,6 @@ public class Account implements Serializable {
 		out.writeInt(oauthStatus);
 		out.writeInt(postLocation);
 		out.writeInt(scaleImage);
-		out.writeInt(forwardType);
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -175,6 +162,5 @@ public class Account implements Serializable {
 		oauthStatus = in.readInt();
 		postLocation = in.readInt();
 		scaleImage = in.readInt();
-		forwardType = in.readInt();
 	}
 }

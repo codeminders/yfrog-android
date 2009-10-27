@@ -18,23 +18,4 @@
 	android:id="@+id/st_scale" 
 	android:text="@string/st_scale">
 </CheckBox>
-
-<TextView 
-	android:layout_height="wrap_content" 
-	style="?android:attr/listSeparatorTextViewStyle" android:layout_width="fill_parent" android:text="@string/st_fwd_title">
-</TextView>
-
-<RadioGroup android:id="@+id/RadioGroup01" android:layout_width="wrap_content" android:layout_height="wrap_content">
-	<RadioButton 
-		android:id="@+id/st_fwd_email" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" android:text="@string/st_fwd_email">
-	</RadioButton>
-	
-	<RadioButton 
-		android:id="@+id/st_fwd_sms" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" android:text="@string/st_fwd_sms">
-	</RadioButton>
-</RadioGroup>
 </LinearLayout>

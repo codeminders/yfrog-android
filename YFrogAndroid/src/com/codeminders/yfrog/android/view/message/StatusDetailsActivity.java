@@ -15,7 +15,7 @@ import android.widget.*;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.*;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
@@ -64,11 +64,11 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		my = twitterService.getLoggedUser().equals(status.getUser());
 
 		Button button = (Button) findViewById(R.id.tm_replay);
-		if (my) {
-			button.setVisibility(View.GONE);
-		} else {
-			button.setVisibility(View.VISIBLE);
-		}
+//		if (my) {
+//			button.setVisibility(View.GONE);
+//		} else {
+//			button.setVisibility(View.VISIBLE);
+//		}
 		
 		button.setOnClickListener(this);
 
@@ -87,7 +87,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		button.setOnClickListener(this);
 		
 		button = (Button) findViewById(R.id.tm_delete);
-		button.setVisibility(my ? View.VISIBLE : View.GONE);
+//		button.setVisibility(my ? View.VISIBLE : View.GONE);
 		button.setOnClickListener(this);
 
 		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
@@ -133,49 +133,53 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tm_replay:
-			Intent intent = new Intent(this, WriteReplayActivity.class);
-			intent.putExtra(WriteReplayActivity.KEY_MESSAGE_ID, status.getId());
-			intent.putExtra(WritableActivity.KEY_WRITER_USERNAME, status.getUser().getUsername());
-			startActivity(intent);
+//			reply();
 			break;
 		case R.id.tm_favorite:
 			favorite();
 			break;
 		case R.id.tm_forward:
-			forward();
 			break;
 		case R.id.tm_delete:
-			new AsyncTwitterUpdater(this) {
-				@Override
-				protected void doUpdate() throws YFrogTwitterException {
-					twitterService.deleteStatus(status.getId());
-				}
-				
-				protected void doAfterUpdate() {
-					statuses.remove(status);
-					prepareResult();
-					finish();
-				}
-			}.update();
-
+//			delete();
 			break;
 		}
 	}
+
+	private void reply() {
+		Intent intent = new Intent(this, WriteReplayActivity.class);
+		intent.putExtra(WriteReplayActivity.KEY_MESSAGE_ID, status.getId());
+		intent.putExtra(WritableActivity.KEY_WRITER_USERNAME, status.getUser().getUsername());
+		startActivity(intent);
+	}
 	
-	private void forward() {
-		Account account = ServiceFactory.getAccountService().getLogged();
-		
-		if (account.getForwardType() == Account.FORWARD_BY_EMAIL) {
+	private void forwardByEmail() {
 			Intent intent = new Intent(Intent.ACTION_SEND);
 			intent.setType("text/plain");
 			intent.putExtra(Intent.EXTRA_TEXT, status.getText());
 			startActivity(intent);
-		} else {
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setType("vnd.android-dir/mms-sms");
-			intent.putExtra("sms_body", status.getText());
-			startActivity(intent);
-		}
+	}
+
+	private void forwardBySMS() {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setType("vnd.android-dir/mms-sms");
+		intent.putExtra("sms_body", status.getText());
+		startActivity(intent);
+	}
+
+	private void delete() {
+		new AsyncTwitterUpdater(this) {
+			@Override
+			protected void doUpdate() throws YFrogTwitterException {
+				twitterService.deleteStatus(status.getId());
+			}
+			
+			protected void doAfterUpdate() {
+				statuses.remove(status);
+				prepareResult();
+				finish();
+			}
+		}.update();
 	}
 	
 	private void favorite() {
@@ -233,15 +237,45 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
+		MenuInflater inflater = getMenuInflater(); 
+		inflater.inflate(R.menu.common_add_tweet, menu);
+		inflater.inflate(R.menu.status_details, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item = menu.findItem(R.id.tsd_delete);
+		item.setEnabled(my);
+		item = menu.findItem(R.id.tsd_reply);
+		item.setEnabled(!my);
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = null;
+		
 		switch (item.getItemId()) {
 		case R.id.add_tweet:
-			Intent intent = new Intent(this, WriteStatusActivity.class);
+			intent = new Intent(this, WriteStatusActivity.class);
 			startActivity(intent);
+			return true;
+		
+		case R.id.tsd_delete:
+			delete();
+			return true;
+			
+		case R.id.tsd_forward_email:
+			forwardByEmail();
+			return true;
+
+		case R.id.tsd_forward_sms:
+			forwardBySMS();
+			return true;
+
+		case R.id.tsd_reply:
+			reply();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

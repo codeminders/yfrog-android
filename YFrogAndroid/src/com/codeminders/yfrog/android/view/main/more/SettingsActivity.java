@@ -5,8 +5,6 @@ package com.codeminders.yfrog.android.view.main.more;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -19,7 +17,7 @@ import com.codeminders.yfrog.android.util.StringUtils;
  * @author idemydenko
  *
  */
-public class SettingsActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
+public class SettingsActivity extends Activity implements OnCheckedChangeListener {
 	private AccountService accountService;
 	
 	private Account account;
@@ -44,13 +42,6 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 		checkBox.setChecked(account.isScaleImage());
 		checkBox.setOnCheckedChangeListener(this);
 		
-		RadioButton radioButton = (RadioButton) findViewById(R.id.st_fwd_email);
-		radioButton.setChecked(account.getForwardType() == Account.FORWARD_BY_EMAIL);
-		radioButton.setOnClickListener(this);
-		
-		radioButton = (RadioButton) findViewById(R.id.st_fwd_sms);
-		radioButton.setChecked(account.getForwardType() == Account.FORWARD_BY_SMS);
-		radioButton.setOnClickListener(this);
 	}
 	
 	@Override
@@ -63,19 +54,6 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 
 		case R.id.st_scale:
 			account.setScaleImage(isChecked);
-			break;
-		}
-		updateAccount();
-	}
-	
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.st_fwd_email:
-			account.setForwardType(Account.FORWARD_BY_EMAIL);
-			break;
-		case R.id.st_fwd_sms:
-			account.setForwardType(Account.FORWARD_BY_SMS);
 			break;
 		}
 		updateAccount();

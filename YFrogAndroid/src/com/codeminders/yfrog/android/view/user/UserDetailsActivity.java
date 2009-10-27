@@ -82,7 +82,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		button.setOnClickListener(this);
 		
 		if (user.isProtected()) {
-			button.setVisibility(View.GONE);
+//			button.setVisibility(View.GONE);
 			showDialog(ALERT_PROTECTED);
 		}
 		
@@ -98,7 +98,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		button = (Button) findViewById(R.id.tud_send_dir_message);
 		if (!user.isFollower()) {
-			button.setVisibility(View.INVISIBLE);
+//			button.setVisibility(View.INVISIBLE);
 		}
 		button.setOnClickListener(this);	
 	}
@@ -152,6 +152,30 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			
 	}
 	
+	private void recentTweets() {
+		Intent intent = new Intent(this, UserTweetsActivity.class);
+		intent.putExtra(KEY_USER_POS, user);
+		startActivity(intent);		
+	}
+
+	private void sendPublicReply() {
+		Intent intent = new Intent(this, WritePublicReplayActivity.class);
+		intent.putExtra(WritePublicReplayActivity.KEY_WRITER_USERNAME, user.getUsername());
+		startActivity(intent);		
+	}
+
+	private void sendDirectMessage() {
+		Intent intent = new Intent(this, WriteDirectMessageActivity.class);
+		intent.putExtra(WriteDirectMessageActivity.KEY_WRITER_USERNAME, user.getUsername());
+		startActivity(intent);		
+	}
+
+	private void followers() {
+		Intent intent = new Intent(this, UserFollowersActivity.class);
+		intent.putExtra(KEY_USER_POS, user);
+		startActivity(intent);		
+	}
+
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
 	 */
@@ -185,16 +209,41 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.common_add_tweet, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.common_add_tweet, menu);
+		inflater.inflate(R.menu.user_details, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item = menu.findItem(R.id.tudm_recent_tweets);
+		item.setEnabled(!user.isProtected());
+		item = menu.findItem(R.id.tudm_send_dir_msg);
+		item.setEnabled(user.isFollower());
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.add_tweet:
 			Intent intent = new Intent(this, WriteStatusActivity.class);
 			startActivity(intent);
 			return true;
+		case R.id.tudm_followers:
+			followers();
+			return true;
+		case R.id.tudm_recent_tweets:
+			recentTweets();
+			return true;
+		case R.id.tudm_send_dir_msg:
+			sendDirectMessage();
+			return true;
+		case R.id.tudm_send_pub_reply:
+			sendPublicReply();
+			return true;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

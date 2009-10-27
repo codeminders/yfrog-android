@@ -120,7 +120,9 @@
     <!-- Twitter status details -->
     <string name="tm_title">Status details</string>
     <string name="tm_btn_reply">Reply</string>
-    <string name="tm_btn_forvard">Forward</string>
+    <string name="tm_btn_forward">Forward</string>
+    <string name="tm_btn_forward_email">Forward by email</string>
+    <string name="tm_btn_forward_sms">Forward by SMS</string>
     <string name="tm_btn_favorite">Favorite</string>
     <string name="tm_btn_unfavorite">Unfavorite</string>
     <string name="tm_btn_delete">Delete</string>

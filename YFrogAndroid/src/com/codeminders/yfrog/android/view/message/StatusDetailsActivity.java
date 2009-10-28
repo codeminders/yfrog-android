@@ -111,7 +111,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	private void setText() {
 		final TextView textView = (TextView) findViewById(R.id.tm_text);
 		final String text = status.getText();
-		if (YFrogUtils.hasYFrogImageContent(text)) {
+		if (YFrogUtils.hasYFrogContent(text)) {
 			textView.setText(StringUtils.EMPTY_STRING);
 			new AsyncUpdater(this) {
 				private CharSequence spannable;

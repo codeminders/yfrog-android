@@ -6,10 +6,11 @@ package com.codeminders.yfrog.android.controller.service;
 import java.io.IOException;
 
 import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.model.MessageAttachment;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.client.YFrogClient;
 import com.codeminders.yfrog.client.impl.YFrogClientImpl;
+import com.codeminders.yfrog.client.oauth.OAuthHelper;
 import com.codeminders.yfrog.client.request.UploadRequest;
 import com.codeminders.yfrog.client.response.*;
 
@@ -28,8 +29,7 @@ public class YFrogService {
 		YFrogClient client = new YFrogClientImpl();
 		UploadRequest request = attachment.toUploadRequest();
 
-		request.setUsername(accountService.getLogged().getUsername());
-		request.setPassword(accountService.getLogged().getPassword());
+		prepareAuthentication(request);
 		
 		if (!StringUtils.isEmpty(text)) {
 			request.setMessage(text);
@@ -56,8 +56,7 @@ public class YFrogService {
 		YFrogClient client = new YFrogClientImpl();
 		UploadRequest request = attachment.toUploadRequest();
 
-		request.setUsername(accountService.getLogged().getUsername());
-		request.setPassword(accountService.getLogged().getPassword());
+		prepareAuthentication(request);
 		
 		UploadResponse response = null;
 		
@@ -76,4 +75,16 @@ public class YFrogService {
 		return response.getMediaUrl();
 	}
 
+	private void prepareAuthentication(UploadRequest request) {
+		Account logged = accountService.getLogged();
+		
+		request.setUsername(logged.getUsername());
+		if (logged.getAuthMethod() == Account.METHOD_COMMON) {
+			request.setPassword(accountService.getLogged().getPassword());
+		} else {
+			String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(), 
+					TwitterService.CONSUMER_KEY, TwitterService.CONSUMER_SECRET);
+			request.setVerifyUrl(signedUrl);
+		}
+	}
 }

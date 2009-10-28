@@ -6,6 +6,7 @@ package com.codeminders.yfrog.android.view.adapter;
 import java.util.*;
 
 import android.content.Context;
+import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.*;
 
@@ -53,7 +54,7 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		final TextView textView = (TextView) view.findViewById(R.id.ts_text);
 		final String text = status.getText();
 		
-		if (YFrogUtils.hasYFrogImageContent(text)) {
+		if (YFrogUtils.hasYFrogContent(text)) {
 			if (isCached(status.getId())) {
 				textView.setText(get(status.getId()));
 			} else {
@@ -76,7 +77,6 @@ public class TwitterStatusAdapter<T extends TwitterStatus> extends ArrayAdapter<
 		} else {
 			textView.setText(StringUtils.parseURLs(status.getText(), view.getContext()));
 		}
-//		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
 	private boolean isCached(Long statusId) {

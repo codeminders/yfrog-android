@@ -49,9 +49,6 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	private TextSwitcher switcher;
 	private int count;
 	
-	protected boolean isHasAttachment = false;
-	protected MessageAttachment attachment = null;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,7 +87,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			final String txt = getText();
 			
-			if (!StringUtils.isEmpty(txt) || isHasAttachment) {
+			if (!StringUtils.isEmpty(txt)) {
 				
 				new AsyncTwitterUpdater(this) {
 					protected void doUpdate() throws YFrogTwitterException {
@@ -156,37 +153,57 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	}
 	
 	private void attach(int request, Intent data) {
+		final MessageAttachment attachment = createAttachment(request, data);
+		
+		if (attachment != null) {
+			new AsyncTwitterUpdater(this) {
+				String mediaUrl = null;
+
+				protected void doUpdate() throws YFrogTwitterException {
+					mediaUrl = yfrogService.upload(attachment);					
+				}
+				
+				protected void doAfterUpdate() {
+					if (mediaUrl != null) {
+						addToText(mediaUrl);
+					}
+				}
+			}.update();
+		}
+	}
+
+	private MessageAttachment createAttachment(int request, Intent data) {
+		MessageAttachment attachment = null;
 		if (request == REQUEST_PHOTO) {
 			Bundle extras = data.getExtras();
 			if (extras != null) {
 				Bitmap bitmap = (Bitmap) extras.getParcelable("data");
 				if (bitmap != null) {
 					attachment = new MessageAttachment(this, bitmap);
-					isHasAttachment = true;
 				}
 			}
 		} else {
 			Uri uri = data.getData();
 			if (uri != null) {
 				attachment = new MessageAttachment(this, uri);
-				isHasAttachment = true;
 			}
 		}
+		return attachment;
+	}
+	
+	private void addToText(String text) {
+		EditText textInput = (EditText) findViewById(R.id.wr_text);
+		String currentText = textInput.getText().toString();
 		
+		String newText = currentText == null ? text : currentText + " " + text;
+		textInput.setText(newText);
+		textInput.setSelection(newText.length());
 	}
 	
 	protected void saveToQueue(String text) {
 		UnsentMessage toSave = createUnsentMessage();
 		toSave.setText(text);
 		toSave.setAccountId(accountService.getLogged().getId());
-		
-		if (isHasAttachment) {
-			String url = attachment.toUrl();
-			
-			if (!StringUtils.isEmpty(url)) {
-				toSave.setAttachmentUrl(url);
-			}
-		}
 		
 		unsentMessageService.addUnsentMessage(toSave);
 	}

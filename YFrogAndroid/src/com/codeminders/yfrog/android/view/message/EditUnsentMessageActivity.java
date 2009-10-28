@@ -24,12 +24,6 @@ public class EditUnsentMessageActivity extends WritableActivity {
 		message = (UnsentMessage) getIntent().getExtras().getSerializable(
 				KEY_UNSENT_MESSAGE);
 	
-		isHasAttachment = !StringUtils.isEmpty(message.getAttachmentUrl());
-		
-		if (isHasAttachment) {
-			attachment = new MessageAttachment(this, message.getAttachmentUrl());
-		}
-		
 		super.onCreate(savedInstanceState);
 		
 		EditText editText = (EditText) findViewById(R.id.wr_text);
@@ -44,11 +38,7 @@ public class EditUnsentMessageActivity extends WritableActivity {
 	@Override
 	protected void send(String text) throws YFrogTwitterException {
 		message.setText(text);
-		if (isHasAttachment) {
-			twitterService.sendUnsentMessage(message, attachment);
-		} else {
-			twitterService.sendUnsentMessage(message);
-		}
+		twitterService.sendUnsentMessage(message);
 	}
 
 	protected void saveToQueue(String text) {

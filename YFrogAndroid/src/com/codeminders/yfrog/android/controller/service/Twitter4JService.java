@@ -18,17 +18,7 @@ import com.codeminders.yfrog.android.util.StringUtils;
  * @author idemydenko
  *
  */
-public class Twitter4JService implements TwitterService {
-	/*
-	 * Desktop application tokens
-	 * 
-	 *	private static final String CONSUMER_KEY = "Ai9SAL3FqA64k5uiY8ezA";
-	 *	private static final String CONSUMER_SECRET = "Piy2dJzdFVUMdUqrRLBUfkW2VcTnWnr2tnO6vHrZ2k"; 
-	 */
-	
-	private static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
-	private static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
-	
+public class Twitter4JService implements TwitterService {	
 	private Twitter twitter = null;
 	private TwitterUser loggedUser = null;
 	private Account loggedAccount = null;
@@ -48,9 +38,7 @@ public class Twitter4JService implements TwitterService {
 	public void login(String nickname, String password) throws YFrogTwitterException {
 		twitter = new Twitter(nickname, password);
 		
-		if (!isLogged()) {
-			throw new YFrogTwitterAuthException();
-		}
+		checkLogged();
 	}
 
 	/* (non-Javadoc)
@@ -98,26 +86,17 @@ public class Twitter4JService implements TwitterService {
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
 		
-		if (!isLogged()) {
-			throw new YFrogTwitterAuthException();
-		}
+		checkLogged();
 	}
 
 	// TODO Can we move logged user to other method
-	/* (non-Javadoc)
-	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#isLogged()
-	 */
-	public boolean isLogged() {
+	public void checkLogged() throws YFrogTwitterException {
 		
 		try {
 			loggedUser = Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {
-			return false;
-		} catch (NullPointerException e) {
-			// TODO: bug in Twitter4J (Response<init>, initialize is from error stream)
-			return false;
-		}
-		return loggedUser != null;
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		} 
 	}
 	
 	/* (non-Javadoc)
@@ -263,33 +242,13 @@ public class Twitter4JService implements TwitterService {
 		unsentMessageService.deleteUnsentMessage(message.getId());
 	}
 
-	public void sendUnsentMessage(UnsentMessage message, MessageAttachment attachment) throws YFrogTwitterException {
-		String text = message.getText();
-		YFrogService yfrogService = ServiceFactory.getYFrogService();
-		
-		if (message.getType() != UnsentMessage.TYPE_DIRECT_MESSAGE) {
-			yfrogService.send(text, attachment);
-			unsentMessageService.deleteUnsentMessage(message.getId());
-		} else {
-			String url = yfrogService.upload(attachment);
-			text += (" " + url); 
-			message.setText(text);
-			sendUnsentMessage(message);
-		}
-	}
-
 	public void sendAllUnsentMessages(Context context) throws YFrogTwitterException {
 		Account logged = ServiceFactory.getAccountService().getLogged();
 		ArrayList<UnsentMessage> toSent = unsentMessageService.getUnsentMessagesForAccount(logged.getId());
 		
 		int size = toSent.size();
 		for (int i = 0; i < size; i++) {
-			UnsentMessage msg = toSent.get(i);
-			if (msg.isHasAttachment()) {
-				sendUnsentMessage(msg, new MessageAttachment(context, msg.getAttachmentUrl()));
-			} else {
-				sendUnsentMessage(msg);
-			}
+			sendUnsentMessage(toSent.get(i));
 		}
 	}
 	

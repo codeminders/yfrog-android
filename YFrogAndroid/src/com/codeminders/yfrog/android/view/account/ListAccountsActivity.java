@@ -30,7 +30,7 @@ public class ListAccountsActivity extends ListActivity {
 
 	private static final int ALERT_DELETE = 0;
 	private static final int ALERT_AUTH_FAILED = 2;
-	private static final int ALERT_CONN_PROGRESS = 3;
+//	private static final int ALERT_CONN_PROGRESS = 3;
 
 	private static final String PREFS_NAME = "yfrog_prefs";
 
@@ -215,8 +215,6 @@ public class ListAccountsActivity extends ListActivity {
 								}
 							}).create();
 			break;
-		case ALERT_CONN_PROGRESS:
-			return new ProgressDialog(this);
 		}
 		return dialiog;
 	}
@@ -244,20 +242,18 @@ public class ListAccountsActivity extends ListActivity {
 	}
 
 	private void login(Account account) {
-		showDialog(ALERT_CONN_PROGRESS);
 		try {
 			accountService.login(account);
 		} catch (YFrogTwitterAuthException e) {
-			dismissDialog(ALERT_CONN_PROGRESS);
+			e.printStackTrace();
 			showDialog(ALERT_AUTH_FAILED);
 			return;
 		} catch (YFrogTwitterException e) {
-			dismissDialog(ALERT_CONN_PROGRESS);
+			e.printStackTrace();
 			showDialog(DialogUtils.ALERT_TWITTER_ERROR);
 			return;
 		}
 		saveLastLogged(account);
-		dismissDialog(ALERT_CONN_PROGRESS);
 		
 		startActivity(new Intent(this, MainTabActivity.class));
 	}

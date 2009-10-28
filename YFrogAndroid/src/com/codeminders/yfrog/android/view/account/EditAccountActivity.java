@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.*;
@@ -107,7 +108,9 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			if (editable.getOauthStatus() != Account.OAUTH_STATUS_VERIFIED) { 
 				button.setText(R.string.next);
 			}
-
+			
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(button.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
 			break;
 		}		
 	}

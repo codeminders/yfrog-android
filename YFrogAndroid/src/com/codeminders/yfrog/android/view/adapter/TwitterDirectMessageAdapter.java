@@ -54,7 +54,7 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 		final TextView textView = (TextView) view.findViewById(R.id.tdm_text);
 		final String text = message.getText();
 		
-		if (YFrogUtils.hasYFrogImageContent(text)) {
+		if (YFrogUtils.hasYFrogContent(text)) {
 			if (isCached(message.getId())) {
 				textView.setText(get(message.getId()));
 			} else {

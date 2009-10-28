@@ -16,6 +16,16 @@ import com.codeminders.yfrog.android.model.*;
  */
 public interface TwitterService {
 
+	/*
+	 * Desktop application tokens
+	 * 
+	 *	private static final String CONSUMER_KEY = "Ai9SAL3FqA64k5uiY8ezA";
+	 *	private static final String CONSUMER_SECRET = "Piy2dJzdFVUMdUqrRLBUfkW2VcTnWnr2tnO6vHrZ2k"; 
+	 */
+	
+	static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
+	static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
+
 	public static final String CALL_BACK_URL = "yfrog://android";
 	public static final String PARAM_TOKEN = "oauth_token";
 	public static final String PARAM_VERIFIER = "oauth_verifier";
@@ -34,8 +44,7 @@ public interface TwitterService {
 	public abstract void loginOAuth(String oauthTolken, String oauthSecretTolken)
 			throws YFrogTwitterException;
 
-	// TODO Can we move logged user to other method
-	public abstract boolean isLogged();
+	public abstract void checkLogged() throws YFrogTwitterException;
 
 	public abstract TwitterUser getCredentials(Account account)
 			throws YFrogTwitterException;
@@ -67,9 +76,6 @@ public interface TwitterService {
 	public abstract void sendUnsentMessage(UnsentMessage message)
 			throws YFrogTwitterException;
 
-	public void sendUnsentMessage(UnsentMessage message, MessageAttachment attachment) 
-			throws YFrogTwitterException;
-	
 	public abstract void sendAllUnsentMessages(Context context) throws YFrogTwitterException;
 
 	public abstract void logout();

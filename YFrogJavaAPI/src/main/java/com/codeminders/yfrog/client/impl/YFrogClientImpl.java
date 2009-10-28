@@ -54,7 +54,13 @@ public class YFrogClientImpl extends YFrogClient {
 		MultipartEntity multipart = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 		
 		multipart.addPart(UploadRequest.FIELD_USERNAME, new StringBody(request.getUsername()));
-		multipart.addPart(UploadRequest.FIELD_PASSWORD, new StringBody(request.getPassword()));
+		if (!isEmpty(request.getPassword())) {
+			multipart.addPart(UploadRequest.FIELD_PASSWORD, new StringBody(request.getPassword()));
+		} else {
+			multipart.addPart(UploadRequest.FIELD_AUTH, new StringBody(UploadRequest.VAL_AUTH_OAUTH));
+			multipart.addPart(UploadRequest.FIELD_VERIFY_URL, new StringBody(request.getVerifyUrl()));
+		}
+		
 		multipart.addPart(UploadRequest.FIELD_KEY, new StringBody(request.getKey()));
 		multipart.addPart(UploadRequest.FIELD_TAGS, new StringBody(request.getTags()));
 		multipart.addPart(UploadRequest.FIELD_PUBLIC, new StringBody(request.getPublicAsString()));

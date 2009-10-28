@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.codeminders.yfrog.client.impl.YFrogClientImpl;
+import com.codeminders.yfrog.client.oauth.OAuthHelper;
 import com.codeminders.yfrog.client.request.*;
 import com.codeminders.yfrog.client.response.UploadResponse;
 
@@ -140,6 +141,29 @@ public class YFrogImplTest extends TestCase {
 			fail();
 		} catch (IllegalArgumentException e) {			
 		}
+	}
+
+	private static final String TOKEN = "75972934-ruQrtHRnOUk8ay94FHqMpjrKy01hArU9DNFCkd8KQ";
+	private static final String TOKEN_SECRET = "d5785u0tf9UUXXYjZ0e5qR0ScjjHfjBqoGaBfEo";
+	private static final String CONSUMER = "16F75LNJxjKTIUHidy5Sg";
+	private static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
+
+	@Test
+	public void testOAuthUploadFile() throws Exception {
+		FileUploadRequest request = new FileUploadRequest();
+		request.setUsername("YFROG_ANDROID");
+//		request.setPassword("dem123");
+		String u = OAuthHelper.getOAuthVerifyUrl(TOKEN, TOKEN_SECRET, CONSUMER, CONSUMER_SECRET);
+		request.setVerifyUrl(u);
+		request.setPublic(true);
+		request.setFile(new File("src/test/resources/ulitko.jpg"));
+
+		YFrogClient frog = new YFrogClientImpl();
+		UploadResponse response = frog.upload(request);
+		
+		System.out.println(response);
+		assertEquals(response.getStatus(), "ok");
+		
 	}
 
 }

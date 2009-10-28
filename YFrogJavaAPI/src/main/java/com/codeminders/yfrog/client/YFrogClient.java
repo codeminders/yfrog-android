@@ -45,8 +45,8 @@ public abstract class YFrogClient {
 		if (isEmpty(request.getUsername())) {
 			throw new IllegalArgumentException("Usernme can't be empty");
 		}
-		if (isEmpty(request.getPassword())) {
-			throw new IllegalArgumentException("Password can't be empty");
+		if (isEmpty(request.getPassword()) && isEmpty(request.getVerifyUrl())) {
+			throw new IllegalArgumentException("Password or verify url can't be empty");
 		}
 		
 		if (request instanceof UrlUploadRequest) {

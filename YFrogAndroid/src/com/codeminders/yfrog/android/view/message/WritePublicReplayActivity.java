@@ -30,11 +30,7 @@ public class WritePublicReplayActivity extends WritableActivity {
 
 	@Override
 	protected void send(String text) throws YFrogTwitterException {
-		if (isHasAttachment) {
-			yfrogService.send(text, attachment);
-		} else {
-			twitterService.publicReplay(text);
-		}
+		twitterService.publicReplay(text);
 	}
 
 	@Override

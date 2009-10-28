@@ -115,10 +115,8 @@ public final class StringUtils {
 		while (matcher.find()) {
 			final String url = matcher.group();
 			
-			if (YFrogUtils.hasYFrogImageContent(url)) {
-				YFrogUtils.buildYFrogImageURL(context, spannable, url, matcher.start(), matcher.end());
-			} if (YFrogUtils.hasYFrogVideoContent(url)) {
-				YFrogUtils.buildYFrogVideoURL(context, spannable, url, matcher.start(), matcher.end());
+			if (YFrogUtils.hasYFrogContent(url)) {
+				YFrogUtils.buildYFrogContentURL(context, spannable, url, matcher.start(), matcher.end());
 			} else {
 				spannable.setSpan(new URLSpan(url), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}

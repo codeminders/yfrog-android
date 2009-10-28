@@ -7,6 +7,7 @@ package com.codeminders.yfrog.client.request;
  * @author idemydenko
  *
  */
+// TODO Add auth parameter
 public abstract class UploadRequest {
 	public static final String FIELD_USERNAME = "username";
 	public static final String FIELD_PASSWORD = "password";
@@ -16,6 +17,10 @@ public abstract class UploadRequest {
 	public static final String FIELD_URL = "url";
 	public static final String FIELD_MEDIA = "media";
 	public static final String FIELD_MESSAGE = "message";
+	public static final String FIELD_VERIFY_URL = "verify_url";
+	public static final String FIELD_AUTH = "auth";
+	
+	public static final String VAL_AUTH_OAUTH = "oauth";
 	
 	private static final String PUBLIC_VALUE_YES = "yes";
 	private static final String PUBLIC_VALUE_NO = "no";
@@ -26,6 +31,7 @@ public abstract class UploadRequest {
 	private boolean isPublic;
 	private String key;
 	private String message;
+	private String verifyUrl;
 
 	/**
 	 * @return the username
@@ -103,6 +109,18 @@ public abstract class UploadRequest {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	/**
+	 * @return the verifyUrl
+	 */
+	public String getVerifyUrl() {
+		return verifyUrl;
+	}
+	/**
+	 * @param verifyUrl the verifyUrl to set
+	 */
+	public void setVerifyUrl(String verifyUrl) {
+		this.verifyUrl = verifyUrl;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

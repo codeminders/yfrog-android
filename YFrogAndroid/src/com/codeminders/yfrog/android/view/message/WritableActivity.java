@@ -257,13 +257,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
-		switch (id) {
-		case DialogUtils.ALERT_TWITTER_ERROR:
-			dialiog = DialogUtils.createTwitterErrorAlert(this);
-			break;
-		}
-		return dialiog;
+		return AlertUtils.createErrorAlert(this, id);
 	}
 
 	@Override

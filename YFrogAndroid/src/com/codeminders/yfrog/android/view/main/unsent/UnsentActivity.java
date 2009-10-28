@@ -16,7 +16,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
 import com.codeminders.yfrog.android.view.message.*;
@@ -147,12 +147,6 @@ public class UnsentActivity extends ListActivity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
-		switch (id) {
-		case DialogUtils.ALERT_TWITTER_ERROR:
-			dialiog = DialogUtils.createTwitterErrorAlert(this);
-			break;
-		}
-		return dialiog;
+		return AlertUtils.createErrorAlert(this, id);
 	}
 }

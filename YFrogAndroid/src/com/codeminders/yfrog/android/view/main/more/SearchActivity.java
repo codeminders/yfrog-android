@@ -238,8 +238,6 @@ public class SearchActivity extends Activity implements OnClickListener {
 		return false;
 	}
 
-	YFrogTwitterException toHandle;
-
 	private TwitterSavedSearch findSearchByQuery(String query) {
 		if (!isQuerySaved(query)) {
 			return null;
@@ -250,13 +248,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
-		switch (id) {
-		case DialogUtils.ALERT_TWITTER_ERROR:
-			dialiog = DialogUtils.createTwitterErrorAlert(this);
-			break;
-		}
-		return dialiog;
+		return AlertUtils.createErrorAlert(this, id);
 	}
 
 	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {

@@ -113,7 +113,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		final String text = status.getText();
 		if (YFrogUtils.hasYFrogContent(text)) {
 			textView.setText(StringUtils.EMPTY_STRING);
-			new AsyncUpdater(this) {
+			new AsyncIOUpdater(this) {
 				private CharSequence spannable;
 				protected void doUpdate() throws Exception {
 					spannable = StringUtils.parseURLs(text, StatusDetailsActivity.this);
@@ -283,13 +283,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
-		switch (id) {
-		case DialogUtils.ALERT_TWITTER_ERROR:
-			dialiog = DialogUtils.createTwitterErrorAlert(this);
-			break;
-		}
-		return dialiog;
+		return AlertUtils.createErrorAlert(this, id);
 	}
 	
 	protected String createTitle() {

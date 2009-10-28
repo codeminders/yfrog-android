@@ -15,7 +15,12 @@ public class YFrogTwitterException extends Exception {
 	public YFrogTwitterException() {
 		super();
 	}
-	
+
+	public YFrogTwitterException(int errorCode) {
+		super();
+		errCode = errorCode; 
+	}
+
 	public YFrogTwitterException(String message) {
 		super(message);
 	}

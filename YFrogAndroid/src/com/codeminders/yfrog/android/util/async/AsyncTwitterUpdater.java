@@ -7,7 +7,7 @@ import android.app.*;
 import android.os.Handler;
 
 import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.ProgressDialogUtils;
 
 /**
  * @author idemydenko
@@ -22,7 +22,7 @@ public abstract class AsyncTwitterUpdater {
 	public AsyncTwitterUpdater(Activity a) {
 		activity = a;
 		handler = new Handler();
-		dialog = DialogUtils.showProgressAlert(activity);
+		dialog = ProgressDialogUtils.showProgressAlert(activity);
 		thread = new Thread(new Updater());
 	}
 	
@@ -52,11 +52,12 @@ public abstract class AsyncTwitterUpdater {
 				doUpdate();
 			} catch (YFrogTwitterException e) {
 				error = true;
+				final int errorCode = e.getErrorCode();
 				
 				handler.post(new Runnable() {
 					public void run() {
 						dialog.dismiss();
-						activity.showDialog(DialogUtils.ALERT_TWITTER_ERROR);
+						activity.showDialog(errorCode);
 						doAfterError();
 					}
 				});

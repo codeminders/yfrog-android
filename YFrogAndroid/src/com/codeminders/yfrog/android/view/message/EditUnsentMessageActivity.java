@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**
  * @author idemydenko

@@ -6,7 +6,6 @@ package com.codeminders.yfrog.android.view.adapter;
 import java.util.*;
 
 import android.content.Context;
-import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.*;
 

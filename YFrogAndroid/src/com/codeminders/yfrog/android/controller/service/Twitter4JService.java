@@ -10,7 +10,7 @@ import twitter4j.http.*;
 import android.content.Context;
 import android.location.Location;
 
-import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.StringUtils;
 
@@ -37,6 +37,18 @@ public class Twitter4JService implements TwitterService {
 	 */
 	public void login(String nickname, String password) throws YFrogTwitterException {
 		twitter = new Twitter(nickname, password);
+		
+		checkLogged();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#loginOAuth(java.lang.String, java.lang.String)
+	 */
+	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
+		twitter = new Twitter();
+		
+		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
 		
 		checkLogged();
 	}
@@ -75,18 +87,6 @@ public class Twitter4JService implements TwitterService {
 	    } catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#loginOAuth(java.lang.String, java.lang.String)
-	 */
-	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
-		twitter = new Twitter();
-		
-		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
-		
-		checkLogged();
 	}
 
 	// TODO Can we move logged user to other method

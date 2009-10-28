@@ -16,7 +16,8 @@ import android.widget.*;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 
 /**
  * @author idemydenko
@@ -29,7 +30,6 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 	private static final int ALERT_NICKNAME = 0;
 	private static final int ALERT_PASSWORD = 1;
 	private static final int ALERT_ACCOUNT_NOT_UNIQUE = 2;
-	private static final int ALERT_ACCOUNT_WRONG_USERNAME_OR_PASSWORD = 3;
 
 	private AccountService accountService;
 	private Account editable = null;
@@ -164,38 +164,47 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 
 		editable.setAuthMethod(authMethod);
 
-		try {
-			if (isEdit) {
-				accountService.updateAccount(editable);
-			} else {
-				editable = accountService.addAccount(editable);
-			}
-		} catch (YFrogTwitterException e) {
-			showDialog(ALERT_ACCOUNT_WRONG_USERNAME_OR_PASSWORD);
-			return;
-		}
-
 		if (editable.isNeedOAuthAuthorization()) {
-			String url = null;
-			
-			try {
-				url = accountService.getOAuthAuthorizationURL(editable);
-			} catch (YFrogTwitterException e) {
+			new AsyncTwitterUpdater(this) {
+				String url = null;
 				
-			}
-			
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_VIEW);
-			i.setData(Uri.parse(url));
-			startActivity(i);
-			return;
+				@Override
+				protected void doUpdate() throws YFrogTwitterException {
+					saveOrUpdate();
+					url = accountService.getOAuthAuthorizationURL(editable);
+				}
+				
+				@Override
+				protected void doAfterUpdate() {
+					Intent i = new Intent();
+					i.setAction(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(url));
+					startActivity(i);
+				}
+			}.update();
+		} else {
+			new AsyncTwitterUpdater(this) {
+				protected void doUpdate() throws YFrogTwitterException {
+					saveOrUpdate();
+				}
+				
+				protected void doAfterUpdate() {
+					Toast.makeText(getApplicationContext(), isEdit ? R.string.ae_updated : R.string.ae_created, Toast.LENGTH_SHORT).show();
+					editable = null;
+					finish();
+				}
+			}.update();
 		}
-		
-		Toast.makeText(getApplicationContext(), isEdit ? R.string.ae_updated : R.string.ae_created, Toast.LENGTH_SHORT).show();
-		editable = null;
-		finish();
 	}
 
+	private void saveOrUpdate() throws YFrogTwitterException {
+		if (isEdit) {
+			accountService.updateAccount(editable);
+		} else {
+			editable = accountService.addAccount(editable);
+		}		
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Builder dialogBuilder = new AlertDialog.Builder(EditAccountActivity.this)
@@ -217,9 +226,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		case ALERT_ACCOUNT_NOT_UNIQUE:
 			dialogBuilder.setMessage(R.string.ae_dialog_message_not_unique);
 			break;
-		case ALERT_ACCOUNT_WRONG_USERNAME_OR_PASSWORD:
-			dialogBuilder.setMessage(R.string.ae_dialog_message_wrong_username_or_passwd);
-			break;
+		default:
+			return AlertUtils.createErrorAlert(this, id);
 
 		}
 		return dialogBuilder.create();
@@ -239,7 +247,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			} catch (YFrogTwitterAuthException e) {
 				Toast.makeText(getApplicationContext(), R.string.ae_oauth_message_not_unique, Toast.LENGTH_LONG).show();
 			} catch (YFrogTwitterException e) {
-				// TODO
+				showDialog(e.getErrorCode());
 			}
 
 			

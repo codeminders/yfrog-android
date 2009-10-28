@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">yfrog</string>
+	
+	<!-- Error messages -->
+    <string name="error_304">Not Modified: There was no new data to return.</string>
+    <string name="error_400">Bad Request: The request was invalid.  An accompanying error message will explain why. This is the status code will be returned during rate limiting.</string>
+    <string name="error_401">Not Authorized: Authentication credentials were missing or incorrect.</string>
+    <string name="error_403">Forbidden: The request is understood, but it has been refused.  An accompanying error message will explain why.</string>
+    <string name="error_404">Not Found: The URI requested is invalid or the resource requested, such as a user, does not exists.</string>
+    <string name="error_406">Not Acceptable: Returned by the Search API when an invalid format is specified in the request.</string>
+    <string name="error_500">Internal Server Error: Something is broken.  Please post to the group so the Twitter team can investigate.</string>
+    <string name="error_502">Bad Gateway: Twitter is down or being upgraded.</string>
+    <string name="error_503">Service Unavailable: The Twitter servers are up, but overloaded with requests. Try again later. The search and trend methods use this to indicate when you are being rate limited.</string>
 
-    <!-- Common -->
+    <string name="error_1001">Invalid twitter username or password</string>
+    <string name="error_1002">Image/video not found</string>
+    <string name="error_1003">Unsupported image/video type</string>
+    <string name="error_1004">Image/video is too big</string>
+
+    <string name="twitter_error">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
+    <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
+    
+    <string name="yfrog_upload_error_title">YFrog upload error</string>
     <string name="twitter_error_title">Twitter error</string>
-    <string name="twitter_error_msg">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
-    <string name="twitter_error_btn">OK</string>
-    <string name="io_error_title">Connection error</string>
-    <string name="io_error_msg">Error during request to Internet. Please check your Internet connection and try again</string>
-    <string name="io_error_btn">OK</string>
+	<string name="io_error_title">Connection error</string>
+    
+    <string name="error_alert_btn">OK</string>
+    
+	
+    <!-- Common -->
     <string name="list_reload">Refresh</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
@@ -41,7 +61,6 @@
     <string name="account_delete_message">Учётная запись была удалена</string>
     <string name="account_login_failed_title">Authentication failed</string>
     <string name="account_login_failed_msg">Please check that your login and password are correct</string>
-    <string name="ae_dialog_message_wrong_username_or_passwd">Wrong username or password</string>
     <string name="account_login_failed_btn">OK</string>
     <string name="account_list_empty">No accounts</string>
     
@@ -72,7 +91,9 @@
     <string name="ae_dialog_message_passwd">Обязательное поле "Пароль" пустое</string>
     <string name="ae_oauth_message_not_unique">Authorization failed. Account with even nickname or name already exists</string>
     <string name="ae_dialog_message_not_unique">Учётная запись с указаными именем или именем учетной записи уже существуют</string>
+    <string name="ae_dialog_message_user_verification_error">Wrong authorization data or connection problem</string>
     <string name="ae_dialog_button">ОК</string>
+	
 
 	<string name="ae_oauth_desc">OAuth is an authentication protocol that allows users to approve application to act on their behalf without sharing their password. More information can be found at http://apiwiki.twitter.com/OAuth-FAQ</string>
 	    

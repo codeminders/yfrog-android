@@ -10,7 +10,7 @@ import android.net.Uri;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.dao.*;
 import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 
 /**
  * @author idemydenko
@@ -39,7 +39,17 @@ public final class AccountService {
 	
 	public Account addAccount(Account account) throws YFrogTwitterException {
 		if (account.getAuthMethod() == Account.METHOD_COMMON) {
-			verifiyAccount(account);
+			try {
+				verifiyAccount(account);
+			} catch (YFrogTwitterException e) {
+				int errorCode = e.getErrorCode();
+				
+				if (errorCode != -1) {
+					throw new YFrogTwitterException(e, errorCode);
+				} else {
+					throw new YFrogTwitterException(e, AlertUtils.ALERT_ACCOUNT_VERIFICATION);
+				}
+			}
 		}
 		
 		long id = accountDAO.addAccount(account);
@@ -58,7 +68,17 @@ public final class AccountService {
 	public void updateAccount(Account account, boolean verifyCredentials) throws YFrogTwitterException {
 		
 		if (account.getAuthMethod() == Account.METHOD_COMMON && verifyCredentials) {
-			verifiyAccount(account);
+			try {
+				verifiyAccount(account);
+			} catch (YFrogTwitterException e) {
+				int errorCode = e.getErrorCode();
+				
+				if (errorCode != -1) {
+					throw new YFrogTwitterException(e, errorCode);
+				} else {
+					throw new YFrogTwitterException(e, AlertUtils.ALERT_ACCOUNT_VERIFICATION);
+				}
+			}
 		}
 		accountDAO.updateAccount(account);
 	}

@@ -11,7 +11,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 import com.codeminders.yfrog.android.util.*;
 
 /**

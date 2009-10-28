@@ -14,10 +14,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.*;
 
-import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.util.*;
-import com.codeminders.yfrog.android.util.async.AsyncUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncIOUpdater;
 
 /**
  * @author idemydenko
@@ -45,13 +45,9 @@ public class ImageViewActivity extends Activity {
 			return;
 		}
 
-		new AsyncUpdater(this) {
-			protected void doUpdate() throws YFrogTwitterException {
-				try {
-					bitmap = BitmapFactory.decodeStream(new URL(bitmapUrl).openStream());
-				} catch (Exception e) {
-					throw new YFrogTwitterException(e);
-				}
+		new AsyncIOUpdater(this) {
+			protected void doUpdate() throws Exception {
+				bitmap = BitmapFactory.decodeStream(new URL(bitmapUrl).openStream());
 			}
 			
 			protected void doAfterUpdate() {
@@ -168,13 +164,6 @@ public class ImageViewActivity extends Activity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
-		switch (id) {
-		case DialogUtils.ALERT_IO_ERROR:
-			dialiog = DialogUtils.createIOErrorAlert(this);
-			break;
-		}
-		return dialiog;
+		return AlertUtils.createErrorAlert(this, id);
 	}
-
 }

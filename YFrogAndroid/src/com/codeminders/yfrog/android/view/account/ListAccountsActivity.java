@@ -17,7 +17,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.main.MainTabActivity;
 
 /**
@@ -168,10 +169,10 @@ public class ListAccountsActivity extends ListActivity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
+		Dialog dialog = null;
 		switch (id) {
 		case ALERT_DELETE:
-			dialiog = new AlertDialog.Builder(ListAccountsActivity.this)
+			dialog = new AlertDialog.Builder(ListAccountsActivity.this)
 					.setTitle(R.string.account_delete_dialog_title).setMessage(
 							R.string.account_delete_dialog_message)
 					.setPositiveButton(R.string.account_delete_dialog_btn_yes,
@@ -198,12 +199,8 @@ public class ListAccountsActivity extends ListActivity {
 							}).create();
 			break;
 
-		case DialogUtils.ALERT_TWITTER_ERROR:
-			dialiog = DialogUtils.createTwitterErrorAlert(this);
-			break;
-
 		case ALERT_AUTH_FAILED:
-			dialiog = new AlertDialog.Builder(ListAccountsActivity.this)
+			dialog = new AlertDialog.Builder(ListAccountsActivity.this)
 					.setTitle(R.string.account_login_failed_title).setMessage(
 							R.string.account_login_failed_msg)
 					.setNeutralButton(R.string.account_login_failed_btn,
@@ -215,8 +212,11 @@ public class ListAccountsActivity extends ListActivity {
 								}
 							}).create();
 			break;
+		default:
+			dialog = AlertUtils.createErrorAlert(this, id);
+			break;
 		}
-		return dialiog;
+		return dialog;
 	}
 
 	@Override
@@ -241,21 +241,18 @@ public class ListAccountsActivity extends ListActivity {
 		login(account);
 	}
 
-	private void login(Account account) {
-		try {
-			accountService.login(account);
-		} catch (YFrogTwitterAuthException e) {
-			e.printStackTrace();
-			showDialog(ALERT_AUTH_FAILED);
-			return;
-		} catch (YFrogTwitterException e) {
-			e.printStackTrace();
-			showDialog(DialogUtils.ALERT_TWITTER_ERROR);
-			return;
-		}
-		saveLastLogged(account);
-		
-		startActivity(new Intent(this, MainTabActivity.class));
+	private void login(final Account account) {
+		new AsyncTwitterUpdater(this) {
+			@Override
+			protected void doUpdate() throws YFrogTwitterException {
+				accountService.login(account);
+			}
+			
+			protected void doAfterUpdate() {
+				saveLastLogged(account);
+				startActivity(new Intent(ListAccountsActivity.this, MainTabActivity.class));
+			}
+		}.update();		
 	}
 
 	private void deleteAccount(Account account) {

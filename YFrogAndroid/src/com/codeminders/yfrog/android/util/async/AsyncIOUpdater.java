@@ -6,21 +6,21 @@ package com.codeminders.yfrog.android.util.async;
 import android.app.*;
 import android.os.Handler;
 
-import com.codeminders.yfrog.android.util.DialogUtils;
+import com.codeminders.yfrog.android.util.*;
 
 /**
  * @author idemydenko
  *
  */
-public abstract class AsyncUpdater {
+public abstract class AsyncIOUpdater {
 	Activity activity;
 	Handler handler;
 	ProgressDialog dialog;
 	
-	public AsyncUpdater(Activity a) {
+	public AsyncIOUpdater(Activity a) {
 		activity = a;
 		handler = new Handler();
-		dialog = DialogUtils.showProgressAlert(activity);
+		dialog = ProgressDialogUtils.showProgressAlert(activity);
 	}
 	
 	protected abstract void doUpdate() throws Exception;
@@ -49,7 +49,7 @@ public abstract class AsyncUpdater {
 				handler.post(new Runnable() {
 					public void run() {
 						dialog.dismiss();
-						activity.showDialog(DialogUtils.ALERT_IO_ERROR);
+						activity.showDialog(AlertUtils.IO_ERROR);
 						doAfterError();
 					}
 				});

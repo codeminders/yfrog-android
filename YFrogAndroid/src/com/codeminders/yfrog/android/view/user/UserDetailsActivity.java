@@ -250,25 +250,25 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialiog = null;
+		Dialog dialog = null;
 		switch (id) {
-		case DialogUtils.ALERT_TWITTER_ERROR:
-			dialiog = DialogUtils.createTwitterErrorAlert(this);
-			break;
 		case ALERT_PROTECTED:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(R.string.tud_protected_msg);
-			builder.setNegativeButton(R.string.twitter_error_btn, new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(R.string.error_alert_btn, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface d, int which) {
 					d.dismiss();
 				}
 			});
 			
-			dialiog = builder.create();
+			dialog = builder.create();
+			break;
+		default:
+			dialog = AlertUtils.createErrorAlert(this, id);
 			break;
 		}
-		return dialiog;
+		return dialog;
 	}
 
 	protected String createTitle() {

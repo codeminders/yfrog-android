@@ -45,9 +45,7 @@ public class YFrogService {
 			
 		}
 		
-		if (response == null || UploadResponse.STATUS_FAIL.equals(response.getStatus())) {
-			throw new YFrogTwitterException();
-		}
+		checkResponse(response);
 		
 		return response.getStatusId();
 	}
@@ -68,9 +66,7 @@ public class YFrogService {
 			
 		}
 		
-		if (response == null || UploadResponse.STATUS_FAIL.equals(response.getStatus())) {
-			throw new YFrogTwitterException();
-		}
+		checkResponse(response);
 		
 		return response.getMediaUrl();
 	}
@@ -85,6 +81,16 @@ public class YFrogService {
 			String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(), 
 					TwitterService.CONSUMER_KEY, TwitterService.CONSUMER_SECRET);
 			request.setVerifyUrl(signedUrl);
+		}
+	}
+	
+	private void checkResponse(UploadResponse response) throws YFrogTwitterException {
+		if (response == null) {
+			throw new YFrogTwitterException(-1);
+		}
+
+		if (UploadResponse.STATUS_FAIL.equals(response.getStatus())) {
+			throw new YFrogTwitterException(response.getErrorCode());
 		}
 	}
 }

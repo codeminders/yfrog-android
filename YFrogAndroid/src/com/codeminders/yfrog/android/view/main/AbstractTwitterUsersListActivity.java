@@ -3,6 +3,7 @@
  */
 package com.codeminders.yfrog.android.view.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.*;
@@ -13,7 +14,7 @@ import android.widget.ListView;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterUserAdapter;
@@ -25,6 +26,9 @@ import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
  *
  */
 public abstract class AbstractTwitterUsersListActivity extends ListActivity {
+	private static final String SAVED_USERS = "susers";
+	private static final String SAVED_ATTEMPTS = "sattempts";
+
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
@@ -44,9 +48,46 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		
 		twitterService = ServiceFactory.getTwitterService();
 		
-		createList(true);
+		boolean restored = restoreState(savedInstanceState);
+		
+		createList(!restored);
 	}
 	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		saveState(outState);
+		super.onSaveInstanceState(outState);
+	}
+	
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+		
+		Serializable values = savedState.getSerializable(SAVED_USERS);
+		if (values == null) {
+			return false;
+		}
+		users = (ArrayList<TwitterUser>) values;		
+		
+		int value = savedState.getInt(SAVED_ATTEMPTS);
+		if (value < 0) {
+			return false;
+		}
+		attempts = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putSerializable(SAVED_USERS, users);
+		savedState.putInt(SAVED_ATTEMPTS, attempts);
+	}
+
 	@Override
 	protected void onRestart() {
 		super.onRestart();

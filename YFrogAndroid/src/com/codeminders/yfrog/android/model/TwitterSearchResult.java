@@ -3,13 +3,14 @@
  */
 package com.codeminders.yfrog.android.model;
 
+import java.io.*;
 import java.util.Date;
 
 /**
  * @author idemydenko
  *
  */
-public class TwitterSearchResult {
+public class TwitterSearchResult implements Serializable {
 	private long id;
 	private String text;
 	private Date createdAt;
@@ -82,4 +83,21 @@ public class TwitterSearchResult {
 	public void setProfileImageUrl(String profileImageUrl) {
 		this.profileImageUrl = profileImageUrl;
 	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeLong(id);
+		out.writeUTF(text);
+		out.writeUTF(fromUser);
+		out.writeObject(createdAt);
+		out.writeUTF(profileImageUrl);
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		id = in.readLong();
+		text = in.readUTF();
+		fromUser = in.readUTF();
+		createdAt = (Date) in.readObject();
+		profileImageUrl = in.readUTF();
+	}
+
 }

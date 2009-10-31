@@ -27,6 +27,9 @@ import com.codeminders.yfrog.android.view.message.*;
  * 
  */
 public class SearchResultsActivity extends Activity implements OnClickListener {
+	private static final String SAVED_STATUSES = "sstatuses";
+	private static final String SAVED_PAGE = "spage";
+
 	private static final int DEFAULT_PAGE_SIZE = 20;
 	private static final int MAX_COUNT = 1500;
 
@@ -51,6 +54,8 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 
 		twitterService = ServiceFactory.getTwitterService();
 
+		boolean restored = restoreState(savedInstanceState);
+		
 		Bundle extra = getIntent().getExtras();
 
 		if (extra != null) {
@@ -64,8 +69,43 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		setTitle(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername(), 
 				getResources().getString(R.string.sr_title)  + " " + query));
 		
-		createList(true, false);
+		createList(!restored, false);
 
+	}
+
+	protected void onSaveInstanceState(Bundle outState) {
+		saveState(outState);
+		super.onSaveInstanceState(outState);
+	}
+	
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+		
+		
+		Serializable values = savedState.getSerializable(SAVED_STATUSES);
+		if (values == null) {
+			return false;
+		}
+		queryResult = (TwitterQueryResult) values;		
+		
+		int value = savedState.getInt(SAVED_PAGE);
+		if (value < 1) {
+			return false;
+		}
+		page = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putSerializable(SAVED_STATUSES, queryResult);
+		savedState.putInt(SAVED_PAGE, page);
 	}
 
 	private void createList(boolean twitterUpdate, final boolean append) {

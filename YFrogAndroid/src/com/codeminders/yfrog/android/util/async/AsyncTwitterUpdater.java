@@ -44,6 +44,14 @@ public abstract class AsyncTwitterUpdater {
 		return thread;
 	}
 	
+	protected void dismissDialog() {
+		try {
+			dialog.dismiss();
+		} catch (RuntimeException e) {
+			// If window lost
+		}
+	}
+	
 	private class Updater implements Runnable {
 		public void run() {
 			boolean error = false;
@@ -56,7 +64,7 @@ public abstract class AsyncTwitterUpdater {
 				
 				handler.post(new Runnable() {
 					public void run() {
-						dialog.dismiss();
+						dismissDialog();
 						activity.showDialog(errorCode);
 						doAfterError();
 					}
@@ -67,7 +75,7 @@ public abstract class AsyncTwitterUpdater {
 				handler.post(new Runnable() {
 					public void run() {
 						doAfterUpdate();
-						dialog.dismiss();
+						dismissDialog();
 					}
 				});
 			}

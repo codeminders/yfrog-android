@@ -40,6 +40,10 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			System.out.println(savedInstanceState.get(KEY_STATUS_POS + KEY_STATUSES));
+		}
+		
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
 		setContentView(R.layout.twitter_status_details);
@@ -290,5 +294,11 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		StringBuilder status = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
 		status.append(getResources().getString(R.string.tm_title));
 		return status.toString();
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString(KEY_STATUS_POS + KEY_STATUSES, KEY_STATUSES);
+		super.onSaveInstanceState(outState);
 	}
 }

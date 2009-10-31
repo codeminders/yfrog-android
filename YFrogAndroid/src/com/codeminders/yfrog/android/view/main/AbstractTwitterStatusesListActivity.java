@@ -3,6 +3,7 @@
  */
 package com.codeminders.yfrog.android.view.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.*;
@@ -24,6 +25,10 @@ import com.codeminders.yfrog.android.view.message.*;
  * 
  */
 public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
+	private static final String SAVED_STATUSES = "sstatuses";
+	private static final String SAVED_ATTEMPTS = "sattempts";
+	private static final String SAVED_PAGE = "spage";
+	
 	private static final int DEFAULT_PAGE_SIZE = 20;
 	private static final int MAX_COUNT = 3200;
 
@@ -41,13 +46,52 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		System.out.println("Create (" + this +") " + savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
-
-		createList(true, false);
+		super.onCreate(savedInstanceState);
+		boolean restored = restoreState(savedInstanceState);
+		
+		createList(!restored, false);
 		
 	}
-
+	
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+		
+		
+		Serializable values = savedState.getSerializable(SAVED_STATUSES);
+		if (values == null) {
+			return false;
+		}
+		statuses = (ArrayList<TwitterStatus>) values;		
+		
+		int value = savedState.getInt(SAVED_ATTEMPTS);
+		if (value < 0) {
+			return false;
+		}
+		attempts = value;
+		
+		value = savedState.getInt(SAVED_PAGE);
+		if (value < 1) {
+			return false;
+		}
+		page = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putSerializable(SAVED_STATUSES, statuses);
+		savedState.putInt(SAVED_PAGE, page);
+		savedState.putInt(SAVED_ATTEMPTS, attempts);
+	}
+	
 	@Override
 	protected void onRestart() {
 		super.onRestart();
@@ -201,5 +245,10 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	
 	protected String createTitle() {
 		return StringUtils.formatTitle(twitterService.getLoggedUser().getUsername());
+	}
+	
+	protected void onSaveInstanceState(Bundle outState) {
+		saveState(outState);
+		super.onSaveInstanceState(outState);
 	}
 }

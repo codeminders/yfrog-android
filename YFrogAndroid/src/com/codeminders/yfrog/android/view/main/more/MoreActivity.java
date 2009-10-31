@@ -16,6 +16,8 @@ import com.codeminders.yfrog.android.R;
  *
  */
 public class MoreActivity extends ListActivity {
+	public static final String TAG = "more";
+	
 	private static final int ITEM_MY_TWEETS = 0;
 	private static final int ITEM_FOLLOWERS = 1;
 	private static final int ITEM_FOLLOWING = 2;

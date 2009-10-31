@@ -19,7 +19,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.TwitterSavedSearch;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
@@ -29,6 +29,9 @@ import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
  * 
  */
 public class SearchActivity extends Activity implements OnClickListener {
+	private static final String SAVED_SEARCHES = "searches";
+	private static final String SAVED_ATTEMPTS = "sattempts";
+
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
@@ -49,7 +52,43 @@ public class SearchActivity extends Activity implements OnClickListener {
 		setTitle(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername(), 
 				getResources().getString(R.string.s_title)));
 
-		createList(true);
+		boolean restored = restoreState(savedInstanceState);
+		
+		createList(!restored);
+	}
+
+	protected void onSaveInstanceState(Bundle outState) {
+		saveState(outState);
+		super.onSaveInstanceState(outState);
+	}
+	
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+		
+		Serializable values = savedState.getSerializable(SAVED_SEARCHES);
+		if (values == null) {
+			return false;
+		}
+		searches = (ArrayList<TwitterSavedSearch>) values;		
+		
+		int value = savedState.getInt(SAVED_ATTEMPTS);
+		if (value < 0) {
+			return false;
+		}
+		attempts = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putSerializable(SAVED_SEARCHES, searches);
+		savedState.putInt(SAVED_ATTEMPTS, attempts);
 	}
 
 	@Override

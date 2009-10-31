@@ -48,7 +48,7 @@ public abstract class AsyncIOUpdater {
 				
 				handler.post(new Runnable() {
 					public void run() {
-						dialog.dismiss();
+						dismissDialog();
 						activity.showDialog(AlertUtils.IO_ERROR);
 						doAfterError();
 					}
@@ -59,11 +59,18 @@ public abstract class AsyncIOUpdater {
 				handler.post(new Runnable() {
 					public void run() {
 						doAfterUpdate();
-						dialog.dismiss();
+						dismissDialog();
 					}
 				});
 			}
 		}
 	}
 
+	protected void dismissDialog() {
+		try {
+			dialog.dismiss();
+		} catch (RuntimeException e) {
+			// If window lost
+		}
+	}
 }

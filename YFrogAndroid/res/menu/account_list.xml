@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/login" android:id="@+id/login_account"/>
+    <item android:title="@string/login" android:id="@+id/login_account" android:icon="@drawable/login"/>
 
     <item android:id="@+id/add_account"
         android:title="@string/add_account" />

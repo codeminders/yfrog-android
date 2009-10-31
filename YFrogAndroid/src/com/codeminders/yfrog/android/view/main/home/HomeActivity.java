@@ -21,6 +21,7 @@ import com.codeminders.yfrog.android.view.message.*;
 
 //TODO may be need StatusChangeListener
 public class HomeActivity extends AbstractTwitterStatusesListActivity {
+	public static final String TAG = "home";
 	
 	protected ArrayList<TwitterStatus> getStatuses(int page, int count) throws YFrogTwitterException {
 		return twitterService.getHomeStatuses(page, count);

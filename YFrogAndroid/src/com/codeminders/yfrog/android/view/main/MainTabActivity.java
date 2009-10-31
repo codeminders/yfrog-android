@@ -3,10 +3,12 @@
  */
 package com.codeminders.yfrog.android.view.main;
 
+import android.R.bool;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TabHost;
+import android.view.View;
+import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -22,42 +24,87 @@ import com.codeminders.yfrog.android.view.main.unsent.UnsentActivity;
  *
  */
 public class MainTabActivity extends TabActivity {
-	private static final String TAB_HOME_TAG = "home";
-	private static final String TAB_MENTIONS_TAG = "mentions";
-	private static final String TAB_MESSAGES_TAG = "messages";
-	private static final String TAB_UNSENT_TAG = "unsent";
-	private static final String TAB_MORE_TAG = "more";
+
+	private String currentTab = null;
+	private boolean created = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setTitle(createTitle());
 				
-		TabHost tabHost = getTabHost();
+		if (savedInstanceState != null) {
+			currentTab = savedInstanceState.getString("currentTab"); 
+		}
 		
-		tabHost.addTab(tabHost.newTabSpec(TAB_HOME_TAG)
-				.setIndicator(getResources().getString(R.string.tab_home_caption))
-//				.setIndicator(null, getResources().getDrawable(R.drawable.default_profile_image))
-				.setContent(new Intent(this, HomeActivity.class)));
 		
-		tabHost.addTab(tabHost.newTabSpec(TAB_MENTIONS_TAG)
-				.setIndicator(getResources().getString(R.string.tab_mentions_caption))
-				.setContent(new Intent(this, MentionsActivity.class)));
-		
-		tabHost.addTab(tabHost.newTabSpec(TAB_MESSAGES_TAG)
-				.setIndicator(getResources().getString(R.string.tab_messages_caption))
-				.setContent(new Intent(this, MessagesActivity.class)));
-		
-		tabHost.addTab(tabHost.newTabSpec(TAB_UNSENT_TAG)
-				.setIndicator(getResources().getString(R.string.tab_unsent_caption))
-				.setContent(new Intent(this, UnsentActivity.class)));
-		
-		tabHost.addTab(tabHost.newTabSpec(TAB_MORE_TAG)
-				.setIndicator(getResources().getString(R.string.tab_more_caption))
-				.setContent(new Intent(this, MoreActivity.class)));
 	}
 	
 	protected String createTitle() {
 		return StringUtils.formatTitle(ServiceFactory.getTwitterService().getLoggedUser().getUsername());
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (created) {
+			return;
+		}
+		
+		TabHost tabHost = getTabHost();
+
+		tabHost.addTab(tabHost.newTabSpec(HomeActivity.TAG)
+				.setIndicator(getResources().getString(R.string.tab_home_caption))
+//				.setIndicator(null, getResources().getDrawable(R.drawable.yfrog_tab_selector))
+				.setContent(new Intent(this, HomeActivity.class)));
+		
+		tabHost.addTab(tabHost.newTabSpec(MentionsActivity.TAG)
+				.setIndicator(getResources().getString(R.string.tab_mentions_caption))
+				.setContent(new Intent(this, MentionsActivity.class)));
+		
+		tabHost.addTab(tabHost.newTabSpec(MessagesActivity.TAG)
+				.setIndicator(getResources().getString(R.string.tab_messages_caption))
+				.setContent(new Intent(this, MessagesActivity.class)));
+		
+		tabHost.addTab(tabHost.newTabSpec(UnsentActivity.TAG)
+				.setIndicator(getResources().getString(R.string.tab_unsent_caption))
+				.setContent(new Intent(this, UnsentActivity.class)));
+		
+		tabHost.addTab(tabHost.newTabSpec(MoreActivity.TAG)
+				.setIndicator(getResources().getString(R.string.tab_more_caption))
+				.setContent(new Intent(this, MoreActivity.class)));
+
+		if (!StringUtils.isEmpty(currentTab)) {
+			tabHost.setCurrentTabByTag(currentTab);
+		}
+
+		TabWidget tw = getTabWidget();
+		int size = tw.getChildCount();
+		
+		for (int i = 0; i < size; i++) {
+			View v = tw.getChildAt(i);
+			v.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_selector));
+		}		
+
+		created = true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.TabActivity#onSaveInstanceState(android.os.Bundle)
+	 */
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.TabActivity#onPostCreate(android.os.Bundle)
+	 */
+	@Override
+	protected void onPostCreate(Bundle icicle) {
+		// TODO Auto-generated method stub
+		super.onPostCreate(icicle);
 	}
 }

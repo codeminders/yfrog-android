@@ -20,7 +20,7 @@
 				android:id="@+id/s_search_button" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
-				android:text="@string/s_btn_search" android:layout_gravity="right" >
+				android:text="@string/s_btn_search" android:layout_gravity="right">
 			</Button>
 			
 			<Button 

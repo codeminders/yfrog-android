@@ -15,7 +15,8 @@ import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivi
  *
  */
 public class MentionsActivity extends AbstractTwitterStatusesListActivity {
-	
+	public static final String TAG = "mentions";
+
 	@Override
 	protected ArrayList<TwitterStatus> getStatuses(int page, int count)
 			throws YFrogTwitterException {

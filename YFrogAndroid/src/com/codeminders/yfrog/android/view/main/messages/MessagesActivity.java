@@ -3,8 +3,10 @@
  */
 package com.codeminders.yfrog.android.view.main.messages;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import android.R.bool;
 import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +16,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.TwitterDirectMessage;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
@@ -25,6 +27,11 @@ import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
  * 
  */
 public class MessagesActivity extends ListActivity {
+	private static final String SAVED_MESSAGES = "smessages";
+	private static final String SAVED_ATTEMPTS = "sattempts";
+	
+	public static final String TAG = "messages";
+
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
@@ -37,10 +44,42 @@ public class MessagesActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
-
-		createList(true);
+		boolean restored = restoreState(savedInstanceState);
+		
+		createList(!restored);
 	}
 
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+		
+		
+		Serializable values = savedState.getSerializable(SAVED_MESSAGES);
+		if (values == null) {
+			return false;
+		}
+		messages = (ArrayList<TwitterDirectMessage>) values;		
+		
+		int value = savedState.getInt(SAVED_ATTEMPTS);
+		if (value < 0) {
+			return false;
+		}
+		attempts = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putSerializable(SAVED_MESSAGES, messages);
+		savedState.putInt(SAVED_ATTEMPTS, attempts);
+	}
+
+	
 	@Override
 	protected void onRestart() {
 		super.onRestart();
@@ -141,5 +180,10 @@ public class MessagesActivity extends ListActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		return AlertUtils.createErrorAlert(this, id);
+	}
+	
+	protected void onSaveInstanceState(Bundle outState) {
+		saveState(outState);
+		super.onSaveInstanceState(outState);
 	}
 }

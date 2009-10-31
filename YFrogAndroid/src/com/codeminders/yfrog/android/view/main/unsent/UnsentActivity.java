@@ -27,6 +27,8 @@ import com.codeminders.yfrog.android.view.message.*;
  */
 // TODO May be need refresh here, but not from DB
 public class UnsentActivity extends ListActivity {
+	public static final String TAG = "unsent";
+
 	private static final int MENU_SEND = 0;
 	private static final int MENU_EDIT = 1;
 	private static final int MENU_DELETE = 2;

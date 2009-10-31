@@ -3,13 +3,14 @@
  */
 package com.codeminders.yfrog.android.model;
 
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author idemydenko
  *
  */
-public class TwitterQueryResult {
+public class TwitterQueryResult implements Serializable {
 	private String query;
 	private ArrayList<TwitterSearchResult> results;
 
@@ -37,4 +38,15 @@ public class TwitterQueryResult {
 	public void setResults(ArrayList<TwitterSearchResult> results) {
 		this.results = results;
 	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeUTF(query);
+		out.writeObject(results);
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		query = in.readUTF();
+		results = (ArrayList<TwitterSearchResult>) in.readObject();
+	}
+
 }

@@ -3,13 +3,15 @@
  */
 package com.codeminders.yfrog.android.model;
 
+import java.io.*;
+import java.net.URL;
 import java.util.Date;
 
 /**
  * @author idemydenko
  *
  */
-public class TwitterDirectMessage {
+public class TwitterDirectMessage implements Serializable {
 	private int id;
 	private TwitterUser sender;
 	private String text;
@@ -64,4 +66,18 @@ public class TwitterDirectMessage {
 		this.createdAt = createdAt;
 	}
 	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeInt(id);
+		out.writeObject(sender);
+		out.writeUTF(text);
+		out.writeObject(createdAt);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+		id = in.readInt();
+		sender = (TwitterUser) in.readObject();
+		text = in.readUTF();
+		createdAt = (Date) in.readObject();
+	}
+
 }

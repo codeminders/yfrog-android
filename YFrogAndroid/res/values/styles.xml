@@ -10,6 +10,7 @@
     	<item name="android:editTextStyle">@style/YFrog.EditText</item>
     	<item name="android:radioButtonStyle">@style/YFrog.RadioButton</item>
     	<item name="android:checkboxStyle">@style/YFrog.CheckBox</item>
+    	<item name="android:panelBackground">@drawable/menu_selector</item>
     </style>
     
     <style name="YFrog.Title_style">
@@ -46,6 +47,10 @@
     
     <style name="YFrog.CheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/btn_check_selector</item>
+    </style>
+    
+    <style name="YFrog.IconMenu" parent="@android:style/Theme.IconMenu">
+        <item name="android:itemBackground">@drawable/menu_selector</item>
     </style>
     
  </resources>

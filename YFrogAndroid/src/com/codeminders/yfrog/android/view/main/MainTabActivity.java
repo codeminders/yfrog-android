@@ -89,22 +89,5 @@ public class MainTabActivity extends TabActivity {
 		}		
 
 		created = true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see android.app.TabActivity#onSaveInstanceState(android.os.Bundle)
-	 */
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		super.onSaveInstanceState(outState);
-	}
-	
-	/* (non-Javadoc)
-	 * @see android.app.TabActivity#onPostCreate(android.os.Bundle)
-	 */
-	@Override
-	protected void onPostCreate(Bundle icicle) {
-		// TODO Auto-generated method stub
-		super.onPostCreate(icicle);
-	}
+	}	
 }

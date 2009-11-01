@@ -40,9 +40,6 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			System.out.println(savedInstanceState.get(KEY_STATUS_POS + KEY_STATUSES));
-		}
 		
 		super.onCreate(savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();

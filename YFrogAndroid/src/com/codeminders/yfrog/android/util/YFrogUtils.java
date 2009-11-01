@@ -49,7 +49,7 @@ public final class YFrogUtils {
 	private static String getSuffix(String url) {
 		String result = "";
 		String temp = url.trim();
-		result = temp.substring(temp.length());
+		result = temp.substring(temp.length() - 1);
 		return result;
 	}
 

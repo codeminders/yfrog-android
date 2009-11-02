@@ -3,6 +3,6 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:title="@string/tud_btn_recent_tweets" android:id="@+id/tudm_recent_tweets" android:icon="@drawable/recent_tweets"></item>
 <item android:title="@string/tud_btn_send_pub_reply" android:id="@+id/tudm_send_pub_reply" android:icon="@drawable/reply"></item>
-<item android:title="@string/tud_btn_send_dir_message" android:id="@+id/tudm_send_dir_msg"></item>
+<item android:title="@string/tud_btn_send_dir_message" android:id="@+id/tudm_send_dir_msg" android:icon="@drawable/direct_msg"></item>
 <item android:title="@string/tud_btn_followers" android:id="@+id/tudm_followers" android:icon="@drawable/followers"></item>
 </menu>

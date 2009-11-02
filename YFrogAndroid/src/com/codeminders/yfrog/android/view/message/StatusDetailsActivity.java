@@ -29,6 +29,8 @@ import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
 // TODO may be need StatusChangeListener
 public class StatusDetailsActivity extends Activity implements OnClickListener {
+	private static final String SAVED_POSITION = "sstatus_pos";
+	
 	public static final String KEY_STATUS_POS = "status_pos";
 	public static final String KEY_STATUSES = "statuses";
 	
@@ -50,7 +52,11 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		
 		Bundle extras = getIntent().getExtras();
 		statuses = (ArrayList<TwitterStatus>) extras.getSerializable(KEY_STATUSES);
-		position = extras.getInt(KEY_STATUS_POS);
+		boolean restored = restoreState(savedInstanceState);
+		
+		if (!restored) {
+			position = extras.getInt(KEY_STATUS_POS);
+		}
 		count = statuses.size();
 		setCurrentStatus();
 		
@@ -58,6 +64,28 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		showStatus();
 	}
 	
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+	
+		int value = savedState.getInt(SAVED_POSITION);
+		if (value < 0) {
+			return false;
+		}
+		position = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putInt(SAVED_POSITION, position);
+	}
+
 	private void setCurrentStatus() {
 		status = statuses.get(position);
 	}
@@ -334,7 +362,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putString(KEY_STATUS_POS + KEY_STATUSES, KEY_STATUSES);
+		saveState(outState);
 		super.onSaveInstanceState(outState);
 	}
 }

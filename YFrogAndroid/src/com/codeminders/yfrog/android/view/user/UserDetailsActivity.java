@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import android.app.*;
 import android.content.*;
 import android.os.Bundle;
+import android.text.*;
+import android.text.style.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -25,6 +27,8 @@ import com.codeminders.yfrog.android.view.message.*;
  *
  */
 public class UserDetailsActivity extends Activity implements OnClickListener {
+	private static final String SAVED_POSITION = "sstatus_pos";
+	
 	public static final String KEY_USER_POS = "user";
 	public static final String KEY_USERS = "users";
 	
@@ -47,11 +51,39 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		Bundle extras = getIntent().getExtras();
 		
 		users = (ArrayList<TwitterUser>) extras.getSerializable(KEY_USERS);
-		position = extras.getInt(KEY_USER_POS);
+		
+		boolean restored = restoreState(savedInstanceState);
+		
+		if (!restored) {
+			position = extras.getInt(KEY_USER_POS);
+		}
+		
 		count = users.size();
 		setCurrentUser();
 		setTitle(createTitle());
 		showUser();
+	}
+
+	private boolean restoreState(Bundle savedState) {
+		if (savedState == null) {
+			return false;
+		}
+	
+		int value = savedState.getInt(SAVED_POSITION);
+		if (value < 0) {
+			return false;
+		}
+		position = value;
+		
+		return true;
+	}
+	
+	private void saveState(Bundle savedState) {
+		if (savedState == null) {
+			return;
+		}
+		
+		savedState.putInt(SAVED_POSITION, position);
 	}
 
 	private void setCurrentUser() {
@@ -64,15 +96,21 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		TextView view = (TextView) findViewById(R.id.tu_fullname);
 		view.setText(user.getFullname());
+
 		view = (TextView) findViewById(R.id.tu_username);
 		view.setText(user.getScreenUsername());
-		view = (TextView) findViewById(R.id.tud_location);
 		
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(user.getLocation());
-		buffer.append("\n");
-		buffer.append(user.getDescription());
-		view.setText(buffer.toString());
+		view = (TextView) findViewById(R.id.tud_location);
+		view.setText(appendCaption(user.getLocation(), R.string.tud_location));
+		
+		view = (TextView) findViewById(R.id.tud_descrition);
+		view.setText(appendCaption(user.getDescription(), R.string.tud_description));
+		
+//		StringBuilder buffer = new StringBuilder();
+//		buffer.append(user.getLocation());
+//		buffer.append("\n");
+//		buffer.append(user.getDescription());
+//		view.setText(buffer.toString());
 		
 		view = (TextView) findViewById(R.id.tud_counter);
 		view.setText((position + 1) + "/" + count);
@@ -280,5 +318,25 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		title.append(getResources().getString(R.string.tud_title));
 		title.append(" " + user.getUsername());
 		return title.toString();
+	}
+
+	private Spannable appendCaption(String appendable, int captionId) {
+		String caption = getResources().getString(captionId);
+		return appendCaption(appendable, caption);
+		
+	}
+
+	private Spannable appendCaption(String appendable, String caption) {
+		SpannableString spannable = new SpannableString(caption + " " + appendable);
+		spannable.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, caption.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannable.setSpan(new ForegroundColorSpan(R.color.caption), 0, caption.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		return spannable;
+		
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		saveState(outState);
+		super.onSaveInstanceState(outState);
 	}
 }

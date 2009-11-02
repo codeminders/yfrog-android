@@ -137,6 +137,7 @@
     <string name="tud_send">Send</string>
     <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
     <string name="tud_location">Location:</string>
+    <string name="tud_description">Description:</string>
     
     <!-- Twitter status details -->
     <string name="tm_title">Status details</string>

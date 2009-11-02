@@ -27,7 +27,6 @@
     
     <string name="error_alert_btn">OK</string>
     
-	
     <!-- Common -->
     <string name="list_reload">Refresh</string>
     <string name="delete">Удалить</string>
@@ -49,6 +48,7 @@
     <string name="msg_sent">Send complete</string>
     <string name="msg_tweets_empty">No tweets</string>
 	<string name="msg_users_empty">No users</string>
+	<string name="userinfo">User info</string>
     
     <!-- Account list -->
     <string name="account_list_activity_title">Accounts</string>
@@ -137,6 +137,7 @@
     <string name="tud_btn_unfollow">Unfollow</string>
     <string name="tud_send">Send</string>
     <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
+    <string name="tud_location">Location:</string>
     
     <!-- Twitter status details -->
     <string name="tm_title">Status details</string>

@@ -11,4 +11,6 @@
 <color name="btn_selector_selected">#ff0000ff</color>
 <color name="btn_selector_unselected">#ff919191</color>
 
+<color name="username">#ff007AA3</color>
+<color name="caption">#ff000000</color>
 </resources>

@@ -6,7 +6,7 @@
   		android:text="@+id/TextView01" 
   		android:id="@+id/tud_counter" 
   		android:layout_width="wrap_content" 
-  		android:layout_height="wrap_content">
+  		android:layout_height="wrap_content" style="@style/YFrog.CounterStyle">
   	</TextView>
   	
 	<include 
@@ -16,12 +16,19 @@
 		layout="@layout/twitter_user">
 	</include>
 
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<TextView 
+			android:layout_height="wrap_content" 
+			android:text="@+id/TextView01" 
+			android:layout_width="fill_parent" 
+			android:id="@+id/tud_location" android:layout_margin="10px">
+		</TextView>
+	</LinearLayout>
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
-		android:layout_marginTop="20px" 
 		android:layout_width="fill_parent" 
-		android:id="@+id/tud_location">
+		android:id="@+id/tud_location" android:layout_margin="10px">
 	</TextView>
 
 	<Button 
@@ -41,13 +48,14 @@
 		android:layout_gravity="center" android:focusable="false" android:visibility="gone">
 	</Button>
 
-	<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:id="@+id/tud_followers" android:text="@string/tud_btn_followers" android:focusable="false" android:visibility="gone"></Button><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tud_follow" android:layout_gravity="center" android:text="@string/tud_btn_follow" android:focusable="false"></Button><Button 
+	<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:id="@+id/tud_followers" android:text="@string/tud_btn_followers" android:focusable="false" android:visibility="gone"></Button><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tud_follow" android:layout_gravity="center" android:text="@string/tud_btn_follow" android:focusable="false" android:layout_marginTop="15px"></Button><Button 
 		android:id="@+id/tud_send_dir_message" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:text="@string/tud_btn_send_dir_message" 
 		android:layout_gravity="center" android:focusable="false" android:visibility="gone">
 	</Button>
+
 
 
 </LinearLayout>

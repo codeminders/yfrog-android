@@ -3,7 +3,7 @@
     <style name="YFrog" parent="@android:style/Theme.Light">
     	<item name="android:textColor">@color/text</item>
     	<item name="android:windowTitleSize">36dp</item>
-    	<item name="android:windowTitleStyle">@style/YFrog.Title_style</item>
+    	<item name="android:windowTitleStyle">@style/YFrog.TitleStyle</item>
     	<item name="android:buttonStyle">@style/YFrog.Button</item>
     	<item name="android:listViewStyle">@style/YFrog.ListView</item>
     	<item name="android:tabWidgetStyle">@style/YFrog.TabWidget</item>
@@ -13,7 +13,7 @@
     	<item name="android:panelBackground">@drawable/menu_selector</item>
     </style>
     
-    <style name="YFrog.Title_style">
+    <style name="YFrog.TitleStyle">
     	<item name="android:textColor">@color/title_text</item>
     </style>
        
@@ -25,6 +25,8 @@
     	<item name="android:listSelector">@drawable/item_selector</item>
     	<item name="android:background">@android:color/white</item>
         <item name="android:divider">@android:drawable/divider_horizontal_bright</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     
     <style name="YFrog.TabWidget" parent="@android:style/Widget.TabWidget">
@@ -32,7 +34,7 @@
     </style>
     
     <style name="YFrog.TabWidget.TextAppearance">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">#FF000000</item>
     </style>
@@ -52,5 +54,22 @@
     <style name="YFrog.IconMenu" parent="@android:style/Theme.IconMenu">
         <item name="android:itemBackground">@drawable/menu_selector</item>
     </style>
+    
+    <style name="YFrog.UsernameStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/username</item>
+    </style>
+    
+    <style name="YFrog.CounterStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">5px</item>
+        <item name="android:layout_marginTop">5px</item>
+    </style>
+    
+    <style name="YFrog.CaptionStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/caption</item>
+    </style>
+    
     
  </resources>

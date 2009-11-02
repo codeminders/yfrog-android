@@ -28,6 +28,20 @@ public class Twitter4JService implements TwitterService {
 		unsentMessageService = ServiceFactory.getUnsentMessageService();
 	}
 	
+	private Twitter create() {
+		Twitter t = new Twitter();
+		t.setSource(SOURCE);
+		
+		return t;		
+	}
+
+	private Twitter create(String username, String password) {
+		Twitter t = new Twitter(username, password);
+		t.setSource(SOURCE);
+		
+		return t;
+	}
+
 	public void setLoggedAccount(Account acc) {
 		loggedAccount = acc;
 	}
@@ -35,8 +49,8 @@ public class Twitter4JService implements TwitterService {
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#login(java.lang.String, java.lang.String)
 	 */
-	public void login(String nickname, String password) throws YFrogTwitterException {
-		twitter = new Twitter(nickname, password);
+	public void login(String username, String password) throws YFrogTwitterException {
+		twitter = create(username, password);
 		
 		checkLogged();
 	}
@@ -45,7 +59,7 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#loginOAuth(java.lang.String, java.lang.String)
 	 */
 	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
-		twitter = new Twitter();
+		twitter = create();
 		
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
@@ -57,7 +71,7 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#getOAuthWebAuthorizationURL(com.codeminders.yfrog.android.model.Account)
 	 */
 	public String getOAuthWebAuthorizationURL(Account account) throws YFrogTwitterException {
-		Twitter twitter = new Twitter();
+		Twitter twitter = create();
 	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    RequestToken requestToken;
 	    
@@ -77,7 +91,7 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#verifyOAuthAuthorization(com.codeminders.yfrog.android.model.Account, java.lang.String)
 	 */
 	public void verifyOAuthAuthorization(Account account, String pin) throws YFrogTwitterException {
-		Twitter twitter = new Twitter();
+		Twitter twitter = create();
 	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    
 	    try {
@@ -103,7 +117,7 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#getCredentials(com.codeminders.yfrog.android.model.Account)
 	 */
 	public TwitterUser getCredentials(Account account) throws YFrogTwitterException {
-		Twitter twitter = new Twitter();
+		Twitter twitter = create();
 		
 		if (account.getAuthMethod() == Account.METHOD_COMMON) {
 			twitter.setUserId(account.getUsername());
@@ -196,6 +210,26 @@ public class Twitter4JService implements TwitterService {
 		}
 	}
 
+	public boolean isFollower(long userId) throws YFrogTwitterException {
+		try {
+			Set<Integer> followers = Twitter4jHelper.toSet(twitter.getFollowersIDs());
+			
+			return followers.contains(Long.valueOf(userId).intValue());
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+	}
+	
+	public boolean isFollowing(long userId) throws YFrogTwitterException {
+		try {
+			Set<Integer> followings = Twitter4jHelper.toSet(twitter.getFriendsIDs());
+			
+			return followings.contains(Long.valueOf(userId).intValue());
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#getMyTweets(int, int)
 	 */
@@ -628,7 +662,7 @@ final class Twitter4jHelper {
 	}
 	
 	// TODO May be we need use Arrays.sort() and Arrays.binarySearch() 
-	private static HashSet<Integer> toSet(IDs ids) {
+	static HashSet<Integer> toSet(IDs ids) {
 		if (ids == null) {
 			return null;
 		}

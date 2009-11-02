@@ -76,7 +76,11 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		view = (TextView) findViewById(R.id.tud_counter);
 		view.setText((position + 1) + "/" + count);
-		
+
+		if (count == 1) {
+			view.setVisibility(View.GONE);
+		}
+
 		
 		Button button = (Button) findViewById(R.id.tud_recent_tweets);
 		button.setOnClickListener(this);

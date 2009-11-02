@@ -6,7 +6,6 @@ package com.codeminders.yfrog.android.view.main.messages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.R.bool;
 import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
+import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
 /**
  * @author idemydenko
@@ -35,7 +35,8 @@ public class MessagesActivity extends ListActivity {
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
 
-	public static final int MENU_DELETE = 0;
+	private static final int MENU_DELETE = 0;
+	private static final int MENU_USERINFO = 1;
 
 	private TwitterService twitterService;
 	private ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>(0);
@@ -143,6 +144,7 @@ public class MessagesActivity extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
+		menu.add(0, MENU_USERINFO, 0, R.string.userinfo);
 		menu.add(0, MENU_DELETE, 0, R.string.delete);
 	}
 
@@ -166,10 +168,44 @@ public class MessagesActivity extends ListActivity {
 			}.update();
 
 			return true;
+		
+		case MENU_USERINFO:
+			userInfo(info.position);
+			return true;
 		}
 		return false;
 	}
 	
+	private void userInfo(final int position) {
+		new AsyncTwitterUpdater(this) {
+			boolean following = false;
+			boolean follower = false;
+			TwitterUser u;
+			
+			@Override
+			protected void doUpdate() throws YFrogTwitterException {
+				u = getSelected(position).getSender();
+				following = twitterService.isFollowing(u.getId());
+				follower = twitterService.isFollower(u.getId());
+				u.setFollower(follower);
+				u.setFollowing(following);
+			}
+			
+			@Override
+			protected void doAfterUpdate() {
+				Intent intent = new Intent(MessagesActivity.this, UserDetailsActivity.class);
+				
+				ArrayList<TwitterUser> users = new ArrayList<TwitterUser>(1);
+				users.add(u);
+				
+				intent.putExtra(UserDetailsActivity.KEY_USERS, (Serializable) users);
+				intent.putExtra(UserDetailsActivity.KEY_USER_POS, 0);
+				
+				startActivityForResult(intent, 0);
+			}
+		}.update();		
+	}
+
 	private TwitterDirectMessage getSelected(int position) {
 		if (position > -1) {
 			return messages.get(position);

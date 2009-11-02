@@ -7,7 +7,7 @@
   		android:text="@+id/TextView01" 
   		android:id="@+id/tm_counter" 
   		android:layout_width="wrap_content" 
-  		android:layout_height="wrap_content">
+  		android:layout_height="wrap_content" style="@style/YFrog.CounterStyle">
   	</TextView>
 	
 	<include 
@@ -21,17 +21,16 @@
 		android:text="@+id/TextView01" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
-		android:layout_marginTop="20px" 
 		android:id="@+id/tm_created_at" 
 		android:textSize="12sp" 
-		android:textStyle="italic">
+		android:textStyle="italic" android:layout_marginLeft="10px" android:layout_marginTop="15px">
 	</TextView>
 	
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
 		android:layout_width="fill_parent" 
-		android:id="@+id/tm_text" android:layout_marginTop="5px">
+		android:id="@+id/tm_text" android:layout_margin="10px">
 	</TextView>
 	
 	<Button 
@@ -56,7 +55,7 @@
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
 		android:text="@string/tm_btn_favorite" 
-		android:layout_gravity="center" android:focusable="false">
+		android:layout_gravity="center" android:focusable="false" android:layout_marginTop="15px">
 	</Button>
 	
 	<Button 

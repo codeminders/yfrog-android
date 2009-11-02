@@ -3,7 +3,6 @@
  */
 package com.codeminders.yfrog.android.view.main;
 
-import android.R.bool;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,24 +55,24 @@ public class MainTabActivity extends TabActivity {
 		TabHost tabHost = getTabHost();
 
 		tabHost.addTab(tabHost.newTabSpec(HomeActivity.TAG)
-				.setIndicator(getResources().getString(R.string.tab_home_caption))
+				.setIndicator(getResources().getString(R.string.tab_home_caption), getResources().getDrawable(R.drawable.home))
 //				.setIndicator(null, getResources().getDrawable(R.drawable.yfrog_tab_selector))
 				.setContent(new Intent(this, HomeActivity.class)));
 		
 		tabHost.addTab(tabHost.newTabSpec(MentionsActivity.TAG)
-				.setIndicator(getResources().getString(R.string.tab_mentions_caption))
+				.setIndicator(getResources().getString(R.string.tab_mentions_caption), getResources().getDrawable(R.drawable.mentions))
 				.setContent(new Intent(this, MentionsActivity.class)));
 		
 		tabHost.addTab(tabHost.newTabSpec(MessagesActivity.TAG)
-				.setIndicator(getResources().getString(R.string.tab_messages_caption))
+				.setIndicator(getResources().getString(R.string.tab_messages_caption), getResources().getDrawable(R.drawable.messages))
 				.setContent(new Intent(this, MessagesActivity.class)));
 		
 		tabHost.addTab(tabHost.newTabSpec(UnsentActivity.TAG)
-				.setIndicator(getResources().getString(R.string.tab_unsent_caption))
+				.setIndicator(getResources().getString(R.string.tab_unsent_caption), getResources().getDrawable(R.drawable.unsent))
 				.setContent(new Intent(this, UnsentActivity.class)));
 		
 		tabHost.addTab(tabHost.newTabSpec(MoreActivity.TAG)
-				.setIndicator(getResources().getString(R.string.tab_more_caption))
+				.setIndicator(getResources().getString(R.string.tab_more_caption), getResources().getDrawable(R.drawable.more))
 				.setContent(new Intent(this, MoreActivity.class)));
 
 		if (!StringUtils.isEmpty(currentTab)) {

@@ -4,7 +4,6 @@
 package com.codeminders.yfrog.android.model;
 
 import java.io.*;
-import java.net.URL;
 import java.util.Date;
 
 /**

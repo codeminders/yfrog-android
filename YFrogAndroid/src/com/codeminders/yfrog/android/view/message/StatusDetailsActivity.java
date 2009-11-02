@@ -3,6 +3,7 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.*;
@@ -15,10 +16,11 @@ import android.widget.*;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.util.async.*;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
+import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
 /**
  * @author idemydenko
@@ -105,6 +107,10 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 
 		view = (TextView) findViewById(R.id.tm_counter);
 		view.setText((position + 1) + "/" + count);
+		
+		if (count == 1) {
+			view.setVisibility(View.GONE);
+		}
 		
 		setText();
 	}
@@ -204,6 +210,36 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		}.update();
 	}
 	
+	private void userInfo() {
+		new AsyncTwitterUpdater(this) {
+			boolean following = false;
+			boolean follower = false;
+			TwitterUser u;
+			
+			@Override
+			protected void doUpdate() throws YFrogTwitterException {
+				u = status.getUser();
+				following = twitterService.isFollowing(u.getId());
+				follower = twitterService.isFollower(u.getId());
+				u.setFollower(follower);
+				u.setFollowing(following);
+			}
+			
+			@Override
+			protected void doAfterUpdate() {
+				Intent intent = new Intent(StatusDetailsActivity.this, UserDetailsActivity.class);
+				
+				ArrayList<TwitterUser> users = new ArrayList<TwitterUser>(1);
+				users.add(u);
+				
+				intent.putExtra(UserDetailsActivity.KEY_USERS, (Serializable) users);
+				intent.putExtra(UserDetailsActivity.KEY_USER_POS, 0);
+				
+				startActivityForResult(intent, 0);
+			}
+		}.update();		
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
@@ -277,6 +313,9 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 
 		case R.id.tsd_reply:
 			reply();
+			return true;
+		case R.id.tsd_userinfo:
+			userInfo();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

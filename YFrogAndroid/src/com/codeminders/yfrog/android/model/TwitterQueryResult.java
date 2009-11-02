@@ -4,7 +4,7 @@
 package com.codeminders.yfrog.android.model;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * @author idemydenko

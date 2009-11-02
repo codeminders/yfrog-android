@@ -7,4 +7,5 @@
 </menu>
 </item>
 <item android:id="@+id/tsd_delete" android:title="@string/tm_btn_delete" android:icon="@drawable/delete"></item>
+<item android:id="@+id/tsd_userinfo" android:icon="@drawable/userinfo" android:title="@string/userinfo"></item>
 </menu>

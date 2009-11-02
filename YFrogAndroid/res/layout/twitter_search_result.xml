@@ -27,7 +27,7 @@
 		android:layout_toRightOf="@+id/tsr_user_icon"
 		android:id="@+id/tsr_username" 
 		android:layout_alignWithParentIfMissing="true"
-		android:layout_marginLeft="10px">
+		android:layout_marginLeft="10px" style="@style/YFrog.UsernameStyle">
 	</TextView>
 
 	<TextView 

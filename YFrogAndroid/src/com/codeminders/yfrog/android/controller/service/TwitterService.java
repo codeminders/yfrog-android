@@ -30,6 +30,8 @@ public interface TwitterService {
 	public static final String PARAM_TOKEN = "oauth_token";
 	public static final String PARAM_VERIFIER = "oauth_verifier";
 
+	public static final String SOURCE = "YFrog";
+	
 	public void setLoggedAccount(Account acc);
 	
 	public abstract void login(String nickname, String password)
@@ -66,6 +68,10 @@ public interface TwitterService {
 
 	public abstract ArrayList<TwitterUser> getFollowings()
 			throws YFrogTwitterException;
+
+	public abstract boolean isFollower(long userId) throws YFrogTwitterException;
+	
+	public abstract boolean isFollowing(long userId) throws YFrogTwitterException;
 
 	public abstract ArrayList<TwitterStatus> getMyTweets(int page, int count)
 			throws YFrogTwitterException;

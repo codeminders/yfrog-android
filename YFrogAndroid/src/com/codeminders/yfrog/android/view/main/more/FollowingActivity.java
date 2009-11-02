@@ -3,6 +3,7 @@
  */
 package com.codeminders.yfrog.android.view.main.more;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.content.Intent;
@@ -28,12 +29,20 @@ public class FollowingActivity extends AbstractTwitterUsersListActivity {
 			Bundle extras = data.getExtras();
 			
 			if (extras != null) {
-				ArrayList<TwitterUser> usrs = (ArrayList<TwitterUser>) extras.getSerializable(UserDetailsActivity.KEY_USERS);
-				if (usrs != null) {
+				Serializable serializable = extras.getSerializable(UserDetailsActivity.KEY_USERS);
+				if (serializable != null) {
+					ArrayList<TwitterUser> usrs = (ArrayList<TwitterUser>) serializable;
 					removeUnfollow(usrs);
 					users = usrs;
 					
 				}
+				
+				int pos = extras.getInt(UserDetailsActivity.KEY_USER_POS);
+				
+				if (pos > -1 && pos < users.size()) {
+					selected = pos;
+				}
+
 				
 			}
 		}

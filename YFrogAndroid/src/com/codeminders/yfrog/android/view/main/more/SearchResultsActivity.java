@@ -29,6 +29,7 @@ import com.codeminders.yfrog.android.view.message.*;
 public class SearchResultsActivity extends Activity implements OnClickListener {
 	private static final String SAVED_STATUSES = "sstatuses";
 	private static final String SAVED_PAGE = "spage";
+	private static final String SAVED_SELECTED = "sselected";
 
 	private static final int DEFAULT_PAGE_SIZE = 20;
 	private static final int MAX_COUNT = 1500;
@@ -46,6 +47,8 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 	private AutoCompleteTextView input;
 	private ArrayList<TwitterSavedSearch> searches;
 	private List<String> searchesQueries;
+	
+	private int selected = -1;
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -96,6 +99,11 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		}
 		page = value;
 		
+		value = savedState.getInt(SAVED_SELECTED);
+		if (value > -1 && value < queryResult.getResults().size()) {
+			selected = value;
+		}
+
 		return true;
 	}
 	
@@ -106,6 +114,8 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		
 		savedState.putSerializable(SAVED_STATUSES, queryResult);
 		savedState.putInt(SAVED_PAGE, page);
+		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
+		savedState.putInt(SAVED_SELECTED, listView.getSelectedItemPosition());
 	}
 
 	private void createList(boolean twitterUpdate, final boolean append) {
@@ -147,7 +157,10 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		
 		ListView listView = (ListView) findViewById(R.id.sr_search_result_list);
 
-		int selected = listView.getSelectedItemPosition();
+		if (selected < 0) {
+			selected = listView.getSelectedItemPosition();
+		}
+		
 		if (queryResult.getResults().size() == 0) {
 			View v = findViewById(R.id.sr_searches_empty);
 			v.setVisibility(View.VISIBLE);

@@ -28,6 +28,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	private static final String SAVED_STATUSES = "sstatuses";
 	private static final String SAVED_ATTEMPTS = "sattempts";
 	private static final String SAVED_PAGE = "spage";
+	private static final String SAVED_SELECTED = "sselected";
 	
 	private static final int DEFAULT_PAGE_SIZE = 20;
 	private static final int MAX_COUNT = 3200;
@@ -40,13 +41,14 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 
 	private int page = 1;
 
+	protected int selected = -1;
+	
 	public AbstractTwitterStatusesListActivity() {
 		super();
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("Create (" + this +") " + savedInstanceState);
 		twitterService = ServiceFactory.getTwitterService();
 		super.onCreate(savedInstanceState);
 		boolean restored = restoreState(savedInstanceState);
@@ -78,7 +80,12 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 			return false;
 		}
 		page = value;
-		
+
+		value = savedState.getInt(SAVED_SELECTED);
+		if (value > -1 && value < statuses.size()) {
+			selected = value;
+		}
+
 		return true;
 	}
 	
@@ -90,6 +97,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		savedState.putSerializable(SAVED_STATUSES, statuses);
 		savedState.putInt(SAVED_PAGE, page);
 		savedState.putInt(SAVED_ATTEMPTS, attempts);
+		savedState.putInt(SAVED_SELECTED, getSelectedItemPosition());
 	}
 	
 	@Override
@@ -141,14 +149,14 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	}
 
 	private void show() {
-		int selected = -1;
+		
+
+//		if (getListView() != null) {
+//			selected = getSelectedItemPosition();
+//		}
 
 		setContentView(R.layout.twitter_statuses_list);
 		
-		if (getListView() != null) {
-			selected = getSelectedItemPosition();
-		}
-
 		setListAdapter(new TwitterStatusAdapter<TwitterStatus>(this, statuses));
 
 		if (selected > -1) {
@@ -181,9 +189,15 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 			Bundle extras = data.getExtras();
 			
 			if (extras != null) {
-				ArrayList<TwitterStatus> sts = (ArrayList<TwitterStatus>) extras.getSerializable(StatusDetailsActivity.KEY_STATUSES);
-				if (sts != null) {
-					statuses = sts;
+				Serializable serializable = extras.getSerializable(StatusDetailsActivity.KEY_STATUSES);
+				if (serializable != null) {
+					statuses = (ArrayList<TwitterStatus>) serializable;
+				}
+				
+				int pos = extras.getInt(StatusDetailsActivity.KEY_STATUS_POS);
+				
+				if (pos > -1 && pos < statuses.size()) {
+					selected = pos;
 				}
 				
 			}
@@ -223,6 +237,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		case R.id.more_tweets:
 			if (!isNoMoreItems()) {
 				page++;
+				selected = getSelectedItemPosition();
 				createList(true, true);
 			}
 			return true;

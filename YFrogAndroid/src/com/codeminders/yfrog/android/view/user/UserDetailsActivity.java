@@ -29,7 +29,7 @@ import com.codeminders.yfrog.android.view.message.*;
 public class UserDetailsActivity extends Activity implements OnClickListener {
 	private static final String SAVED_POSITION = "sstatus_pos";
 	
-	public static final String KEY_USER_POS = "user";
+	public static final String KEY_USER_POS = "user_pos";
 	public static final String KEY_USERS = "users";
 	
 	private static final int ALERT_PROTECTED = 0;
@@ -244,6 +244,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent intent = new Intent();
 			intent.putExtra(KEY_USERS, users);
+			intent.putExtra(KEY_USER_POS, position);
 			setResult(RESULT_OK, intent);
 		}
 

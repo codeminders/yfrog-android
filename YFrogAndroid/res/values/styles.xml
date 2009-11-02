@@ -58,6 +58,7 @@
     <style name="YFrog.UsernameStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/username</item>
+        <item name="android:textSize">14px</item>
     </style>
     
     <style name="YFrog.CounterStyle">

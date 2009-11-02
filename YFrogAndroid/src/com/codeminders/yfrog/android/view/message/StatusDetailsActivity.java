@@ -298,6 +298,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	private void prepareResult() {
 		Intent intent = new Intent();
 		intent.putExtra(KEY_STATUSES, statuses);
+		intent.putExtra(KEY_STATUS_POS, position);
 		setResult(RESULT_OK, intent);		
 	}
 	

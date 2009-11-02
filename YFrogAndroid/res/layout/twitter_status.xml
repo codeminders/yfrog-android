@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10px">
+	android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="6px">
 
 	
 	
@@ -27,7 +27,7 @@
 		android:layout_toRightOf="@+id/ts_user_icon"
 		android:id="@+id/ts_username" 
 		android:layout_alignWithParentIfMissing="true"
-		android:layout_marginLeft="10px" style="@style/YFrog.UsernameStyle">
+		style="@style/YFrog.UsernameStyle" android:layout_marginLeft="5px">
 	</TextView>
 
 	<TextView 
@@ -37,8 +37,7 @@
 		android:layout_width="wrap_content"
 		android:layout_toRightOf="@+id/ts_user_icon" 
 		android:id="@+id/ts_text"
-		android:layout_marginLeft="10px" 
-		android:layout_marginTop="15px">
+		android:layout_marginTop="15px" android:layout_marginLeft="5px">
 	</TextView>
 	<TextView 
 		android:layout_height="wrap_content" 
@@ -46,7 +45,7 @@
 		android:layout_width="wrap_content" 
 		android:id="@+id/ts_created_at"
 		android:layout_alignParentTop="true" 
-		android:layout_alignParentRight="true" android:textSize="12sp" android:textStyle="italic" android:layout_marginTop="4sp">
+		android:layout_alignParentRight="true" android:textSize="12sp" android:textStyle="italic" android:layout_marginTop="2px">
 	</TextView>
 
 </RelativeLayout>

@@ -28,9 +28,12 @@ import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	private static final String SAVED_USERS = "susers";
 	private static final String SAVED_ATTEMPTS = "sattempts";
+	private static final String SAVED_SELECTED = "sselected";
 
 	private static final int ATTEMPTS_TO_RELOAD = 5;
 	private int attempts = 0;
+	
+	protected int selected = -1;
 
 	protected TwitterService twitterService;
 	protected ArrayList<TwitterUser> users = new ArrayList<TwitterUser>(0);
@@ -76,6 +79,11 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		}
 		attempts = value;
 		
+		value = savedState.getInt(SAVED_SELECTED);
+		if (value > -1 && value < users.size()) {
+			selected = value;
+		}
+
 		return true;
 	}
 	
@@ -86,6 +94,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		
 		savedState.putSerializable(SAVED_USERS, users);
 		savedState.putInt(SAVED_ATTEMPTS, attempts);
+		savedState.putInt(SAVED_SELECTED, getSelectedItemPosition());
 	}
 
 	@Override
@@ -125,6 +134,11 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 	private void show() {
 		setContentView(R.layout.twitter_users_list);
 		setListAdapter(new TwitterUserAdapter<TwitterUser>(this, users));
+		
+		if (selected > -1) {
+			setSelection(selected);
+		}
+		
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
 		setTitle(createTitle());
@@ -150,9 +164,15 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 			Bundle extras = data.getExtras();
 			
 			if (extras != null) {
-				ArrayList<TwitterUser> usrs = (ArrayList<TwitterUser>) extras.getSerializable(UserDetailsActivity.KEY_USERS);
-				if (usrs != null) {
-					users = usrs;
+				Serializable serializable = extras.getSerializable(UserDetailsActivity.KEY_USERS);
+				if (serializable != null) {
+					users = (ArrayList<TwitterUser>) serializable;
+				}
+				
+				int pos = extras.getInt(UserDetailsActivity.KEY_USER_POS);
+				
+				if (pos > -1 && pos < users.size()) {
+					selected = pos;
 				}
 				
 			}

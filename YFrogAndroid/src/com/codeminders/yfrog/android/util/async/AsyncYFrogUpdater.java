@@ -6,27 +6,27 @@ package com.codeminders.yfrog.android.util.async;
 import android.app.*;
 import android.os.Handler;
 
-import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.util.ProgressDialogUtils;
 
 /**
  * @author idemydenko
  *
  */
-public abstract class AsyncTwitterUpdater {
+public abstract class AsyncYFrogUpdater {
 	Activity activity;
 	Handler handler;
 	ProgressDialog dialog;
 	Thread thread;
 	
-	public AsyncTwitterUpdater(Activity a) {
+	public AsyncYFrogUpdater(Activity a) {
 		activity = a;
 		handler = new Handler();
 		dialog = ProgressDialogUtils.showProgressAlert(activity);
 		thread = new Thread(new Updater());
 	}
 	
-	protected abstract void doUpdate() throws YFrogTwitterException;
+	protected abstract void doUpdate() throws YFrogException;
 	
 	protected void doAfterUpdate() {
 		
@@ -58,7 +58,7 @@ public abstract class AsyncTwitterUpdater {
 			
 			try {
 				doUpdate();
-			} catch (YFrogTwitterException e) {
+			} catch (YFrogException e) {
 				error = true;
 				final int errorCode = e.getErrorCode();
 				

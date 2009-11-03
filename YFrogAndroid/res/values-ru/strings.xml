@@ -20,10 +20,15 @@
 
     <string name="twitter_error">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
     <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
+    <string name="account_verification_error">Wrong authorization data or connection problem</string>
+    
+    <string name="account_db_insert_error">Error during add new account. Please try again</string>
     
     <string name="yfrog_upload_error_title">YFrog upload error</string>
     <string name="twitter_error_title">Twitter error</string>
 	<string name="io_error_title">Connection error</string>
+	<string name="account_verification_error_title">Verification error</string>
+	<string name="database_error_title">Database error</string>
     
     <string name="error_alert_btn">OK</string>
     
@@ -91,7 +96,6 @@
     <string name="ae_dialog_message_passwd">Обязательное поле "Пароль" пустое</string>
     <string name="ae_oauth_message_not_unique">Authorization failed. Account with even nickname or name already exists</string>
     <string name="ae_dialog_message_not_unique">Учётная запись с указаными именем или именем учетной записи уже существуют</string>
-    <string name="ae_dialog_message_user_verification_error">Wrong authorization data or connection problem</string>
     <string name="ae_dialog_button">ОК</string>
 	
 
@@ -139,6 +143,9 @@
     <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
     <string name="tud_location">Location:</string>
     <string name="tud_description">Description:</string>
+    <string name="tud_followers">Followers:</string>
+    <string name="tud_following">Following:</string>
+    
     
     <!-- Twitter status details -->
     <string name="tm_title">Status details</string>

@@ -18,7 +18,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.util.*;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 
 /**
  * @author idemydenko
@@ -168,11 +168,11 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		editable.setAuthMethod(authMethod);
 
 		if (editable.isNeedOAuthAuthorization()) {
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				String url = null;
 				
 				@Override
-				protected void doUpdate() throws YFrogTwitterException {
+				protected void doUpdate() throws YFrogException {
 					saveOrUpdate();
 					url = accountService.getOAuthAuthorizationURL(editable);
 				}
@@ -186,8 +186,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 				}
 			}.update();
 		} else {
-			new AsyncTwitterUpdater(this) {
-				protected void doUpdate() throws YFrogTwitterException {
+			new AsyncYFrogUpdater(this) {
+				protected void doUpdate() throws YFrogException {
 					saveOrUpdate();
 				}
 				
@@ -200,7 +200,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private void saveOrUpdate() throws YFrogTwitterException {
+	private void saveOrUpdate() throws YFrogException {
 		if (isEdit) {
 			accountService.updateAccount(editable);
 		} else {

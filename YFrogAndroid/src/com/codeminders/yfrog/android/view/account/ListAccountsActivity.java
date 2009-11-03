@@ -18,7 +18,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.main.MainTabActivity;
 
 /**
@@ -242,7 +242,7 @@ public class ListAccountsActivity extends ListActivity {
 	}
 
 	private void login(final Account account) {
-		new AsyncTwitterUpdater(this) {
+		new AsyncYFrogUpdater(this) {
 			@Override
 			protected void doUpdate() throws YFrogTwitterException {
 				accountService.login(account);

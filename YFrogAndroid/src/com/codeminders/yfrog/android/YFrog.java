@@ -13,6 +13,7 @@ import com.codeminders.yfrog.android.controller.service.ServiceFactory;
  *
  */
 public final class YFrog extends Application {
+	public static final String TAG = "YFrog";
 	
 	@Override
 	public void onCreate() {

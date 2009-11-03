@@ -18,7 +18,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterSearchResultAdapter;
 import com.codeminders.yfrog.android.view.message.*;
 
@@ -125,7 +125,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 				page = 1;
 			}
 			
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					if (append) {
 						queryResult.getResults().addAll(twitterService.search(query, page,
@@ -233,7 +233,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.sr_save_button:
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					if (isSaved) {
 						TwitterSavedSearch savedSearch = findSearchByQuery();
@@ -294,7 +294,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 
 		final TwitterSearchResult sr = queryResult.getResults().get(position);
 
-		new AsyncTwitterUpdater(this) {
+		new AsyncYFrogUpdater(this) {
 			private TwitterStatus status;
 			protected void doUpdate() throws YFrogTwitterException {
 				status = twitterService.getStatus(sr.getId());

@@ -13,7 +13,11 @@ import com.codeminders.yfrog.android.R;
  *
  */
 public final class AlertUtils {
-	public static final int ALERT_ACCOUNT_VERIFICATION = -3;
+	// Database error codes
+	public static final int DB_ACCOUNT_INSERT_ERROR = -4;
+	
+	// App error codes
+	public static final int ACCOUNT_VERIFICATION_ERROR = -3;
 	public static final int IO_ERROR = -2;
 	public static final int TWITTER_CONNECTION_ERROR = -1;
 	
@@ -57,6 +61,14 @@ public final class AlertUtils {
 	private static String getErrorMessage(Context context, int errorCode) {
 		String msg = "";
 		switch (errorCode) {
+		case DB_ACCOUNT_INSERT_ERROR:
+			msg = context.getResources().getString(R.string.account_db_insert_error);
+			break;
+
+		case ACCOUNT_VERIFICATION_ERROR:
+			msg = context.getResources().getString(R.string.account_verification_error);
+			break;
+
 		case IO_ERROR:
 			msg = context.getResources().getString(R.string.io_error);
 			break;
@@ -113,8 +125,12 @@ public final class AlertUtils {
 	private static String getErrorTitle(Context context, int errorCode) {
 		if (errorCode > SERVICE_UNAVAILABLE) {
 			return context.getResources().getString(R.string.yfrog_upload_error_title);
-		} else if (errorCode < TWITTER_CONNECTION_ERROR) {
+		} else if (errorCode == IO_ERROR) {
 			return context.getResources().getString(R.string.io_error_title);
+		} else if (errorCode == ACCOUNT_VERIFICATION_ERROR) {
+			return context.getResources().getString(R.string.account_verification_error_title);
+		} else if (errorCode == DB_ACCOUNT_INSERT_ERROR) {
+			return context.getResources().getString(R.string.database_error_title);
 		} else {
 			return context.getResources().getString(R.string.twitter_error_title);
 		}

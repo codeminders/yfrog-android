@@ -9,8 +9,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.*;
 
+import com.codeminders.yfrog.android.YFrogDatabaseException;
 import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 
 /**
  * @author idemydenko
@@ -212,7 +213,7 @@ public class AccountDAO extends AbstractDAO {
 		return account;
 	}
 
-	public long addAccount(Account account) {
+	public long addAccount(Account account) throws YFrogDatabaseException {
 		SQLiteDatabase db = getDatabaseHelper().getWritableDatabase();
 		
 		long id = -1;
@@ -230,6 +231,10 @@ public class AccountDAO extends AbstractDAO {
 			id = db.insert(TABLE_NAME, null, values);
 		} finally {
 			db.close();
+		}
+		
+		if (id == -1) {
+			throw new YFrogDatabaseException(AlertUtils.DB_ACCOUNT_INSERT_ERROR);
 		}
 		
 		return id;

@@ -17,7 +17,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
 import com.codeminders.yfrog.android.view.message.*;
 
@@ -88,7 +88,7 @@ public class UnsentActivity extends ListActivity {
 		switch(item.getItemId()) {
 		case MENU_SEND:
 			
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					twitterService.sendUnsentMessage(message);
 				}
@@ -126,7 +126,7 @@ public class UnsentActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.umt_send_all:
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					twitterService.sendAllUnsentMessages(UnsentActivity.this);
 				}

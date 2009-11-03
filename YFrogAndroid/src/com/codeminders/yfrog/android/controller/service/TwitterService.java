@@ -97,9 +97,9 @@ public interface TwitterService {
 	public abstract void sendDirectMessage(String username, String text)
 			throws YFrogTwitterException;
 
-	public abstract void favorite(long id) throws YFrogTwitterException;
+	public abstract TwitterStatus favorite(long id) throws YFrogTwitterException;
 
-	public abstract void unfavorite(long id) throws YFrogTwitterException;
+	public abstract TwitterStatus unfavorite(long id) throws YFrogTwitterException;
 
 	public abstract void follow(String username) throws YFrogTwitterException;
 

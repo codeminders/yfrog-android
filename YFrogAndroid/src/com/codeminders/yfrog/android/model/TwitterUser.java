@@ -22,6 +22,8 @@ public class TwitterUser implements Serializable {
 	private boolean follower;
 	private boolean following;
 	private boolean isProtected;
+	private int followersCount;
+	private int followingsCount;
 	
 	/**
 	 * @return the id
@@ -135,6 +137,31 @@ public class TwitterUser implements Serializable {
 	public void setProtected(boolean isProtected) {
 		this.isProtected = isProtected;
 	}
+
+	/**
+	 * @return the followersCount
+	 */
+	public int getFollowersCount() {
+		return followersCount;
+	}
+	/**
+	 * @param followersCount the followersCount to set
+	 */
+	public void setFollowersCount(int followersCount) {
+		this.followersCount = followersCount;
+	}
+	/**
+	 * @return the followingsCount
+	 */
+	public int getFollowingsCount() {
+		return followingsCount;
+	}
+	/**
+	 * @param followingsCount the followingsCount to set
+	 */
+	public void setFollowingsCount(int followingsCount) {
+		this.followingsCount = followingsCount;
+	}
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
@@ -146,6 +173,8 @@ public class TwitterUser implements Serializable {
 		out.writeBoolean(follower);
 		out.writeBoolean(following);
 		out.writeBoolean(isProtected);
+		out.writeInt(followersCount);
+		out.writeInt(followingsCount);
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -158,6 +187,8 @@ public class TwitterUser implements Serializable {
 		follower = in.readBoolean();
 		following = in.readBoolean();
 		isProtected = in.readBoolean();
+		followersCount = in.readInt();
+		followingsCount = in.readInt();
 	}
 	
 	@Override

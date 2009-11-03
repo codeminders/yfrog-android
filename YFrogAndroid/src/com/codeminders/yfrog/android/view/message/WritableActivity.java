@@ -19,7 +19,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.*;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 
 /**
  * @author idemydenko
@@ -89,7 +89,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			if (!StringUtils.isEmpty(txt)) {
 				
-				new AsyncTwitterUpdater(this) {
+				new AsyncYFrogUpdater(this) {
 					protected void doUpdate() throws YFrogTwitterException {
 						send(txt);						
 					}
@@ -156,7 +156,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		final MessageAttachment attachment = createAttachment(request, data);
 		
 		if (attachment != null) {
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				String mediaUrl = null;
 
 				protected void doUpdate() throws YFrogTwitterException {

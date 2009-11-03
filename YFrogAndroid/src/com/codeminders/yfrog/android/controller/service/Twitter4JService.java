@@ -369,10 +369,10 @@ public class Twitter4JService implements TwitterService {
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#favorite(long)
 	 */
-	public void favorite(long id) throws YFrogTwitterException {
+	public TwitterStatus favorite(long id) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			twitter.createFavorite(id);
+			return Twitter4jHelper.getStatus(twitter.createFavorite(id));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
@@ -381,10 +381,10 @@ public class Twitter4JService implements TwitterService {
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog.android.controller.service.TwitterService#unfavorite(long)
 	 */
-	public void unfavorite(long id) throws YFrogTwitterException {
+	public TwitterStatus unfavorite(long id) throws YFrogTwitterException {
 		checkCreated();
 		try {
-			twitter.destroyFavorite(id);
+			return Twitter4jHelper.getStatus(twitter.destroyFavorite(id));
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
@@ -584,6 +584,8 @@ final class Twitter4jHelper {
 		u.setFollower(follower);
 		u.setFollowing(following);
 		u.setProtected(user.isProtected());
+		u.setFollowersCount(user.getFollowersCount());
+		u.setFollowingsCount(user.getFriendsCount());
 		
 		return u;
 	}

@@ -21,7 +21,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
 import com.codeminders.yfrog.android.util.*;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 /**
@@ -105,7 +105,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		boolean needReload = twitterUpdate || isNeedReload();
 
 		if (needReload) {
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					searches = twitterService.getSavedSearches();
 				}
@@ -203,7 +203,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		case R.id.s_save_button:
 			input.setText(StringUtils.EMPTY_STRING);
 
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					TwitterSavedSearch search = null;
 					
@@ -262,7 +262,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 					.getMenuInfo();
 			final TwitterSavedSearch toDelete = searches.get(info.position);
 			
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					twitterService.deleteSavedSearch(toDelete.getId());
 					searches.remove(info.position);

@@ -7,18 +7,15 @@ package com.codeminders.yfrog.android;
  * @author idemydenko
  *
  */
-public class YFrogTwitterException extends Exception {
-	private static final long serialVersionUID = 7648098640662542647L;
+public class YFrogTwitterException extends YFrogException {
+	private static final long serialVersionUID = 2699095704037915524L;
 
-	private int errCode;
-	
 	public YFrogTwitterException() {
 		super();
 	}
 
 	public YFrogTwitterException(int errorCode) {
-		super();
-		errCode = errorCode; 
+		super(errorCode);
 	}
 
 	public YFrogTwitterException(String message) {
@@ -30,15 +27,10 @@ public class YFrogTwitterException extends Exception {
 	}
 	
 	public YFrogTwitterException(Throwable throwable, int errorCode) {
-		super(throwable);
-		errCode = errorCode;
+		super(throwable, errorCode);
 	}
 	
 	public YFrogTwitterException(String message, Throwable throwable) {
 		super(message, throwable);
-	}
-	
-	public int getErrorCode() {
-		return errCode;
 	}
 }

@@ -203,7 +203,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 
 	private void delete() {
-		new AsyncTwitterUpdater(this) {
+		new AsyncYFrogUpdater(this) {
 			@Override
 			protected void doUpdate() throws YFrogTwitterException {
 				twitterService.deleteStatus(status.getId());
@@ -218,14 +218,23 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	private void favorite() {
-		new AsyncTwitterUpdater(this) {
+		new AsyncYFrogUpdater(this) {
 			@Override
 			protected void doUpdate() throws YFrogTwitterException {
+//				if (!favorited) {
+//					status = twitterService.favorite(status.getId());
+//				} else {
+//					status = twitterService.unfavorite(status.getId());
+//				}
+//				
+//				favorited = status.isFavorited();
+
 				if (!favorited) {
 					twitterService.favorite(status.getId());
 				} else {
 					twitterService.unfavorite(status.getId());
 				}
+				
 				favorited = !favorited;
 				status.setFavorited(favorited);
 			}
@@ -239,7 +248,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	private void userInfo() {
-		new AsyncTwitterUpdater(this) {
+		new AsyncYFrogUpdater(this) {
 			boolean following = false;
 			boolean follower = false;
 			TwitterUser u;

@@ -17,7 +17,7 @@ import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.controller.service.*;
 import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.AlertUtils;
-import com.codeminders.yfrog.android.util.async.AsyncTwitterUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
@@ -95,7 +95,7 @@ public class MessagesActivity extends ListActivity {
 		boolean needReload = twitterUpdate || isNeedReload();
 		
 		if (needReload) {
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					messages = twitterService.getDirectMessages();					
 				}
@@ -156,7 +156,7 @@ public class MessagesActivity extends ListActivity {
 		case MENU_DELETE:
 			final TwitterDirectMessage toDelete = getSelected(info.position);
 			
-			new AsyncTwitterUpdater(this) {
+			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
 					twitterService.deleteDirectMessage(toDelete.getId());
 					messages.remove(info.position);
@@ -177,7 +177,7 @@ public class MessagesActivity extends ListActivity {
 	}
 	
 	private void userInfo(final int position) {
-		new AsyncTwitterUpdater(this) {
+		new AsyncYFrogUpdater(this) {
 			boolean following = false;
 			boolean follower = false;
 			TwitterUser u;

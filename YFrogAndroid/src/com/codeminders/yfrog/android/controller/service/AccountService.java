@@ -37,7 +37,7 @@ public final class AccountService {
 		return accountDAO.getAccount(id);
 	}
 	
-	public Account addAccount(Account account) throws YFrogTwitterException {
+	public Account addAccount(Account account) throws YFrogException {
 		if (account.getAuthMethod() == Account.METHOD_COMMON) {
 			try {
 				verifiyAccount(account);
@@ -47,7 +47,7 @@ public final class AccountService {
 				if (errorCode != -1) {
 					throw new YFrogTwitterException(e, errorCode);
 				} else {
-					throw new YFrogTwitterException(e, AlertUtils.ALERT_ACCOUNT_VERIFICATION);
+					throw new YFrogTwitterException(e, AlertUtils.ACCOUNT_VERIFICATION_ERROR);
 				}
 			}
 		}
@@ -76,7 +76,7 @@ public final class AccountService {
 				if (errorCode != -1) {
 					throw new YFrogTwitterException(e, errorCode);
 				} else {
-					throw new YFrogTwitterException(e, AlertUtils.ALERT_ACCOUNT_VERIFICATION);
+					throw new YFrogTwitterException(e, AlertUtils.ACCOUNT_VERIFICATION_ERROR);
 				}
 			}
 		}

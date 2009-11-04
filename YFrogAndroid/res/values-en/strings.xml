@@ -22,7 +22,7 @@
     <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
     <string name="account_verification_error">Wrong authorization data or connection problem</string>
     
-    <string name="account_db_insert_error">Error during add new account. Please try again</string>
+    <string name="account_db_insert_error">Error during add new account to database. Please re-install application and try again</string>
     
     <string name="yfrog_upload_error_title">YFrog upload error</string>
     <string name="twitter_error_title">Twitter error</string>
@@ -99,6 +99,12 @@
     <string name="ae_dialog_button">Ok</string>
     
     <string name="ae_oauth_desc">OAuth is an authentication protocol that allows users to approve application to act on their behalf without sharing their password. More information can be found at http://apiwiki.twitter.com/OAuth-FAQ</string>
+    
+    <!-- Logout -->
+    <string name="lo_dialog_title">Logout</string>
+    <string name="lo_dialog_msg">Do you really want to logout</string>
+    <string name="lo_dialog_btn_yes">Yes</string>
+    <string name="lo_dialog_btn_no">No</string>
     
     <!-- Tabs -->
     <string name="tab_home_caption">Home</string>

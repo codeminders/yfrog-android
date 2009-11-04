@@ -179,9 +179,20 @@ public class SearchActivity extends Activity implements OnClickListener {
 		intent.putExtra(SearchResultsActivity.KEY_QUERY, query);
 		intent.putExtra(SearchResultsActivity.KEY_SEARCHES, (Serializable) searches);
 		
-		startActivity(intent);
+		startActivityForResult(intent, 0);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Serializable serializable = data.getSerializableExtra(SearchResultsActivity.KEY_SEARCHES);
+			
+			if (serializable != null) {
+				searches = (ArrayList<TwitterSavedSearch>) serializable;
+			}
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		final String query = input.getText().toString().trim();

@@ -235,15 +235,21 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		case R.id.sr_save_button:
 			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
+					TwitterSavedSearch savedSearch;
 					if (isSaved) {
-						TwitterSavedSearch savedSearch = findSearchByQuery();
+						savedSearch = findSearchByQuery();
 						twitterService.deleteSavedSearch(savedSearch.getId());
+						searches.remove(savedSearch);
 					} else {
-						twitterService.addSavedSearch(query);
+						savedSearch = twitterService.addSavedSearch(query);
+						searches.add(savedSearch);
 					}					
 				}
 				
 				protected void doAfterUpdate() {
+					Intent intent = new Intent();
+					intent.putExtra(KEY_SEARCHES, searches);
+					setResult(RESULT_OK, intent);
 					finish();
 				}
 			}.update();

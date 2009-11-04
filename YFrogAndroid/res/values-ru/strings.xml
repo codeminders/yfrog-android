@@ -22,7 +22,7 @@
     <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
     <string name="account_verification_error">Wrong authorization data or connection problem</string>
     
-    <string name="account_db_insert_error">Error during add new account. Please try again</string>
+    <string name="account_db_insert_error">Error during add new account to database. Please re-install application and try again</string>
     
     <string name="yfrog_upload_error_title">YFrog upload error</string>
     <string name="twitter_error_title">Twitter error</string>

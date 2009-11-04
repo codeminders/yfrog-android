@@ -6,12 +6,12 @@ package com.codeminders.yfrog.android.view.main;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.*;
 import com.codeminders.yfrog.android.view.main.home.HomeActivity;
 import com.codeminders.yfrog.android.view.main.mentions.MentionsActivity;
 import com.codeminders.yfrog.android.view.main.messages.MessagesActivity;
@@ -88,5 +88,26 @@ public class MainTabActivity extends TabActivity {
 		}		
 
 		created = true;
-	}	
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			AlertUtils.createLogoutAlert(this);
+			return false;
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			AlertUtils.createLogoutAlert(this);
+			return false;
+		}
+		return super.onKeyUp(keyCode, event);
+	}
+
 }

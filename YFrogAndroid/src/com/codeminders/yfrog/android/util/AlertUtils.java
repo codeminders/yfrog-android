@@ -41,7 +41,25 @@ public final class AlertUtils {
 
 	private AlertUtils() {
 	}
-	
+
+	public static AlertDialog createLogoutAlert(Context context) {
+		return new AlertDialog.Builder(context)
+		.setTitle(R.string.lo_dialog_title)
+		.setMessage(R.string.lo_dialog_msg)
+		.setNegativeButton(R.string.lo_dialog_btn_yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		})
+		.setNegativeButton(R.string.lo_dialog_btn_no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		})
+		.create();
+	}
+
 	public static AlertDialog createErrorAlert(Context context, int errorCode) {
 		String message = getErrorMessage(context, errorCode);
 		String title = getErrorTitle(context, errorCode);

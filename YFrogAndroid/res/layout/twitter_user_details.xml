@@ -27,21 +27,21 @@
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
 		android:layout_width="fill_parent" 
-		android:id="@+id/tud_following" android:layout_marginLeft="10px" android:layout_marginTop="3px">
+		android:id="@+id/tud_following" android:layout_marginLeft="10px" android:layout_marginTop="1px">
 	</TextView>
 
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
 		android:layout_width="fill_parent" 
-		android:id="@+id/tud_location" android:layout_marginLeft="10px" android:layout_marginTop="3px">
+		android:id="@+id/tud_location" android:layout_marginLeft="10px" android:layout_marginTop="1px">
 	</TextView>
 
 	<TextView 
 		android:layout_height="wrap_content" 
 		android:text="@+id/TextView01" 
 		android:layout_width="fill_parent" 
-		android:id="@+id/tud_descrition" android:layout_marginLeft="10px" android:layout_marginTop="3px">
+		android:id="@+id/tud_descrition" android:layout_marginLeft="10px" android:layout_marginTop="1px">
 	</TextView>
 
 	<Button 

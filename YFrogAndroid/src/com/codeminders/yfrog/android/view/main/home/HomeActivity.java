@@ -5,12 +5,14 @@ package com.codeminders.yfrog.android.view.main.home;
 
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 
 import com.codeminders.yfrog.android.*;
 import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
 import com.codeminders.yfrog.android.view.message.*;
 
@@ -58,4 +60,21 @@ public class HomeActivity extends AbstractTwitterStatusesListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			showDialog(AlertUtils.LOGOUT);
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if (id == AlertUtils.LOGOUT) {
+			return AlertUtils.createLogoutAlert(this);
+		}
+		return super.onCreateDialog(id);
+	}
 }

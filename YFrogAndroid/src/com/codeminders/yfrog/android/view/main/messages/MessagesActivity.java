@@ -215,11 +215,24 @@ public class MessagesActivity extends ListActivity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
+		if (id == AlertUtils.LOGOUT) {
+			return AlertUtils.createLogoutAlert(this);
+		}
 		return AlertUtils.createErrorAlert(this, id);
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {
 		saveState(outState);
 		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			showDialog(AlertUtils.LOGOUT);
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
 	}
 }

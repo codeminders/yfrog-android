@@ -3,6 +3,8 @@
  */
 package com.codeminders.yfrog.android.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.*;
@@ -43,6 +45,13 @@ public final class StringUtils {
 	
 	private static final SimpleDateFormat FILENAME_FORMAT_TIMESTAMP = new SimpleDateFormat("yyyyMMddHHmmssSS");
 	private static final String FILENAME_PREFIX = "yfrog";
+	
+	private static final String MAP_URL = "http://maps.google.com/maps?q=";
+	private static final String COORDINATES_SEPARATOR = "%2C";
+
+	private static final String GEO_TAG_1 = "geotagged";
+	private static final String GEO_TAG_2 = "geo:lat=";
+	private static final String GEO_TAG_3 = "geo:lon=";
 	
 	private static Pattern emailPattern = null;
 	private static Pattern urlPattern = null;
@@ -157,4 +166,23 @@ public final class StringUtils {
 		return formatTitle(loggedUsername, null);
 	}
 
+	public static final String creatMapUrl(double latitude, double longtitude) {
+		StringBuilder mapUrl = new StringBuilder(MAP_URL);
+		mapUrl.append(latitude);
+		mapUrl.append(COORDINATES_SEPARATOR);
+		mapUrl.append(longtitude);
+		return mapUrl.toString();
+	}
+	
+	public static final String creatGeoTags(double latitude, double longtitude) {
+		StringBuilder mapUrl = new StringBuilder(GEO_TAG_1);
+		mapUrl.append(COORDINATES_SEPARATOR);
+		mapUrl.append(GEO_TAG_2);
+		mapUrl.append(latitude);
+		mapUrl.append(COORDINATES_SEPARATOR);
+		mapUrl.append(GEO_TAG_3);
+		mapUrl.append(longtitude);
+		return mapUrl.toString();
+	}
+	
 }

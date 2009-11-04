@@ -6,6 +6,7 @@ package com.codeminders.yfrog.android.view.message;
 import android.app.*;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -45,6 +46,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	protected AccountService accountService;
 	protected UnsentMessageService unsentMessageService;
 	protected YFrogService yfrogService;
+	protected GeoLocationService geoLocationService;
 	
 	private TextSwitcher switcher;
 	private int count;
@@ -56,6 +58,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		accountService = ServiceFactory.getAccountService();
 		unsentMessageService = ServiceFactory.getUnsentMessageService();
 		yfrogService = ServiceFactory.getYFrogService();
+		geoLocationService = ServiceFactory.getGeoLocationService();
 		
 		setContentView(R.layout.twitter_writable);
 
@@ -73,25 +76,27 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		button.setOnClickListener(this);
 		button = (Button) findViewById(R.id.wr_queue);
 		button.setOnClickListener(this);
+		button = (Button) findViewById(R.id.wr_add_location);
+		button.setOnClickListener(this);
 		
 		updateCounter();
 	}
 
 	@Override
 	public void onClick(View v) {
+		final String text = getText();
+		
 		switch (v.getId()) {
 		case R.id.wr_send:
 			if (isOverrideMaxCount()) {
 				return;
 			}
 			
-			final String txt = getText();
-			
-			if (!StringUtils.isEmpty(txt)) {
+			if (!StringUtils.isEmpty(text)) {
 				
 				new AsyncYFrogUpdater(this) {
 					protected void doUpdate() throws YFrogTwitterException {
-						send(txt);						
+						send(text);						
 					}
 					
 					protected void doAfterUpdate() {
@@ -107,14 +112,21 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 				return;
 			}
 
-			String text = getText();
-			
 			if (!StringUtils.isEmpty(text)) {
 				saveToQueue(text);
 				callback();
 				finish();
 			}
 			
+			break;
+		case R.id.wr_add_location:
+			Location location = geoLocationService.getLocation();
+			if (location != null) {
+				String mapUrl = StringUtils.creatMapUrl(location.getLatitude(), location.getLongitude());
+				setText(text + " " + mapUrl);
+			} else {
+				setText(text + " no GPS present");
+			}
 			break;
 		}
 	}
@@ -220,7 +232,12 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		EditText textInput = (EditText) findViewById(R.id.wr_text);
 		return textInput.getText().toString();
 	}
-	
+
+	private void setText(CharSequence text) {
+		EditText textInput = (EditText) findViewById(R.id.wr_text);
+		textInput.setText(text);
+	}
+
 	@Override
 	public View makeView() {
         TextView t = new TextView(this);

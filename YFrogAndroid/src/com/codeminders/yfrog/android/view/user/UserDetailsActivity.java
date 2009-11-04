@@ -123,7 +123,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		Button button = (Button) findViewById(R.id.tud_recent_tweets);
 		button.setOnClickListener(this);
 		
-		if (user.isProtected()) {
+		if (isUserProtected()) {
 //			button.setVisibility(View.GONE);
 			showDialog(ALERT_PROTECTED);
 		}
@@ -210,6 +210,13 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		startActivity(intent);		
 	}
 
+	private boolean isUserProtected() {
+		if (twitterService.getLoggedUser().equals(user)) {
+			return false;
+		}
+		return user.isProtected();
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
 	 */
@@ -253,7 +260,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem item = menu.findItem(R.id.tudm_recent_tweets);
-		item.setEnabled(!user.isProtected());
+		item.setEnabled(!isUserProtected());
 		item = menu.findItem(R.id.tudm_send_dir_msg);
 		item.setEnabled(user.isFollower());
 		

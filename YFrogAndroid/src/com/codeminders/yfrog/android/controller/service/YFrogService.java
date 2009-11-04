@@ -5,6 +5,8 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.io.IOException;
 
+import android.location.Location;
+
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.*;
 import com.codeminders.yfrog.android.util.StringUtils;
@@ -20,9 +22,11 @@ import com.codeminders.yfrog.client.response.*;
  */
 public class YFrogService {
 	private AccountService accountService;
+	private GeoLocationService geoLocationService;
 	
 	YFrogService() {
 		accountService = ServiceFactory.getAccountService();
+		geoLocationService = ServiceFactory.getGeoLocationService();
 	}
 	
 	public long send(String text, MessageAttachment attachment) throws YFrogTwitterException {
@@ -81,6 +85,14 @@ public class YFrogService {
 			String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(), 
 					TwitterService.CONSUMER_KEY, TwitterService.CONSUMER_SECRET);
 			request.setVerifyUrl(signedUrl);
+		}
+		
+		if (logged.isPostLocation()) {
+			Location location = geoLocationService.getLocation();
+			
+			if (location != null) {
+				request.setTags(StringUtils.creatGeoTags(location.getLatitude(), location.getLongitude()));
+			}
 		}
 	}
 	

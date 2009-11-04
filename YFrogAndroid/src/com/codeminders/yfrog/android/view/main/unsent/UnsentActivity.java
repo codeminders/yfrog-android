@@ -148,7 +148,20 @@ public class UnsentActivity extends ListActivity {
 	}
 
 	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			showDialog(AlertUtils.LOGOUT);
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+	
+	@Override
 	protected Dialog onCreateDialog(int id) {
-		return AlertUtils.createErrorAlert(this, id);
+		if (id == AlertUtils.LOGOUT) {
+			return AlertUtils.createLogoutAlert(this);
+		}
+		return super.onCreateDialog(id);
 	}
 }

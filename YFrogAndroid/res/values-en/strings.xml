@@ -102,7 +102,7 @@
     
     <!-- Logout -->
     <string name="lo_dialog_title">Logout</string>
-    <string name="lo_dialog_msg">Do you really want to logout</string>
+    <string name="lo_dialog_msg">Do you really want to logout?</string>
     <string name="lo_dialog_btn_yes">Yes</string>
     <string name="lo_dialog_btn_no">No</string>
     
@@ -177,6 +177,7 @@
     <string name="wr_edit_reply_title">Edit reply</string>
     <string name="wr_edit_pub_reply_title">Edit public reply</string>
     <string name="wr_edit_dir_msg_title">Edit direct message to </string>
+    <string name="wr_btn_add_location">Add location</string>
         
     <!-- Twitter search -->
     <string name="s_title">Saved searches</string>

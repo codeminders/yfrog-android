@@ -3,7 +3,7 @@
  */
 package com.codeminders.yfrog.android.util;
 
-import android.app.AlertDialog;
+import android.app.*;
 import android.content.*;
 
 import com.codeminders.yfrog.android.R;
@@ -13,6 +13,9 @@ import com.codeminders.yfrog.android.R;
  *
  */
 public final class AlertUtils {
+	// Logout Alert
+	public static final int LOGOUT = -100;
+	
 	// Database error codes
 	public static final int DB_ACCOUNT_INSERT_ERROR = -4;
 	
@@ -42,13 +45,14 @@ public final class AlertUtils {
 	private AlertUtils() {
 	}
 
-	public static AlertDialog createLogoutAlert(Context context) {
-		return new AlertDialog.Builder(context)
+	public static AlertDialog createLogoutAlert(final Activity activity) {
+		return new AlertDialog.Builder(activity)
 		.setTitle(R.string.lo_dialog_title)
 		.setMessage(R.string.lo_dialog_msg)
-		.setNegativeButton(R.string.lo_dialog_btn_yes, new DialogInterface.OnClickListener() {
+		.setPositiveButton(R.string.lo_dialog_btn_yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				activity.finish();
 			}
 		})
 		.setNegativeButton(R.string.lo_dialog_btn_no, new DialogInterface.OnClickListener() {

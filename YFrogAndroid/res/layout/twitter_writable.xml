@@ -40,4 +40,5 @@
 	</Button>
 
 
+<Button android:layout_below="@+id/wr_text" android:layout_width="wrap_content" android:layout_toLeftOf="@+id/wr_queue" android:layout_height="wrap_content" android:id="@+id/wr_add_location" android:text="@string/wr_btn_add_location"></Button>
 </RelativeLayout>

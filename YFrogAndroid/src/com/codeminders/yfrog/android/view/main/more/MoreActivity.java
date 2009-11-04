@@ -3,13 +3,14 @@
  */
 package com.codeminders.yfrog.android.view.main.more;
 
-import android.app.ListActivity;
+import android.app.*;
 import android.content.*;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.util.AlertUtils;
 
 /**
  * @author idemydenko
@@ -37,7 +38,7 @@ public class MoreActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setListAdapter(new EfficientAdapter(this, getResources().getStringArray(R.array.tab_more_items),
+		setListAdapter(new IconAdapter(this, getResources().getStringArray(R.array.tab_more_items),
 				ICONS));
 		getListView().setTextFilterEnabled(true);
 		registerForContextMenu(getListView());
@@ -77,12 +78,30 @@ public class MoreActivity extends ListActivity {
 		}
 	}
 	
-    private static class EfficientAdapter extends BaseAdapter {
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			showDialog(AlertUtils.LOGOUT);
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if (id == AlertUtils.LOGOUT) {
+			return AlertUtils.createLogoutAlert(this);
+		}
+		return super.onCreateDialog(id);
+	}
+	
+    private static class IconAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
         private String[] items;
         private int[] itemIcons;
 
-        public EfficientAdapter(Context context, String[] itms, int[] itmIcons) {
+        public IconAdapter(Context context, String[] itms, int[] itmIcons) {
             mInflater = LayoutInflater.from(context);
             items = itms;
             itemIcons = itmIcons;

@@ -88,26 +88,5 @@ public class MainTabActivity extends TabActivity {
 		}		
 
 		created = true;
-	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			AlertUtils.createLogoutAlert(this);
-			return false;
-		}
-		return super.onKeyUp(keyCode, event);
-	}
-	
-	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			AlertUtils.createLogoutAlert(this);
-			return false;
-		}
-		return super.onKeyUp(keyCode, event);
-	}
-
+	}	
 }

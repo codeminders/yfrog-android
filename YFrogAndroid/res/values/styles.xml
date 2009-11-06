@@ -2,7 +2,7 @@
 <resources>
     <style name="YFrog" parent="@android:style/Theme.Light">
     	<item name="android:textColor">@color/text</item>
-    	<item name="android:windowTitleSize">36dp</item>
+    	<item name="android:windowTitleSize">28dp</item>
     	<item name="android:windowTitleStyle">@style/YFrog.TitleStyle</item>
     	<item name="android:buttonStyle">@style/YFrog.Button</item>
     	<item name="android:listViewStyle">@style/YFrog.ListView</item>
@@ -15,6 +15,7 @@
     
     <style name="YFrog.TitleStyle">
     	<item name="android:textColor">@color/title_text</item>
+    	<item name="android:textSize">14dp</item>
     </style>
        
     <style name="YFrog.Button" parent="@android:style/Widget.Button">

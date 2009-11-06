@@ -6,12 +6,13 @@ package com.codeminders.yfrog.android.view.main;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.View;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.view.main.home.HomeActivity;
 import com.codeminders.yfrog.android.view.main.mentions.MentionsActivity;
 import com.codeminders.yfrog.android.view.main.messages.MessagesActivity;

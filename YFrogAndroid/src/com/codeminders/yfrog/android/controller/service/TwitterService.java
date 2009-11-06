@@ -79,6 +79,8 @@ public interface TwitterService {
 	public abstract ArrayList<TwitterStatus> getUserTweets(String username,
 			int page, int count) throws YFrogTwitterException;
 
+	public abstract TwitterUser getUser(String username) throws YFrogTwitterException;
+
 	public abstract void sendUnsentMessage(UnsentMessage message)
 			throws YFrogTwitterException;
 

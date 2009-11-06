@@ -3,7 +3,9 @@
  */
 package com.codeminders.yfrog.android.model;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import com.codeminders.yfrog.android.util.StringUtils;
 

@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.codeminders.yfrog.android.YFrogDatabaseException;
 import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko

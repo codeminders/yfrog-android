@@ -3,18 +3,20 @@
  */
 package com.codeminders.yfrog.android.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.location.Address;
 import android.location.Location;
-import android.text.*;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.format.DateFormat;
-import android.text.style.*;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.URLSpan;
 
 import com.codeminders.yfrog.android.R;
 
@@ -52,6 +54,9 @@ public final class StringUtils {
 	private static final String GEO_TAG_1 = "geotagged";
 	private static final String GEO_TAG_2 = "geo:lat=";
 	private static final String GEO_TAG_3 = "geo:lon=";
+	
+	private static final String COMA_SEPARATOR = ",";
+	private static final String WORDS_SEPARATOR = COMA_SEPARATOR + " ";
 	
 	private static Pattern emailPattern = null;
 	private static Pattern urlPattern = null;
@@ -152,6 +157,17 @@ public final class StringUtils {
 		}
 	}
 	
+	public static String formatAddress(Address location) {
+		StringBuilder builder = new StringBuilder(location.getLocality());
+		builder.append(WORDS_SEPARATOR);
+		builder.append(location.getAdminArea());
+		builder.append(WORDS_SEPARATOR);
+		builder.append(location.getCountryName());
+		
+		return builder.toString();
+	}
+	
+	
 	public static String formatTitle(String loggedUsername, String path) {
 		StringBuilder builder = new StringBuilder(loggedUsername);
 		builder.append("> ");
@@ -176,10 +192,10 @@ public final class StringUtils {
 	
 	public static final String creatGeoTags(double latitude, double longtitude) {
 		StringBuilder mapUrl = new StringBuilder(GEO_TAG_1);
-		mapUrl.append(COORDINATES_SEPARATOR);
+		mapUrl.append(COMA_SEPARATOR);
 		mapUrl.append(GEO_TAG_2);
 		mapUrl.append(latitude);
-		mapUrl.append(COORDINATES_SEPARATOR);
+		mapUrl.append(COMA_SEPARATOR);
 		mapUrl.append(GEO_TAG_3);
 		mapUrl.append(longtitude);
 		return mapUrl.toString();

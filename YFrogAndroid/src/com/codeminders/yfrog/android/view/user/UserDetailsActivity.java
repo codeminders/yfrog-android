@@ -5,22 +5,35 @@ package com.codeminders.yfrog.android.view.user;
 
 import java.util.ArrayList;
 
-import android.app.*;
-import android.content.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.*;
-import android.text.style.*;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.*;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogException;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterUser;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
-import com.codeminders.yfrog.android.view.message.*;
+import com.codeminders.yfrog.android.view.message.WriteDirectMessageActivity;
+import com.codeminders.yfrog.android.view.message.WritePublicReplayActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 /**
  * @author idemydenko
@@ -88,6 +101,10 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 
 	private void setCurrentUser() {
 		user = users.get(position);
+	}
+	
+	private void updateUserInList() {
+		users.set(position, user);
 	}
 	
 	private void showUser() {
@@ -217,6 +234,20 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		return user.isProtected();
 	}
 	
+	private void refresh() {
+		new AsyncYFrogUpdater(this) {
+			protected void doUpdate() throws YFrogException {
+				user = twitterService.getUser(user.getUsername());				
+			}
+			
+			@Override
+			protected void doAfterUpdate() {
+				updateUserInList();
+				showUser();
+			}
+		}.update();
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
 	 */
@@ -253,6 +284,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.common_add_tweet, menu);
+		inflater.inflate(R.menu.common_refresh_list, menu);
 		inflater.inflate(R.menu.user_details, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -272,6 +304,9 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		case R.id.add_tweet:
 			Intent intent = new Intent(this, WriteStatusActivity.class);
 			startActivity(intent);
+			return true;
+		case R.id.reload_list:
+			refresh();
 			return true;
 		case R.id.tudm_followers:
 			followers();

@@ -5,7 +5,8 @@ package com.codeminders.yfrog.android.view.main.unsent;
 
 import java.util.ArrayList;
 
-import android.app.*;
+import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -13,13 +14,19 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.service.AccountService;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.controller.service.UnsentMessageService;
+import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.adapter.UnsentMessageAdapter;
-import com.codeminders.yfrog.android.view.message.*;
+import com.codeminders.yfrog.android.view.message.EditUnsentMessageActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 /**
  * @author idemydenko

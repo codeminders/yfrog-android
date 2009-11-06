@@ -7,7 +7,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.util.StringUtils;
 
 /**

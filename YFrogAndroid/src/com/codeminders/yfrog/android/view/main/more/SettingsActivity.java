@@ -5,11 +5,14 @@ package com.codeminders.yfrog.android.view.main.more;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.service.AccountService;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.util.StringUtils;
 

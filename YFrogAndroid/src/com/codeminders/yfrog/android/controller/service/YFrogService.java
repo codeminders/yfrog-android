@@ -8,13 +8,15 @@ import java.io.IOException;
 import android.location.Location;
 
 import com.codeminders.yfrog.android.YFrogTwitterException;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.model.MessageAttachment;
 import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.client.YFrogClient;
 import com.codeminders.yfrog.client.impl.YFrogClientImpl;
 import com.codeminders.yfrog.client.oauth.OAuthHelper;
 import com.codeminders.yfrog.client.request.UploadRequest;
-import com.codeminders.yfrog.client.response.*;
+import com.codeminders.yfrog.client.response.UploadResponse;
+import com.codeminders.yfrog.client.response.UploadResponseFormatException;
 
 /**
  * @author idemydenko
@@ -44,9 +46,9 @@ public class YFrogService {
 		try {
 			response = client.uploadAndPost(request);
 		} catch (IOException e) {
-			// TODO
+			e.printStackTrace();
 		} catch (UploadResponseFormatException e) {
-			
+			e.printStackTrace();
 		}
 		
 		checkResponse(response);
@@ -65,9 +67,9 @@ public class YFrogService {
 		try {
 			response = client.upload(request);
 		} catch (IOException e) {
-			// TODO
+			e.printStackTrace();
 		} catch (UploadResponseFormatException e) {
-			
+			e.printStackTrace();
 		}
 		
 		checkResponse(response);

@@ -3,8 +3,10 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.model.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**
  * @author idemydenko

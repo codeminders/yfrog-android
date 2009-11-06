@@ -3,8 +3,10 @@
  */
 package com.codeminders.yfrog.android.util;
 
-import android.app.*;
-import android.content.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 
 import com.codeminders.yfrog.android.R;
 
@@ -15,6 +17,9 @@ import com.codeminders.yfrog.android.R;
 public final class AlertUtils {
 	// Logout Alert
 	public static final int LOGOUT = -100;
+	
+	// GPS Error code
+	public static final int GPS_RETRIEVE_LOCATION_ERROR = -5;
 	
 	// Database error codes
 	public static final int DB_ACCOUNT_INSERT_ERROR = -4;
@@ -82,7 +87,15 @@ public final class AlertUtils {
 	
 	private static String getErrorMessage(Context context, int errorCode) {
 		String msg = "";
+		
+		if (errorCode >= YFROG_ERROR_1001) {
+			msg += "Error code " + errorCode + ". ";
+		}
+		
 		switch (errorCode) {
+		case GPS_RETRIEVE_LOCATION_ERROR:
+			msg = context.getResources().getString(R.string.gps_retrieve_location_error);
+			break;
 		case DB_ACCOUNT_INSERT_ERROR:
 			msg = context.getResources().getString(R.string.account_db_insert_error);
 			break;
@@ -153,6 +166,8 @@ public final class AlertUtils {
 			return context.getResources().getString(R.string.account_verification_error_title);
 		} else if (errorCode == DB_ACCOUNT_INSERT_ERROR) {
 			return context.getResources().getString(R.string.database_error_title);
+		} else if (errorCode == GPS_RETRIEVE_LOCATION_ERROR) {
+			return context.getResources().getString(R.string.gps_error_title);
 		} else {
 			return context.getResources().getString(R.string.twitter_error_title);
 		}

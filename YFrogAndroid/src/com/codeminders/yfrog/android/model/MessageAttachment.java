@@ -5,14 +5,16 @@ package com.codeminders.yfrog.android.model;
 
 import java.io.*;
 
-import android.content.*;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
-import android.provider.MediaStore;
 
+import com.codeminders.yfrog.android.util.FileUtils;
 import com.codeminders.yfrog.android.util.StringUtils;
-import com.codeminders.yfrog.client.request.*;
+import com.codeminders.yfrog.client.request.FileUploadRequest;
+import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
+import com.codeminders.yfrog.client.request.UploadRequest;
 
 /**
  * @author idemydenko
@@ -39,19 +41,37 @@ public class MessageAttachment {
 	}
 
 	private InputStream getInputStream() throws IOException {
-		if (uri != null) {
-			return context.getContentResolver().openInputStream(uri);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		bitmap.compress(CompressFormat.JPEG, 100, out);
+		return new ByteArrayInputStream(out.toByteArray());
+	}
+
+	private File getFile() {
+		return new File(uri.getPath());
+	}
+
+	public UploadRequest toUploadRequest() {
+		UploadRequest request = null;
+		if (uri == null) {
+			request = createBitmapISUploadRequest();
+		} else if (FileUtils.isFileUri(uri)){
+			request = createFileUploadRequest();
 		} else {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			bitmap.compress(CompressFormat.JPEG, 100, out);
-			return new ByteArrayInputStream(out.toByteArray());
+			request = createISUploadRequest();
 		}
+		request.setPublic(true);
+		return request;
 	}
 	
-	public UploadRequest toUploadRequest() {
+	private UploadRequest createFileUploadRequest() {
+		FileUploadRequest request = new FileUploadRequest();
+		request.setFile(getFile());
+		return request;
+	}
+	
+	private UploadRequest createBitmapISUploadRequest() {
 		InputStreamUploadRequest request = new InputStreamUploadRequest();
 		request.setFilename(StringUtils.createFilename());
-		request.setPublic(true);
 		try {
 			request.setInputStream(getInputStream());
 		} catch (Exception e) {
@@ -59,39 +79,15 @@ public class MessageAttachment {
 		}
 		return request;
 	}
-	
-	public String toUrl() {
-		if (uri != null) {
-			return uri.toString();
-		} else {
-			return saveBitmapAndGetUrl();
+
+	private UploadRequest createISUploadRequest() {
+		InputStreamUploadRequest request = new InputStreamUploadRequest();
+		request.setFilename(StringUtils.createFilename());
+		try {
+			request.setInputStream(context.getContentResolver().openInputStream(uri));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return request;
 	}
-	
-	private String saveBitmapAndGetUrl() {	
-		ContentValues values = new ContentValues();
-		values.put(MediaStore.Images.ImageColumns.DISPLAY_NAME, StringUtils.createFilename());
-		values.put(MediaStore.Images.ImageColumns.MIME_TYPE, "image/jpeg");
-		Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-
-		OutputStream out = null;
-		try{
-			out = context.getContentResolver().openOutputStream(uri);
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-		} catch(IOException e){
-			return StringUtils.EMPTY_STRING;
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-					
-				}
-			}
-		}
-		
-		return uri.toString();
-	}
-
 }

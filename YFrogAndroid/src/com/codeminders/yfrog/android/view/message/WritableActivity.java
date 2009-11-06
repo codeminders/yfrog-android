@@ -3,34 +3,41 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.*;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.ViewSwitcher.ViewFactory;
 
-import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.model.MessageAttachment;
+import com.codeminders.yfrog.android.model.UnsentMessage;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.FileUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
+import com.codeminders.yfrog.android.view.media.pick.VideoPickActivity;
 
 /**
  * @author idemydenko
  *
  */
 public abstract class WritableActivity extends Activity implements OnClickListener, TextWatcher, ViewFactory {
-	private static final int REQUEST_PHOTO = 0;
-	private static final int REQUEST_VIDEO = 1;
-	private static final int REQUEST_STORED_PHOTO = 3;
-	private static final int REQUEST_STORED_VIDEO = 4;
+	private static final int REQUEST_PHOTO = 2;
+	private static final int REQUEST_VIDEO = 3;
+	private static final int REQUEST_STORED_PHOTO = 4;
+	private static final int REQUEST_STORED_VIDEO = 5;
 
 	
 	public static final int RESULT_SEND = 100;
@@ -76,6 +83,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		button.setOnClickListener(this);
 		button = (Button) findViewById(R.id.wr_queue);
 		button.setOnClickListener(this);
+		
 		button = (Button) findViewById(R.id.wr_add_location);
 		button.setOnClickListener(this);
 		
@@ -120,12 +128,13 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 			
 			break;
 		case R.id.wr_add_location:
-			Location location = geoLocationService.getLocation();
-			if (location != null) {
+			
+			if (geoLocationService.isAvailable()) {
+				Location location = geoLocationService.getLocation();
 				String mapUrl = StringUtils.creatMapUrl(location.getLatitude(), location.getLongitude());
-				setText(text + " " + mapUrl);
+				addToText(mapUrl);
 			} else {
-				setText(text + " no GPS present");
+				showDialog(AlertUtils.GPS_RETRIEVE_LOCATION_ERROR);
 			}
 			break;
 		}
@@ -148,10 +157,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 
 				break;
 			case REQUEST_STORED_VIDEO:
-				intent.setAction(Intent.ACTION_PICK);
-				intent.setType(MediaStore.Video.Media.CONTENT_TYPE);
-				intent.setData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-
+				intent.setClass(this, VideoPickActivity.class);
 				break;
 		}
 		startActivityForResult(intent, request);
@@ -197,7 +203,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		} else {
 			Uri uri = data.getData();
 			if (uri != null) {
-				attachment = new MessageAttachment(this, uri);
+				attachment = new MessageAttachment(this, FileUtils.getMediaFileUri(this, uri));
 			}
 		}
 		return attachment;
@@ -231,11 +237,6 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	private String getText() {
 		EditText textInput = (EditText) findViewById(R.id.wr_text);
 		return textInput.getText().toString();
-	}
-
-	private void setText(CharSequence text) {
-		EditText textInput = (EditText) findViewById(R.id.wr_text);
-		textInput.setText(text);
 	}
 
 	@Override

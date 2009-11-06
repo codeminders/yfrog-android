@@ -6,7 +6,8 @@ package com.codeminders.yfrog.android.view.main.more;
 
 import java.util.ArrayList;
 
-import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
 

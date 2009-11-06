@@ -3,11 +3,19 @@
  */
 package com.codeminders.yfrog.android.view.main.more;
 
-import android.app.*;
-import android.content.*;
+import android.app.Dialog;
+import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.util.AlertUtils;

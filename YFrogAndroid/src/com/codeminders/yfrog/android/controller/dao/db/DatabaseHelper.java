@@ -4,7 +4,8 @@
 package com.codeminders.yfrog.android.controller.dao.db;
 
 import android.content.Context;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.codeminders.yfrog.android.controller.dao.AbstractDAO;
 

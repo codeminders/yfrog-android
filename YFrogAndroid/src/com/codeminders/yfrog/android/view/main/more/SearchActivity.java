@@ -4,12 +4,16 @@
 package com.codeminders.yfrog.android.view.main.more;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.app.*;
-import android.content.*;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.*;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
@@ -17,10 +21,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.controller.service.TwitterService;
 import com.codeminders.yfrog.android.model.TwitterSavedSearch;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 

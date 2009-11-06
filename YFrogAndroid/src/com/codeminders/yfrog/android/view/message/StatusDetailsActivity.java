@@ -258,17 +258,11 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	
 	private void userInfo() {
 		new AsyncYFrogUpdater(this) {
-			boolean following = false;
-			boolean follower = false;
 			TwitterUser u;
 			
 			@Override
 			protected void doUpdate() throws YFrogTwitterException {
-				u = status.getUser();
-				following = twitterService.isFollowing(u.getId());
-				follower = twitterService.isFollower(u.getId());
-				u.setFollower(follower);
-				u.setFollowing(following);
+				u = twitterService.getUser(status.getUser().getUsername());
 			}
 			
 			@Override

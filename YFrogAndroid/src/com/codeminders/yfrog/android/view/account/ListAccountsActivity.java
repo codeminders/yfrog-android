@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.IPackageInstallObserver;
 import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -36,10 +37,10 @@ import com.codeminders.yfrog.android.view.main.MainTabActivity;
 public class ListAccountsActivity extends ListActivity {
 	private static final int MENU_DELETE = 0;
 	private static final int MENU_EDIT = 1;
+	private static final int MENU_LOGIN = 2;
 
 	private static final int ALERT_DELETE = 0;
 	private static final int ALERT_AUTH_FAILED = 2;
-//	private static final int ALERT_CONN_PROGRESS = 3;
 
 	private static final String PREFS_NAME = "yfrog_prefs";
 
@@ -85,8 +86,15 @@ public class ListAccountsActivity extends ListActivity {
 		setContentView(R.layout.list_accounts);
 		
 		setListAdapter(new ArrayAdapter<String>(this,
-					android.R.layout.simple_list_item_1, getAccountsNames(accounts)));
-		getListView().setTextFilterEnabled(true);
+					android.R.layout.simple_list_item_single_choice, getAccountsNames(accounts)));
+
+		getListView().setItemsCanFocus(false);
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		
+		if (accounts.size() > 0) {
+			getListView().setItemChecked(0, true);
+		}
+		
 		registerForContextMenu(getListView());
 		setTitle(R.string.account_list_activity_title);
 	}
@@ -132,29 +140,49 @@ public class ListAccountsActivity extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		int position = getListView().getCheckedItemPosition();
+		
+//		switch (item.getItemId()) {
+//		case R.id.add_account:
+//			addAccount();
+//			return true;
+//		case R.id.login_account:
+//			login(getSelectedItemPosition());
+//			return true;
+//		case R.id.edit_account:
+//			editAccount(getSelectedAccount(getSelectedItemPosition()));
+//			return true;
+//		case R.id.delete_account:
+//			deleteAccount(getSelectedAccount(getSelectedItemPosition()));
+//			return true;
+//		}
+//		return false;
+		
 		switch (item.getItemId()) {
 		case R.id.add_account:
 			addAccount();
 			return true;
 		case R.id.login_account:
-			login(getSelectedItemPosition());
+			login(position);
 			return true;
 		case R.id.edit_account:
-			editAccount(getSelectedAccount(getSelectedItemPosition()));
+			editAccount(getSelectedAccount(position));
 			return true;
 		case R.id.delete_account:
-			deleteAccount(getSelectedAccount(getSelectedItemPosition()));
+			deleteAccount(getSelectedAccount(position));
 			return true;
 		}
 		return false;
+
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		menu.add(0, MENU_DELETE, 0, R.string.delete);
+		menu.add(0, MENU_LOGIN, 0, R.string.login);
 		menu.add(0, MENU_EDIT, 0, R.string.edit);
+		menu.add(0, MENU_DELETE, 0, R.string.delete);
+		
 	}
 
 	@Override
@@ -171,6 +199,9 @@ public class ListAccountsActivity extends ListActivity {
 		case MENU_EDIT:
 			editAccount(account);
 			return true;
+		case MENU_LOGIN:
+			login(account);
+			return true;			
 		}
 		return false;
 	}
@@ -229,7 +260,7 @@ public class ListAccountsActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		login(position);
+		setSelection(position);
 	}
 
 	private Account getSelectedAccount(int position) {

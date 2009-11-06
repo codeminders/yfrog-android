@@ -3,9 +3,13 @@
  */
 package com.codeminders.yfrog.android.view.account;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.AlertDialog.Builder;
-import android.content.*;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -14,10 +18,15 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.service.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogException;
+import com.codeminders.yfrog.android.YFrogTwitterAuthException;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.service.AccountService;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.model.Account;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 
 /**

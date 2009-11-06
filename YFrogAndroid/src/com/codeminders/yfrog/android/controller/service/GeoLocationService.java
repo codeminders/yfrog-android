@@ -24,13 +24,17 @@ public class GeoLocationService implements LocationListener {
 	GeoLocationService(Context ctx) {
 		context = ctx;
 		locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000L, 1000f, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1L, 1f, this);
 	}
 	
 	public Location getLocation() {
 		return loc;
 	}
 
+	public boolean isAvailable() {
+		return loc != null;
+	}
+	
 	public String getLocationAddress() {
 		if (loc == null) {
 			return StringUtils.EMPTY_STRING;
@@ -47,7 +51,7 @@ public class GeoLocationService implements LocationListener {
 		if (addresses == null || addresses.size() == 0) {
 			return StringUtils.formatLocation(loc);
 		}
-		return addresses.get(0).toString();
+		return StringUtils.formatAddress(addresses.get(0));
 	}
 
 	@Override

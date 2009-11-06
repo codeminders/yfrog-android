@@ -5,13 +5,17 @@ package com.codeminders.yfrog.android.util.image.cache;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.widget.ImageView;
 
-import com.codeminders.yfrog.android.util.async.*;
+import com.codeminders.yfrog.android.util.async.ViewAsyncUpdatable;
+import com.codeminders.yfrog.android.util.async.ViewAsyncUpdateTask;
 import com.codeminders.yfrog.android.util.async.ViewAsyncUpdateTask.UpdateListener;
 
 /**

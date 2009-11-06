@@ -8,13 +8,18 @@ import java.util.ArrayList;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.codeminders.yfrog.android.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.TwitterStatus;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.view.main.AbstractTwitterStatusesListActivity;
-import com.codeminders.yfrog.android.view.message.*;
+import com.codeminders.yfrog.android.view.message.WritableActivity;
+import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 
 /**
  * @author idemydenko

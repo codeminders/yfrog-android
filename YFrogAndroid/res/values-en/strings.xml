@@ -21,6 +21,7 @@
     <string name="twitter_error">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
     <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
     <string name="account_verification_error">Wrong authorization data or connection problem</string>
+    <string name="gps_retrieve_location_error"> Can't retrieve a current location</string>
     
     <string name="account_db_insert_error">Error during add new account to database. Please re-install application and try again</string>
     
@@ -28,6 +29,7 @@
     <string name="twitter_error_title">Twitter error</string>
 	<string name="io_error_title">Connection error</string>
 	<string name="account_verification_error_title">Verification error</string>
+	<string name="gps_error_title">GPS Error</string>
 	<string name="database_error_title">Database error</string>
     
     <string name="error_alert_btn">OK</string>
@@ -145,7 +147,7 @@
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
     <string name="tud_send">Send</string>
-    <string name="tud_protected_msg">You cann't see tweets of current user, because this user protect his tweets</string>
+    <string name="tud_protected_msg">You can't see tweets of current user, because this user protect his tweets</string>
     <string name="tud_location">Location:</string>
     <string name="tud_description">Description:</string>
     <string name="tud_followers">Followers:</string>
@@ -220,7 +222,7 @@
     <string name="frs_title">Followers</string>
     
     <!-- Following -->
-    <string name="fng_title">Followings</string>
+    <string name="fng_title">Following</string>
     
     <!-- User Followers -->
     <string name="ufrs_title">Followers for </string>
@@ -230,4 +232,10 @@
     
     <!-- My tweets -->
     <string name="utw_title">Tweets for </string>
+    
+    <!-- Pick video -->
+    <string name="vp_title">Select video</string>
+    <string name="vp_msg_videos_empty">No videos</string>
+    <string name="vp_view">View</string>
+
 </resources>

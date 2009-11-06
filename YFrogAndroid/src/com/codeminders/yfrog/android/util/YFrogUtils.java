@@ -5,11 +5,15 @@ package com.codeminders.yfrog.android.util;
 
 import java.net.URL;
 
-import android.content.*;
-import android.graphics.*;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.text.*;
-import android.text.style.*;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 
 import com.codeminders.yfrog.android.view.media.ImageViewActivity;

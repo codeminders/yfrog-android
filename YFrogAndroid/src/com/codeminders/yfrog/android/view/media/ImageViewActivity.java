@@ -3,20 +3,28 @@
  */
 package com.codeminders.yfrog.android.view.media;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentValues;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.codeminders.yfrog.android.R;
-import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.controller.service.AccountService;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 import com.codeminders.yfrog.android.util.async.AsyncIOUpdater;
 
 /**

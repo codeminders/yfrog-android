@@ -3,10 +3,12 @@
  */
 package com.codeminders.yfrog.android.util.async;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Handler;
 
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.ProgressDialogUtils;
 
 /**
  * @author idemydenko

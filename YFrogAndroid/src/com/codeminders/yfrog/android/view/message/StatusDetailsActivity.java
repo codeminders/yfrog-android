@@ -6,19 +6,28 @@ package com.codeminders.yfrog.android.view.message;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.service.*;
-import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.*;
-import com.codeminders.yfrog.android.util.async.*;
+import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog.android.controller.service.TwitterService;
+import com.codeminders.yfrog.android.model.TwitterStatus;
+import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
+import com.codeminders.yfrog.android.util.YFrogUtils;
+import com.codeminders.yfrog.android.util.async.AsyncIOUpdater;
+import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.util.image.cache.ImageCache;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 

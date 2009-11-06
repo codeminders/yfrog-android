@@ -5,7 +5,8 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
 
-import com.codeminders.yfrog.android.controller.dao.*;
+import com.codeminders.yfrog.android.controller.dao.DAOFactory;
+import com.codeminders.yfrog.android.controller.dao.UnsentMessageDAO;
 import com.codeminders.yfrog.android.model.UnsentMessage;
 
 /**

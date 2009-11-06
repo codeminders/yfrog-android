@@ -7,10 +7,15 @@ import java.util.ArrayList;
 
 import android.net.Uri;
 
-import com.codeminders.yfrog.android.*;
-import com.codeminders.yfrog.android.controller.dao.*;
-import com.codeminders.yfrog.android.model.*;
-import com.codeminders.yfrog.android.util.*;
+import com.codeminders.yfrog.android.YFrogException;
+import com.codeminders.yfrog.android.YFrogTwitterAuthException;
+import com.codeminders.yfrog.android.YFrogTwitterException;
+import com.codeminders.yfrog.android.controller.dao.AccountDAO;
+import com.codeminders.yfrog.android.controller.dao.DAOFactory;
+import com.codeminders.yfrog.android.model.Account;
+import com.codeminders.yfrog.android.model.TwitterUser;
+import com.codeminders.yfrog.android.util.AlertUtils;
+import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
  * @author idemydenko

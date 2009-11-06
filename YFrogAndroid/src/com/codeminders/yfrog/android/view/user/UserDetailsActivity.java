@@ -73,7 +73,6 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 		count = users.size();
 		setCurrentUser();
-		setTitle(createTitle());
 		showUser();
 	}
 
@@ -108,6 +107,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	private void showUser() {
+		setTitle(createTitle());
 		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
 		ImageCache.getInstance().putImage(user.getProfileImageURL(), imageView);
 		

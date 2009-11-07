@@ -7,8 +7,9 @@ package com.codeminders.yfrog.client.request;
  * @author idemydenko
  *
  */
-// TODO Add auth parameter
 public abstract class UploadRequest {
+	private static final String EMPTY_STRING = ""; 
+	
 	public static final String FIELD_USERNAME = "username";
 	public static final String FIELD_PASSWORD = "password";
 	public static final String FIELD_TAGS = "tags";
@@ -28,56 +29,40 @@ public abstract class UploadRequest {
 	private String username;
 	private String password;
 	private String tags;
-	private boolean isPublic;
+	private boolean isPublic = true;
 	private String key;
 	private String message;
 	private String verifyUrl;
+	private String mediaMimeType;
 
-	/**
-	 * @return the username
-	 */
 	public String getUsername() {
-		return username == null ? "" : username;
+		return username == null ? EMPTY_STRING : username;
 	}
-	/**
-	 * @param username the username to set
-	 */
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	/**
-	 * @return the password
-	 */
+
 	public String getPassword() {
-		return password == null ? "" : password;
+		return password == null ? EMPTY_STRING : password;
 	}
-	/**
-	 * @param password the password to set
-	 */
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/**
-	 * @return the tags
-	 */
+
 	public String getTags() {
-		return tags == null ? "" : tags;
+		return tags == null ? EMPTY_STRING : tags;
 	}
-	/**
-	 * @param tags the tags to set
-	 */
+
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
-	/**
-	 * @return the isPublic
-	 */
+
 	public boolean isPublic() {
 		return isPublic;
 	}
-	/**
-	 * @param isPublic the isPublic to set
-	 */
+
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
@@ -85,43 +70,39 @@ public abstract class UploadRequest {
 	public String getPublicAsString() {
 		return isPublic() ? PUBLIC_VALUE_YES : PUBLIC_VALUE_NO;
 	}
-	/**
-	 * @return the key
-	 */
+
 	public String getKey() {
-		return key == null ? "" : key;
+		return key == null ? EMPTY_STRING : key;
 	}
-	/**
-	 * @param key the key to set
-	 */
+
 	public void setKey(String key) {
 		this.key = key;
 	}
-	/**
-	 * @return the message
-	 */
+
 	public String getMessage() {
 		return message;
 	}
-	/**
-	 * @param message the message to set
-	 */
 
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	/**
-	 * @return the verifyUrl
-	 */
+
 	public String getVerifyUrl() {
 		return verifyUrl;
 	}
-	/**
-	 * @param verifyUrl the verifyUrl to set
-	 */
+
 	public void setVerifyUrl(String verifyUrl) {
 		this.verifyUrl = verifyUrl;
 	}
+	
+	public String getMediaMimeType() {
+		return mediaMimeType == null ? "application/octet-stream" : mediaMimeType;
+	}
+
+	public void setMediaMimeType(String mimeType) {
+		this.mediaMimeType = mimeType;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

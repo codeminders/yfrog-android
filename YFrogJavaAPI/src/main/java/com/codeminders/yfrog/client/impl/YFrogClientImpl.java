@@ -72,10 +72,10 @@ public class YFrogClientImpl extends YFrogClient {
 		if(request instanceof UrlUploadRequest) {
 			multipart.addPart(UploadRequest.FIELD_URL, new StringBody(((UrlUploadRequest) request).getUrl()));
 		} else if(request instanceof FileUploadRequest) {
-			multipart.addPart(UploadRequest.FIELD_MEDIA, new FileBody(((FileUploadRequest) request).getFile()));
+			multipart.addPart(UploadRequest.FIELD_MEDIA, new FileBody(((FileUploadRequest) request).getFile() , request.getMediaMimeType()));
 		} else {
 			InputStreamUploadRequest isur = (InputStreamUploadRequest) request;
-			multipart.addPart(UploadRequest.FIELD_MEDIA, new MeasurableInputStreamBody(isur.getInputStream(), isur.getFilename()));
+			multipart.addPart(UploadRequest.FIELD_MEDIA, new MeasurableInputStreamBody(isur.getInputStream(), isur.getFilename(), request.getMediaMimeType()));
 		}
 		
 		return multipart;

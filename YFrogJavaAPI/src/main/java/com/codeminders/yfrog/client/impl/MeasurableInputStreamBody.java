@@ -17,7 +17,7 @@ public class MeasurableInputStreamBody extends AbstractContentBody {
 	private final String filename;
 	private long length;
 	
-	public MeasurableInputStreamBody(final InputStream in, final String mimeType, final String filename) throws IOException {
+	public MeasurableInputStreamBody(final InputStream in, final String filename, final String mimeType) throws IOException {
 		super(mimeType);
 		if (in == null) {
 			throw new IllegalArgumentException("Input stream may not be null");
@@ -27,7 +27,7 @@ public class MeasurableInputStreamBody extends AbstractContentBody {
 	}
 	
 	public MeasurableInputStreamBody(final InputStream in, final String filename) throws IOException {
-		this(in, "application/octet-stream", filename);
+		this(in, filename, "application/octet-stream");
 	}
 
 	private InputStream measure(InputStream in) throws IOException {

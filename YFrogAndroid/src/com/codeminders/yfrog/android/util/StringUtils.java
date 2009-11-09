@@ -130,7 +130,7 @@ public final class StringUtils {
 			final String url = matcher.group();
 			
 			if (YFrogUtils.hasYFrogContent(url)) {
-				YFrogUtils.buildYFrogContentURL(context, spannable, url, matcher.start(), matcher.end());
+				YFrogUtils.bindYFrogContent(context, spannable, url, matcher.start(), matcher.end());
 			} else {
 				spannable.setSpan(new URLSpan(url), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}

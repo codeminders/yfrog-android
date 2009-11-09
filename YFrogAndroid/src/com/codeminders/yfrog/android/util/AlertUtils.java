@@ -45,6 +45,11 @@ public final class AlertUtils {
     public static final int YFROG_ERROR_1002 = 1002;// Image/video not found
     public static final int YFROG_ERROR_1003 = 1003;// Unsupported image/video type
     public static final int YFROG_ERROR_1004 = 1004;// Image/video is too big
+    public static final int YFROG_ERROR_2001 = 2001;// Invalid action
+    public static final int YFROG_ERROR_2002 = 2002;// Failed to upload
+    public static final int YFROG_ERROR_2003 = 2003;// Failed to update twitter status
+    public static final int YFROG_ERROR_2004 = 2004;// Invalid developer key
+    public static final int YFROG_ERROR_2005 = 2005;// Image/video is too big
 
 
 	private AlertUtils() {
@@ -87,10 +92,6 @@ public final class AlertUtils {
 	
 	private static String getErrorMessage(Context context, int errorCode) {
 		String msg = "";
-		
-		if (errorCode >= YFROG_ERROR_1001) {
-			msg += "Error code " + errorCode + ". ";
-		}
 		
 		switch (errorCode) {
 		case GPS_RETRIEVE_LOCATION_ERROR:
@@ -152,6 +153,21 @@ public final class AlertUtils {
 		case YFROG_ERROR_1004:
 			msg = context.getResources().getString(R.string.error_1004);
 			break;
+		case YFROG_ERROR_2001:
+			msg = context.getResources().getString(R.string.error_2001);
+			break;
+		case YFROG_ERROR_2002:
+			msg = context.getResources().getString(R.string.error_2002);
+			break;
+		case YFROG_ERROR_2003:
+			msg = context.getResources().getString(R.string.error_2003);
+			break;
+		case YFROG_ERROR_2004:
+			msg = context.getResources().getString(R.string.error_2004);
+			break;
+		case YFROG_ERROR_2005:
+			msg = context.getResources().getString(R.string.error_2005);
+			break;
 
 		}
 		return msg;
@@ -159,7 +175,7 @@ public final class AlertUtils {
 	
 	private static String getErrorTitle(Context context, int errorCode) {
 		if (errorCode > SERVICE_UNAVAILABLE) {
-			return context.getResources().getString(R.string.yfrog_upload_error_title);
+			return context.getResources().getString(R.string.yfrog_upload_error_title) + " (" + errorCode + ")";
 		} else if (errorCode == IO_ERROR) {
 			return context.getResources().getString(R.string.io_error_title);
 		} else if (errorCode == ACCOUNT_VERIFICATION_ERROR) {
@@ -169,7 +185,7 @@ public final class AlertUtils {
 		} else if (errorCode == GPS_RETRIEVE_LOCATION_ERROR) {
 			return context.getResources().getString(R.string.gps_error_title);
 		} else {
-			return context.getResources().getString(R.string.twitter_error_title);
+			return context.getResources().getString(R.string.twitter_error_title) + " (" + errorCode + ")";
 		}
 	}
 }

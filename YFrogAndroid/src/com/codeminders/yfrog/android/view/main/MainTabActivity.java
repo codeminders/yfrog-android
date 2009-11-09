@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TabHost.OnTabChangeListener;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -23,10 +24,11 @@ import com.codeminders.yfrog.android.view.main.unsent.UnsentActivity;
  * @author idemydenko
  *
  */
-public class MainTabActivity extends TabActivity {
+public class MainTabActivity extends TabActivity implements OnTabChangeListener {
 
 	private String currentTab = null;
 	private boolean created = false;
+	private TabHost tabHost;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +55,11 @@ public class MainTabActivity extends TabActivity {
 			return;
 		}
 		
-		TabHost tabHost = getTabHost();
-
+		tabHost = getTabHost();
+		tabHost.setOnTabChangedListener(this);
+		
 		tabHost.addTab(tabHost.newTabSpec(HomeActivity.TAG)
 				.setIndicator(getResources().getString(R.string.tab_home_caption), getResources().getDrawable(R.drawable.home))
-//				.setIndicator(null, getResources().getDrawable(R.drawable.yfrog_tab_selector))
 				.setContent(new Intent(this, HomeActivity.class)));
 		
 		tabHost.addTab(tabHost.newTabSpec(MentionsActivity.TAG)
@@ -89,5 +91,11 @@ public class MainTabActivity extends TabActivity {
 		}		
 
 		created = true;
-	}	
+	}
+	
+	@Override
+	public void onTabChanged(String tabId) {
+		tabHost.getCurrentTab();
+		System.out.println(tabId);		
+	}
 }

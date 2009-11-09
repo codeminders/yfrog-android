@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/src_storage" android:titleCondensed="@string/wr_src_storage" android:icon="@drawable/attach_storage"><menu><item android:id="@+id/storage_image" android:title="@string/wr_att_image"></item>
-<item android:id="@+id/storage_video" android:title="@string/wr_att_video"></item>
-</menu>
-</item>
-<item android:id="@+id/src_camera" android:title="@string/wr_src_camera" android:icon="@drawable/attach_camera"><menu><item android:id="@+id/camera_image" android:title="@string/wr_att_image"></item><item android:id="@+id/camera_video" android:title="@string/wr_att_video"></item>
-
-</menu>
-</item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item 
+		android:id="@+id/src_storage" 
+		android:title="@string/wr_src_storage" 
+		android:icon="@drawable/attach_storage">
+	    <menu>
+	    	<item 
+	    		android:id="@+id/storage_image" 
+	    		android:title="@string/wr_att_image">
+	    	</item>
+			<item 
+				android:id="@+id/storage_video" 
+				android:title="@string/wr_att_video">
+			</item>
+		</menu>
+	</item>
+	
+	<item 
+		android:id="@+id/src_camera" 
+		android:title="@string/wr_src_camera" 
+		android:icon="@drawable/attach_camera">
+		<menu>
+			<item 
+				android:id="@+id/camera_image" 
+				android:title="@string/wr_att_image">
+			</item>
+			<item 
+				android:id="@+id/camera_video" 
+				android:title="@string/wr_att_video">
+			</item>
+		</menu>
+	</item>
 </menu>

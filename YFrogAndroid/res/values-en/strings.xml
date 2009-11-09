@@ -17,6 +17,11 @@
     <string name="error_1002">Image/video not found</string>
     <string name="error_1003">Unsupported image/video type</string>
     <string name="error_1004">Image/video is too big</string>
+    <string name="error_2001">Invalid action</string>
+    <string name="error_2002">Failed to upload</string>
+    <string name="error_2003">Failed to update twitter status</string>
+    <string name="error_2004">Invalid developer key</string>
+    <string name="error_2005">Image/video is too big</string>
 
     <string name="twitter_error">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
     <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>

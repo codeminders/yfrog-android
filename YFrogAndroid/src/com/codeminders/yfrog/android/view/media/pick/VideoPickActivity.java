@@ -20,6 +20,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.controller.service.AccountService;
+import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.util.FileUtils;
 
 /**
@@ -56,9 +58,12 @@ public class VideoPickActivity extends ListActivity {
 
 	private FilenameFilter filenameFilter = new VideoFileFilter();
 	
+	private AccountService accountService;
+	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
+		accountService = ServiceFactory.getAccountService();
 
 		currentHandler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -78,7 +83,7 @@ public class VideoPickActivity extends ListActivity {
 		getListView().requestFocus();
 		getListView().requestFocusFromTouch();
 
-		setTitle(R.string.vp_title);
+		setTitle(createTitle());
 		
 		editFilename = (EditText) findViewById(R.id.vp_filename);
 
@@ -271,6 +276,11 @@ public class VideoPickActivity extends ListActivity {
 		}
 		return super.onContextItemSelected(item);
 	}
+	
+	private String createTitle() {
+		return accountService.getLogged().getUsername() + "> " + getResources().getString(R.string.vp_title);
+	}
+
 }
 
 
@@ -291,4 +301,5 @@ class VideoFileFilter implements FilenameFilter {
 		}
 		return EXTENTIONS.contains(FileUtils.getExtension(filename));
 	}
+	
 }

@@ -45,6 +45,8 @@ public class ImageViewActivity extends Activity {
 	
 		accountService = ServiceFactory.getAccountService();
 		
+		setTitle(createTitle());
+		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			bitmapUrl = extras.getString(KEY_IMAGE_URL);
@@ -173,5 +175,9 @@ public class ImageViewActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		return AlertUtils.createErrorAlert(this, id);
+	}
+	
+	private String createTitle() {
+		return accountService.getLogged().getUsername() + "> " + getResources().getString(R.string.iv_title);
 	}
 }

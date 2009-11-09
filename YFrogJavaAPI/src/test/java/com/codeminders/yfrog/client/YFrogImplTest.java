@@ -84,14 +84,17 @@ public class YFrogImplTest extends TestCase {
 		request.setUsername("Dem_off");
 		request.setPassword("dem123");
 		request.setPublic(true);
-		request.setMediaMimeType("video/x-flv");
+//		request.setMediaMimeType("video/x-flv");
+		request.setMediaMimeType("application/x-shockwave-flash");
 		
 //		request.setInputStream(this.getClass().getResourceAsStream("/fnn.mp4"));
 //		request.setFilename("fnn.mp4");
-		request.setInputStream(this.getClass().getResourceAsStream("/phone.flv"));
-		request.setFilename("phone.flv");
+//		request.setInputStream(this.getClass().getResourceAsStream("/phone.flv"));
+//		request.setFilename("phone.flv");
 //		request.setInputStream(this.getClass().getResourceAsStream("/video.3gp"));
 //		request.setFilename("video.3gp");
+		request.setInputStream(this.getClass().getResourceAsStream("/first.swf"));
+		request.setFilename("first.swf");
 //		request.setInputStream(this.getClass().getResourceAsStream("/beans.pdf"));
 //		request.setFilename("beans.pdf");
 //		request.setInputStream(this.getClass().getResourceAsStream("/fig.tiff"));
@@ -118,11 +121,13 @@ public class YFrogImplTest extends TestCase {
 		request.setUsername("Dem_off");
 		request.setPassword("dem123");
 		request.setPublic(true);
-		request.setMediaMimeType("video/x-flv");
+//		request.setMediaMimeType("video/x-flv");
+		request.setMediaMimeType("application/x-shockwave-flash");
 
 //		request.setFile(new File("src/test/resources/fnn.mp4"));
-		request.setFile(new File("src/test/resources/phone.flv"));
+//		request.setFile(new File("src/test/resources/phone.flv"));
 //		request.setFile(new File("src/test/resources/video.3gp"));
+		request.setFile(new File("src/test/resources/first.swf"));
 //		request.setFile(new File("src/test/resources/beans.pdf"));
 //		request.setFile(new File("src/test/resources/fig.tiff"));
 //		request.setFile(new File("src/test/resources/image.bmp"));
@@ -138,6 +143,34 @@ public class YFrogImplTest extends TestCase {
 		
 		assertEquals(response.getStatus(), "ok");
 	}
+
+//	@Test
+//	public void testUploadAndPostFile1() throws Exception {
+//		FileUploadRequest request = new FileUploadRequest();
+//		request.setUsername("Dem_off");
+//		request.setPassword("dem123");
+//		request.setPublic(true);
+//		request.setMediaMimeType("video/x-flv");
+//		request.setMessage("uPLOAD AND POST");
+//
+////		request.setFile(new File("src/test/resources/fnn.mp4"));
+////		request.setFile(new File("src/test/resources/phone.flv"));
+////		request.setFile(new File("src/test/resources/video.3gp"));
+//		request.setFile(new File("src/test/resources/beans.pdf"));
+////		request.setFile(new File("src/test/resources/fig.tiff"));
+////		request.setFile(new File("src/test/resources/image.bmp"));
+////		request.setFile(new File("src/test/resources/image.gif"));
+////		request.setFile(new File("src/test/resources/image.png"));
+//
+//
+//
+//		YFrogClient frog = new YFrogClientImpl();
+//		UploadResponse response = frog.uploadAndPost(request);
+//		
+//		System.out.println(response	);
+//		
+//		assertEquals(response.getStatus(), "ok");
+//	}
 
 //	@Test
 //	public void testCheckParams() throws Exception {

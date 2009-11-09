@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<project name="YFrogAndroid" basedir="." default="reinstall">
+	<property file="build.properties" />
+
+	<path id="lib">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${process.dir}" />
+	</target>
+
+	<target name="clean-dist">
+		<delete>
+			<fileset dir="${dist.dir}" includes="**/*"/>
+		</delete>
+	</target>
+	
+	<target name="dirs" depends="clean, clean-dist">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${process.dir}" />
+	</target>
+
+	<!-- Generate the R.java file for this project's resources. -->
+	<target name="resource-src" depends="dirs">
+		<exec executable="${aapt}" failonerror="true">
+			<arg value="package" />
+			<arg value="-m" />
+			<arg value="-J" />
+			<arg value="${process.dir}" />
+			<arg value="-M" />
+			<arg value="AndroidManifest.xml" />
+			<arg value="-S" />
+			<arg value="${res.dir}" />
+			<arg value="-I" />
+			<arg value="${platform.lib}" />
+		</exec>
+	</target>
+
+	<!-- Copy source files to process dir. -->
+	<target name="process-src">
+		<copy todir="${process.dir}">
+			<fileset dir="${src.dir}" includes="**/*.java" />
+		</copy>
+	</target>
+
+	<!-- Compile this project's .java files into .class files. -->
+	<target name="compile" depends="dirs, resource-src, process-src">
+		<javac encoding="ascii" target="1.5" srcdir="${process.dir}" destdir="${classes.dir}" bootclasspath="${platform.lib}">
+			<classpath>
+				<fileset dir="${lib.dir}" includes="**/*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Convert this project's .class files into .dex files. -->
+	<target name="dex" depends="compile">
+		<echo>Converting compiled files and external libraries into ${build.dir}/${dex.filename}...</echo>
+		<apply executable="${dx}" failonerror="true" parallel="true">
+			<arg value="--dex" />
+			<arg value="--output=${dex.output}" />
+			<arg path="${classes.dir}" />
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</apply>
+	</target>
+
+	<!-- Put the project's resources into the output package file. -->
+	<target name="package-res">
+		<echo>Packaging resources and assets...</echo>
+		<exec executable="${aapt}" failonerror="true">
+			<arg value="package" />
+			<arg value="-f" />
+			<arg value="-M" />
+			<arg value="AndroidManifest.xml" />
+			<arg value="-S" />
+			<arg value="${res.dir}" />
+			<arg value="-A" />
+			<arg value="${assets.dir}" />
+			<arg value="-I" />
+			<arg value="${platform.lib}" />
+			<arg value="-F" />
+			<arg value="${res.output}" />
+		</exec>
+	</target>
+
+	<!-- Package the application and sign it with a debug key.
+	     This is the default target when building. It is used for debug. -->
+	<target name="debug" depends="dex, package-res">
+		<echo>Packaging ${dist.output}, and signing it with a debug key...</echo>
+		<exec executable="${apkbuilder}" failonerror="true">
+			<arg value="${dist.output}" />
+			<arg value="-z" />
+			<arg value="${res.output}" />
+			<arg value="-f" />
+			<arg value="${dex.output}" />
+			<arg value="-rf" />
+			<arg value="${src.dir}" />
+			<arg value="-rj" />
+			<arg value="${lib.dir}" />
+		</exec>
+
+		<antcall target="clean" />
+	</target>
+	
+	<!-- Package the application without signing it.          
+		 This allows for the application to be signed later with an official publishing key. -->
+	<target name="release" depends="dex, package-res">
+		<echo>Packaging ${dist.output} for release...</echo>
+		<exec executable="${apkbuilder}" failonerror="true">
+			<arg value="${dist.output}" />
+			<arg value="-u" />
+			<arg value="-z" />
+			<arg value="${res.output}" />
+			<arg value="-f" />
+			<arg value="${dex.output}" />
+			<arg value="-rf" />
+			<arg value="${src.dir}" />
+			<arg value="-rj" />
+			<arg value="${lib.dir}" />
+		</exec>
+		<echo>It will need to be signed with jarsigner before being published.</echo>
+
+		<antcall target="clean" />
+	</target>
+
+	<target name="install" depends="debug">
+		<exec executable="${adb}" failonerror="true">
+			<arg value="install" />
+			<arg value="${dist.output}" />
+		</exec>
+	</target>
+	
+	<target name="reinstall" depends="debug">
+		<echo>Installing ${dist.output} onto default emulator...</echo>
+		<exec executable="${adb}" failonerror="true">
+			<arg value="install" />
+			<arg value="-r" />
+			<arg value="${dist.output}" />
+		</exec>
+	</target>
+
+</project>

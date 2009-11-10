@@ -4,9 +4,7 @@
 package com.codeminders.yfrog.android.util;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import android.content.Context;
 import android.content.Intent;

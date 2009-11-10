@@ -137,37 +137,22 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		}
 
 		
-		Button button = (Button) findViewById(R.id.tud_recent_tweets);
-		button.setOnClickListener(this);
-		
+	
 		if (isUserProtected()) {
 //			button.setVisibility(View.GONE);
 			showDialog(ALERT_PROTECTED);
 		}
 		
-		button = (Button) findViewById(R.id.tud_send_pub_replay);
-		button.setOnClickListener(this);
-		
-		button = (Button) findViewById(R.id.tud_follow);
+	
+		Button button = (Button) findViewById(R.id.tud_follow);
 		button.setText(user.isFollowing() ? R.string.tud_btn_unfollow : R.string.tud_btn_follow);
 		button.setOnClickListener(this);
 		
-		button = (Button) findViewById(R.id.tud_send_dir_message);
-		if (!user.isFollower()) {
-//			button.setVisibility(View.INVISIBLE);
-		}
-		button.setOnClickListener(this);	
 	}
 	
 	@Override
 	public void onClick(View v) {
-		Intent intent = null;
 		switch (v.getId()) {
-		case R.id.tud_recent_tweets:
-			intent = new Intent(this, UserTweetsActivity.class);
-			intent.putExtra(KEY_USER_POS, user);
-			startActivity(intent);
-			break;
 		case R.id.tud_follow:
 			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
@@ -187,17 +172,6 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			}.update();
 
 			break;
-		case R.id.tud_send_pub_replay:
-			intent = new Intent(this, WritePublicReplayActivity.class);
-			intent.putExtra(WritePublicReplayActivity.KEY_WRITER_USERNAME, user.getUsername());
-			startActivity(intent);
-			break;
-		case R.id.tud_send_dir_message:
-			intent = new Intent(this, WriteDirectMessageActivity.class);
-			intent.putExtra(WriteDirectMessageActivity.KEY_WRITER_USERNAME, user.getUsername());
-			startActivity(intent);
-			break;
-
 		}
 		
 			

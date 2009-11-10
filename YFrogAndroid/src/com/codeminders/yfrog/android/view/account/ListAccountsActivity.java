@@ -40,8 +40,6 @@ public class ListAccountsActivity extends ListActivity {
 	private static final int ALERT_DELETE = 0;
 	private static final int ALERT_AUTH_FAILED = 2;
 
-	private static final String PREFS_NAME = "yfrog_prefs";
-
 	private static final String KEY_LAST_LOGGED = "lastLogged";
 
 	private YFrogProperties properties;
@@ -135,23 +133,7 @@ public class ListAccountsActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int position = getListView().getCheckedItemPosition();
-		
-//		switch (item.getItemId()) {
-//		case R.id.add_account:
-//			addAccount();
-//			return true;
-//		case R.id.login_account:
-//			login(getSelectedItemPosition());
-//			return true;
-//		case R.id.edit_account:
-//			editAccount(getSelectedAccount(getSelectedItemPosition()));
-//			return true;
-//		case R.id.delete_account:
-//			deleteAccount(getSelectedAccount(getSelectedItemPosition()));
-//			return true;
-//		}
-//		return false;
-		
+			
 		switch (item.getItemId()) {
 		case R.id.add_account:
 			addAccount();

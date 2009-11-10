@@ -3,13 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/twitter4j-2.0.10/twitter4j-2.0.10.jar" sourcepath="lib/twitter4j-2.0.10/twitter4j-2.0.10-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/YFrog/lib/twitter4j-2.0.10/twitter4j-2.0.10-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/apache-mime4j-0.6.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/YFrogLib"/>
+	<classpathentry kind="lib" path="lib/twitter4j-2.0.10/twitter4j-2.0.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -177,13 +177,13 @@
     <string name="wr_att_image">Image</string>
     <string name="wr_att_video">Video</string>
     <string name="wr_new_status_title">Add status</string>
-    <string name="wr_reply_title">Write reply to </string>
-    <string name="wr_pub_reply_title">Write public reply to </string>
-    <string name="wr_dir_msg_title">Write direct message to </string>
-    <string name="wr_edit_new_status_title">Edit status</string>
-    <string name="wr_edit_reply_title">Edit reply</string>
-    <string name="wr_edit_pub_reply_title">Edit public reply</string>
-    <string name="wr_edit_dir_msg_title">Edit direct message to </string>
+    <string name="wr_reply_title">Reply to </string>
+    <string name="wr_pub_reply_title">Public reply to </string>
+    <string name="wr_dir_msg_title">Direct message to </string>
+    <string name="wr_edit_new_status_title">Status</string>
+    <string name="wr_edit_reply_title">Reply</string>
+    <string name="wr_edit_pub_reply_title">Public reply</string>
+    <string name="wr_edit_dir_msg_title">Direct message to </string>
     <string name="wr_btn_add_location">Add location</string>
         
     <!-- Twitter search -->

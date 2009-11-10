@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.IPackageInstallObserver;
 import android.os.Bundle;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -22,6 +19,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogProperties;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.AccountService;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
@@ -46,6 +44,8 @@ public class ListAccountsActivity extends ListActivity {
 
 	private static final String KEY_LAST_LOGGED = "lastLogged";
 
+	private YFrogProperties properties;
+	
 	private AccountService accountService;
 	private ArrayList<Account> accounts;
 	private Account toDelete = null;
@@ -55,6 +55,7 @@ public class ListAccountsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		
 		accountService = ServiceFactory.getAccountService();
+		properties = YFrogProperties.getProperies();
 
 		createAccountsList();
 		
@@ -101,23 +102,16 @@ public class ListAccountsActivity extends ListActivity {
 
 	private Account getLastLogged() {
 		long lastLoggedId = 0;
-		lastLoggedId = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-				.getLong(KEY_LAST_LOGGED, 0);
+		lastLoggedId = properties.getLong(KEY_LAST_LOGGED);
 		return accountService.getAccount(lastLoggedId);
 	}
 
 	private void saveLastLogged(Account account) {
-		Editor editor = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-				.edit();
-		editor.putLong(KEY_LAST_LOGGED, account.getId());
-		editor.commit();
+		properties.putLong(KEY_LAST_LOGGED, account.getId());
 	}
 
 	private void deleteLastLogged(Account account) {
-		Editor editor = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-				.edit();
-		editor.remove(KEY_LAST_LOGGED);
-		editor.commit();
+		properties.delete(KEY_LAST_LOGGED);
 	}
 
 	private String[] getAccountsNames(ArrayList<Account> accounts) {

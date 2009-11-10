@@ -185,7 +185,6 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		case R.id.tm_forward:
 			break;
 		case R.id.tm_delete:
-//			delete();
 			break;
 		}
 	}

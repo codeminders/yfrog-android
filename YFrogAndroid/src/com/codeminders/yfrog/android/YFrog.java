@@ -19,6 +19,7 @@ public final class YFrog extends Application {
 	public void onCreate() {
 		super.onCreate();
 		DatabaseHelper.init(this);
+		YFrogProperties.init(this);
 		// TODO need other initialization
 		ServiceFactory.getGeoLocationService(this);
 	}

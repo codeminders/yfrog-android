@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import android.location.Location;
 
+import com.codeminders.yfrog.android.YFrogProperties;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.model.MessageAttachment;
@@ -25,10 +26,12 @@ import com.codeminders.yfrog.client.response.UploadResponseFormatException;
 public class YFrogService {
 	private AccountService accountService;
 	private GeoLocationService geoLocationService;
+	private YFrogProperties properties;
 	
 	YFrogService() {
 		accountService = ServiceFactory.getAccountService();
 		geoLocationService = ServiceFactory.getGeoLocationService();
+		properties = YFrogProperties.getProperies();
 	}
 	
 	public long send(String text, MessageAttachment attachment) throws YFrogTwitterException {
@@ -96,6 +99,9 @@ public class YFrogService {
 				request.setTags(StringUtils.creatGeoTags(location.getLatitude(), location.getLongitude()));
 			}
 		}
+		
+		request.setKey(properties.getDeveloperKey());
+		System.out.println("Developer Key - " + request.getKey());
 	}
 	
 	private void checkResponse(UploadResponse response) throws YFrogTwitterException {

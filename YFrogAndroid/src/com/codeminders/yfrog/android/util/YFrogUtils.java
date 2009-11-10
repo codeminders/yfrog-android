@@ -4,7 +4,9 @@
 package com.codeminders.yfrog.android.util;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +31,7 @@ public final class YFrogUtils {
 	private static final String YFROG_THUMB_IMAGE_SUFIX = ".th.jpg";
 	private static final String YFROG_FULL_IMAGE_SUFIX = ":iphone";
 	private static final String YFROG_SMALL_IMAGE_SUFIX = ":small";
+	private static final String YFROG_VIDEO_SUFIX = ".android";
 	
 	// According to http://code.google.com/p/imageshackapi/wiki/YFROGurls and http://developer.android.com/guide/appendix/media-formats.html
 	private static final String SUPPORTED_IMAGE_TYPE_SUFFIXES = "jpbg";
@@ -100,7 +103,7 @@ public final class YFrogUtils {
 	}
 
 	private static String getOptVideoUrl(String url) {
-		return new StringBuilder(url).append(YFROG_FULL_IMAGE_SUFIX).toString();
+		return new StringBuilder(url).append(YFROG_VIDEO_SUFIX).toString();
 	}
 
 	public static void bindYFrogContent(final Context context, final Spannable spannable, final String url, final int start, final int end) {
@@ -188,12 +191,11 @@ public final class YFrogUtils {
 			public void onClick(View widget) {
 				Intent intent = new Intent();
 				intent.setAction(Intent.ACTION_VIEW);
-				Uri uri = Uri.parse(getURL());
-				intent.setData(uri);
-				intent.setType("video/mp4");
+				intent.setDataAndType(Uri.parse(getURL()), "video/*");
 				context.startActivity(intent);
 			}
 		};
 	}
-
+	
+	
 }

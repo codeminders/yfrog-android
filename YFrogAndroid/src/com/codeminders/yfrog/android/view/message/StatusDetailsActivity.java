@@ -103,17 +103,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		favorited = status.isFavorited();
 		my = twitterService.getLoggedUser().equals(status.getUser());
 
-		Button button = (Button) findViewById(R.id.tm_replay);
-//		if (my) {
-//			button.setVisibility(View.GONE);
-//		} else {
-//			button.setVisibility(View.VISIBLE);
-//		}
-		
-		button.setOnClickListener(this);
-
-		
-		button = (Button) findViewById(R.id.tm_favorite);
+		Button button = (Button) findViewById(R.id.tm_favorite);
 		
 		if (favorited) {
 			button.setText(R.string.tm_btn_unfavorite);
@@ -123,13 +113,6 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		
 		button.setOnClickListener(this);
 		
-		button = (Button) findViewById(R.id.tm_forward);
-		button.setOnClickListener(this);
-		
-		button = (Button) findViewById(R.id.tm_delete);
-//		button.setVisibility(my ? View.VISIBLE : View.GONE);
-		button.setOnClickListener(this);
-
 		ImageView imageView = (ImageView) findViewById(R.id.tu_user_icon);
 		ImageCache.getInstance().putImage(status.getUser().getProfileImageURL(), imageView);
 		
@@ -176,15 +159,8 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tm_replay:
-//			reply();
-			break;
 		case R.id.tm_favorite:
 			favorite();
-			break;
-		case R.id.tm_forward:
-			break;
-		case R.id.tm_delete:
 			break;
 		}
 	}

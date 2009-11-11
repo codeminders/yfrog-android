@@ -205,4 +205,6 @@
 			<arg value="${dist.output}" />
 		</exec>				
 	</target>
+	
+	<target name="build-and-sign-release" depends="release, sign, optimize, reinstall"/>
 </project>

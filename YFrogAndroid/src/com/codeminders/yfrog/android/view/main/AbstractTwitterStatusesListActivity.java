@@ -64,7 +64,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		
 	}
 	
-	private boolean restoreState(Bundle savedState) {
+	protected boolean restoreState(Bundle savedState) {
 		if (savedState == null) {
 			return false;
 		}
@@ -156,12 +156,6 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	}
 
 	private void show() {
-		
-
-//		if (getListView() != null) {
-//			selected = getSelectedItemPosition();
-//		}
-
 		setContentView(R.layout.twitter_statuses_list);
 		
 		setListAdapter(new TwitterStatusAdapter<TwitterStatus>(this, statuses));

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
+import com.codeminders.yfrog.android.YFrogProperties;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.model.*;
 
@@ -23,9 +24,13 @@ public interface TwitterService {
 	 *	private static final String CONSUMER_SECRET = "Piy2dJzdFVUMdUqrRLBUfkW2VcTnWnr2tnO6vHrZ2k"; 
 	 */
 	
-	static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
-	static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
+//	static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
+//	static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
 
+	static final String CONSUMER_KEY = YFrogProperties.getProperies().getConsumerKey();
+	static final String CONSUMER_SECRET = YFrogProperties.getProperies().getConsumerSecret();
+
+	
 	public static final String CALL_BACK_URL = "yfrog://android";
 	public static final String PARAM_TOKEN = "oauth_token";
 	public static final String PARAM_VERIFIER = "oauth_verifier";

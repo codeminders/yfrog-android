@@ -10,6 +10,7 @@ import java.util.HashSet;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.provider.MediaStore;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.controller.service.AccountService;
@@ -265,12 +267,15 @@ public class VideoPickActivity extends ListActivity {
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		String filename = (String) getListAdapter().getItem(info.position);
+		String filepath = currentDirectory.getAbsolutePath() + "/" + filename;
 		switch (item.getItemId()) {
 		case MENU_VIEW:
 			Intent intent = new Intent();
-			intent.setAction(Intent.ACTION_PICK);
-			intent.setType("video/*");
-			intent.setData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+			intent.setAction(Intent.ACTION_VIEW);
+			intent.setDataAndType(Uri.parse(filepath), "video/*");
 			startActivity(intent);
 			break;
 		}

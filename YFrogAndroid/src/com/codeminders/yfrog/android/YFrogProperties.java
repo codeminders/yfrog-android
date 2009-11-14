@@ -20,6 +20,9 @@ public final class YFrogProperties {
 	private static final String DEV_KEY = "imageshack_dev_key";
 	private static final String DEV_KEY_DEF_VAL = "@dev_key@";
 	
+	private static final String CONSUMER_KEY = "consumer_key";
+	private static final String CONSUMER_SECRET = "consumer_secret";
+	
 	private static YFrogProperties instance = null;
 	
 	private Context context;
@@ -48,9 +51,11 @@ public final class YFrogProperties {
 		try {
 			Properties properties = new Properties();
 			properties.load(context.getResources().openRawResource(R.raw.app));
+			
 			putString(DEV_KEY, properties.getProperty(DEV_KEY, ""));
+			putString(CONSUMER_KEY, properties.getProperty(CONSUMER_KEY, ""));
+			putString(CONSUMER_SECRET, properties.getProperty(CONSUMER_SECRET, ""));
 		} catch (IOException e) {
-			putString(DEV_KEY, "");
 			e.printStackTrace();
 		}
 	}
@@ -91,5 +96,13 @@ public final class YFrogProperties {
 			return "";
 		}
 		return key;
+	}
+	
+	public String getConsumerKey() {
+		return getString(CONSUMER_KEY);
+	}
+	
+	public String getConsumerSecret() {
+		return getString(CONSUMER_SECRET);
 	}
 }

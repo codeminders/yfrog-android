@@ -139,7 +139,6 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 	
 		if (isUserProtected()) {
-//			button.setVisibility(View.GONE);
 			showDialog(ALERT_PROTECTED);
 		}
 		
@@ -147,6 +146,10 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		Button button = (Button) findViewById(R.id.tud_follow);
 		button.setText(user.isFollowing() ? R.string.tud_btn_unfollow : R.string.tud_btn_follow);
 		button.setOnClickListener(this);
+		
+		if (isMyself()) {
+			button.setVisibility(View.GONE);
+		}
 		
 	}
 	
@@ -202,12 +205,16 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	}
 
 	private boolean isUserProtected() {
-		if (twitterService.getLoggedUser().equals(user)) {
+		if (isMyself()) {
 			return false;
 		}
 		return user.isProtected();
 	}
-	
+
+	private boolean isMyself() {
+		return twitterService.getLoggedUser().equals(user);
+	}
+
 	private void refresh() {
 		new AsyncYFrogUpdater(this) {
 			protected void doUpdate() throws YFrogException {

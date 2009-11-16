@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -145,6 +146,8 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	
 		Button button = (Button) findViewById(R.id.tud_follow);
 		button.setText(user.isFollowing() ? R.string.tud_btn_unfollow : R.string.tud_btn_follow);
+		Drawable d = user.isFollowing() ? getResources().getDrawable(R.drawable.unfollow) : getResources().getDrawable(R.drawable.follow);
+		button.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 		button.setOnClickListener(this);
 		
 		if (isMyself()) {
@@ -170,6 +173,8 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 				protected void doAfterUpdate() {
 					Button button = (Button) findViewById(R.id.tud_follow);
 					button.setText(user.isFollowing() ? R.string.tud_btn_unfollow : R.string.tud_btn_follow);
+					Drawable d = user.isFollowing() ? getResources().getDrawable(R.drawable.unfollow) : getResources().getDrawable(R.drawable.follow);
+					button.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 					button.setOnClickListener(UserDetailsActivity.this);					
 				}
 			}.update();

@@ -10,6 +10,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -83,10 +84,10 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		
 		Button button = (Button) findViewById(R.id.ae_save_button);
 		button.setText(!editable.isOAuthVerified() && editable.getAuthMethod() == Account.METHOD_OAUTH ? R.string.next : R.string.save);
+		Drawable d = !editable.isOAuthVerified() && editable.getAuthMethod() == Account.METHOD_OAUTH ?
+				getResources().getDrawable(R.drawable.next) : getResources().getDrawable(R.drawable.save);
+		button.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 		button.setOnClickListener(this);
-		
-		button = (Button) findViewById(R.id.ae_oauth_auth_button);
-		button.setVisibility(View.GONE);
 		
 		TextView textView = (TextView) findViewById(R.id.ae_oauth_desc);
 		textView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -108,6 +109,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			common.setVisibility(View.VISIBLE);
 			oauth.setVisibility(View.GONE);
 			button.setText(R.string.save);
+			Drawable d = getResources().getDrawable(R.drawable.save);
+			button.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 
 			break;
 
@@ -116,6 +119,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			oauth.setVisibility(View.VISIBLE);
 			if (editable.getOauthStatus() != Account.OAUTH_STATUS_VERIFIED) { 
 				button.setText(R.string.next);
+				d = getResources().getDrawable(R.drawable.next);
+				button.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 			}
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

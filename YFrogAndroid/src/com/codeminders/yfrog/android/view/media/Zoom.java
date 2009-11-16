@@ -38,6 +38,7 @@ public class Zoom extends ImageView {
         super(context);
         bitemap = bitmap;
         isScale = scaleImage;
+        setScaleType(ImageView.ScaleType.MATRIX);
         setImageBitmapResetBase(bitmap, isScale);
     }
 

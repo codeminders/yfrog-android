@@ -51,6 +51,6 @@
 		android:layout_gravity="center" 
 		android:text="@string/tud_btn_follow" 
 		android:focusable="false" 
-		android:layout_marginTop="15px">
+		android:layout_marginTop="15px" android:drawablePadding="2dp">
 	</Button>
 </LinearLayout>

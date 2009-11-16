@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.*;
@@ -107,9 +108,15 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		
 		if (favorited) {
 			button.setText(R.string.tm_btn_unfavorite);
+			Drawable d = getResources().getDrawable(R.drawable.unfavorite);
+			button.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 		} else {
 			button.setText(R.string.tm_btn_favorite);
+			Drawable d = getResources().getDrawable(R.drawable.favorite);
+			button.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 		}
+		
+		
 		
 		button.setOnClickListener(this);
 		
@@ -117,7 +124,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 		ImageCache.getInstance().putImage(status.getUser().getProfileImageURL(), imageView);
 		
 		TextView view = (TextView) findViewById(R.id.tu_username);
-		view.setText(status.getUser().getUsername());
+		view.setText(status.getUser().getScreenUsername());
 		
 		view = (TextView) findViewById(R.id.tu_fullname);
 		view.setText(status.getUser().getFullname());
@@ -227,6 +234,8 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 				Button button = (Button) findViewById(R.id.tm_favorite);
 				button.setText(favorited ? R.string.tm_btn_unfavorite
 						: R.string.tm_btn_favorite);
+				Drawable d = favorited ? getResources().getDrawable(R.drawable.unfavorite) : getResources().getDrawable(R.drawable.favorite);
+				button.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 			}
 		}.update();
 	}

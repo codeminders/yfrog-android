@@ -7,6 +7,8 @@
 
 	<!-- Default dev key-->
 	<property name="default_dev_key" value="@dev_key@"/>
+	<property name="default_consumer_key" value="@consumer_key@"/>
+	<property name="default_consumer_secret" value="@consumer_secret@"/>
 	
 	<condition property="dev_key" value="${imageshack_dev_key}" else="${default_dev_key}">
 		<available file="yfrog.properties" property="${imageshack_dev_key}"/>
@@ -16,6 +18,8 @@
 	to /res/raw/app.properties  -->
 	<target name="apply-app-properties">
 		<replace file="${app.props.output}" token="${default_dev_key}" value="${dev_key}"/>
+		<replace file="${app.props.output}" token="${default_consumer_key}" value="${consumer_key}"/>
+		<replace file="${app.props.output}" token="${default_consumer_secret}" value="${consumer_secret}"/>
 	</target>
 
 	<target name="clean">

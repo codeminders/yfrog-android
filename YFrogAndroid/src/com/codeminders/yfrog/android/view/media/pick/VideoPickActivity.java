@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;

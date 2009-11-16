@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.codeminders.yfrog.android.util.StringUtils;
+
 /**
  * @author idemydenko
  *
@@ -18,10 +20,17 @@ public final class YFrogProperties {
 	private static final String PREFS_NAME = "yfrog_prefs";
 	
 	private static final String DEV_KEY = "imageshack_dev_key";
-	private static final String DEV_KEY_DEF_VAL = "@dev_key@";
-	
 	private static final String CONSUMER_KEY = "consumer_key";
 	private static final String CONSUMER_SECRET = "consumer_secret";
+
+	private static final String DEFAULT_DEV_KEY_VAL = "@dev_key@";
+	private static final String DEFAULT_CONSUMER_KEY_VAL = "@consumer_key@";
+	private static final String DEFAULT_CONSUMER_SECRET_VAL = "@consumer_secret@";
+	
+	private static final String DEBUG_DEV_KEY_VAL = "";
+	private static final String DEBUG_CONSUMER_KEY_VAL = "16F75LNJxjKTIUHidy5Sg";
+	private static final String DEBUG_CONSUMER_SECRET_VAL = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
+
 	
 	private static YFrogProperties instance = null;
 	
@@ -52,14 +61,45 @@ public final class YFrogProperties {
 			Properties properties = new Properties();
 			properties.load(context.getResources().openRawResource(R.raw.app));
 			
-			putString(DEV_KEY, properties.getProperty(DEV_KEY, ""));
-			putString(CONSUMER_KEY, properties.getProperty(CONSUMER_KEY, ""));
-			putString(CONSUMER_SECRET, properties.getProperty(CONSUMER_SECRET, ""));
+			initDevKey(properties);
+			initOauthKey(properties);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	private void initDevKey(Properties properties) {
+		String devKey = properties.getProperty(DEV_KEY, "");
+		
+		if (StringUtils.isEmpty(devKey) || DEFAULT_DEV_KEY_VAL.equals(devKey)) {
+			devKey = DEBUG_DEV_KEY_VAL;
+		}
+		
+		System.out.println("developer key: " + devKey);
+		putString(DEV_KEY, devKey);
+	}
+
+	private void initOauthKey(Properties properties) {
+		String val = properties.getProperty(CONSUMER_KEY, "");
+		
+		if (StringUtils.isEmpty(val) || DEFAULT_CONSUMER_KEY_VAL.equals(val)) {
+			val = DEBUG_CONSUMER_KEY_VAL;
+		}
+		
+		System.out.println("key: " + val);
+		putString(CONSUMER_KEY, val);
+
+		val = properties.getProperty(CONSUMER_SECRET, "");
+		
+		if (StringUtils.isEmpty(val) || DEFAULT_CONSUMER_SECRET_VAL.equals(val)) {
+			val = DEBUG_CONSUMER_SECRET_VAL;
+		}
+		
+		System.out.println("secret: " + val);
+		putString(CONSUMER_SECRET, val);
+
+	}
+
 	public void delete(String key) {
 		Editor editor = preferences.edit();
 		
@@ -92,7 +132,7 @@ public final class YFrogProperties {
 	public String getDeveloperKey() {
 		String key = getString(DEV_KEY);
 		
-		if (DEV_KEY_DEF_VAL.equals(key)) {
+		if (DEFAULT_DEV_KEY_VAL.equals(key)) {
 			return "";
 		}
 		return key;

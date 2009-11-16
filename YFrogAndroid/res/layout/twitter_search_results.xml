@@ -15,8 +15,9 @@
 				android:layout_height="wrap_content" 
 				android:layout_gravity="left" 
 				android:layout_width="fill_parent" 
-				android:singleLine="true" android:inputType="text" android:width="180px">
+				android:singleLine="true" android:inputType="text" android:layout_marginTop="2dp" android:width="200px">
 			</AutoCompleteTextView>
+<!-- 
 			<Button 
 				android:id="@+id/sr_search_button" 
 				android:layout_width="wrap_content" 
@@ -29,7 +30,21 @@
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
 				android:layout_gravity="right" android:text="@string/save">
-			</Button>		
+			</Button>
+-->
+			<Button 
+				android:id="@+id/sr_search_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_gravity="right" android:drawableLeft="@drawable/search1">
+			</Button>
+			
+			<Button 
+				android:id="@+id/sr_save_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_gravity="right" android:drawableLeft="@drawable/save">
+			</Button>				
 		</TableRow>
 	</TableLayout>
   

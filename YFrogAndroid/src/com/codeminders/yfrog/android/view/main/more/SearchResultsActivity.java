@@ -11,6 +11,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -189,7 +190,10 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		listView.setOnItemClickListener(mOnClickListener);
 
 		saveButton = (Button) findViewById(R.id.sr_save_button);
-		saveButton.setText(isSaved ? R.string.delete : R.string.save);
+//		saveButton.setText(isSaved ? R.string.delete : R.string.save);
+		Drawable d = isSaved ? getResources().getDrawable(R.drawable.delete_account) 
+				: getResources().getDrawable(R.drawable.save);
+		saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 		saveButton.setOnClickListener(this);
 
 		Button button = (Button) findViewById(R.id.sr_search_button);
@@ -353,7 +357,11 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		@Override
 		public void afterTextChanged(Editable s) {
 			isSaved = isQuerySaved(s.toString());
-			saveButton.setText(isSaved ? R.string.delete : R.string.save);
+//			saveButton.setText(isSaved ? R.string.delete : R.string.save);
+			Drawable d = isSaved ? getResources().getDrawable(R.drawable.delete_account) 
+					: getResources().getDrawable(R.drawable.save);
+			saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+
 		}
 
 		@Override

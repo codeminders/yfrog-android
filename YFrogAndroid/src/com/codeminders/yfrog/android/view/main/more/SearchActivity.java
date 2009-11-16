@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -159,8 +160,6 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(input, InputMethodManager.SHOW_FORCED);
-		// imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-		// InputMethodManager.RESULT_UNCHANGED_SHOWN); TODO Forced show
 	}
 	
 	private boolean isNeedReload() {
@@ -324,7 +323,10 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			saveButton.setText(isQuerySaved(s.toString()) ? R.string.delete : R.string.save);
+//			saveButton.setText(isQuerySaved(s.toString()) ? R.string.delete : R.string.save);
+			Drawable d = isQuerySaved(s.toString()) ? getResources().getDrawable(R.drawable.delete_account) 
+					: getResources().getDrawable(R.drawable.save);
+			saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 		}
 
 		@Override

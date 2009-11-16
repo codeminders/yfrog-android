@@ -125,15 +125,7 @@
 				android:id="@+id/ae_oauth_desc" 
 				android:layout_height="wrap_content" 
 				android:layout_width="fill_parent" android:text="@string/ae_oauth_desc" android:autoLink="all" android:layout_marginTop="10px">
-			</TextView>
-			
-			<Button
-				android:id="@+id/ae_oauth_auth_button"
-				android:textStyle="bold"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/ae_btn_oauth_auth" android:layout_marginTop="5px"/>
-		
+			</TextView>			
 		</LinearLayout>	  		  	
 		
 		<Button
@@ -142,6 +134,6 @@
 			android:textStyle="bold"
 			android:layout_span="2"
 			android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:layout_marginTop="20px"/>
+		android:layout_marginTop="20px" android:layout_width="wrap_content" android:drawablePadding="4dp" android:drawableRight="@drawable/save" android:layout_gravity="center_horizontal" android:width="200dp"/>
 	</LinearLayout>
 </ScrollView>

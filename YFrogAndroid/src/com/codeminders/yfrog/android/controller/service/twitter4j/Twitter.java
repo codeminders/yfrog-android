@@ -21,7 +21,7 @@ public class Twitter extends twitter4j.Twitter {
 	}
 	
 	public Twitter(String username, String password) {
-		
+		super(username, password);
 	}
 	
 	public boolean isNotificationEnabled(String username) throws TwitterException {

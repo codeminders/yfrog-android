@@ -116,13 +116,13 @@ public class TwitterUser implements Serializable {
 		this.follower = follower;
 	}
 	/**
-	 * @return the following
+	 * @return the follower
 	 */
 	public boolean isFollowing() {
 		return following;
 	}
 	/**
-	 * @param following the following to set
+	 * @param follower the follower to set
 	 */
 	public void setFollowing(boolean following) {
 		this.following = following;

@@ -23,7 +23,7 @@ import com.codeminders.yfrog.android.util.StringUtils;
  *
  */
 public class Twitter4JService implements TwitterService {	
-	private Twitter twitter = null;
+	private com.codeminders.yfrog.android.controller.service.twitter4j.Twitter twitter = null;
 	private TwitterUser loggedUser = null;
 	private Account loggedAccount = null;
 	private UnsentMessageService unsentMessageService;
@@ -34,15 +34,15 @@ public class Twitter4JService implements TwitterService {
 		geoLocationService = ServiceFactory.getGeoLocationService();
 	}
 	
-	private Twitter create() {
-		Twitter t = new Twitter();
+	private com.codeminders.yfrog.android.controller.service.twitter4j.Twitter create() {
+		com.codeminders.yfrog.android.controller.service.twitter4j.Twitter t = new com.codeminders.yfrog.android.controller.service.twitter4j.Twitter();
 		t.setSource(SOURCE);
 		
 		return t;		
 	}
 
-	private Twitter create(String username, String password) {
-		Twitter t = new Twitter(username, password);
+	private com.codeminders.yfrog.android.controller.service.twitter4j.Twitter create(String username, String password) {
+		com.codeminders.yfrog.android.controller.service.twitter4j.Twitter t = new com.codeminders.yfrog.android.controller.service.twitter4j.Twitter(username, password);
 		t.setSource(SOURCE);
 		
 		return t;
@@ -527,6 +527,38 @@ public class Twitter4JService implements TwitterService {
 		}				
 	}
 	
+	public boolean isNotificationEnabled(String username) throws YFrogTwitterException {
+		try {
+			return twitter.isNotificationEnabled(username);
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}
+	}
+	
+	public TwitterUser enableNotification(String username) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			TwitterUser user = Twitter4jHelper.getUser(twitter.enableNotification(username));
+			user.setFollower(isFollower(user.getId()));
+			user.setFollowing(isFollowing(user.getId()));
+			return user;
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}		
+	}
+
+	public TwitterUser disableNotification(String username) throws YFrogTwitterException {
+		checkCreated();
+		try {
+			TwitterUser user = Twitter4jHelper.getUser(twitter.disableNotification(username));
+			user.setFollower(isFollower(user.getId()));
+			user.setFollowing(isFollowing(user.getId()));
+			return user;
+		} catch (TwitterException e) {
+			throw new YFrogTwitterException(e, e.getStatusCode());
+		}				
+	}
+
 	private void checkCreated() {
 		if (twitter == null || loggedUser == null) {
 			throw new IllegalStateException();

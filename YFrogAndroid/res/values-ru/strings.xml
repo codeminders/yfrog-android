@@ -126,6 +126,9 @@
 	
 	<!-- Messages tab -->
 	<string name="dm_msg_messages_empty">No incoming direct messages</string>
+	<string name="dm_reply">Reply</string>
+	<string name="dm_error_reply_title">Direct message error</string>
+	<string name="dm_error_reply_msg">Recipient is not following the sender</string>
 	
 	<!-- Unsent tab -->
 	<string name="umt_send_all">Send all</string>
@@ -152,11 +155,18 @@
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
     <string name="tud_send">Send</string>
-    <string name="tud_protected_msg">You can't see tweets of current user, because this user protect his tweets</string>
+    <string name="tud_protected_msg">This person has protected his tweets</string>
     <string name="tud_location">Location:</string>
     <string name="tud_description">Description:</string>
     <string name="tud_followers">Followers:</string>
     <string name="tud_following">Following:</string>
+    <string name="tud_btn_notifications">Device updates</string>
+    <string name="tud_protected_follow_title">Request sent</string>
+    <string name="tud_protected_follow_msg">You've sent a request to follow this person. If your request is approved, you'll be able to view their tweets.</string>
+    <string-array name="tud_notification_settings_items">
+    	<item>Enable</item>
+    	<item>Disable</item>
+    </string-array>
     
     
     <!-- Twitter status details -->

@@ -68,7 +68,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		super.onSaveInstanceState(outState);
 	}
 	
-	private boolean restoreState(Bundle savedState) {
+	protected boolean restoreState(Bundle savedState) {
 		if (savedState == null) {
 			return false;
 		}

@@ -6,8 +6,10 @@ package com.codeminders.yfrog.android.view.main.messages;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -15,6 +17,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.codeminders.yfrog.android.R;
+import com.codeminders.yfrog.android.YFrogException;
 import com.codeminders.yfrog.android.YFrogTwitterException;
 import com.codeminders.yfrog.android.controller.service.ServiceFactory;
 import com.codeminders.yfrog.android.controller.service.TwitterService;
@@ -23,6 +26,7 @@ import com.codeminders.yfrog.android.model.TwitterUser;
 import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog.android.view.adapter.TwitterDirectMessageAdapter;
+import com.codeminders.yfrog.android.view.message.WriteDirectMessageActivity;
 import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
 import com.codeminders.yfrog.android.view.user.UserDetailsActivity;
 
@@ -41,7 +45,10 @@ public class MessagesActivity extends ListActivity {
 
 	private static final int MENU_DELETE = 0;
 	private static final int MENU_USERINFO = 1;
+	private static final int MENU_REPLY = 2;
 
+	private static final int DIALOG_ALERT_REPLY_ERROR = 5000;
+	
 	private TwitterService twitterService;
 	private ArrayList<TwitterDirectMessage> messages = new ArrayList<TwitterDirectMessage>(0);
 
@@ -148,6 +155,7 @@ public class MessagesActivity extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
+		menu.add(0, MENU_REPLY, 0, R.string.dm_reply);
 		menu.add(0, MENU_USERINFO, 0, R.string.userinfo);
 		menu.add(0, MENU_DELETE, 0, R.string.delete);
 	}
@@ -176,6 +184,27 @@ public class MessagesActivity extends ListActivity {
 		case MENU_USERINFO:
 			userInfo(info.position);
 			return true;
+		
+		case MENU_REPLY:
+			final TwitterUser toReply = getSelected(info.position).getSender();
+			
+			new AsyncYFrogUpdater(this) {
+				boolean follower = false;
+				protected void doUpdate() throws YFrogException {
+					follower = twitterService.isFollower(toReply.getId()); 
+				}
+				
+				@Override
+				protected void doAfterUpdate() {
+					if (follower) {
+						Intent intent = new Intent(MessagesActivity.this, WriteDirectMessageActivity.class);
+						intent.putExtra(WriteDirectMessageActivity.KEY_WRITER_USERNAME, toReply.getUsername());
+						startActivity(intent);		
+					} else {
+						showDialog(DIALOG_ALERT_REPLY_ERROR);
+					}
+				}
+			}.update();
 		}
 		return false;
 	}
@@ -219,6 +248,20 @@ public class MessagesActivity extends ListActivity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
+		if (id == DIALOG_ALERT_REPLY_ERROR) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.dm_error_reply_title);
+			builder.setMessage(R.string.dm_error_reply_msg);
+			builder.setNegativeButton(R.string.error_alert_btn, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface d, int which) {
+					d.dismiss();
+				}
+			});
+			
+			return builder.create();
+		}
+		
 		if (id == AlertUtils.LOGOUT) {
 			return AlertUtils.createLogoutAlert(this);
 		}

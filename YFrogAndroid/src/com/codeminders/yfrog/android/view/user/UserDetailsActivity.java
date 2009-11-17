@@ -18,9 +18,8 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.*;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogException;
@@ -40,19 +39,25 @@ import com.codeminders.yfrog.android.view.message.WriteStatusActivity;
  * @author idemydenko
  *
  */
-public class UserDetailsActivity extends Activity implements OnClickListener {
+public class UserDetailsActivity extends Activity implements OnClickListener, OnCheckedChangeListener {
 	private static final String SAVED_POSITION = "sstatus_pos";
 	
 	public static final String KEY_USER_POS = "user_pos";
 	public static final String KEY_USERS = "users";
 	
-	private static final int ALERT_PROTECTED = 0;
+	private static final int DIALOG_ALERT_PROTECTED = 5000;
+	private static final int DIALOG_ALERT_FOLLOW_PROTECTED = 5001;
+	private static final int DIALOG_NOTIFICATION_SETTINGS = 5002;
+	
+	private static final int NOTIFICATION_SETTINGS_ENABLE = 0;
+	private static final int NOTIFICATION_SETTINGS_DISABLE = 1;
 	
 	private ArrayList<TwitterUser> users;
 	private TwitterUser user;
 	private int position;
 	private int count;
 	private TwitterService twitterService;
+	private boolean isNotificationEnable = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +145,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		
 	
 		if (isUserProtected()) {
-			showDialog(ALERT_PROTECTED);
+			showDialog(DIALOG_ALERT_PROTECTED);
 		}
 		
 	
@@ -149,11 +154,57 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		Drawable d = user.isFollowing() ? getResources().getDrawable(R.drawable.unfollow) : getResources().getDrawable(R.drawable.follow);
 		button.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
 		button.setOnClickListener(this);
+
+		if (isMyself()) {
+			button.setVisibility(View.GONE);
+		} 
+
+		button = (Button) findViewById(R.id.tud_notifications);
+		button.setOnClickListener(this);
 		
 		if (isMyself()) {
 			button.setVisibility(View.GONE);
-		}
+		} 
+//		else {
+//			new AsyncYFrogUpdater(this) {
+//				boolean enabled = false;
+//				protected void doUpdate() throws YFrogException {
+//					enabled = twitterService.isNotificationEnabled(user.getUsername());
+//				}
+//				
+//				@Override
+//				protected void doAfterUpdate() {
+//					checkBox.setChecked(enabled);
+//				}
+//			}.update();
+//		}
 		
+	}
+	
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+//		try {
+//			twitterService.isNotificationEnabled(user.getUsername());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
+//		new AsyncYFrogUpdater(this) {
+//			protected void doUpdate() throws YFrogException {
+//				if (isChecked) {
+//					twitterService.enableNotification(user.getUsername());
+//					System.out.println("ENABLE");
+//				} else {
+//					twitterService.disableNotification(user.getUsername());
+//					System.out.println("DISABLE");
+//				}
+//			}
+//			
+//			protected void doAfterUpdate() {
+//				CheckBox checkBox = (CheckBox) findViewById(R.id.tud_notifications);
+//				checkBox.setChecked(isChecked);
+//			}
+//		}.update();
 	}
 	
 	@Override
@@ -162,12 +213,20 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		case R.id.tud_follow:
 			new AsyncYFrogUpdater(this) {
 				protected void doUpdate() throws YFrogTwitterException {
-					if (user.isFollowing()) {
-						twitterService.unfollow(user.getUsername());
-					} else {
-						twitterService.follow(user.getUsername());
+					try {
+						if (user.isFollowing()) {
+							twitterService.unfollow(user.getUsername());
+						} else {
+							twitterService.follow(user.getUsername());
+						}
+						user.setFollowing(!user.isFollowing());
+					} catch (YFrogTwitterException e) {
+						int errorCode = e.getErrorCode();
+						if (errorCode == AlertUtils.FORBIDDEN) {
+							errorCode = DIALOG_ALERT_FOLLOW_PROTECTED;
+						}
+						throw new YFrogTwitterException(errorCode);
 					}
-					user.setFollowing(!user.isFollowing());					
 				}
 				
 				protected void doAfterUpdate() {
@@ -179,6 +238,21 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 				}
 			}.update();
 
+			break;
+			
+		case R.id.tud_notifications:
+			new AsyncYFrogUpdater(this) {
+				protected void doUpdate() throws YFrogException {
+					isNotificationEnable = twitterService.isNotificationEnabled(user.getUsername());
+				}
+				
+				@Override
+				protected void doAfterUpdate() {
+					showDialog(DIALOG_NOTIFICATION_SETTINGS);
+				}
+			}.update();
+
+			
 			break;
 		}
 		
@@ -315,7 +389,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
 		switch (id) {
-		case ALERT_PROTECTED:
+		case DIALOG_ALERT_PROTECTED:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(R.string.tud_protected_msg);
 			builder.setNegativeButton(R.string.error_alert_btn, new DialogInterface.OnClickListener() {
@@ -327,6 +401,63 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 			
 			dialog = builder.create();
 			break;
+		case DIALOG_ALERT_FOLLOW_PROTECTED:
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.tud_protected_follow_title);
+			builder.setMessage(R.string.tud_protected_follow_msg);
+			builder.setNegativeButton(R.string.error_alert_btn, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface d, int which) {
+					d.dismiss();
+				}
+			});
+			
+			dialog = builder.create();
+			break;
+
+		case DIALOG_NOTIFICATION_SETTINGS:
+			builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.tud_btn_notifications);
+			
+			final int selected = isNotificationEnable ? NOTIFICATION_SETTINGS_ENABLE : NOTIFICATION_SETTINGS_DISABLE;
+			System.out.println(selected);
+			
+			builder.setSingleChoiceItems(R.array.tud_notification_settings_items, selected, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					isNotificationEnable = item2Value(which);
+				}
+				
+				private boolean item2Value(int item) {
+					return item == NOTIFICATION_SETTINGS_ENABLE ? true : false;
+				}
+			});
+			builder.setNegativeButton(R.string.error_alert_btn, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface d, int which) {
+					d.dismiss();
+					
+					if (item2Value(selected) != isNotificationEnable) {
+						new AsyncYFrogUpdater(UserDetailsActivity.this) {
+							protected void doUpdate() throws YFrogException {
+								if (isNotificationEnable) {
+									twitterService.enableNotification(user.getUsername());
+								} else {
+									twitterService.disableNotification(user.getUsername());
+								}
+							}
+						}.update();
+					}
+				}
+				
+				private boolean item2Value(int item) {
+					return item == NOTIFICATION_SETTINGS_ENABLE ? true : false;
+				}
+			});
+			
+			dialog = builder.create();
+			break;
+
 		default:
 			dialog = AlertUtils.createErrorAlert(this, id);
 			break;

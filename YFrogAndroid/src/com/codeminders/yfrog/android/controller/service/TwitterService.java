@@ -5,6 +5,8 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
 
+import twitter4j.TwitterException;
+
 import android.content.Context;
 
 import com.codeminders.yfrog.android.YFrogProperties;
@@ -13,32 +15,34 @@ import com.codeminders.yfrog.android.model.*;
 
 /**
  * @author idemydenko
- *
+ * 
  */
 public interface TwitterService {
 
 	/*
 	 * Desktop application tokens
 	 * 
-	 *	private static final String CONSUMER_KEY = "Ai9SAL3FqA64k5uiY8ezA";
-	 *	private static final String CONSUMER_SECRET = "Piy2dJzdFVUMdUqrRLBUfkW2VcTnWnr2tnO6vHrZ2k"; 
+	 * private static final String CONSUMER_KEY = "Ai9SAL3FqA64k5uiY8ezA";
+	 * private static final String CONSUMER_SECRET =
+	 * "Piy2dJzdFVUMdUqrRLBUfkW2VcTnWnr2tnO6vHrZ2k";
 	 */
-	
-//	static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
-//	static final String CONSUMER_SECRET = "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
 
-	static final String CONSUMER_KEY = YFrogProperties.getProperies().getConsumerKey();
-	static final String CONSUMER_SECRET = YFrogProperties.getProperies().getConsumerSecret();
+	// static final String CONSUMER_KEY = "16F75LNJxjKTIUHidy5Sg";
+	// static final String CONSUMER_SECRET =
+	// "Sp3gGl1RvWtICmphby4MAomRCTj9sGvcE8b7XqUxxnQ";
+	static final String CONSUMER_KEY = YFrogProperties.getProperies()
+			.getConsumerKey();
+	static final String CONSUMER_SECRET = YFrogProperties.getProperies()
+			.getConsumerSecret();
 
-	
 	public static final String CALL_BACK_URL = "yfrog://android";
 	public static final String PARAM_TOKEN = "oauth_token";
 	public static final String PARAM_VERIFIER = "oauth_verifier";
 
 	public static final String SOURCE = "YFrog";
-	
+
 	public void setLoggedAccount(Account acc);
-	
+
 	public abstract void login(String nickname, String password)
 			throws YFrogTwitterException;
 
@@ -74,9 +78,11 @@ public interface TwitterService {
 	public abstract ArrayList<TwitterUser> getFollowings()
 			throws YFrogTwitterException;
 
-	public abstract boolean isFollower(long userId) throws YFrogTwitterException;
-	
-	public abstract boolean isFollowing(long userId) throws YFrogTwitterException;
+	public abstract boolean isFollower(long userId)
+			throws YFrogTwitterException;
+
+	public abstract boolean isFollowing(long userId)
+			throws YFrogTwitterException;
 
 	public abstract ArrayList<TwitterStatus> getMyTweets(int page, int count)
 			throws YFrogTwitterException;
@@ -84,12 +90,14 @@ public interface TwitterService {
 	public abstract ArrayList<TwitterStatus> getUserTweets(String username,
 			int page, int count) throws YFrogTwitterException;
 
-	public abstract TwitterUser getUser(String username) throws YFrogTwitterException;
+	public abstract TwitterUser getUser(String username)
+			throws YFrogTwitterException;
 
 	public abstract void sendUnsentMessage(UnsentMessage message)
 			throws YFrogTwitterException;
 
-	public abstract void sendAllUnsentMessages(Context context) throws YFrogTwitterException;
+	public abstract void sendAllUnsentMessages(Context context)
+			throws YFrogTwitterException;
 
 	public abstract void logout();
 
@@ -104,9 +112,11 @@ public interface TwitterService {
 	public abstract void sendDirectMessage(String username, String text)
 			throws YFrogTwitterException;
 
-	public abstract TwitterStatus favorite(long id) throws YFrogTwitterException;
+	public abstract TwitterStatus favorite(long id)
+			throws YFrogTwitterException;
 
-	public abstract TwitterStatus unfavorite(long id) throws YFrogTwitterException;
+	public abstract TwitterStatus unfavorite(long id)
+			throws YFrogTwitterException;
 
 	public abstract void follow(String username) throws YFrogTwitterException;
 
@@ -134,4 +144,12 @@ public interface TwitterService {
 	public abstract TwitterStatus getStatus(long id)
 			throws YFrogTwitterException;
 
+	public abstract boolean isNotificationEnabled(String username)
+			throws YFrogTwitterException;
+
+	public abstract TwitterUser enableNotification(String username)
+			throws YFrogTwitterException;
+
+	public abstract TwitterUser disableNotification(String username)
+			throws YFrogTwitterException;
 }

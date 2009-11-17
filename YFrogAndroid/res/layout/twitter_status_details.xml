@@ -49,5 +49,5 @@
 			android:layout_margin="15px" 
 			android:drawableLeft="@drawable/favorite" android:drawablePadding="2dp">
 		</Button>		
-</LinearLayout>
+	</LinearLayout>
 </ScrollView>

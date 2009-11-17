@@ -3,8 +3,6 @@
  */
 package com.codeminders.yfrog.android.controller.service.twitter4j;
 
-import com.codeminders.yfrog.android.util.AlertUtils;
-
 import twitter4j.TwitterException;
 import twitter4j.http.Response;
 import twitter4j.org.json.JSONException;

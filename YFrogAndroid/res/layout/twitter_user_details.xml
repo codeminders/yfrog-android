@@ -1,64 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent">
-  	<TextView 
-  		android:text="@+id/TextView01" 
-  		android:id="@+id/tud_counter" 
-  		android:layout_width="wrap_content" 
-  		android:layout_height="wrap_content" style="@style/YFrog.CounterStyle">
-  	</TextView>
-  	
-	<include 
-		android:id="@+id/empty" 
-		android:layout_height="wrap_content" 
-		android:layout_width="fill_parent" 
-		layout="@layout/twitter_user">
-	</include>
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">
 
-	<TextView 
-		android:layout_height="wrap_content" 
-		android:text="@+id/TextView01" 
-		android:layout_width="fill_parent" 
-		android:id="@+id/tud_followers" android:layout_marginLeft="10px" android:layout_marginTop="10px">
-	</TextView>
-
-	<TextView 
-		android:layout_height="wrap_content" 
-		android:text="@+id/TextView01" 
-		android:layout_width="fill_parent" 
-		android:id="@+id/tud_following" android:layout_marginLeft="10px" android:layout_marginTop="1px">
-	</TextView>
-
-	<TextView 
-		android:layout_height="wrap_content" 
-		android:text="@+id/TextView01" 
-		android:layout_width="fill_parent" 
-		android:id="@+id/tud_location" android:layout_marginLeft="10px" android:layout_marginTop="1px">
-	</TextView>
-
-	<TextView 
-		android:layout_height="wrap_content" 
-		android:text="@+id/TextView01" 
-		android:layout_width="fill_parent" 
-		android:id="@+id/tud_descrition" android:layout_marginLeft="10px" android:layout_marginTop="1px">
-	</TextView>
-
-	<Button 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:id="@+id/tud_follow" 
-		android:layout_gravity="center" 
-		android:text="@string/tud_btn_follow" 
-		android:focusable="false" 
-		android:layout_marginTop="15px" android:drawablePadding="2dp">
-	</Button>
-
-	<Button 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:text="@string/tud_btn_notifications" 
-		android:layout_gravity="center_horizontal" 
-		android:id="@+id/tud_notifications" android:layout_marginTop="10dp">
-	</Button>
-</LinearLayout>
+	<LinearLayout
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent">
+	  	<TextView 
+	  		android:text="@+id/TextView01" 
+	  		android:id="@+id/tud_counter" 
+	  		android:layout_width="wrap_content" 
+	  		android:layout_height="wrap_content" style="@style/YFrog.CounterStyle">
+	  	</TextView>
+	  	
+		<include 
+			android:id="@+id/empty" 
+			android:layout_height="wrap_content" 
+			android:layout_width="fill_parent" 
+			layout="@layout/twitter_user">
+		</include>
+	
+		<TextView 
+			android:layout_height="wrap_content" 
+			android:text="@+id/TextView01" 
+			android:layout_width="fill_parent" 
+			android:id="@+id/tud_followers" android:layout_marginLeft="10px" android:layout_marginTop="10px">
+		</TextView>
+	
+		<TextView 
+			android:layout_height="wrap_content" 
+			android:text="@+id/TextView01" 
+			android:layout_width="fill_parent" 
+			android:id="@+id/tud_following" android:layout_marginLeft="10px" android:layout_marginTop="1px">
+		</TextView>
+	
+		<TextView 
+			android:layout_height="wrap_content" 
+			android:text="@+id/TextView01" 
+			android:layout_width="fill_parent" 
+			android:id="@+id/tud_location" android:layout_marginLeft="10px" android:layout_marginTop="1px">
+		</TextView>
+	
+		<TextView 
+			android:layout_height="wrap_content" 
+			android:text="@+id/TextView01" 
+			android:layout_width="fill_parent" 
+			android:id="@+id/tud_descrition" android:layout_marginLeft="10px" android:layout_marginTop="1px">
+		</TextView>
+	
+		<Button 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:id="@+id/tud_follow" 
+			android:layout_gravity="center" 
+			android:text="@string/tud_btn_follow" 
+			android:focusable="false" 
+			android:layout_marginTop="15px" android:drawablePadding="2dp">
+		</Button>
+	
+		<Button 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:text="@string/tud_btn_notifications" 
+			android:layout_gravity="center_horizontal" 
+			android:id="@+id/tud_notifications" android:layout_margin="10dp">
+		</Button>
+	</LinearLayout>
+</ScrollView>

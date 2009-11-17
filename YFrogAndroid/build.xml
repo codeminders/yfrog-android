@@ -5,7 +5,31 @@
 	<property file="build.properties" />
 	<property file="yfrog.properties"/>
 
-	<!-- Default dev key-->
+	<!-- ###################################################################
+						Build Yfrog library part 
+	########################################################################-->
+
+	<target name="build-yfroglib">
+		<property name="base.dir" location="../YFrogLib"/>
+		<property name="build-file" location="${base.dir}/build.xml"/>
+		<property name="build-properties-file" location="${base.dir}/build.properties"/>
+		<property name="build-target" value="dist"/>
+		<property name="yfroglib-file" location="${base.dir}/dist/yfroglib.jar"/>
+
+
+		<ant antfile="${build-file}" target="${build-target}" inheritall="false">
+			<property name="basedir" location="${base.dir}"/>
+			<property file="${build-properties-file}"/>
+		</ant>
+		
+		<copy file="${yfroglib-file}" todir="${lib.dir}" overwrite="true"/>
+	</target>
+
+	<!-- ###################################################################
+						Build application part 
+	########################################################################-->
+
+	<!-- Default keys -->
 	<property name="default_dev_key" value="@dev_key@"/>
 	<property name="default_consumer_key" value="@consumer_key@"/>
 	<property name="default_consumer_secret" value="@consumer_secret@"/>

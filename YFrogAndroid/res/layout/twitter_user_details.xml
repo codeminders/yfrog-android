@@ -59,12 +59,13 @@
 			android:layout_marginTop="15px" android:drawablePadding="2dp">
 		</Button>
 	
-		<Button 
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp" android:text="@string/tud_btn_request" android:id="@+id/tud_request" android:visibility="visible"></Button><Button 
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:text="@string/tud_btn_notifications" 
 			android:layout_gravity="center_horizontal" 
 			android:id="@+id/tud_notifications" android:layout_margin="10dp">
 		</Button>
-	</LinearLayout>
+	
+</LinearLayout>
 </ScrollView>

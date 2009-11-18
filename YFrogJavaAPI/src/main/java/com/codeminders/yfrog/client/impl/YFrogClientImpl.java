@@ -51,7 +51,7 @@ public class YFrogClientImpl extends YFrogClient {
 	}
 	
 	private MultipartEntity buildRequest(UploadRequest request) throws IOException {
-		MultipartEntity multipart = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+		MultipartEntity multipart = new MultipartEntity(HttpMultipartMode.STRICT);
 		
 		multipart.addPart(UploadRequest.FIELD_USERNAME, new StringBody(request.getUsername()));
 		if (!isEmpty(request.getPassword())) {

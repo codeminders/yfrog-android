@@ -155,7 +155,7 @@
     <string name="tud_btn_follow">Follow</string>
     <string name="tud_btn_unfollow">Unfollow</string>
     <string name="tud_send">Send</string>
-    <string name="tud_protected_msg">This person has protected his tweets</string>
+    <string name="tud_protected_msg">This person has protected their tweets. You need to send a request before you can start following this person.</string>
     <string name="tud_location">Location:</string>
     <string name="tud_description">Description:</string>
     <string name="tud_followers">Followers:</string>
@@ -167,7 +167,7 @@
     	<item>Enable</item>
     	<item>Disable</item>
     </string-array>
-    
+    <string name="tud_btn_request">Send request</string>
     
     <!-- Twitter status details -->
     <string name="tm_title">Status details</string>

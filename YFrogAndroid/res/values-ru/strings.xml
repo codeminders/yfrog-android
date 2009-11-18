@@ -26,7 +26,7 @@
     <string name="twitter_error">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
     <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
     <string name="account_verification_error">Wrong authorization data or connection problem</string>
-    <string name="gps_retrieve_location_error"> Can't retrieve a current location</string>
+    <string name="gps_retrieve_location_error"> Can not retrieve a current location</string>
     
     <string name="account_db_insert_error">Error during add new account to database. Please re-install application and try again</string>
     
@@ -162,7 +162,7 @@
     <string name="tud_following">Following:</string>
     <string name="tud_btn_notifications">Device updates</string>
     <string name="tud_protected_follow_title">Request sent</string>
-    <string name="tud_protected_follow_msg">You've sent a request to follow this person. If your request is approved, you'll be able to view their tweets.</string>
+    <string name="tud_protected_follow_msg">You have sent a request to follow this person. If your request is approved, you will be able to view their tweets.</string>
     <string-array name="tud_notification_settings_items">
     	<item>Enable</item>
     	<item>Disable</item>

@@ -96,6 +96,5 @@ public class MainTabActivity extends TabActivity implements OnTabChangeListener 
 	@Override
 	public void onTabChanged(String tabId) {
 		tabHost.getCurrentTab();
-		System.out.println(tabId);		
 	}
 }

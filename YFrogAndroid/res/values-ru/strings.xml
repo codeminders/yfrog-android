@@ -74,7 +74,7 @@
     <string name="account_login_failed_title">Authentication failed</string>
     <string name="account_login_failed_msg">Please check that your login and password are correct</string>
     <string name="account_login_failed_btn">OK</string>
-    <string name="account_list_empty">No accounts</string>
+    <string name="account_list_empty">Press menu to add an account</string>
     
 	<!-- Add account -->
 	<string name="add_account_activity_title">Add account</string>

@@ -66,7 +66,8 @@ public class Twitter4JService implements TwitterService {
 	 */
 	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
 		twitter = create();
-		
+//		System.out.println(CONSUMER_KEY);
+//		System.out.println(CONSUMER_SECRET);
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
 		

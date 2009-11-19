@@ -101,7 +101,7 @@ public class YFrogService {
 		}
 		
 		request.setKey(properties.getDeveloperKey());
-		System.out.println("Developer Key - " + request.getKey());
+//		System.out.println("Developer Key - " + request.getKey());
 	}
 	
 	private void checkResponse(UploadResponse response) throws YFrogTwitterException {

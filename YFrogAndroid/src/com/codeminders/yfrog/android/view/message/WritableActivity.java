@@ -3,10 +3,16 @@
  */
 package com.codeminders.yfrog.android.view.message;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,6 +60,7 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	protected UnsentMessageService unsentMessageService;
 	protected YFrogService yfrogService;
 	protected GeoLocationService geoLocationService;
+	private SensorManager sensorManager;
 	
 	private TextSwitcher switcher;
 	private int count;
@@ -61,6 +68,8 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		
 		twitterService = ServiceFactory.getTwitterService();
 		accountService = ServiceFactory.getAccountService();
 		unsentMessageService = ServiceFactory.getUnsentMessageService();
@@ -90,6 +99,12 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		updateCounter();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		activateSensor();
+	}
+	
 	@Override
 	public void onClick(View v) {
 		final String text = getText();
@@ -160,6 +175,15 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 				intent.setClass(this, VideoPickActivity.class);
 				break;
 		}
+		
+		synchronized (lock) {
+			savedSensorValues[0] = azimuth;
+			savedSensorValues[1] = pitch;
+			savedSensorValues[2] = roll;
+		}
+		
+//		System.out.println("Start Attachment >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> A: " + savedSensorValues[0] + " > P: " + savedSensorValues[1] + " > R: " + savedSensorValues[2]);
+
 		startActivityForResult(intent, request);
 	}
 	
@@ -172,6 +196,11 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	
 	private void attach(int request, Intent data) {
 		final MessageAttachment attachment = createAttachment(request, data);
+		attachment.setAzimuth(savedSensorValues[0]);
+		attachment.setPitch(savedSensorValues[1]);
+		attachment.setRoll(savedSensorValues[2]);
+		
+//		System.out.println(" Attach to server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> A: " + savedSensorValues[0] + " > P: " + savedSensorValues[1] + " > R: " + savedSensorValues[2]);
 		
 		if (attachment != null) {
 			new AsyncYFrogUpdater(this) {
@@ -313,5 +342,48 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 	
 	protected String createTitle() {
 		return StringUtils.formatTitle(twitterService.getLoggedUser().getUsername());
+	}
+	
+	private void activateSensor() {
+		List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ORIENTATION);
+		
+		for (Sensor sensor : sensors) {
+			sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+//			System.out.println(" >>>>>>>>>>>>>>>>>>>>>>>>>> " + sensor.getName());
+		}
+	}
+
+	private void deactivateSensor() {
+		sensorManager.unregisterListener(sensorEventListener);
+	}
+	
+	private float[] savedSensorValues = new float[3];
+	private Object lock = new Object();
+	private volatile float azimuth = 0.0f;
+	private volatile float pitch = 0.0f;
+	private volatile float roll = 0.0f;
+	
+	
+	private SensorEventListener sensorEventListener = new SensorEventListener() {
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {};
+		
+		public void onSensorChanged(SensorEvent event) {
+				if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+					synchronized (lock) {	
+						azimuth = event.values[0];
+						pitch = event.values[1];
+						roll = event.values[2];
+//						TextView tv = (TextView) findViewById(R.id.test);
+//						tv.setText("Orientation:\nAzimuth: " + event.values[0] + "\nPitch: " + event.values[1] + "\nRoll: " + event.values[2]);
+					}
+				}
+
+		};
+	};
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		deactivateSensor();
 	}
 }

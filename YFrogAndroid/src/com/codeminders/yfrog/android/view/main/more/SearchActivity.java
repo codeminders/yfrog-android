@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,7 +47,8 @@ public class SearchActivity extends Activity implements OnClickListener {
 	private TwitterService twitterService;
 	private ArrayList<TwitterSavedSearch> searches = new ArrayList<TwitterSavedSearch>(0);
 	private List<String> searchesQueries;
-	private Button saveButton;
+//	private Button saveButton;
+	private ImageButton saveButton;
 	private AutoCompleteTextView input;
 
 	@Override
@@ -147,10 +147,12 @@ public class SearchActivity extends Activity implements OnClickListener {
 			listView.setOnItemClickListener(mOnClickListener);
 			registerForContextMenu(listView);
 		}
-		Button button = (Button) findViewById(R.id.s_search_button);
+//		Button button = (Button) findViewById(R.id.s_search_button);
+		ImageButton button = (ImageButton) findViewById(R.id.s_search_button);
 		button.setOnClickListener(this);
 
-		saveButton = (Button) findViewById(R.id.s_save_button);
+//		saveButton = (Button) findViewById(R.id.s_save_button);
+		saveButton = (ImageButton) findViewById(R.id.s_save_button);
 		saveButton.setOnClickListener(this);
 
 		input = (AutoCompleteTextView) findViewById(R.id.s_search_input);
@@ -323,10 +325,10 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-//			saveButton.setText(isQuerySaved(s.toString()) ? R.string.delete : R.string.save);
-			Drawable d = isQuerySaved(s.toString()) ? getResources().getDrawable(R.drawable.delete_account) 
-					: getResources().getDrawable(R.drawable.save);
-			saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+//			Drawable d = isQuerySaved(s.toString()) ? getResources().getDrawable(R.drawable.delete_account) 
+//					: getResources().getDrawable(R.drawable.save);
+//			saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+			saveButton.setImageResource(isQuerySaved(s.toString()) ? R.drawable.delete_account : R.drawable.save);
 		}
 
 		@Override

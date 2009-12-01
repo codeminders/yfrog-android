@@ -2,8 +2,12 @@ package com.codeminders.yfrog.client.oauth;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.*;
-import java.util.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

@@ -11,7 +11,6 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,7 +56,8 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 	private String query;
 	private boolean isSaved;
 	private int page = 1;
-	private Button saveButton;
+//	private Button saveButton;
+	private ImageButton saveButton;
 	private AutoCompleteTextView input;
 	private ArrayList<TwitterSavedSearch> searches;
 	private List<String> searchesQueries;
@@ -189,14 +189,17 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 
 		listView.setOnItemClickListener(mOnClickListener);
 
-		saveButton = (Button) findViewById(R.id.sr_save_button);
-//		saveButton.setText(isSaved ? R.string.delete : R.string.save);
-		Drawable d = isSaved ? getResources().getDrawable(R.drawable.delete_account) 
-				: getResources().getDrawable(R.drawable.save);
-		saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+//		saveButton = (Button) findViewById(R.id.sr_save_button);
+//		Drawable d = isSaved ? getResources().getDrawable(R.drawable.delete_account) 
+//				: getResources().getDrawable(R.drawable.save);
+//		saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+		saveButton = (ImageButton) findViewById(R.id.sr_save_button);
+		saveButton.setImageResource(isSaved ? R.drawable.delete_account : R.drawable.save);
+
 		saveButton.setOnClickListener(this);
 
-		Button button = (Button) findViewById(R.id.sr_search_button);
+//		Button button = (Button) findViewById(R.id.sr_search_button);
+		ImageButton button = (ImageButton) findViewById(R.id.sr_search_button);
 		button.setOnClickListener(this);
 
 		input = (AutoCompleteTextView) findViewById(R.id.sr_search_input);
@@ -358,9 +361,11 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 		public void afterTextChanged(Editable s) {
 			isSaved = isQuerySaved(s.toString());
 //			saveButton.setText(isSaved ? R.string.delete : R.string.save);
-			Drawable d = isSaved ? getResources().getDrawable(R.drawable.delete_account) 
-					: getResources().getDrawable(R.drawable.save);
-			saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+//			Drawable d = isSaved ? getResources().getDrawable(R.drawable.delete_account) 
+//					: getResources().getDrawable(R.drawable.save);
+//			saveButton.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+			saveButton.setImageResource(isSaved ? R.drawable.delete_account : R.drawable.save);
+
 
 		}
 

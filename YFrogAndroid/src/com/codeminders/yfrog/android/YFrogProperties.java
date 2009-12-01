@@ -86,7 +86,6 @@ public final class YFrogProperties {
 			val = DEBUG_CONSUMER_KEY_VAL;
 		}
 		
-//		System.out.println("key: " + val);
 		putString(CONSUMER_KEY, val);
 
 		val = properties.getProperty(CONSUMER_SECRET, "");
@@ -95,7 +94,7 @@ public final class YFrogProperties {
 			val = DEBUG_CONSUMER_SECRET_VAL;
 		}
 		
-		System.out.println("secret: " + val);
+//		System.out.println("secret: " + val);
 		putString(CONSUMER_SECRET, val);
 
 	}

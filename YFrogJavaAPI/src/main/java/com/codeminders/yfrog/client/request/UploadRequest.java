@@ -20,6 +20,9 @@ public abstract class UploadRequest {
 	public static final String FIELD_MESSAGE = "message";
 	public static final String FIELD_VERIFY_URL = "verify_url";
 	public static final String FIELD_AUTH = "auth";
+	public static final String FIELD_AZIMTUH = "azimuth";
+	public static final String FIELD_PITCH = "pitch";
+	public static final String FIELD_ROLL = "roll";
 	
 	public static final String VAL_AUTH_OAUTH = "oauth";
 	
@@ -34,6 +37,10 @@ public abstract class UploadRequest {
 	private String message;
 	private String verifyUrl;
 	private String mediaMimeType;
+	private float azimuth;
+	private float pitch;
+	private float roll;
+
 
 	public String getUsername() {
 		return username == null ? EMPTY_STRING : username;
@@ -103,9 +110,30 @@ public abstract class UploadRequest {
 		this.mediaMimeType = mimeType;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	public float getAzimuth() {
+		return azimuth;
+	}
+
+	public void setAzimuth(float azimuth) {
+		this.azimuth = azimuth;
+	}
+
+	public float getPitch() {
+		return pitch;
+	}
+
+	public void setPitch(float pitch) {
+		this.pitch = pitch;
+	}
+
+	public float getRoll() {
+		return roll;
+	}
+
+	public void setRoll(float roll) {
+		this.roll = roll;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

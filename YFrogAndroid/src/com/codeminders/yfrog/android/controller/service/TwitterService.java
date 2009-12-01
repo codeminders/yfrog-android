@@ -5,8 +5,6 @@ package com.codeminders.yfrog.android.controller.service;
 
 import java.util.ArrayList;
 
-import twitter4j.TwitterException;
-
 import android.content.Context;
 
 import com.codeminders.yfrog.android.YFrogProperties;

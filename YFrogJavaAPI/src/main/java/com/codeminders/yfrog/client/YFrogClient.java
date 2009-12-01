@@ -6,8 +6,12 @@ package com.codeminders.yfrog.client;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.codeminders.yfrog.client.request.*;
-import com.codeminders.yfrog.client.response.*;
+import com.codeminders.yfrog.client.request.FileUploadRequest;
+import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
+import com.codeminders.yfrog.client.request.UploadRequest;
+import com.codeminders.yfrog.client.request.UrlUploadRequest;
+import com.codeminders.yfrog.client.response.UploadResponse;
+import com.codeminders.yfrog.client.response.UploadResponseFormatException;
 
 /**
  * @author idemydenko

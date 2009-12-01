@@ -24,6 +24,10 @@ public class MessageAttachment {
 	private Context context;
 	private Bitmap bitmap;
 	private Uri uri;
+	private float azimuth = 0.0f;
+	private float pitch = 0.0f;
+	private float roll = 0.0f;
+
 	
 	public MessageAttachment(Context ctx, Bitmap attachment) {
 		bitmap = attachment;
@@ -38,6 +42,30 @@ public class MessageAttachment {
 	public MessageAttachment(Context ctx, String attachment) {
 		uri = Uri.parse(attachment);
 		context = ctx;
+	}
+
+	public float getAzimuth() {
+		return azimuth;
+	}
+
+	public void setAzimuth(float azimuth) {
+		this.azimuth = azimuth;
+	}
+
+	public float getPitch() {
+		return pitch;
+	}
+
+	public void setPitch(float pitch) {
+		this.pitch = pitch;
+	}
+
+	public float getRoll() {
+		return roll;
+	}
+
+	public void setRoll(float roll) {
+		this.roll = roll;
 	}
 
 	private InputStream getInputStream() throws IOException {
@@ -60,6 +88,10 @@ public class MessageAttachment {
 			request = createISUploadRequest();
 		}
 		request.setPublic(true);
+		
+		request.setAzimuth(azimuth);
+		request.setPitch(pitch);
+		request.setRoll(roll);
 		return request;
 	}
 	

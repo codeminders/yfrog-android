@@ -3,6 +3,34 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content" android:orientation="vertical">
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:padding="5px">
+			<AutoCompleteTextView
+				android:id="@+id/s_search_input" 
+				android:text="" 
+				android:layout_height="wrap_content" 
+				android:layout_gravity="left" 
+				android:layout_width="fill_parent" 
+				android:singleLine="true" android:inputType="text" android:layout_marginTop="5dp" android:layout_weight="50">
+			</AutoCompleteTextView>
+
+			<ImageButton 
+				android:id="@+id/s_search_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:src="@drawable/search1">
+			</ImageButton>
+
+			<ImageButton 
+				android:id="@+id/s_save_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:src="@drawable/save">
+			</ImageButton>
+	</LinearLayout>
+
+<!--
 	<TableLayout 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:stretchColumns="1" android:padding="5px">
@@ -16,22 +44,7 @@
 				android:layout_width="fill_parent" 
 				android:singleLine="true" android:inputType="text" android:width="200px" android:layout_marginTop="5dp">
 			</AutoCompleteTextView>
-<!-- 
-			<Button 
-				android:id="@+id/s_search_button" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content"
-				android:text="@string/s_btn_search" android:layout_gravity="right">
-			</Button>
 
-			
-			<Button 
-				android:id="@+id/s_save_button" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content"
-				android:layout_gravity="right" android:text="@string/save">
-			</Button>
- -->			
 			<Button 
 				android:id="@+id/s_search_button" 
 				android:layout_width="wrap_content" 
@@ -48,7 +61,7 @@
 					
 		</TableRow>
 	</TableLayout>
-
+-->
 	<ListView 
 		android:id="@+id/s_searches_list" 
 		android:layout_height="wrap_content" android:layout_width="fill_parent">

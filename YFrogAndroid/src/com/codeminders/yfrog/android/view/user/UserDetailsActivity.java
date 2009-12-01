@@ -19,7 +19,6 @@ import android.text.style.StyleSpan;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.codeminders.yfrog.android.R;
 import com.codeminders.yfrog.android.YFrogException;

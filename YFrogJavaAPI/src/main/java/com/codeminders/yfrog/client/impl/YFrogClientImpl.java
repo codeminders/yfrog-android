@@ -8,13 +8,20 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.*;
-import org.apache.http.entity.mime.content.*;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.codeminders.yfrog.client.YFrogClient;
-import com.codeminders.yfrog.client.request.*;
-import com.codeminders.yfrog.client.response.*;
+import com.codeminders.yfrog.client.request.FileUploadRequest;
+import com.codeminders.yfrog.client.request.InputStreamUploadRequest;
+import com.codeminders.yfrog.client.request.UploadRequest;
+import com.codeminders.yfrog.client.request.UrlUploadRequest;
+import com.codeminders.yfrog.client.response.ResponseFactory;
+import com.codeminders.yfrog.client.response.UploadResponse;
+import com.codeminders.yfrog.client.response.UploadResponseFormatException;
 
 /**
  * @author idemydenko
@@ -68,6 +75,10 @@ public class YFrogClientImpl extends YFrogClient {
 		if (!isEmpty(request.getMessage())) {
 			multipart.addPart(UploadRequest.FIELD_MESSAGE, new StringBody(request.getMessage()));
 		}
+		
+		multipart.addPart(UploadRequest.FIELD_AZIMTUH, new StringBody(request.getAzimuth() + ""));
+		multipart.addPart(UploadRequest.FIELD_PITCH, new StringBody(request.getPitch() + ""));
+		multipart.addPart(UploadRequest.FIELD_ROLL, new StringBody(request.getRoll() + ""));
 		
 		if(request instanceof UrlUploadRequest) {
 			multipart.addPart(UploadRequest.FIELD_URL, new StringBody(((UrlUploadRequest) request).getUrl()));

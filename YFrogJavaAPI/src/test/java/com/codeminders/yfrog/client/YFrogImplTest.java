@@ -85,7 +85,7 @@ public class YFrogImplTest extends TestCase {
 		request.setPassword("dem123");
 		request.setPublic(true);
 //		request.setMediaMimeType("video/x-flv");
-		request.setMediaMimeType("application/x-shockwave-flash");
+//		request.setMediaMimeType("application/x-shockwave-flash");
 		
 //		request.setInputStream(this.getClass().getResourceAsStream("/fnn.mp4"));
 //		request.setFilename("fnn.mp4");
@@ -93,8 +93,8 @@ public class YFrogImplTest extends TestCase {
 //		request.setFilename("phone.flv");
 //		request.setInputStream(this.getClass().getResourceAsStream("/video.3gp"));
 //		request.setFilename("video.3gp");
-		request.setInputStream(this.getClass().getResourceAsStream("/first.swf"));
-		request.setFilename("first.swf");
+//		request.setInputStream(this.getClass().getResourceAsStream("/first.swf"));
+//		request.setFilename("first.swf");
 //		request.setInputStream(this.getClass().getResourceAsStream("/beans.pdf"));
 //		request.setFilename("beans.pdf");
 //		request.setInputStream(this.getClass().getResourceAsStream("/fig.tiff"));
@@ -105,6 +105,9 @@ public class YFrogImplTest extends TestCase {
 //		request.setFilename("image.gif");
 //		request.setInputStream(this.getClass().getResourceAsStream("/image.png"));
 //		request.setFilename("image.png");
+		request.setInputStream(this.getClass().getResourceAsStream("/krivetko.jpg"));
+		request.setFilename("krivetko.jpg");
+
 
 		
 		YFrogClient frog = new YFrogClientImpl();
@@ -122,12 +125,14 @@ public class YFrogImplTest extends TestCase {
 		request.setPassword("dem123");
 		request.setPublic(true);
 //		request.setMediaMimeType("video/x-flv");
-		request.setMediaMimeType("application/x-shockwave-flash");
+//		request.setMediaMimeType("application/x-shockwave-flash");
 
-//		request.setFile(new File("src/test/resources/fnn.mp4"));
+		request.setPitch(-89.2f);
+		request.setMediaMimeType("video/*");
+		request.setFile(new File("src/test/resources/fnn.mp4"));
 //		request.setFile(new File("src/test/resources/phone.flv"));
 //		request.setFile(new File("src/test/resources/video.3gp"));
-		request.setFile(new File("src/test/resources/first.swf"));
+//		request.setFile(new File("src/test/resources/first.swf"));
 //		request.setFile(new File("src/test/resources/beans.pdf"));
 //		request.setFile(new File("src/test/resources/fig.tiff"));
 //		request.setFile(new File("src/test/resources/image.bmp"));

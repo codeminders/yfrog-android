@@ -39,6 +39,9 @@ public class YFrogService {
 		UploadRequest request = attachment.toUploadRequest();
 
 		prepareAuthentication(request);
+		request.setAzimuth(attachment.getAzimuth());
+		request.setPitch(attachment.getPitch());
+		request.setRoll(attachment.getRoll());
 		
 		if (!StringUtils.isEmpty(text)) {
 			request.setMessage(text);

@@ -234,5 +234,5 @@
 		</exec>				
 	</target>
 	
-	<target name="build-and-sign-release" depends="release, sign, optimize, reinstall"/>
+	<target name="build-install-and-sign-release" depends="uninstall, build-yfroglib, release, sign, optimize, reinstall"/>
 </project>

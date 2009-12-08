@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.Sensor;
@@ -16,6 +17,8 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -204,15 +207,31 @@ public abstract class WritableActivity extends Activity implements OnClickListen
 		
 		if (attachment != null) {
 			new AsyncYFrogUpdater(this) {
+				private static final String TAG = "upload";
 				String mediaUrl = null;
+				WakeLock powerWakeLock;
 
 				protected void doUpdate() throws YFrogTwitterException {
+					PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+					powerWakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
+					powerWakeLock.acquire();
+					
 					mediaUrl = yfrogService.upload(attachment);					
 				}
 				
 				protected void doAfterUpdate() {
 					if (mediaUrl != null) {
 						addToText(mediaUrl);
+					}
+					
+					if (powerWakeLock != null) {
+						powerWakeLock.release();
+					}
+				}
+				
+				protected void doAfterError() {
+					if (powerWakeLock != null) {
+						powerWakeLock.release();
 					}
 				}
 			}.update();

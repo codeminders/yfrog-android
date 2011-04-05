@@ -2,9 +2,6 @@
 <projectDescription>
 	<name>YFrogAndroid</name>
 	<comment></comment>
-	<projects>
-		<project>YFrogLib</project>
-	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>

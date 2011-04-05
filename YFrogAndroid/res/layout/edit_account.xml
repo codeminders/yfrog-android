@@ -23,66 +23,6 @@
 					android:id="@+id/ae_name"/>
 			</TableRow>
 		</TableLayout>
-		<LinearLayout android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent" android:layout_marginTop="10px">
-			<TextView 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" android:text="@string/ae_auth_methods">
-			</TextView>
-			<RadioGroup 
-				 android:layout_width="fill_parent" 
-				 android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/ae_auth_methods">
-				<RadioButton 
-					android:id="@+id/ae_common_method_rbutton" 
-					android:layout_width="wrap_content" 
-					android:layout_height="wrap_content" android:text="@string/ae_common_method" android:checked="true">
-				</RadioButton>
-						
-				<RadioButton 
-					android:id="@+id/ae_oauth_method_rbutton" 
-					android:layout_width="wrap_content" 
-					android:layout_height="wrap_content" android:text="@string/ae_oauth_method">
-				</RadioButton>
-			</RadioGroup>
-		</LinearLayout>
-
-		<LinearLayout 
-			android:layout_height="wrap_content" 
-			android:orientation="vertical" 
-			android:layout_width="fill_parent"
-			android:layout_marginTop="5px" android:id="@+id/ae_common_layout">
-			<TextView
-				android:paddingRight="10dip"
-				style="?android:attr/listSeparatorTextViewStyle"
-				android:layout_width="fill_parent" 
-				android:text="@string/ae_common_method"/>
-			
-			<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="fill_parent"
-				android:stretchColumns="1"
-				android:padding="10dip"
-				android:layout_height="wrap_content">
-				<TableRow android:paddingBottom="5dip">	  	
-					<TextView
-						android:text="@string/ae_nickname"
-						android:paddingRight="10dip"
-						android:gravity="right"
-						android:textStyle="bold"
-					/>
-					<EditText
-						android:singleLine="true" android:id="@+id/ae_nickname"/>
-				</TableRow>
-				<TableRow android:paddingBottom="5dip">
-					<TextView
-						android:text="@string/ae_password"
-						android:paddingRight="10dip"
-						android:gravity="right"
-						android:textStyle="bold"
-					/>
-					<EditText
-						android:singleLine="true" android:password="true" android:id="@+id/ae_password"/>
-				</TableRow>
-			</TableLayout>
-		</LinearLayout>
 
 		<LinearLayout 
 			android:layout_height="wrap_content" 

@@ -91,7 +91,12 @@ public class ListAccountsActivity extends ListActivity {
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
 		if (accounts.size() > 0) {
-			getListView().setItemChecked(0, true);
+			long lastLogedId = getLastLogged().getId();
+			int position = 0;
+			for (int i=0; i<accounts.size(); i++)
+				if (accounts.get(i).getId() == lastLogedId)
+					position = i;
+			getListView().setItemChecked(position, true);
 		}
 		
 		registerForContextMenu(getListView());

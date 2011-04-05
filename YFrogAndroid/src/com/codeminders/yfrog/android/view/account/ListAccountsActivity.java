@@ -91,7 +91,7 @@ public class ListAccountsActivity extends ListActivity {
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
 		if (accounts.size() > 0) {
-			long lastLogedId = getLastLogged().getId();
+			long lastLogedId = properties.getLong(KEY_LAST_LOGGED);
 			int position = 0;
 			for (int i=0; i<accounts.size(); i++)
 				if (accounts.get(i).getId() == lastLogedId)
@@ -297,6 +297,7 @@ public class ListAccountsActivity extends ListActivity {
 
 	private void addAccount() {
 		Intent intent = new Intent(this, EditAccountActivity.class);
+		properties.delete(KEY_LAST_LOGGED);
 		startActivity(intent);		
 	}
 }

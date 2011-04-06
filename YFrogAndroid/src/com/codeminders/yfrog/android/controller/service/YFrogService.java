@@ -87,13 +87,9 @@ public class YFrogService {
 		Account logged = accountService.getLogged();
 		
 		request.setUsername(logged.getUsername());
-		if (logged.getAuthMethod() == Account.METHOD_COMMON) {
-			request.setPassword(accountService.getLogged().getPassword());
-		} else {
-			String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(), 
-					TwitterService.CONSUMER_KEY, TwitterService.CONSUMER_SECRET);
-			request.setVerifyUrl(signedUrl);
-		}
+		String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(), 
+				TwitterService.CONSUMER_KEY, TwitterService.CONSUMER_SECRET);
+		request.setVerifyUrl(signedUrl);
 		
 		if (logged.isPostLocation()) {
 			Location location = geoLocationService.getLocation();

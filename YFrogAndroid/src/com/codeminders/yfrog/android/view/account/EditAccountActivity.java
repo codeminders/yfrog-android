@@ -67,14 +67,13 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			TableLayout layout = (TableLayout) findViewById(R.id.ae_account_name);
 			layout.setVisibility(View.GONE);	
 			editable = new Account();
-			editable.setAuthMethod(Account.METHOD_OAUTH);
 		}
 		
 		setTitle(isEdit ? R.string.edit_account_activity_title : R.string.add_account_activity_title);
 	
 		Button button = (Button) findViewById(R.id.ae_save_button);
-		button.setText(!editable.isOAuthVerified() && editable.getAuthMethod() == Account.METHOD_OAUTH ? R.string.next : R.string.save);
-		Drawable d = !editable.isOAuthVerified() && editable.getAuthMethod() == Account.METHOD_OAUTH ?
+		button.setText(!editable.isOAuthVerified() ? R.string.next : R.string.save);
+		Drawable d = !editable.isOAuthVerified() ?
 				getResources().getDrawable(R.drawable.next) : getResources().getDrawable(R.drawable.save);
 		button.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 		button.setOnClickListener(this);
@@ -85,8 +84,6 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		editable.setAuthMethod(Account.METHOD_OAUTH);
-
 		if (editable.isNeedOAuthAuthorization()) {
 			new AsyncYFrogUpdater(this) {
 				String url = null;

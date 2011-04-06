@@ -125,14 +125,8 @@ public class Twitter4JService implements TwitterService {
 	 */
 	public TwitterUser getCredentials(Account account) throws YFrogTwitterException {
 		Twitter twitter = create();
-		
-		if (account.getAuthMethod() == Account.METHOD_COMMON) {
-			twitter.setUserId(account.getUsername());
-			twitter.setPassword(account.getPassword());
-		} else {
-			twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-			twitter.setOAuthAccessToken(account.getOauthToken(), account.getOauthTokenSecret());
-		}
+		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+		twitter.setOAuthAccessToken(account.getOauthToken(), account.getOauthTokenSecret());
 		try {
 			return Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {

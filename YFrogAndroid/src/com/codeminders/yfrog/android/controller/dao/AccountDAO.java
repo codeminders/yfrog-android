@@ -23,11 +23,8 @@ public class AccountDAO extends AbstractDAO {
 	private static final String TABLE_NAME = "account";
 	private static final String ID = "account_id";
 	private static final String USERNAME = "username";
-	private static final String PASSWORD = "password";
-	private static final String EMAIL = "email";
 	private static final String OAUTH_TOLKEN = "oauth_token";
 	private static final String OAUTH_TOLKEN_SECRET = "oauth_token_secret";
-	private static final String AUTHORIZATION_METHOD = "auth_method";
 	private static final String OAUTH_STATUS = "oauth_status";
 	private static final String POST_LOCATION = "post_location";
 	private static final String SCALE_IMAGES = "scale_images";
@@ -36,12 +33,9 @@ public class AccountDAO extends AbstractDAO {
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
 		ID + " INTEGER PRIMARY KEY, " +
 		USERNAME + " TEXT, " +
-		PASSWORD + " TEXT, " +
-		EMAIL + " TEXT, " +
 		OAUTH_TOLKEN + " TEXT," +
 		OAUTH_TOLKEN_SECRET + " TEXT, " +
 		OAUTH_STATUS + " INTEGER NOT NULL, " +
-		AUTHORIZATION_METHOD + " INTEGER NOT NULL, " +
 		POST_LOCATION + " INTEGER NOT NULL, " +
 		SCALE_IMAGES + " INTEGER NOT NULL " +
 		"); ";
@@ -58,9 +52,9 @@ public class AccountDAO extends AbstractDAO {
 	private static final String OAUTH_STATUS_EQUAL_WHERE = OAUTH_STATUS + " = ?";
 	private static final String USERNAME_IS_NULL_WHERE = USERNAME + " is null";
 	private static final String GET_WATING_FOR_OAUTH_VERIFICATION = "select * from " + TABLE_NAME 
-																+ " where " + OAUTH_STATUS + " = " + Account.OAUTH_STATUS_WAIT_VERIFICATION 
-																+ " and " + AUTHORIZATION_METHOD + " = " + Account.METHOD_OAUTH;
-
+																+ " where " + OAUTH_STATUS + " = " 
+																+ Account.OAUTH_STATUS_WAIT_VERIFICATION; 
+															
 	AccountDAO() {
 	}
 	
@@ -75,12 +69,9 @@ public class AccountDAO extends AbstractDAO {
 			
 			int idxId = cursor.getColumnIndex(ID);
 			int idxNickname = cursor.getColumnIndex(USERNAME);
-			int idxPassword = cursor.getColumnIndex(PASSWORD);
-			int idxEmail = cursor.getColumnIndex(EMAIL);
 			int idxOauthTolken = cursor.getColumnIndex(OAUTH_TOLKEN);
 			int idxOauthSecretTolken = cursor.getColumnIndex(OAUTH_TOLKEN_SECRET);
 			int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
-			int idxAuthMethod = cursor.getColumnIndex(AUTHORIZATION_METHOD);
 			int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
 			int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
 			
@@ -88,12 +79,9 @@ public class AccountDAO extends AbstractDAO {
 				Account account = new Account();
 				account.setId(cursor.getLong(idxId));
 				account.setUsername(cursor.getString(idxNickname));
-				account.setPassword(cursor.getString(idxPassword));
-				account.setEmail(cursor.getString(idxEmail));
 				account.setOauthToken(cursor.getString(idxOauthTolken));
 				account.setOauthTokenSecret(cursor.getString(idxOauthSecretTolken));
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
-				account.setAuthMethod(cursor.getInt(idxAuthMethod));
 				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
 				account.setScaleImage(cursor.getInt(idxScaleImages));
 				
@@ -120,12 +108,9 @@ public class AccountDAO extends AbstractDAO {
 			if (cursor.getCount() == 1) {
 				int idxId = cursor.getColumnIndex(ID);
 				int idxNickname = cursor.getColumnIndex(USERNAME);
-				int idxPassword = cursor.getColumnIndex(PASSWORD);
-				int idxEmail = cursor.getColumnIndex(EMAIL);
 				int idxOauthTolken = cursor.getColumnIndex(OAUTH_TOLKEN);
 				int idxOauthSecretTolken = cursor.getColumnIndex(OAUTH_TOLKEN_SECRET);
 				int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
-				int idxAuthMethod = cursor.getColumnIndex(AUTHORIZATION_METHOD);
 				int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
 				int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
 				
@@ -134,12 +119,9 @@ public class AccountDAO extends AbstractDAO {
 				account = new Account();
 				account.setId(cursor.getLong(idxId));
 				account.setUsername(cursor.getString(idxNickname));
-				account.setPassword(cursor.getString(idxPassword));
-				account.setEmail(cursor.getString(idxEmail));
 				account.setOauthToken(cursor.getString(idxOauthTolken));
 				account.setOauthTokenSecret(cursor.getString(idxOauthSecretTolken));
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
-				account.setAuthMethod(cursor.getInt(idxAuthMethod));
 				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
 				account.setScaleImage(cursor.getInt(idxScaleImages));
 
@@ -160,7 +142,6 @@ public class AccountDAO extends AbstractDAO {
 			ContentValues values = new ContentValues();
 			values.put(OAUTH_TOLKEN, StringUtils.EMPTY_STRING);
 			values.put(OAUTH_TOLKEN_SECRET, StringUtils.EMPTY_STRING);
-			values.put(AUTHORIZATION_METHOD, Account.METHOD_COMMON);
 			values.put(OAUTH_STATUS, Account.OAUTH_STATUS_NOT_AUTHORIZED);
 			db.update(TABLE_NAME, values, OAUTH_STATUS_EQUAL_WHERE, new String[] {Account.OAUTH_STATUS_WAIT_VERIFICATION + ""});
 		} finally {
@@ -180,28 +161,20 @@ public class AccountDAO extends AbstractDAO {
 			if (cursor.getCount() == 1) {
 				int idxId = cursor.getColumnIndex(ID);
 				int idxNickname = cursor.getColumnIndex(USERNAME);
-				int idxPassword = cursor.getColumnIndex(PASSWORD);
-				int idxEmail = cursor.getColumnIndex(EMAIL);
 				int idxOauthTolken = cursor.getColumnIndex(OAUTH_TOLKEN);
 				int idxOauthSecretTolken = cursor.getColumnIndex(OAUTH_TOLKEN_SECRET);
 				int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
-				int idxAuthMethod = cursor.getColumnIndex(AUTHORIZATION_METHOD);
 				int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
 				int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
-				
-
 				
 				cursor.moveToNext();
 				
 				account = new Account();
 				account.setId(cursor.getLong(idxId));
 				account.setUsername(cursor.getString(idxNickname));
-				account.setPassword(cursor.getString(idxPassword));
-				account.setEmail(cursor.getString(idxEmail));
 				account.setOauthToken(cursor.getString(idxOauthTolken));
 				account.setOauthTokenSecret(cursor.getString(idxOauthSecretTolken));
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
-				account.setAuthMethod(cursor.getInt(idxAuthMethod));
 				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
 				account.setScaleImage(cursor.getInt(idxScaleImages));
 
@@ -222,12 +195,9 @@ public class AccountDAO extends AbstractDAO {
 		try {
 			ContentValues values = new ContentValues();
 			values.put(USERNAME, account.getUsername());
-			values.put(PASSWORD, account.getPassword());
 			values.put(OAUTH_TOLKEN, account.getOauthToken());
 			values.put(OAUTH_TOLKEN_SECRET, account.getOauthTokenSecret());
-			values.put(AUTHORIZATION_METHOD, account.getAuthMethod());
 			values.put(OAUTH_STATUS, account.getOauthStatus());
-			values.put(EMAIL, account.getEmail());
 			values.put(POST_LOCATION, account.getPostLocation());
 			values.put(SCALE_IMAGES, account.getScaleImage());
 			id = db.insert(TABLE_NAME, null, values);
@@ -268,12 +238,9 @@ public class AccountDAO extends AbstractDAO {
 		try {
 			ContentValues values = new ContentValues();
 			values.put(USERNAME, account.getUsername());
-			values.put(PASSWORD, account.getPassword());
 			values.put(OAUTH_TOLKEN, account.getOauthToken());
 			values.put(OAUTH_TOLKEN_SECRET, account.getOauthTokenSecret());
-			values.put(AUTHORIZATION_METHOD, account.getAuthMethod());
 			values.put(OAUTH_STATUS, account.getOauthStatus());
-			values.put(EMAIL, account.getEmail());
 			values.put(POST_LOCATION, account.getPostLocation());
 			values.put(SCALE_IMAGES, account.getScaleImage());
 			db.update(TABLE_NAME, values, ID_EQUAL_WHERE, new String[] {account.getId() + ""});

@@ -14,7 +14,6 @@ import com.codeminders.yfrog.android.controller.dao.AccountDAO;
 import com.codeminders.yfrog.android.controller.dao.DAOFactory;
 import com.codeminders.yfrog.android.model.Account;
 import com.codeminders.yfrog.android.model.TwitterUser;
-import com.codeminders.yfrog.android.util.AlertUtils;
 import com.codeminders.yfrog.android.util.StringUtils;
 
 /**
@@ -43,20 +42,7 @@ public final class AccountService {
 	}
 	
 	public Account addAccount(Account account) throws YFrogException {
-		if (account.getAuthMethod() == Account.METHOD_COMMON) {
-			try {
-				verifiyAccount(account);
-			} catch (YFrogTwitterException e) {
-				int errorCode = e.getErrorCode();
-				
-				if (errorCode != -1) {
-					throw new YFrogTwitterException(e, errorCode);
-				} else {
-					throw new YFrogTwitterException(e, AlertUtils.ACCOUNT_VERIFICATION_ERROR);
-				}
-			}
-		}
-		
+
 		long id = accountDAO.addAccount(account);
 		
 		return accountDAO.getAccount(id);
@@ -71,28 +57,9 @@ public final class AccountService {
 	}
 
 	public void updateAccount(Account account, boolean verifyCredentials) throws YFrogTwitterException {
-		
-		if (account.getAuthMethod() == Account.METHOD_COMMON && verifyCredentials) {
-			try {
-				verifiyAccount(account);
-			} catch (YFrogTwitterException e) {
-				int errorCode = e.getErrorCode();
-				
-				if (errorCode != -1) {
-					throw new YFrogTwitterException(e, errorCode);
-				} else {
-					throw new YFrogTwitterException(e, AlertUtils.ACCOUNT_VERIFICATION_ERROR);
-				}
-			}
-		}
 		accountDAO.updateAccount(account);
 	}
 
-	
-	private void verifiyAccount(Account account) throws YFrogTwitterException {
-		twitterService.getCredentials(account);
-	}
-	
 	public boolean isAccountUnique(Account account) {
 		return accountDAO.isAccountUnique(account);
 	}
@@ -133,7 +100,6 @@ public final class AccountService {
 		account.setOauthToken(StringUtils.EMPTY_STRING);
 		account.setOauthTokenSecret(StringUtils.EMPTY_STRING);
 		account.setOauthStatus(Account.OAUTH_STATUS_NOT_AUTHORIZED);
-		account.setAuthMethod(Account.METHOD_COMMON);
 		accountDAO.updateAccount(account);
 	}
 	
@@ -161,12 +127,8 @@ public final class AccountService {
 		if (account == null) {
 			throw new IllegalArgumentException("Account can't be null");
 		}
-		
-		if (account.getAuthMethod() == Account.METHOD_COMMON) {
-			twitterService.login(account.getUsername(), account.getPassword());
-		} else {
-			twitterService.loginOAuth(account.getOauthToken(), account.getOauthTokenSecret());
-		}
+
+		twitterService.loginOAuth(account.getOauthToken(), account.getOauthTokenSecret());
 		logged = account;
 		twitterService.setLoggedAccount(logged);
 	}

@@ -34,7 +34,7 @@ public class AccountDAO extends AbstractDAO {
 	public static final String COPY_VALUES = "INSERT INTO " + TABLE_NAME + " SELECT "+ 
 		ID + ", " + USERNAME + ", " + OAUTH_TOLKEN + ", " + OAUTH_TOLKEN_SECRET + ", " + 
 		OAUTH_STATUS + ", " + POST_LOCATION + ", " + SCALE_IMAGES + 
-		" FROM temp_" + TABLE_NAME + ";";
+		" FROM temp_" + TABLE_NAME + " WHERE auth_method==1;";
 
 	public static final String ACCOUNT_DDL = 
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +

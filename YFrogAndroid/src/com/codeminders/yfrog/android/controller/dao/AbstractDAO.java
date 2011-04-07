@@ -26,9 +26,14 @@ public abstract class AbstractDAO {
 		db.execSQL(UnsentMessageDAO.UNSENT_MESSAGE_DDL);
 	}
 	
-	public static void onUpgradeDatabase(SQLiteDatabase db) 
+	public static void onUpgradeDatabase(SQLiteDatabase db, int oldVersion, int newVersion) 
 	{
-		
+		if (oldVersion==1) {
+			db.execSQL(AccountDAO.RENAME_TO_TEMP);
+			db.execSQL(AccountDAO.ACCOUNT_DDL);
+			db.execSQL(AccountDAO.COPY_VALUES);
+			db.execSQL(AccountDAO.DROP_TEMP);
+		}
 	}
 }
 

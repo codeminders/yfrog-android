@@ -6,7 +6,6 @@ package com.codeminders.yfrog.android.controller.dao.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import com.codeminders.yfrog.android.controller.dao.AbstractDAO;
 
 /**
@@ -27,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	private DatabaseHelper(Context context) {
-		super(context, AbstractDAO.DB_NAME, null, 1);
+		super(context, AbstractDAO.DB_NAME, null, 2);
 	}
 	
 	@Override
@@ -37,9 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		//TODO Add database correction
-		
-		//AbstractDAO.onUpgradeDatabase(db);
+		AbstractDAO.onUpgradeDatabase(db, oldVersion, newVersion);
 	}
 	
 	@Override

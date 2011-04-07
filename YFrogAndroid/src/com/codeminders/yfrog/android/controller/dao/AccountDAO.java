@@ -28,6 +28,13 @@ public class AccountDAO extends AbstractDAO {
 	private static final String OAUTH_STATUS = "oauth_status";
 	private static final String POST_LOCATION = "post_location";
 	private static final String SCALE_IMAGES = "scale_images";
+	
+	public static final String RENAME_TO_TEMP = "ALTER TABLE " + TABLE_NAME + " RENAME TO temp_" + TABLE_NAME + ";";
+	public static final String DROP_TEMP = "DROP TABLE temp_" + TABLE_NAME + ";";
+	public static final String COPY_VALUES = "INSERT INTO " + TABLE_NAME + " SELECT "+ 
+		ID + ", " + USERNAME + ", " + OAUTH_TOLKEN + ", " + OAUTH_TOLKEN_SECRET + ", " + 
+		OAUTH_STATUS + ", " + POST_LOCATION + ", " + SCALE_IMAGES + 
+		" FROM temp_" + TABLE_NAME + ";";
 
 	public static final String ACCOUNT_DDL = 
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +

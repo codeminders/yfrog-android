@@ -105,7 +105,7 @@
     <string name="ae_dialog_message_not_unique">Account with even nickname or name already exists</string>
     <string name="ae_dialog_button">Ok</string>
     
-    <string name="ae_oauth_desc">OAuth is an authentication protocol that allows users to approve application to act on their behalf without sharing their password. More information can be found at http://apiwiki.twitter.com/OAuth-FAQ</string>
+    <string name="ae_oauth_desc">OAuth is an authentication protocol that allows users to approve application to act on their behalf without sharing their password. More information can be found at http://dev.twitter.com/pages/oauth_faq</string>
     
     <!-- Logout -->
     <string name="lo_dialog_title">Logout</string>

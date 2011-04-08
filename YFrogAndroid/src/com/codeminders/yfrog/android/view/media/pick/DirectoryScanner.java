@@ -16,7 +16,6 @@ public class DirectoryScanner extends Thread {
 	private File currentDirectory;
 	boolean cancel;
 
-	private Context context;
 	private Handler handler;
 	private long operationStartTime;
 	private FilenameFilter filter;
@@ -27,13 +26,11 @@ public class DirectoryScanner extends Thread {
 	DirectoryScanner(File directory, FilenameFilter filenameFilter, Context context, Handler handler) {
 		super("Directory Scanner");
 		currentDirectory = directory;
-		this.context = context;
 		this.handler = handler;
 		this.filter = filenameFilter;
 	}
 
 	private void clearData() {
-		context = null;
 		handler = null;
 	}
 

@@ -343,7 +343,6 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 
 	}
 	
-	@SuppressWarnings("unchecked")
 	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView parent, View v, int position,
 				long id) {

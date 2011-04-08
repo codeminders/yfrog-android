@@ -83,7 +83,6 @@ public class OAuthHelper {
         return new BASE64Encoder().encode(byteHMAC);
     }
 
-    @SuppressWarnings("unchecked")
     private static String normalizeRequestParameters(List<QueryParameter> params) {
         Collections.sort(params);
         return encodeParameters(params);

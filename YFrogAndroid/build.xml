@@ -193,7 +193,7 @@
 		<echo>Uninstall ${dist.output} from default emulator...</echo>
 		<exec executable="${adb}" failonerror="true">
 			<arg value="uninstall" />
-			<arg value="com.codeminders.yfrog.android" />
+			<arg value="com.codeminders.yfrog2.android" />
 		</exec>
 	</target>
 

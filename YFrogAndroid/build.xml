@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<project name="YFrogAndroid" basedir="." default="reinstall">
+<project name="YFrogAndroid" basedir="." default="release">
 	<property environment="env"/>
-	
+	<property file="default.properties" />
 	<property file="build.properties" />
 	<property file="yfrog.properties"/>
 
@@ -10,7 +10,7 @@
 	########################################################################-->
 
 	<target name="build-yfroglib">
-		<property name="base.dir" location="../YFrogLib"/>
+		<property name="base.dir" location="../YFrogJavaAPI"/>
 		<property name="build-file" location="${base.dir}/build.xml"/>
 		<property name="build-properties-file" location="${base.dir}/build.properties"/>
 		<property name="build-target" value="dist"/>
@@ -23,7 +23,7 @@
 		</ant>
 		
 		<copy file="${yfroglib-file}" todir="${lib.dir}" overwrite="true"/>
-	</target>
+	</target> 
 
 	<!-- ###################################################################
 						Build application part 
@@ -54,7 +54,7 @@
 
 	<target name="clean-dist">
 		<delete>
-			<fileset dir="${dist.dir}" includes="**/*"/>
+			<fileset dir="${dist.dir}" includes="**/*" excludes="*.png"/>
 		</delete>
 	</target>
 	
@@ -235,4 +235,6 @@
 	</target>
 	
 	<target name="build-install-and-sign-release" depends="uninstall, build-yfroglib, release, sign, optimize, reinstall"/>
+	<target name="distribute" depends="release, sign, optimize"/>
+
 </project>

@@ -1,0 +1,240 @@
+<?xml version="1.0" ?>
+<project name="YFrogAndroid" basedir="." default="reinstall">
+	<property environment="env"/>
+	<property file="default.properties" />
+	<property file="build.properties" />
+	<property file="yfrog.properties"/>
+
+	<!-- ###################################################################
+						Build Yfrog library part 
+	########################################################################-->
+
+	<target name="build-yfroglib">
+		<property name="base.dir" location="../YFrogJavaAPI"/>
+		<property name="build-file" location="${base.dir}/build.xml"/>
+		<property name="build-properties-file" location="${base.dir}/build.properties"/>
+		<property name="build-target" value="dist"/>
+		<property name="yfroglib-file" location="${base.dir}/dist/yfroglib.jar"/>
+
+
+		<ant antfile="${build-file}" target="${build-target}" inheritall="false">
+			<property name="basedir" location="${base.dir}"/>
+			<property file="${build-properties-file}"/>
+		</ant>
+		
+		<copy file="${yfroglib-file}" todir="${lib.dir}" overwrite="true"/>
+	</target> 
+
+	<!-- ###################################################################
+						Build application part 
+	########################################################################-->
+
+	<!-- Default keys -->
+	<property name="default_dev_key" value="@dev_key@"/>
+	<property name="default_consumer_key" value="@consumer_key@"/>
+	<property name="default_consumer_secret" value="@consumer_secret@"/>
+	
+	<condition property="dev_key" value="${imageshack_dev_key}" else="${default_dev_key}">
+		<available file="yfrog.properties" property="${imageshack_dev_key}"/>
+	</condition>
+
+	<!-- Put imageshake developer key from yfrog.properties (if it exists, else put ${default_dev_key}) 
+	to /res/raw/app.properties  -->
+	<target name="apply-app-properties">
+		<replace file="${app.props.output}" token="${default_dev_key}" value="${dev_key}"/>
+		<replace file="${app.props.output}" token="${default_consumer_key}" value="${consumer_key}"/>
+		<replace file="${app.props.output}" token="${default_consumer_secret}" value="${consumer_secret}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${process.src.dir}" />
+		<delete dir="${process.res.dir}" />
+	</target>
+
+	<target name="clean-dist">
+		<delete>
+			<fileset dir="${dist.dir}" includes="**/*" excludes="*.png"/>
+		</delete>
+	</target>
+	
+	<target name="dirs" depends="clean, clean-dist">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${process.src.dir}" />
+		<mkdir dir="${process.res.dir}" />
+	</target>
+
+	<!-- Copy resources files to resource process dir. -->
+	<target name="process-res">
+		<copy todir="${process.res.dir}">
+			<fileset dir="${res.dir}" />
+		</copy>
+	</target>
+
+	<!-- Generate the R.java file for this project's resources. -->
+	<target name="resource-src" depends="dirs, process-res, apply-app-properties">
+		<exec executable="${aapt}" failonerror="true">
+			<arg value="package" />
+			<arg value="-m" />
+			<arg value="-J" />
+			<arg value="${process.src.dir}" />
+			<arg value="-M" />
+			<arg value="AndroidManifest.xml" />
+			<arg value="-S" />
+			<arg value="${process.res.dir}" />
+			<arg value="-I" />
+			<arg value="${platform.lib}" />
+		</exec>
+	</target>
+
+	<!-- Copy source files to source process dir. -->
+	<target name="process-src">
+		<copy todir="${process.src.dir}">
+			<fileset dir="${src.dir}" includes="**/*.java" />
+		</copy>
+	</target>
+
+	<!-- Compile this project's .java files into .class files. -->
+	<target name="compile" depends="resource-src, process-src">
+		<javac encoding="ascii" target="1.5" srcdir="${process.src.dir}" destdir="${classes.dir}" bootclasspath="${platform.lib}">
+			<classpath>
+				<fileset dir="${lib.dir}" includes="**/*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Convert this project's .class files into .dex files. -->
+	<target name="dex" depends="compile">
+		<echo>Converting compiled files and external libraries into ${build.dir}/${dex.filename}...</echo>
+		<apply executable="${dx}" failonerror="true" parallel="true">
+			<arg value="--dex" />
+			<arg value="--output=${dex.output}" />
+			<arg path="${classes.dir}" />
+			<fileset dir="${lib.dir}" includes="**/*.jar" />
+		</apply>
+	</target>
+
+	<!-- Put the project's resources into the output package file. -->
+	<target name="package-res">
+		<echo>Packaging resources and assets...</echo>
+		<exec executable="${aapt}" failonerror="true">
+			<arg value="package" />
+			<arg value="-f" />
+			<arg value="-M" />
+			<arg value="AndroidManifest.xml" />
+			<arg value="-S" />
+			<arg value="${process.res.dir}" />
+			<arg value="-A" />
+			<arg value="${assets.dir}" />
+			<arg value="-I" />
+			<arg value="${platform.lib}" />
+			<arg value="-F" />
+			<arg value="${res.output}" />
+		</exec>
+	</target>
+
+	<!-- Package the application and sign it with a debug key.
+	     This is the default target when building. It is used for debug. -->
+	<target name="debug" depends="dex, package-res">
+		<echo>Packaging ${dist.output}, and signing it with a debug key...</echo>
+		<exec executable="${apkbuilder}" failonerror="true">
+			<arg value="${dist.output}" />
+			<arg value="-z" />
+			<arg value="${res.output}" />
+			<arg value="-f" />
+			<arg value="${dex.output}" />
+			<arg value="-rf" />
+			<arg value="${src.dir}" />
+			<arg value="-rj" />
+			<arg value="${lib.dir}" />
+		</exec>
+
+		<antcall target="clean" />
+	</target>
+	
+	<!-- Package the application without signing it.          
+		 This allows for the application to be signed later with an official publishing key. -->
+	<target name="release" depends="dex, package-res">
+		<echo>Packaging ${dist.output} for release...</echo>
+		<exec executable="${apkbuilder}" failonerror="true">
+			<arg value="${dist.output}" />
+			<arg value="-u" />
+			<arg value="-z" />
+			<arg value="${res.output}" />
+			<arg value="-f" />
+			<arg value="${dex.output}" />
+			<arg value="-rf" />
+			<arg value="${src.dir}" />
+			<arg value="-rj" />
+			<arg value="${lib.dir}" />
+		</exec>
+		<echo>It will need to be signed with jarsigner before being published.</echo>
+
+		<antcall target="clean" />
+	</target>
+
+	<target name="install">
+		<exec executable="${adb}" failonerror="true">
+			<arg value="install" />
+			<arg value="${dist.output}" />
+		</exec>
+	</target>
+	
+	<target name="reinstall">
+		<echo>Installing ${dist.output} onto default emulator...</echo>
+		<exec executable="${adb}" failonerror="true">
+			<arg value="install" />
+			<arg value="-r" />
+			<arg value="${dist.output}" />
+		</exec>
+	</target>
+
+	<target name="uninstall">
+		<echo>Uninstall ${dist.output} from default emulator...</echo>
+		<exec executable="${adb}" failonerror="true">
+			<arg value="uninstall" />
+			<arg value="com.codeminders.yfrog2.android" />
+		</exec>
+	</target>
+
+	<!-- For start, put key strore params into sign.properties -->
+	<target name="sign">
+		<property file="sign.properties"/>
+		<exec executable="${jarsigner}" failonerror="true">
+			<arg value="-verbose" />
+			<arg value="-keystore" />
+			<arg value="${keystore}" />
+			<arg value="-storepass" />
+			<arg value="${store.pass}" />
+			<arg value="-keypass" />
+			<arg value="${key.pass}" />
+			<arg value="${dist.output}" />
+			<arg value="${key.alias}" />
+		</exec>		
+	</target>
+	
+	<target name="optimize">
+		<property name="temp.dist.output" value="${dist.output}.temp"/>
+
+		<copy file="${dist.output}" tofile="${temp.dist.output}"/>
+		
+		<exec executable="${zipalign}" failonerror="true">
+			<arg value="-f" />
+			<arg value="-v" />
+			<arg value="4" />
+			<arg value="${temp.dist.output}" />
+			<arg value="${dist.output}" />
+		</exec>
+		
+		<exec executable="${zipalign}" failonerror="true">
+			<arg value="-c" />
+			<arg value="-v" />
+			<arg value="4" />
+			<arg value="${dist.output}" />
+		</exec>				
+	</target>
+	
+	<target name="build-install-and-sign-release" depends="uninstall, build-yfroglib, release, sign, optimize, reinstall"/>
+	<target name="distribute" depends="release, sign, optimize"/>
+
+</project>

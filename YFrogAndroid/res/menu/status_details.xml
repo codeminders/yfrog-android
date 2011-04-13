@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/tsd_reply" android:titleCondensed="@string/tm_btn_reply" android:icon="@drawable/reply"></item>
+<item android:id="@+id/tsd_forward" android:title="@string/tm_btn_forward" android:icon="@drawable/forward"><menu><item android:id="@+id/tsd_forward_email" android:title="@string/tm_btn_forward_email"></item>
+<item android:id="@+id/tsd_forward_sms" android:title="@string/tm_btn_forward_sms"></item>
+</menu>
+</item>
+<item android:id="@+id/tsd_delete" android:title="@string/tm_btn_delete" android:icon="@drawable/delete"></item>
+<item android:id="@+id/tsd_userinfo" android:icon="@drawable/userinfo" android:title="@string/userinfo"></item>
+</menu>

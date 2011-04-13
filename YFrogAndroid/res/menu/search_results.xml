@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/more_serarch_results" android:title="@string/sr_more_searches" android:icon="@drawable/more_tweets"></item>
+</menu>

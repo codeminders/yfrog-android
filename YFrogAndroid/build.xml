@@ -38,14 +38,6 @@
 		<available file="yfrog.properties" property="${imageshack_dev_key}"/>
 	</condition>
 
-	<!-- Put imageshake developer key from yfrog.properties (if it exists, else put ${default_dev_key}) 
-	to /res/raw/app.properties  -->
-	<target name="apply-app-properties">
-		<replace file="${app.props.output}" token="${default_dev_key}" value="${dev_key}"/>
-		<replace file="${app.props.output}" token="${default_consumer_key}" value="${consumer_key}"/>
-		<replace file="${app.props.output}" token="${default_consumer_secret}" value="${consumer_secret}"/>
-	</target>
-
 	<target name="clean">
 		<delete dir="${classes.dir}" />
 		<delete dir="${process.src.dir}" />
@@ -72,7 +64,7 @@
 	</target>
 
 	<!-- Generate the R.java file for this project's resources. -->
-	<target name="resource-src" depends="dirs, process-res, apply-app-properties">
+	<target name="resource-src" depends="dirs, process-res">
 		<exec executable="${aapt}" failonerror="true">
 			<arg value="package" />
 			<arg value="-m" />

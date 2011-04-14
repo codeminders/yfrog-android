@@ -91,20 +91,16 @@ public final class YFrogProperties
         String val = properties.getProperty(CONSUMER_KEY, "");
 
         if(StringUtils.isEmpty(val))
-        {
             Log.e(TAG, "Missing OAuth consumer key");
-        }
-
+        
+        //Log.d(TAG,"Consumer key="+val);
         putString(CONSUMER_KEY, val);
 
         val = properties.getProperty(CONSUMER_SECRET, "");
-
         if(StringUtils.isEmpty(val))
-        {
             Log.e(TAG, "Missing OAuth consumer secret");
-        }
 
-        //System.out.println("secret: " + val);
+        //Log.d(TAG,"Consumer secret="+val);
         putString(CONSUMER_SECRET, val);
 
     }

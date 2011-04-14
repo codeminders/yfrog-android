@@ -69,7 +69,7 @@ public final class YFrogProperties
             initOauthKey(properties);
         } catch(IOException e)
         {
-            e.printStackTrace();
+            Log.e(TAG,"Error reading properties",e);
         }
     }
 

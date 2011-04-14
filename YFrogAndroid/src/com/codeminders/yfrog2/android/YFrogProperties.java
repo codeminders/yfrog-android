@@ -82,7 +82,7 @@ public final class YFrogProperties
             Log.e(TAG, "Missing imageshack dev key");
         }
 
-        // System.out.println("developer key: " + devKey);
+        //System.out.println("developer key: " + devKey);
         putString(DEV_KEY, devKey);
     }
 
@@ -104,7 +104,7 @@ public final class YFrogProperties
             Log.e(TAG, "Missing OAuth consumer secret");
         }
 
-        // System.out.println("secret: " + val);
+        //System.out.println("secret: " + val);
         putString(CONSUMER_SECRET, val);
 
     }

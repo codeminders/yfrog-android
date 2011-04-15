@@ -13,7 +13,7 @@ import java.util.Date;
  *
  */
 public class TwitterDirectMessage implements Serializable {
-	private int id;
+	private long id;
 	private TwitterUser sender;
 	private String text;
 	private Date createdAt;
@@ -21,13 +21,13 @@ public class TwitterDirectMessage implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	/**
@@ -68,7 +68,7 @@ public class TwitterDirectMessage implements Serializable {
 	}
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
-		out.writeInt(id);
+		out.writeLong(id);
 		out.writeObject(sender);
 		out.writeUTF(text);
 		out.writeObject(createdAt);

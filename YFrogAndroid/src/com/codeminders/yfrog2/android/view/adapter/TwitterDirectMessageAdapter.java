@@ -26,7 +26,7 @@ import com.codeminders.yfrog2.android.util.image.cache.ImageCache;
  *
  */
 public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends ArrayAdapter<TwitterDirectMessage>{
-	private HashMap<Integer, CharSequence> spannableCache = new HashMap<Integer, CharSequence>();
+	private HashMap<Long, CharSequence> spannableCache = new HashMap<Long, CharSequence>();
 	private LayoutInflater inflater = null;
 	
 	public TwitterDirectMessageAdapter(Context context, List<TwitterDirectMessage> objects) {
@@ -86,19 +86,19 @@ public class TwitterDirectMessageAdapter<T extends TwitterDirectMessage> extends
 		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
-	private boolean isCached(Integer messageId) {
+	private boolean isCached(Long messageId) {
 		synchronized (spannableCache) {
 			return spannableCache.containsKey(messageId);
 		}
 	}
 	
-	private CharSequence get(Integer messageId) {
+	private CharSequence get(Long messageId) {
 		synchronized (spannableCache) {
 			return spannableCache.get(messageId);
 		}		
 	}
 	
-	private void put(Integer messageId, CharSequence spannable) {
+	private void put(Long messageId, CharSequence spannable) {
 		synchronized (spannableCache) {
 			spannableCache.put(messageId, spannable);
 		}		

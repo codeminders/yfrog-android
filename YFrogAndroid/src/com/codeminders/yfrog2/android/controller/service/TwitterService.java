@@ -41,9 +41,6 @@ public interface TwitterService {
 
 	public void setLoggedAccount(Account acc);
 
-	public abstract void login(String nickname, String password)
-			throws YFrogTwitterException;
-
 	public abstract String getOAuthWebAuthorizationURL(Account account)
 			throws YFrogTwitterException;
 
@@ -124,7 +121,7 @@ public interface TwitterService {
 
 	public abstract void deleteStatus(long id) throws YFrogTwitterException;
 
-	public abstract void deleteDirectMessage(int id)
+	public abstract void deleteDirectMessage(long id)
 			throws YFrogTwitterException;
 
 	public abstract ArrayList<TwitterSavedSearch> getSavedSearches()

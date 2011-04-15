@@ -5,8 +5,8 @@ package com.codeminders.yfrog2.android.controller.service.twitter4j;
 
 import twitter4j.TwitterException;
 import twitter4j.auth.Response;
-import twitter4j.org.json.JSONException;
-import twitter4j.org.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author idemydenko

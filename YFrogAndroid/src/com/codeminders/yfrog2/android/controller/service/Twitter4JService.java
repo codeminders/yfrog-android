@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import twitter4j.*;
-import twitter4j.http.AccessToken;
-import twitter4j.http.RequestToken;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
 

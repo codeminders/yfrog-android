@@ -4,7 +4,7 @@
 package com.codeminders.yfrog2.android.controller.service.twitter4j;
 
 import twitter4j.TwitterException;
-import twitter4j.http.Response;
+import twitter4j.auth.Response;
 import twitter4j.org.json.JSONException;
 import twitter4j.org.json.JSONObject;
 

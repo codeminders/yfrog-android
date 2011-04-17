@@ -13,7 +13,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
 import com.codeminders.yfrog2.android.YFrogTwitterException;
 import com.codeminders.yfrog2.android.model.*;
@@ -43,7 +42,6 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#loginOAuth(java.lang.String, java.lang.String)
 	 */
 	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
-		Log.d("TESTTAG","loginOAuth started");
 		AccessToken accessToken = new AccessToken(oauthTolken, oauthSecretTolken);
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
@@ -56,7 +54,6 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#getOAuthWebAuthorizationURL(com.codeminders.yfrog2.android.model.Account)
 	 */
 	public String getOAuthWebAuthorizationURL(Account account) throws YFrogTwitterException {
-		Log.d("TESTTAG", "getOAuthWebAuthorizationURL started, "+account.toString());
 		Twitter twitter = new TwitterFactory().getInstance();
 	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    RequestToken requestToken;
@@ -66,7 +63,6 @@ public class Twitter4JService implements TwitterService {
 	    } catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
-	    Log.d("TESTTAG", "RequestToken: " + requestToken.toString());
 	    account.setOauthToken(requestToken.getToken());
 	    account.setOauthTokenSecret(requestToken.getTokenSecret());
 	    

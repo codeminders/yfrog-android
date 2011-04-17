@@ -13,6 +13,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.codeminders.yfrog2.android.YFrogTwitterException;
 import com.codeminders.yfrog2.android.model.*;
@@ -24,7 +25,6 @@ import com.codeminders.yfrog2.android.util.StringUtils;
  */
 public class Twitter4JService implements TwitterService {	
 	private Twitter twitter = null;
-	private TwitterFactory twitterFactory = new TwitterFactory();
 	private TwitterUser loggedUser = null;
 	private Account loggedAccount = null;
 	private UnsentMessageService unsentMessageService;
@@ -35,51 +35,20 @@ public class Twitter4JService implements TwitterService {
 		geoLocationService = ServiceFactory.getGeoLocationService();
 	}
 	
-//	private com.codeminders.yfrog2.android.controller.service.twitter4j.Twitter create() {
-//		com.codeminders.yfrog2.android.controller.service.twitter4j.Twitter t = new com.codeminders.yfrog2.android.controller.service.twitter4j.Twitter();
-//		t.setSource(SOURCE);
-//		
-//		return t;		
-//	}
-	
-//	private Twitter create() {
-//		return twitterFactory.getInstance();
-//	}
-
-//	private com.codeminders.yfrog2.android.controller.service.twitter4j.Twitter create(String username, String password) {
-//		com.codeminders.yfrog2.android.controller.service.twitter4j.Twitter t = new com.codeminders.yfrog2.android.controller.service.twitter4j.Twitter(username, password);
-//		t.setSource(SOURCE);
-//		
-//		return t;
-//	}
-	
 	public void setLoggedAccount(Account acc) {
 		loggedAccount = acc;
 	}
-	
-//	/* (non-Javadoc)
-//	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#login(java.lang.String, java.lang.String)
-//	 */
-//	public void login(String username, String password) throws YFrogTwitterException {
-//		twitter = create(username, password);
-//		
-//		checkLogged();
-//	}
 
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#loginOAuth(java.lang.String, java.lang.String)
 	 */
 	public void loginOAuth(String oauthTolken, String oauthSecretTolken) throws YFrogTwitterException {
-//		twitter = create();
-//		System.out.println(CONSUMER_KEY);
-//		System.out.println(CONSUMER_SECRET);
-		
+		Log.d("TESTTAG","loginOAuth started");
 		AccessToken accessToken = new AccessToken(oauthTolken, oauthSecretTolken);
-		twitter = twitterFactory.getInstance(accessToken);
+		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-		
-//	    twitter.setOAuthAccessToken(oauthTolken, oauthSecretTolken);
-		
+		twitter.setOAuthAccessToken(accessToken);
+
 		checkLogged();
 	}
 
@@ -87,8 +56,8 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#getOAuthWebAuthorizationURL(com.codeminders.yfrog2.android.model.Account)
 	 */
 	public String getOAuthWebAuthorizationURL(Account account) throws YFrogTwitterException {
-//		Twitter twitter = create();
-		Twitter twitter = twitterFactory.getInstance();
+		Log.d("TESTTAG", "getOAuthWebAuthorizationURL started, "+account.toString());
+		Twitter twitter = new TwitterFactory().getInstance();
 	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    RequestToken requestToken;
 	    
@@ -97,7 +66,7 @@ public class Twitter4JService implements TwitterService {
 	    } catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
-	    
+	    Log.d("TESTTAG", "RequestToken: " + requestToken.toString());
 	    account.setOauthToken(requestToken.getToken());
 	    account.setOauthTokenSecret(requestToken.getTokenSecret());
 	    
@@ -108,12 +77,13 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#verifyOAuthAuthorization(com.codeminders.yfrog2.android.model.Account, java.lang.String)
 	 */
 	public void verifyOAuthAuthorization(Account account, String pin) throws YFrogTwitterException {
-//		Twitter twitter = create();
-		Twitter twitter = twitterFactory.getInstance();
+		Twitter twitter = new TwitterFactory().getInstance();
 	    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 	    
+	    RequestToken requestToken = new RequestToken(account.getOauthToken(), account.getOauthTokenSecret());
+	    
 	    try {
-	    	AccessToken accessToken = twitter.getOAuthAccessToken(account.getOauthToken(), account.getOauthTokenSecret()/*, pin*/);
+	    	AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, pin);
 	    	account.setOauthToken(accessToken.getToken());
 	    	account.setOauthTokenSecret(accessToken.getTokenSecret());
 	    } catch (TwitterException e) {
@@ -135,11 +105,11 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#getCredentials(com.codeminders.yfrog2.android.model.Account)
 	 */
 	public TwitterUser getCredentials(Account account) throws YFrogTwitterException {
-//		Twitter twitter = create();
 		AccessToken accessToken = new AccessToken(account.getOauthToken(), account.getOauthTokenSecret());
-		Twitter twitter = twitterFactory.getInstance(accessToken);
+		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-//		twitter.setOAuthAccessToken(account.getOauthToken(), account.getOauthTokenSecret());
+		twitter.setOAuthAccessToken(accessToken);
+		
 		try {
 			return Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {

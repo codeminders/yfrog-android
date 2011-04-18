@@ -129,7 +129,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 
 		view = (TextView) findViewById(R.id.tud_descrition);
 		if (user.getDescription().length() == 0) {
-			view.setVisibility (View.INVISIBLE);
+			view.setVisibility (View.GONE);
 		} else {
 			view.setText(appendCaption(user.getDescription(),
 					R.string.tud_description));

@@ -13,6 +13,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
+
 import com.codeminders.yfrog2.android.YFrogTwitterException;
 import com.codeminders.yfrog2.android.model.*;
 import com.codeminders.yfrog2.android.util.StringUtils;
@@ -304,14 +305,14 @@ public class Twitter4JService implements TwitterService {
 		checkCreated();
 		try {
 			TwitterStatus status = null;
-
+			StatusUpdate statusUpdate = new StatusUpdate(text);
 			if (loggedAccount.isPostLocation() && geoLocationService.isAvailable()) {
 				Location location = geoLocationService.getLocation();
-				//GeoLocation geoLocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-				status = Twitter4jHelper.getStatus(twitter.updateStatus(text/*, geoLocation*/));
+				statusUpdate.setLocation(new GeoLocation(location.getLatitude(), location.getLongitude()));
+				status = Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
 				updateLocation(location);
 			} else {
-				status = Twitter4jHelper.getStatus(twitter.updateStatus(text));
+				status = Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
 			}
 
 			return status;
@@ -319,20 +320,25 @@ public class Twitter4JService implements TwitterService {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#replay(java.lang.String, long)
 	 */
 	public void replay(String text, long replayToId) throws YFrogTwitterException {
 		checkCreated();
 		
+		StatusUpdate statusUpdate = new StatusUpdate(text);
+		statusUpdate.setInReplyToStatusId(replayToId);
+		
 		try {
 			if (loggedAccount.isPostLocation() && geoLocationService.isAvailable()) {
+				
 				Location location = geoLocationService.getLocation();
-				Twitter4jHelper.getStatus(twitter.updateStatus(text/*, replayToId, location.getLatitude(), location.getLongitude()*/));
+				statusUpdate.setLocation(new GeoLocation(location.getLatitude(), location.getLongitude()));
+				Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
 				updateLocation(location);
 			} else {
-				Twitter4jHelper.getStatus(twitter.updateStatus(text/*, replayToId*/));
+				Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
 			}
 
 		} catch (TwitterException e) {

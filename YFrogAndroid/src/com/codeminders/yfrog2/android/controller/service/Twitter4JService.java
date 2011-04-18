@@ -13,7 +13,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
-
 import com.codeminders.yfrog2.android.YFrogTwitterException;
 import com.codeminders.yfrog2.android.model.*;
 import com.codeminders.yfrog2.android.util.StringUtils;
@@ -605,8 +604,8 @@ final class Twitter4jHelper {
 		u.setFullname(user.getName());
 		u.setProfileImageURL(user.getProfileImageURL());
 		u.setUsername(user.getScreenName());
-		u.setLocation(user.getLocation());
-		u.setDescription(user.getDescription());
+		u.setLocation(user.getLocation() == null ? "" :user.getLocation());
+		u.setDescription(user.getDescription() == null ? "" : user.getDescription());
 		u.setFollower(follower);
 		u.setFollowing(following);
 		u.setProtected(user.isProtected());

@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URL;
 
+import android.util.Log;
+
 /**
  * @author idemydenko
  *

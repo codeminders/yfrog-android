@@ -121,12 +121,20 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 		view.setText(user.getScreenUsername());
 
 		view = (TextView) findViewById(R.id.tud_location);
-		view.setText(appendCaption(user.getLocation(), R.string.tud_location));
+		if (user.getLocation().length() == 0) {
+			view.setVisibility (View.GONE);
+		} else {
+			view.setText(appendCaption(user.getLocation(), R.string.tud_location));
+		}
 
 		view = (TextView) findViewById(R.id.tud_descrition);
-		view.setText(appendCaption(user.getDescription(),
-				R.string.tud_description));
-
+		if (user.getDescription().length() == 0) {
+			view.setVisibility (View.INVISIBLE);
+		} else {
+			view.setText(appendCaption(user.getDescription(),
+					R.string.tud_description));
+		}
+		
 		view = (TextView) findViewById(R.id.tud_followers);
 		view.setText(appendCaption(user.getFollowersCount() + "",
 				R.string.tud_followers));

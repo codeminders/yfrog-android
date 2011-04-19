@@ -13,6 +13,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.codeminders.yfrog2.android.YFrogTwitterException;
 import com.codeminders.yfrog2.android.model.*;
@@ -288,6 +289,7 @@ public class Twitter4JService implements TwitterService {
 	}
 	
 	public void updateLocation(Location location) {
+		
 		String address = geoLocationService.getLocationAddress();
 		if (!StringUtils.isEmpty(address)) {
 			try {
@@ -310,7 +312,9 @@ public class Twitter4JService implements TwitterService {
 				Location location = geoLocationService.getLocation();
 				statusUpdate.setLocation(new GeoLocation(location.getLatitude(), location.getLongitude()));
 				status = Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
-				updateLocation(location);
+				if (loggedAccount.isUpdateProfileLocation()){
+					updateLocation(location);
+				}
 			} else {
 				status = Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
 			}
@@ -336,7 +340,9 @@ public class Twitter4JService implements TwitterService {
 				Location location = geoLocationService.getLocation();
 				statusUpdate.setLocation(new GeoLocation(location.getLatitude(), location.getLongitude()));
 				Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
-				updateLocation(location);
+				if (loggedAccount.isUpdateProfileLocation()) {
+					updateLocation(location);
+				}
 			} else {
 				Twitter4jHelper.getStatus(twitter.updateStatus(statusUpdate));
 			}
@@ -509,7 +515,8 @@ public class Twitter4JService implements TwitterService {
 	
 	public boolean isNotificationEnabled(String username) throws YFrogTwitterException {
 		//try {
-			return false;/*twitter.isNotificationEnabled(username);*/
+		
+		return false;/*twitter.isNotificationEnabled(username);*/
 		/*} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}*/

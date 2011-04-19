@@ -26,6 +26,7 @@ public class Account implements Serializable {
 	private int oauthStatus = OAUTH_STATUS_NOT_AUTHORIZED;
 	private int postLocation = FALSE;
 	private int scaleImage = FALSE;
+	private int updateProfileLoc = FALSE;
 	
 	
 	public long getId() {
@@ -108,6 +109,22 @@ public class Account implements Serializable {
 		return scaleImage;
 	}
 	
+	public void setUpdateProfileLocation(int updateProfileLoc) {
+		this.updateProfileLoc = updateProfileLoc;
+	}
+	
+	public void setUpdateProfileLocation(boolean updateProfileLoc) {
+		this.updateProfileLoc = !updateProfileLoc ? FALSE : 1;
+	}
+
+	public int getUpdateProfileLocation() {
+		return updateProfileLoc;
+	}
+	
+	public boolean isUpdateProfileLocation() {
+		return updateProfileLoc != FALSE;
+	}
+	
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
 		out.writeUTF(username == null ? "" : username);
@@ -127,4 +144,5 @@ public class Account implements Serializable {
 		postLocation = in.readInt();
 		scaleImage = in.readInt();
 	}
+	
 }

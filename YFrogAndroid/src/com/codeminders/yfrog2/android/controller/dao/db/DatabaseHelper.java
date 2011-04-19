@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	private DatabaseHelper(Context context) {
-		super(context, AbstractDAO.DB_NAME, null, 2);
+		super(context, AbstractDAO.DB_NAME, null, 3);
 	}
 	
 	@Override

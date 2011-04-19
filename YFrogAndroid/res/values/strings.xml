@@ -228,6 +228,7 @@
     <!-- Settings -->
     <string name="st_title">Settings</string>
     <string name="st_locations">Post locations</string>
+    <string name="st_update_loc">Update profile location</string>
     <string name="st_scale">Scale large images</string>
     <string name="st_fwd_email">Forward by EMail</string>
     <string name="st_fwd_sms">Forward by SMS</string>
@@ -252,5 +253,6 @@
     <string name="vp_title">Select video</string>
     <string name="vp_msg_videos_empty">No videos</string>
     <string name="vp_view">View</string>
+    
 
 </resources>

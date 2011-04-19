@@ -4,6 +4,7 @@
 package com.codeminders.yfrog2.android.controller.dao;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.codeminders.yfrog2.android.controller.dao.db.DatabaseHelper;
 /**
@@ -34,6 +35,9 @@ public abstract class AbstractDAO {
 			db.execSQL(AccountDAO.ACCOUNT_DDL);
 			db.execSQL(AccountDAO.COPY_VALUES);
 			db.execSQL(AccountDAO.DROP_TEMP);
+		}
+		if (oldVersion==2) {
+			db.execSQL(AccountDAO.ADD_UPDATE_LOC);
 		}
 	}
 }

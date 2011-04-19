@@ -227,8 +227,9 @@
     
     <!-- Settings -->
     <string name="st_title">Settings</string>
-    <string name="st_locations">Post locations</string>
-    <string name="st_scale">Scale large images</string>
+    <string name="st_locations">Размещать местоположение</string>
+    <string name="st_scale">Масшабировать изображения</string>
+    <string name="st_update_loc">Обновлять местоположение в профиле</string>
     <string name="st_fwd_email">Forward by EMail</string>
     <string name="st_fwd_sms">Forward by SMS</string>
     <string name="st_fwd_title">Forward settings</string>

@@ -28,6 +28,7 @@ public class AccountDAO extends AbstractDAO {
 	private static final String OAUTH_STATUS = "oauth_status";
 	private static final String POST_LOCATION = "post_location";
 	private static final String SCALE_IMAGES = "scale_images";
+	private static final String UPDATE_PROFILE_LOCATION = "update_location";
 	
 	public static final String RENAME_TO_TEMP = "ALTER TABLE " + TABLE_NAME + " RENAME TO temp_" + TABLE_NAME + ";";
 	public static final String DROP_TEMP = "DROP TABLE temp_" + TABLE_NAME + ";";
@@ -40,12 +41,16 @@ public class AccountDAO extends AbstractDAO {
 		" CREATE TABLE IF NOT EXISTS " + TABLE_NAME +" (" +
 		ID + " INTEGER PRIMARY KEY, " +
 		USERNAME + " TEXT, " +
-		OAUTH_TOLKEN + " TEXT," +
+		OAUTH_TOLKEN + " TEXT, " +
 		OAUTH_TOLKEN_SECRET + " TEXT, " +
 		OAUTH_STATUS + " INTEGER NOT NULL, " +
 		POST_LOCATION + " INTEGER NOT NULL, " +
-		SCALE_IMAGES + " INTEGER NOT NULL " +
+		SCALE_IMAGES + " INTEGER NOT NULL, " +
+		UPDATE_PROFILE_LOCATION + " INTEGER NOT NULL DEFAULT 0" +
 		"); ";
+	
+	public static final String ADD_UPDATE_LOC = "ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + UPDATE_PROFILE_LOCATION + 
+		" INT NOT NULL DEFAULT 0;";	
 	
 	private static final String COUNT = "count";
 	
@@ -81,6 +86,7 @@ public class AccountDAO extends AbstractDAO {
 			int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
 			int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
 			int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
+			int idxUpdateProfileLoc = cursor.getColumnIndex(UPDATE_PROFILE_LOCATION);
 			
 			while(cursor.moveToNext()) {
 				Account account = new Account();
@@ -91,6 +97,7 @@ public class AccountDAO extends AbstractDAO {
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
 				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
 				account.setScaleImage(cursor.getInt(idxScaleImages));
+				account.setUpdateProfileLocation(cursor.getInt(idxUpdateProfileLoc));
 				
 				result.add(account);
 			}
@@ -120,6 +127,7 @@ public class AccountDAO extends AbstractDAO {
 				int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
 				int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
 				int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
+				int idxUpdateProfileLocation = cursor.getColumnIndex(UPDATE_PROFILE_LOCATION);
 				
 				cursor.moveToNext();
 				
@@ -131,6 +139,7 @@ public class AccountDAO extends AbstractDAO {
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
 				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
 				account.setScaleImage(cursor.getInt(idxScaleImages));
+				account.setUpdateProfileLocation(cursor.getInt(idxUpdateProfileLocation));
 
 			}
 		} finally {
@@ -173,6 +182,7 @@ public class AccountDAO extends AbstractDAO {
 				int idxOauthStatus = cursor.getColumnIndex(OAUTH_STATUS);
 				int idxPostLocStatus = cursor.getColumnIndex(POST_LOCATION);
 				int idxScaleImages = cursor.getColumnIndex(SCALE_IMAGES);
+				int idxUpdateProfileLocation = cursor.getColumnIndex(UPDATE_PROFILE_LOCATION);
 				
 				cursor.moveToNext();
 				
@@ -184,6 +194,7 @@ public class AccountDAO extends AbstractDAO {
 				account.setOauthStatus(cursor.getInt(idxOauthStatus));
 				account.setPostLocationStatus(cursor.getInt(idxPostLocStatus));
 				account.setScaleImage(cursor.getInt(idxScaleImages));
+				account.setUpdateProfileLocation(cursor.getInt(idxUpdateProfileLocation));
 
 			}
 		} finally {
@@ -207,6 +218,7 @@ public class AccountDAO extends AbstractDAO {
 			values.put(OAUTH_STATUS, account.getOauthStatus());
 			values.put(POST_LOCATION, account.getPostLocation());
 			values.put(SCALE_IMAGES, account.getScaleImage());
+			values.put(UPDATE_PROFILE_LOCATION, account.getUpdateProfileLocation());
 			id = db.insert(TABLE_NAME, null, values);
 		} finally {
 			db.close();
@@ -250,6 +262,7 @@ public class AccountDAO extends AbstractDAO {
 			values.put(OAUTH_STATUS, account.getOauthStatus());
 			values.put(POST_LOCATION, account.getPostLocation());
 			values.put(SCALE_IMAGES, account.getScaleImage());
+			values.put(UPDATE_PROFILE_LOCATION, account.getUpdateProfileLocation());
 			db.update(TABLE_NAME, values, ID_EQUAL_WHERE, new String[] {account.getId() + ""});
 		} finally {
 			db.close();

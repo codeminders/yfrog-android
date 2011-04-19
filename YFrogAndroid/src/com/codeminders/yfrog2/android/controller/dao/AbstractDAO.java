@@ -4,7 +4,6 @@
 package com.codeminders.yfrog2.android.controller.dao;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.codeminders.yfrog2.android.controller.dao.db.DatabaseHelper;
 /**

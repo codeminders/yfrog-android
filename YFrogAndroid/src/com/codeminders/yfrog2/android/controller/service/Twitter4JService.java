@@ -13,7 +13,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
 import com.codeminders.yfrog2.android.YFrogTwitterException;
 import com.codeminders.yfrog2.android.model.*;
@@ -514,12 +513,12 @@ public class Twitter4JService implements TwitterService {
 	}
 	
 	public boolean isNotificationEnabled(String username) throws YFrogTwitterException {
-		//try {
-		
-		return false;/*twitter.isNotificationEnabled(username);*/
-		/*} catch (TwitterException e) {
+		try {
+			Relationship relationship = twitter.showFriendship(loggedUser.getUsername(), username);
+			return relationship.isSourceNotificationsEnabled();
+		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
-		}*/
+		}
 	}
 	
 	public TwitterUser enableNotification(String username) throws YFrogTwitterException {

@@ -161,7 +161,7 @@ public class ListAccountsActivity extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		menu.add(0, MENU_LOGIN, 0, R.string.login);
-		menu.add(0, MENU_EDIT, 0, R.string.edit);
+		//menu.add(0, MENU_EDIT, 0, R.string.edit);
 		menu.add(0, MENU_DELETE, 0, R.string.delete);
 		
 	}

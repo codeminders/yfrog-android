@@ -4,6 +4,6 @@
 
     <item android:id="@+id/add_account"
         android:title="@string/add_account" android:icon="@drawable/accounts"/>
-<item android:title="@string/edit" android:id="@+id/edit_account" android:icon="@drawable/edit_account"></item>
+<item android:title="@string/edit" android:id="@+id/edit_account" android:icon="@drawable/edit_account" android:visible="false"></item>
 <item android:title="@string/delete" android:id="@+id/delete_account" android:icon="@drawable/delete_account"></item>
 </menu>

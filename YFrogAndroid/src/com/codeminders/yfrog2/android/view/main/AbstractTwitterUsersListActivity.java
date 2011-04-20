@@ -68,6 +68,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		super.onSaveInstanceState(outState);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected boolean restoreState(Bundle savedState) {
 		if (savedState == null) {
 			return false;
@@ -165,6 +166,7 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 				startActivityForResult(intent, 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			Bundle extras = data.getExtras();

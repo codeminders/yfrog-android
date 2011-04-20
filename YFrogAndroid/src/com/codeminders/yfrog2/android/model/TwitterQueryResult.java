@@ -51,6 +51,7 @@ public class TwitterQueryResult implements Serializable {
 		out.writeObject(results);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		query = in.readUTF();
 		results = (ArrayList<TwitterSearchResult>) in.readObject();

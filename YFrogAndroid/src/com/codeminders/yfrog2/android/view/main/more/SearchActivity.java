@@ -70,6 +70,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		super.onSaveInstanceState(outState);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private boolean restoreState(Bundle savedState) {
 		if (savedState == null) {
 			return false;
@@ -191,6 +192,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			Serializable serializable = data.getSerializableExtra(SearchResultsActivity.KEY_SEARCHES);

@@ -66,6 +66,7 @@ public class SettingsActivity extends Activity implements OnCheckedChangeListene
 				checkBox.setVisibility(View.GONE);
 			} else {
 				CheckBox checkBox = (CheckBox) findViewById(R.id.st_update_loc);
+				checkBox.setChecked(account.isUpdateProfileLocation());
 				checkBox.setVisibility(View.VISIBLE);
 			}
 			break;

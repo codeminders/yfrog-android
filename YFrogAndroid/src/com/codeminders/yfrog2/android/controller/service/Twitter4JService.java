@@ -193,7 +193,7 @@ public class Twitter4JService implements TwitterService {
 		try {
 			Set<Long> followers = Twitter4jHelper.toSet(twitter.getFollowersIDs(-1L));
 			
-			return followers.contains(Long.valueOf(userId).intValue());
+			return followers.contains(userId);
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}
@@ -203,7 +203,7 @@ public class Twitter4JService implements TwitterService {
 		try {
 			Set<Long> followings = Twitter4jHelper.toSet(twitter.getFriendsIDs(-1L));
 			
-			return followings.contains(Long.valueOf(userId).intValue());
+			return followings.contains(userId);
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
 		}

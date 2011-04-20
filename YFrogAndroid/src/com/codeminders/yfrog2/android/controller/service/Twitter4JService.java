@@ -89,7 +89,6 @@ public class Twitter4JService implements TwitterService {
 
 	// TODO Can we move logged user to other method
 	public void checkLogged() throws YFrogTwitterException {
-		
 		try {
 			loggedUser = Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {
@@ -422,6 +421,7 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#getLoggedUser()
 	 */
 	public TwitterUser getLoggedUser() {
+		checkCreated();
 		return loggedUser;
 	}
 	

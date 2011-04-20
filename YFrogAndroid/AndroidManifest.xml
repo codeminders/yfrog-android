@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.codeminders.yfrog2.android"
-      android:versionCode="22"
-      android:versionName="2.2">
+      android:versionCode="23"
+      android:versionName="2.3">
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".YFrog" android:theme="@style/YFrog">
 		<activity android:name=".view.account.ListAccountsActivity" android:label="@string/app_name">
 			<intent-filter>

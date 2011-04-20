@@ -79,7 +79,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		if (values == null) {
 			return false;
 		}
-		searches = (ArrayList<TwitterSavedSearch>) values;		
+		searches = (ArrayList<TwitterSavedSearch>) (values);		
 		
 		int value = savedState.getInt(SAVED_ATTEMPTS);
 		if (value < 0) {
@@ -196,7 +196,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 			Serializable serializable = data.getSerializableExtra(SearchResultsActivity.KEY_SEARCHES);
 			
 			if (serializable != null) {
-				searches = (ArrayList<TwitterSavedSearch>) serializable;
+				searches = (ArrayList<TwitterSavedSearch>) (serializable);
 			}
 		}
 	}
@@ -310,7 +310,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 	}
 
 	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView parent, View v, int position,
+		public void onItemClick(AdapterView<?> parent, View v, int position,
 				long id) {
 			TwitterSavedSearch savedSearch = searches.get(position);
 			showSearchResults(savedSearch.getQuery(), savedSearch.getId());

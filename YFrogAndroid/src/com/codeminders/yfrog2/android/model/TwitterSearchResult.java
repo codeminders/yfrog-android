@@ -14,6 +14,10 @@ import java.util.Date;
  *
  */
 public class TwitterSearchResult implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8032824135200699196L;
 	private long id;
 	private String text;
 	private Date createdAt;

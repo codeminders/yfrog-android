@@ -12,7 +12,10 @@ import java.io.Serializable;
  *
  */
 public class Account implements Serializable {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2298093644093301976L;
 	public static final int OAUTH_STATUS_NOT_AUTHORIZED = 0;
 	public static final int OAUTH_STATUS_WAIT_VERIFICATION = 1;
 	public static final int OAUTH_STATUS_VERIFIED = 2;

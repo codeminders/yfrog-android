@@ -14,6 +14,10 @@ import com.codeminders.yfrog2.android.util.StringUtils;
  *
  */
 public class UnsentMessage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4957833613069531951L;
 	public static final int TYPE_STATUS = 0;
 	public static final int TYPE_REPLAY = 1;
 	public static final int TYPE_PUBLIC_REPLAY = 2;

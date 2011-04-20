@@ -341,7 +341,7 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 	}
 	
 	private AdapterView.OnItemClickListener mOnClickListener = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView parent, View v, int position,
+		public void onItemClick(AdapterView<?> parent, View v, int position,
 				long id) {
 			showDetails(position);
 		}

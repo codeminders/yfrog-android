@@ -12,6 +12,10 @@ import java.io.Serializable;
  *
  */
 public class TwitterSavedSearch implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7296656370687245693L;
 	private int id;
 	private String name;
 	private String query;

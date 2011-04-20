@@ -13,6 +13,10 @@ import java.util.Date;
  *
  */
 public class TwitterDirectMessage implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8213501180850189027L;
 	private long id;
 	private TwitterUser sender;
 	private String text;

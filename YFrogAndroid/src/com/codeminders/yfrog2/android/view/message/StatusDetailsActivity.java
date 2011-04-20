@@ -51,6 +51,7 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	private boolean my;
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);

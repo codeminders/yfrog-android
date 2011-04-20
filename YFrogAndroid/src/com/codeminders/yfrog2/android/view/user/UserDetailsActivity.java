@@ -57,6 +57,7 @@ public class UserDetailsActivity extends Activity implements OnClickListener {
 	private boolean isNotificationEnable = false;
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 

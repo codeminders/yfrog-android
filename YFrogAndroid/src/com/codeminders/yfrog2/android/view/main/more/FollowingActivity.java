@@ -32,6 +32,7 @@ public class FollowingActivity extends AbstractTwitterUsersListActivity {
 			if (extras != null) {
 				Serializable serializable = extras.getSerializable(UserDetailsActivity.KEY_USERS);
 				if (serializable != null) {
+				    @SuppressWarnings("unchecked")
 					ArrayList<TwitterUser> usrs = (ArrayList<TwitterUser>) serializable;
 					removeUnfollow(usrs);
 					users = usrs;

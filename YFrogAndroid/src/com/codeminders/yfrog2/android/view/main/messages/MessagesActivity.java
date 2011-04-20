@@ -61,6 +61,7 @@ public class MessagesActivity extends ListActivity {
 		createList(!restored);
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean restoreState(Bundle savedState) {
 		if (savedState == null) {
 			return false;

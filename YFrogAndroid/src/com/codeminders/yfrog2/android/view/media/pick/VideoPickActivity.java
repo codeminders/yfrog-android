@@ -115,6 +115,7 @@ public class VideoPickActivity extends ListActivity {
 		directoryScanner = null;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void handleMessage(Message message) {
 		switch (message.what) {
 		case MESSAGE_SHOW_DIRECTORY_CONTENTS:
@@ -212,7 +213,9 @@ public class VideoPickActivity extends ListActivity {
 
 	private void selectInList(File selectFile) {
 		String filename = selectFile.getName();
-		ArrayAdapter<String> la = (ArrayAdapter<String>) getListAdapter();
+		@SuppressWarnings("unchecked")
+		ArrayAdapter<String> listAdapter = (ArrayAdapter<String>) getListAdapter();
+        ArrayAdapter<String> la = listAdapter;
 		int count = la.getCount();
 		for (int i = 0; i < count; i++) {
 			String it = la.getItem(i);
@@ -226,6 +229,7 @@ public class VideoPickActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
+		@SuppressWarnings("unchecked")
 		ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
 
 		String file = adapter.getItem(position);

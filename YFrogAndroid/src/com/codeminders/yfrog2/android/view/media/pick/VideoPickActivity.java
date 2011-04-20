@@ -226,7 +226,6 @@ public class VideoPickActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-
 		ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
 
 		String file = adapter.getItem(position);

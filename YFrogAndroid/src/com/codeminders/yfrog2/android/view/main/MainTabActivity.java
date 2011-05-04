@@ -12,8 +12,11 @@ import android.widget.TabWidget;
 import android.widget.TabHost.OnTabChangeListener;
 
 import com.codeminders.yfrog2.android.R;
+import com.codeminders.yfrog2.android.controller.service.AccountService;
 import com.codeminders.yfrog2.android.controller.service.ServiceFactory;
+import com.codeminders.yfrog2.android.model.TwitterUser;
 import com.codeminders.yfrog2.android.util.StringUtils;
+import com.codeminders.yfrog2.android.view.account.ListAccountsActivity;
 import com.codeminders.yfrog2.android.view.main.home.HomeActivity;
 import com.codeminders.yfrog2.android.view.main.mentions.MentionsActivity;
 import com.codeminders.yfrog2.android.view.main.messages.MessagesActivity;
@@ -44,7 +47,14 @@ public class MainTabActivity extends TabActivity implements OnTabChangeListener 
 	}
 	
 	protected String createTitle() {
-		return StringUtils.formatTitle(ServiceFactory.getTwitterService().getLoggedUser().getUsername());
+        TwitterUser twitterUser = ServiceFactory.getTwitterService().getLoggedUser();
+        if (twitterUser != null) {
+            return StringUtils.formatTitle(twitterUser.getUsername());
+        } else {
+            startActivity(new Intent(this, ListAccountsActivity.class));
+            finish();
+            return "";
+        }
 	}
 	
 	@Override

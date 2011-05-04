@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.util.Log;
+import com.codeminders.yfrog2.android.YFrog;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -421,7 +423,12 @@ public class Twitter4JService implements TwitterService {
 	 * @see com.codeminders.yfrog2.android.controller.service.TwitterService#getLoggedUser()
 	 */
 	public TwitterUser getLoggedUser() {
-		checkCreated();
+        try {
+            checkCreated();
+        } catch (IllegalStateException e) {
+            Log.e(YFrog.TAG, (twitter == null ? "twitter is null" : "logged user is null"));
+            return null;
+        }
 		return loggedUser;
 	}
 	
@@ -564,7 +571,6 @@ final class Twitter4jHelper {
 	static ArrayList<TwitterStatus> getStatuses(List<Status> statuses) {
 		int size = statuses.size();
 		ArrayList<TwitterStatus> result = new ArrayList<TwitterStatus>();
-		
 		for (int i = 0; i < size; i++) {
 			result.add(getStatus(statuses.get(i)));
 		}

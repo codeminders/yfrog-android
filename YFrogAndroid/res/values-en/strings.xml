@@ -219,7 +219,7 @@
     <!--  About -->
     <string name="ab_title">About</string>
     <string name="ab_app_name">YFrog</string>
-    <string name="ab_app_version">ver. 2.3</string>
+    <string name="ab_app_version">ver. 2.4</string>
     <string name="ab_app_copyright1">\u00A9 2011 ImageShack Corp.</string>
     <string name="ab_app_copyright2">All rights reserved.</string>
     <string name="ab_app_link">https://code.google.com/p/yfrog-android/</string>

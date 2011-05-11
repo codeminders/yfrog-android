@@ -101,7 +101,12 @@ public abstract class AbstractTwitterUsersListActivity extends ListActivity {
 		
 		savedState.putSerializable(SAVED_USERS, users);
 		savedState.putInt(SAVED_ATTEMPTS, attempts);
-		savedState.putInt(SAVED_SELECTED, getSelectedItemPosition());
+		
+		try {
+			savedState.putInt(SAVED_SELECTED, getSelectedItemPosition());
+		} catch (Exception e) {
+			savedState.putInt(SAVED_SELECTED, -1);
+		}
 	}
 
 	@Override

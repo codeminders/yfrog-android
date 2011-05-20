@@ -86,7 +86,9 @@ public class Twitter4JService implements TwitterService {
 	    	account.setOauthTokenSecret(accessToken.getTokenSecret());
 	    } catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
-		}
+		} catch (NullPointerException e) {
+            throw new YFrogTwitterException(e.getMessage());
+        }
 	}
 
 	// TODO Can we move logged user to other method

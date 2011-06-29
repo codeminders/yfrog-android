@@ -97,7 +97,9 @@ public class Twitter4JService implements TwitterService {
 			loggedUser = Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {
 			throw new YFrogTwitterException(e, e.getStatusCode());
-		} 
+		} catch (NullPointerException e) {
+			throw new YFrogTwitterException(e);
+		}
 	}
 	
 	/* (non-Javadoc)

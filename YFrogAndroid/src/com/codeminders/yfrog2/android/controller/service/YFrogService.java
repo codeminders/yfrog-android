@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.codeminders.yfrog2.android.controller.service;
 
@@ -27,13 +27,13 @@ public class YFrogService {
 	private AccountService accountService;
 	private GeoLocationService geoLocationService;
 	private YFrogProperties properties;
-	
+
 	YFrogService() {
 		accountService = ServiceFactory.getAccountService();
 		geoLocationService = ServiceFactory.getGeoLocationService();
 		properties = YFrogProperties.getProperies();
 	}
-	
+
 	public long send(String text, MessageAttachment attachment) throws YFrogTwitterException {
 		YFrogClient client = new YFrogClientImpl();
 		UploadRequest request = attachment.toUploadRequest();
@@ -42,13 +42,13 @@ public class YFrogService {
 		request.setAzimuth(attachment.getAzimuth());
 		request.setPitch(attachment.getPitch());
 		request.setRoll(attachment.getRoll());
-		
+
 		if (!StringUtils.isEmpty(text)) {
 			request.setMessage(text);
 		}
-		
+
 		UploadResponse response = null;
-		
+
 		try {
 			response = client.uploadAndPost(request);
 		} catch (IOException e) {
@@ -56,20 +56,20 @@ public class YFrogService {
 		} catch (UploadResponseFormatException e) {
 			e.printStackTrace();
 		}
-		
+
 		checkResponse(response);
-		
+
 		return response.getStatusId();
 	}
-	
+
 	public String upload(MessageAttachment attachment) throws YFrogTwitterException {
 		YFrogClient client = new YFrogClientImpl();
 		UploadRequest request = attachment.toUploadRequest();
 
 		prepareAuthentication(request);
-		
+
 		UploadResponse response = null;
-		
+
 		try {
 			response = client.upload(request);
 		} catch (IOException e) {
@@ -77,39 +77,39 @@ public class YFrogService {
 		} catch (UploadResponseFormatException e) {
 			e.printStackTrace();
 		}
-		
+
 		checkResponse(response);
-		
+
 		return response.getMediaUrl();
 	}
 
 	private void prepareAuthentication(UploadRequest request) {
 		Account logged = accountService.getLogged();
-		
+
 		request.setUsername(logged.getUsername());
-		String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(), 
+		String signedUrl = OAuthHelper.getOAuthVerifyUrl(logged.getOauthToken(), logged.getOauthTokenSecret(),
 				TwitterService.CONSUMER_KEY, TwitterService.CONSUMER_SECRET);
 		request.setVerifyUrl(signedUrl);
-		
+
 		if (logged.isPostLocation()) {
 			Location location = geoLocationService.getLocation();
-			
+
 			if (location != null) {
 				request.setTags(StringUtils.creatGeoTags(location.getLatitude(), location.getLongitude()));
 			}
 		}
-		
+
 		request.setKey(properties.getDeveloperKey());
 //		System.out.println("Developer Key - " + request.getKey());
 	}
-	
-	private void checkResponse(UploadResponse response) throws YFrogTwitterException {
-		if (response == null) {
-			throw new YFrogTwitterException(-1);
-		}
 
-		if (UploadResponse.STATUS_FAIL.equals(response.getStatus())) {
-			throw new YFrogTwitterException(response.getErrorCode());
-		}
+	private synchronized void checkResponse(UploadResponse response) throws YFrogTwitterException {
+        try {
+		    if (UploadResponse.STATUS_FAIL.equals(response.getStatus())) {
+			    throw new YFrogTwitterException(response.getErrorCode());
+		    }
+        } catch (NullPointerException e) {
+            throw new YFrogTwitterException(-1);
+        }
 	}
 }

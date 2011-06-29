@@ -103,7 +103,7 @@ public class YFrogService {
 //		System.out.println("Developer Key - " + request.getKey());
 	}
 
-	private synchronized void checkResponse(UploadResponse response) throws YFrogTwitterException {
+	private void checkResponse(UploadResponse response) throws YFrogTwitterException {
         try {
 		    if (UploadResponse.STATUS_FAIL.equals(response.getStatus())) {
 			    throw new YFrogTwitterException(response.getErrorCode());

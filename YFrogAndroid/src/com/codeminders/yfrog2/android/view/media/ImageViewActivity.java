@@ -76,6 +76,9 @@ public class ImageViewActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+        if (imageView == null) {
+            return false;
+        }
 		switch (item.getItemId()) {
 		case R.id.iv_zoom_in:
 			imageView.zoomIn();
@@ -103,7 +106,9 @@ public class ImageViewActivity extends Activity {
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
+        if (imageView == null) {
+            return false;
+        }
 		if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
 			imageView.zoomIn();
 			return true;
@@ -127,6 +132,9 @@ public class ImageViewActivity extends Activity {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+        if (imageView == null) {
+            return super.onTouchEvent(event);
+        }
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			imageView.startMove(event.getX(), event.getY());
 		}

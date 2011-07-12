@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content" android:padding="6px" android:longClickable="true">
+  	<ImageView 
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" 
+		android:maxHeight="48px" 
+		android:maxWidth="48px" 
+		android:minHeight="48px"
+		android:minWidth="48px" 
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true" 
+		android:id="@+id/tdm_user_icon" android:src="@drawable/default_profile_image">
+	</ImageView>
+
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01"
+		android:layout_width="wrap_content" 
+		android:layout_toRightOf="@+id/tdm_user_icon"
+		android:id="@+id/tdm_username" 
+		android:layout_alignWithParentIfMissing="true"
+		style="@style/YFrog.UsernameStyle" android:layout_marginLeft="5px">
+	</TextView>
+
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01"
+		android:layout_below="@+id/tdm_username" 
+		android:layout_width="wrap_content"
+		android:layout_toRightOf="@+id/tdm_user_icon" 
+		android:id="@+id/tdm_text"
+		android:layout_marginTop="15px" android:layout_marginLeft="5px">
+	</TextView>
+	<TextView 
+		android:layout_height="wrap_content" 
+		android:text="@+id/TextView01"
+		android:layout_width="wrap_content" 
+		android:id="@+id/tdm_created_at"
+		android:layout_alignParentTop="true" 
+		android:layout_alignParentRight="true" android:textSize="12sp" android:textStyle="italic" android:layout_marginTop="2sp">
+	</TextView>
+</RelativeLayout>

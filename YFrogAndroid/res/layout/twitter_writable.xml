@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content" android:padding="10px">
+  
+	<EditText 
+		android:id="@+id/wr_text" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent" 
+		android:maxHeight="180px" 
+		android:minHeight="180px" 
+		android:inputType="textMultiLine" 
+		android:gravity="top">
+	</EditText>
+	
+	<TextSwitcher 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:id="@+id/wr_counter"
+		android:layout_below="@+id/wr_text" 
+		android:layout_alignParentLeft="true">
+	</TextSwitcher>
+	
+	<Button 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:layout_below="@+id/wr_text" 
+		android:layout_alignParentRight="true" 
+		android:text="@string/send" android:id="@+id/wr_send">
+	</Button>
+	
+	<TextView android:text="@+id/TextView01" android:layout_below="@+id/wr_send" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_margin="15dp" android:id="@+id/wr_test" android:visibility="gone"></TextView><Button 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content" 
+		android:id="@+id/wr_queue" 
+		android:text="@string/wr_btn_queue" 
+		android:layout_below="@+id/wr_text" 
+		android:layout_toLeftOf="@+id/wr_send">
+	</Button>
+
+
+<Button android:layout_below="@+id/wr_text" android:layout_width="wrap_content" android:layout_toLeftOf="@+id/wr_queue" android:layout_height="wrap_content" android:id="@+id/wr_add_location" android:text="@string/wr_btn_add_location"></Button>
+
+</RelativeLayout>

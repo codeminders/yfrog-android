@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.codeminders.yfrog2.android"
+      android:versionName="2.4" android:versionCode="24">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".YFrog" android:theme="@style/YFrog" android:debuggable="true">
+		<activity android:name=".view.account.ListAccountsActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>			
+		</activity>
+		
+		<activity android:name=".view.account.EditAccountActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+			
+			<intent-filter>
+    			<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+				<data android:scheme="yfrog" android:host="android"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.main.MainTabActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.main.home.HomeActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".view.main.mentions.MentionsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".view.main.messages.MessagesActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.main.more.MoreActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.main.unsent.UnsentActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".view.main.more.FollowersActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+	
+		<activity android:name=".view.main.more.FollowingActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.main.more.SearchActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".view.main.more.SearchResultsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+	
+		<activity android:name=".view.main.more.SettingsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+	
+		<activity android:name=".view.main.more.AboutActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.user.UserDetailsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.StatusDetailsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.WriteStatusActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.WriteReplayActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.WritePublicReplayActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.WriteDirectMessageActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".view.message.EditUnsentMessageActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".view.main.more.MyTweetsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".view.user.UserTweetsActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>		
+
+		<activity android:name=".view.user.UserFollowersActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>		
+
+		<activity android:name=".view.media.ImageViewActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>		
+
+		<activity android:name=".view.media.pick.VideoPickActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT"/>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>		
+
+    </application>
+    
+    <uses-sdk android:minSdkVersion="3" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name = "android.hardware.location.gps" android:required="false"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-feature android:name="android.hardware.camera" />
+</manifest> 

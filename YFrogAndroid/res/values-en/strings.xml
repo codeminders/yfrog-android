@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">yfrog</string>
+
+	<!-- Error messages -->
+    <string name="error_304">Not Modified: There was no new data to return.</string>
+    <string name="error_400">Bad Request: The request was invalid.  An accompanying error message will explain why. This is the status code will be returned during rate limiting.</string>
+    <string name="error_401">Not Authorized: Authentication credentials were missing or incorrect.</string>
+    <string name="error_403">Forbidden: The request is understood, but it has been refused.  An accompanying error message will explain why.</string>
+    <string name="error_404">Not Found: The URI requested is invalid or the resource requested, such as a user, does not exists.</string>
+    <string name="error_406">Not Acceptable: Returned by the Search API when an invalid format is specified in the request.</string>
+    <string name="error_500">Internal Server Error: Something is broken.  Please post to the group so the Twitter team can investigate.</string>
+    <string name="error_502">Bad Gateway: Twitter is down or being upgraded.</string>
+    <string name="error_503">Service Unavailable: The Twitter servers are up, but overloaded with requests. Try again later. The search and trend methods use this to indicate when you are being rate limited.</string>
+
+    <string name="error_1001">Invalid twitter username or password</string>
+    <string name="error_1002">Image/video not found</string>
+    <string name="error_1003">Unsupported image/video type</string>
+    <string name="error_1004">Image/video is too big</string>
+    <string name="error_2001">Invalid action</string>
+    <string name="error_2002">Failed to upload</string>
+    <string name="error_2003">Failed to update twitter status</string>
+    <string name="error_2004">Invalid developer key</string>
+    <string name="error_2005">Image/video is too big</string>
+
+    <string name="twitter_error">Error during request to http://twitter.com. Please check your Internet connection and try again</string>
+    <string name="io_error">Error during request to Internet. Please check your Internet connection and try again</string>
+    <string name="account_verification_error">Wrong authorization data or connection problem</string>
+    <string name="gps_retrieve_location_error"> Can not retrieve a current location</string>
+    
+    <string name="account_db_insert_error">Error during add new account to database. Please re-install application and try again</string>
+    
+    <string name="yfrog_upload_error_title">YFrog upload error</string>
+    <string name="twitter_error_title">Twitter error</string>
+	<string name="io_error_title">Connection error</string>
+	<string name="account_verification_error_title">Verification error</string>
+	<string name="gps_error_title">GPS Error</string>
+	<string name="database_error_title">Database error</string>
+    
+    <string name="error_alert_btn">OK</string>
+	
+	<!-- Common -->
+	<string name="list_reload">Refresh</string>
+	<string name="delete">Delete</string>
+	<string name="edit">Edit</string>
+	<string name="save">Save</string>
+	<string name="cancel">Cancel</string>
+	<string name="next">Next</string>
+	<string name="send">Send</string>
+	<string name="date_less_20s">less than 20 seconds ago</string>
+	<string name="date_less_50s">half a minute ago</string>
+	<string name="date_less_60s">less than a minute ago</string>
+	<string name="date_less_48m">about %d minutes ago</string>
+    <string name="date_less_90m">about a hour ago</string>
+    <string name="date_less_23h">%d hours ago</string>
+    <string name="date_less_30d">%d days ago</string>
+    <string name="add_tweet">Add tweet</string>
+    <string name="more_tweets">More tweets</string>
+    <string name="loading">Loading...</string>
+	<string name="msg_sent">Send complete</string>
+	<string name="msg_tweets_empty">No tweets</string>
+	<string name="msg_users_empty">No users</string>
+	<string name="userinfo">User info</string>
+    
+    <!-- Account list -->
+    <string name="account_list_activity_title">Accounts</string>
+    <string name="add_account">Add account</string>
+    <string name="login">Login</string>
+    <string name="account_delete_dialog_title">Warning</string>
+    <string name="account_delete_dialog_message">Do you want to delete this account?</string>
+    <string name="account_delete_dialog_btn_yes">Yes</string>
+    <string name="account_delete_dialog_btn_no">No</string>
+    <string name="account_delete_message">Account has been deleted</string>
+    <string name="account_login_failed_title">Authentication failed</string>
+    <string name="account_login_failed_msg">Please check that your login and password are correct</string>
+    <string name="account_login_failed_btn">OK</string>
+    <string name="account_list_empty">Press menu to add an account</string>
+    
+	<!-- Add account -->
+	<string name="add_account_activity_title">Add account</string>
+	<string name="edit_account_activity_title">Edit account</string>
+	<string name="ae_name">Account name</string>
+    <string name="ae_nickname">Nickname</string>
+    <string name="ae_password">Password</string>
+    <string name="ae_email">E-mail</string>
+    <string name="ae_oauth_key">OAuth Key</string>
+    
+    <string name="ae_auth_methods">Authentication methods</string>
+    <string name="ae_common_method">Login/Password</string>
+    <string name="ae_oauth_method">OAuth</string>
+    
+    <string name="ae_btn_oauth_auth">Authorize</string>
+    <string name="ae_btn_oauth_reset">Reset</string>
+    <string name="ae_oauth_status">OAuth Status:</string>
+    <string name="ae_oauth_status_authorized">Authorized</string>
+    <string name="ae_oauth_status_need_authorize">Need authorization</string>
+    
+    <string name="ae_created">Account has been created</string>
+    <string name="ae_updated">Account has been updated</string>
+    
+    <string name="ae_dialog_title">Error</string>
+    <string name="ae_dialog_message_nickname">Required field "Nickname" are empty</string>
+    <string name="ae_dialog_message_passwd">Required field "Password" are empty</string>
+    <string name="ae_oauth_message_not_unique">Authorization failed. Account with even nickname or name already exists</string>
+    <string name="ae_dialog_message_not_unique">Account with even nickname or name already exists</string>
+    <string name="ae_dialog_button">Ok</string>
+    
+    <string name="ae_oauth_desc">OAuth is an authentication protocol that allows users to approve application to act on their behalf without sharing their password. More information can be found at http://dev.twitter.com/pages/oauth_faq</string>
+    
+    <!-- Logout -->
+    <string name="lo_dialog_title">Logout</string>
+    <string name="lo_dialog_msg">Do you really want to logout?</string>
+    <string name="lo_dialog_btn_yes">Yes</string>
+    <string name="lo_dialog_btn_no">No</string>
+    
+    <!-- Tabs -->
+    <string name="tab_home_caption">Home</string>
+    <string name="tab_mentions_caption">Mentions</string>
+    <string name="tab_messages_caption">Messages</string>
+    <string name="tab_unsent_caption">Unsent</string>
+    <string name="tab_more_caption">More</string>
+    
+    <!-- Home tab -->
+    
+	<!-- Mentions tab -->
+	
+	<!-- Messages tab -->
+	<string name="dm_msg_messages_empty">No incoming direct messages</string>
+	<string name="dm_reply">Reply</string>
+	<string name="dm_error_reply_title">Direct message error</string>
+	<string name="dm_error_reply_msg">Recipient is not following the sender</string>
+	
+	<!-- Unsent tab -->
+	<string name="umt_send_all">Send all</string>
+	<string name="umt_to">To:</string>
+	<string name="umt_msg_unsent_empty">No unsent messages</string>
+   
+    <!-- More Tab -->
+    <string-array name="tab_more_items">
+    	<item>My Tweets</item>
+    	<item>Followers</item>
+    	<item>Following</item>
+    	<item>Search</item>
+    	<item>Settings</item>
+    	<item>About</item>
+    </string-array>
+    <!-- End tabs -->
+    
+    <!-- Twitter user details -->
+    <string name="tud_title">Details for </string>
+    <string name="tud_btn_send_dir_message">Send Direct Message</string>
+    <string name="tud_btn_send_pub_reply">Send Public Reply</string>
+    <string name="tud_btn_recent_tweets">Recent Tweets</string>
+    <string name="tud_btn_followers">Followers</string>
+    <string name="tud_btn_follow">Follow</string>
+    <string name="tud_btn_unfollow">Unfollow</string>
+    <string name="tud_send">Send</string>
+    <string name="tud_protected_msg">This person has protected their tweets. You need to send a request before you can start following this person.</string>
+    <string name="tud_location">Location:</string>
+    <string name="tud_description">Description:</string>
+    <string name="tud_followers">Followers:</string>
+    <string name="tud_following">Following:</string>
+    <string name="tud_btn_notifications">Device updates</string>
+    <string name="tud_protected_follow_title">Request sent</string>
+    <string name="tud_protected_follow_msg">You have sent a request to follow this person. If your request is approved, you will be able to view their tweets.</string>
+    <string-array name="tud_notification_settings_items">
+    	<item>Enable</item>
+    	<item>Disable</item>
+    </string-array>
+    <string name="tud_btn_request">Send request</string>
+    
+    <!-- Twitter status details -->
+    <string name="tm_title">Status details</string>
+    <string name="tm_btn_reply">Reply</string>
+    <string name="tm_btn_forward">Forward</string>
+    <string name="tm_btn_forward_email">Forward by email</string>
+    <string name="tm_btn_forward_sms">Forward by SMS</string>
+    <string name="tm_btn_favorite">Favorite</string>
+    <string name="tm_btn_unfavorite">Unfavorite</string>
+    <string name="tm_btn_delete">Delete</string>
+    
+    <!-- Writable -->
+    <string name="wr_title">Write </string>
+    <string name="wr_btn_queue">Queue</string>
+    <string name="wr_src_storage">Attach from storage</string>
+    <string name="wr_src_camera">Attach from camera</string>
+    <string name="wr_att_image">Image</string>
+    <string name="wr_att_video">Video</string>
+    <string name="wr_new_status_title">Add status</string>
+    <string name="wr_reply_title">Reply to </string>
+    <string name="wr_pub_reply_title">Public reply to </string>
+    <string name="wr_dir_msg_title">Direct message to </string>
+    <string name="wr_edit_new_status_title">Status</string>
+    <string name="wr_edit_reply_title">Reply</string>
+    <string name="wr_edit_pub_reply_title">Public reply</string>
+    <string name="wr_edit_dir_msg_title">Direct message to </string>
+    <string name="wr_btn_add_location">Add location</string>
+        
+    <!-- Twitter search -->
+    <string name="s_title">Saved searches</string>
+    <string name="s_add_search">Add search</string>
+    <string name="s_btn_search">Search</string>
+    <string name="s_add_search_query">Query</string>
+    <string name="s_msg_search_empty">No saved searches</string>
+    
+    <!-- Twitter search results-->
+    <string name="sr_title">Search result for </string>
+    <string name="sr_more_searches">More searches</string>
+    <string name="sr_msg_search_empty">No results for search</string>
+    
+    <!-- Image view -->
+    <string name="iv_title">View image</string>
+    <string name="iv_zoom_in">Zoom in</string>
+    <string name="iv_zoom_out">Zoom out</string>
+    
+    <!-- Photo camera -->
+    <string name="pc_to_gallery">Go to gallery</string>
+    
+    <!--  About -->
+    <string name="ab_title">About</string>
+    <string name="ab_app_name">YFrog</string>
+    <string name="ab_app_version">ver. 2.4</string>
+    <string name="ab_app_copyright1">\u00A9 2011 ImageShack Corp.</string>
+    <string name="ab_app_copyright2">All rights reserved.</string>
+    <string name="ab_app_link">https://code.google.com/p/yfrog-android/</string>
+    <string name="ab_app_used_libs">Includes Twitter4J by Yusuke Yamamoto</string>
+    
+    <!-- Settings -->
+    <string name="st_title">Settings</string>
+    <string name="st_locations">Post locations</string>
+    <string name="st_update_loc">Update profile location</string>
+    <string name="st_scale">Scale large images</string>
+    <string name="st_fwd_email">Forward by EMail</string>
+    <string name="st_fwd_sms">Forward by SMS</string>
+    <string name="st_fwd_title">Forward settings</string>
+    
+    <!-- Followers -->
+    <string name="frs_title">Followers</string>
+    
+    <!-- Following -->
+    <string name="fng_title">Following</string>
+    
+    <!-- User Followers -->
+    <string name="ufrs_title">Followers for </string>
+    
+    <!-- My tweets -->
+    <string name="mtw_title">My tweets</string>
+    
+    <!-- My tweets -->
+    <string name="utw_title">Tweets for </string>
+    
+    <!-- Pick video -->
+    <string name="vp_title">Select video</string>
+    <string name="vp_msg_videos_empty">No videos</string>
+    <string name="vp_view">View</string>
+
+</resources>

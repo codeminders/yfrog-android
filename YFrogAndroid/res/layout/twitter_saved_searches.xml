@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content" android:orientation="vertical">
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:padding="5px">
+			<AutoCompleteTextView
+				android:id="@+id/s_search_input" 
+				android:text="" 
+				android:layout_height="wrap_content" 
+				android:layout_gravity="left" 
+				android:layout_width="fill_parent" 
+				android:singleLine="true" android:inputType="text" android:layout_marginTop="5dp" android:layout_weight="50">
+			</AutoCompleteTextView>
+
+			<ImageButton 
+				android:id="@+id/s_search_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:src="@drawable/search1">
+			</ImageButton>
+
+			<ImageButton 
+				android:id="@+id/s_save_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:src="@drawable/save">
+			</ImageButton>
+	</LinearLayout>
+
+<!--
+	<TableLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:stretchColumns="1" android:padding="5px">
+		<TableRow>
+			<AutoCompleteTextView
+				android:layout_column="1" 
+				android:id="@+id/s_search_input" 
+				android:text="" 
+				android:layout_height="wrap_content" 
+				android:layout_gravity="left" 
+				android:layout_width="fill_parent" 
+				android:singleLine="true" android:inputType="text" android:width="200px" android:layout_marginTop="5dp">
+			</AutoCompleteTextView>
+
+			<Button 
+				android:id="@+id/s_search_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_gravity="right" android:drawableLeft="@drawable/search1">
+			</Button>
+
+			<Button 
+				android:id="@+id/s_save_button" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:layout_gravity="right" android:drawableLeft="@drawable/save">
+			</Button>
+					
+		</TableRow>
+	</TableLayout>
+-->
+	<ListView 
+		android:id="@+id/s_searches_list" 
+		android:layout_height="wrap_content" android:layout_width="fill_parent">
+	</ListView>
+	
+	<TextView 
+		android:id="@+id/s_searches_empty" 
+		android:text="@string/s_msg_search_empty" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="center_vertical|center_horizontal" android:layout_gravity="center_vertical" android:layout_marginTop="120dp">
+	</TextView>
+</LinearLayout>

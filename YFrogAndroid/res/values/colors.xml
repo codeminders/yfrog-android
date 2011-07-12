@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<color name="background">#FFFFFFFF</color>
+<color name="text">#FF808080</color>
+<color name="title_text">#FFFFFFFF</color>
+<color name="tab_header">#FF0000FF</color>
+
+<color name="list_selector_color">#ffABA4f2</color>
+<color name="list_selector_long_color">#ffABAAf2</color>
+
+<color name="btn_selector_selected">#ff0000ff</color>
+<color name="btn_selector_unselected">#ff919191</color>
+
+<color name="username">#ff007AA3</color>
+<color name="caption">#ff000000</color>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="YFrogLib" basedir="." default="dist">
+	
+	<property environment="env"/>
+	<property file="build.properties"/>
+	
+	<path id="libs">
+		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+	</path>
+
+	<target name="clean">
+		<delete dir="${classes.dir}"/>
+	</target>
+	
+	<target name="dirs" depends="clean">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+	
+	<target name="dist" depends="compile">
+		<delete file="${dist.dir}/${dist.filename}"/>
+		
+		<jar destfile="${dist.dir}/${dist.filename}" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Created-By" value="1.6.0_10 (Sun Microsystems Inc.)"/>
+				<attribute name="Built-JDK" value="1.6.0_10"/>
+			</manifest>
+		</jar>
+		
+		<antcall target="clean"/>
+	</target>
+	
+	<target name="compile" depends="dirs">
+		<javac destdir="${classes.dir}" classpathref="libs">
+			<src path="${src.java.dir}"/>
+		</javac>
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.res.dir}" excludes="**/*.java"/>
+		</copy>
+	</target>
+	
+</project>

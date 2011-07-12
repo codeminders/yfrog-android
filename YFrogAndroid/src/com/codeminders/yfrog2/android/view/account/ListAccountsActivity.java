@@ -54,29 +54,29 @@ public class ListAccountsActivity extends ListActivity {
 		
 		accountService = ServiceFactory.getAccountService();
 		properties = YFrogProperties.getProperies();
-
-		createAccountsList();
-		
-		if (getLastLogged() != null) {
-			login(getLastLogged());
-			return;
-		}
-		
-		if (accounts.size() == 0) {
-			addAccount();
-		}
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		createAccountsList();
+
+        createAccountsList();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		createAccountsList();
+
+        createAccountsList();
+
+        if (getLastLogged() != null) {
+			login(getLastLogged());
+			return;
+		}
+
+		if (accounts.size() == 0) {
+			addAccount();
+		}
 	}
 
 	private void createAccountsList() {

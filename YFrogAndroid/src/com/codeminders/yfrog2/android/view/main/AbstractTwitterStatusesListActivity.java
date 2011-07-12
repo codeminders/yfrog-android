@@ -101,7 +101,7 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		if (savedState == null) {
 			return;
 		}
-		
+
 		savedState.putSerializable(SAVED_STATUSES, statuses);
 		savedState.putInt(SAVED_PAGE, page);
 		savedState.putInt(SAVED_ATTEMPTS, attempts);
@@ -182,7 +182,11 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 		intent.putExtra(StatusDetailsActivity.KEY_STATUS_POS, position);
 		intent.putExtra(StatusDetailsActivity.KEY_STATUSES, statuses);
 
-		startActivityForResult(intent, 0);
+        try{
+		    startActivityForResult(intent, 0);
+        } catch (Exception e) {
+            createList(true, false);
+        }
 	}
 
 	@Override

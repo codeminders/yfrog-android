@@ -18,7 +18,7 @@ public class TwitterQueryResult implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2930569204919257151L;
-	private String query;
+	private String query = "";
 	private ArrayList<TwitterSearchResult> results;
 
 	/**

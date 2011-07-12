@@ -166,6 +166,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 				Toast.makeText(getApplicationContext(), R.string.ae_oauth_message_not_unique, Toast.LENGTH_LONG).show();
 			} catch (YFrogTwitterException e) {
 				showDialog(e.getErrorCode());
+			} catch (Exception ignored) {
 			}
 			startActivity(new Intent(this, ListAccountsActivity.class));
 			finish();

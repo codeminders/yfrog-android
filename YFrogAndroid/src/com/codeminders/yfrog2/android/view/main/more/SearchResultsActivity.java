@@ -152,6 +152,9 @@ public class SearchResultsActivity extends Activity implements OnClickListener {
 				}
 				
 				protected void doAfterError() {
+                    if (queryResult == null) {
+                        queryResult = new TwitterQueryResult();
+                    }
 					queryResult.setResults(new ArrayList<TwitterSearchResult>(0));
 					show();
 				}

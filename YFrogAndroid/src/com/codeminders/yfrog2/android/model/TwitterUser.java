@@ -164,7 +164,7 @@ public class TwitterUser implements Serializable {
 	public void setFollowingsCount(int followingsCount) {
 		this.followingsCount = followingsCount;
 	}
-	
+
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeLong(id);
 		out.writeUTF(username);

@@ -35,7 +35,12 @@ public class YFrogService {
 	}
 
 	public long send(String text, MessageAttachment attachment) throws YFrogTwitterException {
-		YFrogClient client = new YFrogClientImpl();
+        YFrogClient client;
+        try{
+            client = new YFrogClientImpl();
+        } catch (Exception e) {
+             throw new YFrogTwitterException("YFrogClientImpl initializer exception");
+        }
 		UploadRequest request = attachment.toUploadRequest();
 
 		prepareAuthentication(request);

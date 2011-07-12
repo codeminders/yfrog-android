@@ -66,8 +66,12 @@ public abstract class AsyncYFrogUpdater {
 				handler.post(new Runnable() {
 					public void run() {
 						dismissDialog();
-						activity.showDialog(errorCode);
-						doAfterError();
+                        try{
+						    activity.showDialog(errorCode);
+                            doAfterError();
+                        } catch (Exception ignored) {
+                        }
+
 					}
 				});
 			}

@@ -242,6 +242,10 @@ public class ListAccountsActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		setSelection(position);
+        if (accounts.size() == 1) {
+            Account account = accounts.get(position);
+            login(account);
+        }
 	}
 
 	private Account getSelectedAccount(int position) {

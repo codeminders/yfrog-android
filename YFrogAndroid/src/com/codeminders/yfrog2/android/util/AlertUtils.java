@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.codeminders.yfrog2.android.R;
+import com.codeminders.yfrog2.android.YFrogProperties;
 
 /**
  * @author idemydenko
@@ -62,6 +63,7 @@ public final class AlertUtils {
 		.setPositiveButton(R.string.lo_dialog_btn_yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+                YFrogProperties.getProperies().delete("lastLogged");
 				activity.finish();
 			}
 		})

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.codeminders.yfrog2.android.view.account;
 
@@ -7,11 +7,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +44,8 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 	private Account editable = null;
 	private boolean isEdit = false;
 
+    private ProgressDialog dialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +56,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		if (extras != null) {
 			isEdit = extras.getBoolean(KEY_EDIT);
 		}
-		
+
 		if (isEdit) {
 			editable = (Account) extras.getSerializable(KEY_EDITABLE);
 			TextView accountName = (TextView) findViewById(R.id.ae_name);
@@ -59,23 +64,23 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			TextView oauthStatus = (TextView) findViewById(R.id.ae_oath_status);
 
 			accountName.setText(editable.getUsername());
-			oauthStatus.setText(editable.isOAuthVerified() ? 
+			oauthStatus.setText(editable.isOAuthVerified() ?
 					R.string.ae_oauth_status_authorized : R.string.ae_oauth_status_need_authorize);
 		} else {
 			TableLayout layout = (TableLayout) findViewById(R.id.ae_account_name);
-			layout.setVisibility(View.GONE);	
+			layout.setVisibility(View.GONE);
 			editable = new Account();
 		}
-		
+
 		setTitle(isEdit ? R.string.edit_account_activity_title : R.string.add_account_activity_title);
-	
+
 		Button button = (Button) findViewById(R.id.ae_save_button);
 		button.setText(!editable.isOAuthVerified() ? R.string.next : R.string.save);
 		Drawable d = !editable.isOAuthVerified() ?
 				getResources().getDrawable(R.drawable.next) : getResources().getDrawable(R.drawable.save);
 		button.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 		button.setOnClickListener(this);
-		
+
 		TextView textView = (TextView) findViewById(R.id.ae_oauth_desc);
 		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
@@ -85,13 +90,13 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		if (editable.isNeedOAuthAuthorization()) {
 			new AsyncYFrogUpdater(this) {
 				String url = null;
-				
+
 				@Override
 				protected void doUpdate() throws YFrogException {
 					saveOrUpdate();
 					url = accountService.getOAuthAuthorizationURL(editable);
 				}
-				
+
 				@Override
 				protected void doAfterUpdate() {
 					Intent i = new Intent();
@@ -105,7 +110,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 				protected void doUpdate() throws YFrogException {
 					saveOrUpdate();
 				}
-				
+
 				protected void doAfterUpdate() {
 					Toast.makeText(getApplicationContext(), isEdit ? R.string.ae_updated : R.string.ae_created, Toast.LENGTH_SHORT).show();
 					editable = null;
@@ -120,9 +125,9 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 			accountService.updateAccount(editable);
 		} else {
 			editable = accountService.addAccount(editable);
-		}		
+		}
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Builder dialogBuilder = new AlertDialog.Builder(EditAccountActivity.this)
@@ -133,7 +138,7 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 				dialog.cancel();
 			}
 		});
-		
+
 		switch (id) {
 		case ALERT_NICKNAME:
 			dialogBuilder.setMessage(R.string.ae_dialog_message_nickname);
@@ -154,25 +159,48 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		Uri uri = getIntent().getData();
-		
-		if (accountService.isOAuthCallback(uri)) {
-			Account toVerify = accountService.getWatingForOAuthVerificationAccount();
-			try {
-				toVerify.setOauthToken(accountService.getToken(uri));
-				accountService.verifyOAuthAuthorization(toVerify, accountService.getVerifier(uri));
-			} catch (YFrogTwitterAuthException e) {
-				Toast.makeText(getApplicationContext(), R.string.ae_oauth_message_not_unique, Toast.LENGTH_LONG).show();
-			} catch (YFrogTwitterException e) {
-				showDialog(e.getErrorCode());
-			} catch (Exception ignored) {
-			}
-			startActivity(new Intent(this, ListAccountsActivity.class));
-			finish();
 
-		}
+        final Uri uri = getIntent().getData();
+        if (accountService.isOAuthCallback(uri)) {
+            dialog = ProgressDialog.show(EditAccountActivity.this, "", "Loading...", true);
 
-	}
-	
+            new Thread(new Runnable() {
+                public void run() {
+
+                    Account toVerify = accountService.getWatingForOAuthVerificationAccount();
+                    try {
+                        toVerify.setOauthToken(accountService.getToken(uri));
+                        accountService.verifyOAuthAuthorization(toVerify, accountService.getVerifier(uri));
+                    } catch (YFrogTwitterAuthException e) {
+                        handler.sendEmptyMessage(0);
+                    } catch (YFrogTwitterException e) {
+                        Message message = new Message();
+                        message.what = 1;
+                        message.arg1 = e.getErrorCode();
+                        handler.sendMessage(message);
+                    } catch (Exception ignored) {
+                    }
+                    handler.sendEmptyMessage(2);
+                }
+            }).start();
+        }
+    }
+
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            dialog.cancel();
+            if (msg.what == 0) {
+                Toast.makeText(getApplicationContext(), R.string.ae_oauth_message_not_unique, Toast.LENGTH_LONG).show();
+            }
+            if (msg.what == 1) {
+                showDialog(msg.arg1);
+            }
+            if (msg.what == 2) {
+                startActivity(new Intent(EditAccountActivity.this, ListAccountsActivity.class));
+                finish();
+            }
+        }
+    };
+
 }

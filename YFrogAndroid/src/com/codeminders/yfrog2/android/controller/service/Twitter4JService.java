@@ -30,7 +30,7 @@ public class Twitter4JService implements TwitterService {
 	private Account loggedAccount = null;
 	private UnsentMessageService unsentMessageService;
 	private GeoLocationService geoLocationService;
-	
+
 	Twitter4JService() {
 		unsentMessageService = ServiceFactory.getUnsentMessageService();
 		geoLocationService = ServiceFactory.getGeoLocationService();
@@ -110,7 +110,7 @@ public class Twitter4JService implements TwitterService {
 		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		twitter.setOAuthAccessToken(accessToken);
-		
+
 		try {
 			return Twitter4jHelper.getUser(twitter.verifyCredentials());
 		} catch (TwitterException e) {

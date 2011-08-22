@@ -28,6 +28,7 @@ import com.codeminders.yfrog2.android.util.*;
 import com.codeminders.yfrog2.android.util.async.AsyncIOUpdater;
 import com.codeminders.yfrog2.android.util.async.AsyncYFrogUpdater;
 import com.codeminders.yfrog2.android.util.image.cache.ImageCache;
+import com.codeminders.yfrog2.android.view.account.ListAccountsActivity;
 import com.codeminders.yfrog2.android.view.user.UserDetailsActivity;
 
 /**
@@ -351,8 +352,16 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	protected String createTitle() {
-		StringBuilder status = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
-		status.append(getResources().getString(R.string.tm_title));
+        try {
+            if (twitterService == null || (twitterService.getLoggedUser() != null)) {
+                startActivity(new Intent(this, ListAccountsActivity.class));
+	            finish();
+            }
+		    StringBuilder status = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
+		    status.append(getResources().getString(R.string.tm_title));
+        } catch (Exception e) {
+            return "";
+        }
 		return status.toString();
 	}
 	

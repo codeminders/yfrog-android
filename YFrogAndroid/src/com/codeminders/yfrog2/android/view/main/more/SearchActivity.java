@@ -29,6 +29,7 @@ import com.codeminders.yfrog2.android.model.TwitterSavedSearch;
 import com.codeminders.yfrog2.android.util.AlertUtils;
 import com.codeminders.yfrog2.android.util.StringUtils;
 import com.codeminders.yfrog2.android.util.async.AsyncYFrogUpdater;
+import com.codeminders.yfrog2.android.view.account.ListAccountsActivity;
 import com.codeminders.yfrog2.android.view.message.WriteStatusActivity;
 
 /**
@@ -57,8 +58,13 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		twitterService = ServiceFactory.getTwitterService();
 
-		setTitle(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername(), 
-				getResources().getString(R.string.s_title)));
+        String username;
+        if (twitterService.getLoggedUser() != null && (username = twitterService.getLoggedUser().getUsername()) != null) {
+		    setTitle(StringUtils.formatTitle(username, getResources().getString(R.string.s_title)));
+        } else {
+          startActivity(new Intent(this, ListAccountsActivity.class));
+          finish();
+        }
 
 		boolean restored = restoreState(savedInstanceState);
 		

@@ -23,6 +23,7 @@ import com.codeminders.yfrog2.android.model.TwitterStatus;
 import com.codeminders.yfrog2.android.util.AlertUtils;
 import com.codeminders.yfrog2.android.util.StringUtils;
 import com.codeminders.yfrog2.android.util.async.AsyncYFrogUpdater;
+import com.codeminders.yfrog2.android.view.account.ListAccountsActivity;
 import com.codeminders.yfrog2.android.view.adapter.TwitterStatusAdapter;
 import com.codeminders.yfrog2.android.view.message.StatusDetailsActivity;
 import com.codeminders.yfrog2.android.view.message.WriteStatusActivity;
@@ -266,7 +267,14 @@ public abstract class AbstractTwitterStatusesListActivity extends ListActivity {
 	}
 	
 	protected String createTitle() {
-		return StringUtils.formatTitle(twitterService.getLoggedUser().getUsername());
+        String username;
+        if (twitterService.getLoggedUser() != null && (username = twitterService.getLoggedUser().getUsername()) != null) {
+		    return username;
+        } else {
+          startActivity(new Intent(this, ListAccountsActivity.class));
+          finish();
+          return "";
+        }
 	}
 	
 	protected void onSaveInstanceState(Bundle outState) {

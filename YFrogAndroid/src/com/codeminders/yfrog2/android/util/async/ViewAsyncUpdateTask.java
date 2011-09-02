@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import android.os.AsyncTask;
 
-;
+
 
 /**
  * @author idemydenko

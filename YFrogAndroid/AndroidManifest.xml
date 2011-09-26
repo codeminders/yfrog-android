@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.codeminders.yfrog2.android"
-      android:versionName="2.6" android:versionCode="26">
+      android:versionName="2.7" android:versionCode="27">
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".YFrog" android:theme="@style/YFrog" android:debuggable="true">
 		<activity android:name=".view.account.ListAccountsActivity" android:label="@string/app_name">
 			<intent-filter>

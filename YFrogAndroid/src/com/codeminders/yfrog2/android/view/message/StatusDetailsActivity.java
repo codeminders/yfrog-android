@@ -352,12 +352,13 @@ public class StatusDetailsActivity extends Activity implements OnClickListener {
 	}
 	
 	protected String createTitle() {
+        StringBuilder status;
         try {
-            if (twitterService == null || (twitterService.getLoggedUser() != null)) {
+            if (twitterService == null || twitterService.getLoggedUser() == null) {
                 startActivity(new Intent(this, ListAccountsActivity.class));
 	            finish();
             }
-		    StringBuilder status = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
+		    status = new StringBuilder(StringUtils.formatTitle(twitterService.getLoggedUser().getUsername()));
 		    status.append(getResources().getString(R.string.tm_title));
         } catch (Exception e) {
             return "";

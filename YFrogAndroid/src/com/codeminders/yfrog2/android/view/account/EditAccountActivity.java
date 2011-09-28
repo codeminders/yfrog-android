@@ -51,7 +51,6 @@ public class EditAccountActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_account);
 		accountService = ServiceFactory.getAccountService();
-
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			isEdit = extras.getBoolean(KEY_EDIT);

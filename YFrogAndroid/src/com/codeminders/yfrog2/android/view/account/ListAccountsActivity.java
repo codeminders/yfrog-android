@@ -11,6 +11,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
@@ -47,14 +48,6 @@ public class ListAccountsActivity extends ListActivity {
 	private AccountService accountService;
 	private ArrayList<Account> accounts;
 	private Account toDelete = null;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		accountService = ServiceFactory.getAccountService();
-		properties = YFrogProperties.getProperies();
-	}
 
 	@Override
 	protected void onRestart() {
@@ -66,14 +59,14 @@ public class ListAccountsActivity extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+        accountService = ServiceFactory.getAccountService();
+		properties = YFrogProperties.getProperies();
         createAccountsList();
 
         if (getLastLogged() != null) {
 			login(getLastLogged());
 			return;
 		}
-
 		if (accounts.size() == 0) {
 			addAccount();
 		}

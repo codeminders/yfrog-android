@@ -47,7 +47,9 @@ public final class AccountService {
 	}
 	
 	public void deleteAccount(Account account) {
-		accountDAO.deleteAccount(account.getId());
+        if (account != null) {
+		    accountDAO.deleteAccount(account.getId());
+        }
 	}
 	
 	public void updateAccount(Account account) throws YFrogTwitterException {
